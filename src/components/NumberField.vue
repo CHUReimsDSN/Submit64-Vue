@@ -19,7 +19,7 @@ function getBindings(
   const styleConfig = formFactory.formStyleConfig;
   return {
     // behaviour
-    modelValue: propsWrapper.modelValue as string,
+    modelValue: propsWrapper.modelValue as number,
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,
     rules: propsWrapper.getComputedRules(),
@@ -48,7 +48,7 @@ function getBindings(
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-input v-bind="getBindings(propsWrapper)" />
+      <q-input v-bind="getBindings(propsWrapper)" type="number" />
     </template>
   </FieldWrapper>
 </template>

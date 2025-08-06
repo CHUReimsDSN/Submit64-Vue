@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { QSelectProps } from "quasar";
 import {
   TPropsWithClass,
   TSubmit64FieldProps,
   TSubmit64FieldWrapperPropsSlot,
 } from "../models";
-import { QInputProps } from "quasar";
 import FieldWrapper from "./FieldWrapper.vue";
 
 // props
@@ -13,7 +13,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // functions
 function getBindings(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
-): QInputProps & TPropsWithClass {
+): QSelectProps & TPropsWithClass {
   const formFactory = propsWrapper.injectForm.getFormFactory()
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
@@ -23,6 +23,11 @@ function getBindings(
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,
     rules: propsWrapper.getComputedRules(),
+    multiple: true,
+    useChips: true,
+    mapOptions: true,
+    emitValue: true,
+    options: [], // TODO request to backend for paginated association ?
 
     // events
     onClear: propsWrapper.clear,
@@ -48,7 +53,8 @@ function getBindings(
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-input v-bind="getBindings(propsWrapper)" />
+      <q-select v-bind="getBindings(propsWrapper)" />
     </template>
   </FieldWrapper>
 </template>
+

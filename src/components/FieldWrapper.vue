@@ -1,15 +1,21 @@
 <script setup lang="ts" generic="T">
-import { getCurrentInstance, inject, onMounted, ref } from 'vue';
-import { submit64FormProviderSymbol } from '../inject-provider-symbol';
-import { TSubmit64Field } from '../models';
+import { getCurrentInstance, inject, onMounted, ref } from "vue";
+import { submit64FormProviderSymbol } from "../inject-provider-symbol";
+import {
+  TFormFieldDef,
+  TSubmit64Field,
+  TSubmit64FieldWrapperPropsSlot,
+  TSubmit64FieldWrapperResetPropsSlot,
+} from "../models";
+import { Submit64Rules } from "../rules";
 
 // props
 const propsComponent = defineProps<{
-    modelValue: T
-}>()
+  field: TFormFieldDef;
+}>();
 
 // consts
-const injectForm = inject(submit64FormProviderSymbol)
+const injectForm = inject(submit64FormProviderSymbol)!;
 
 // refs
 const modelValue = ref<T>();
@@ -19,25 +25,66 @@ function getValue() {
   return modelValue.value;
 }
 function reset() {
-  modelValue.value = propsComponent.modelValue;
+  if (!injectForm) {
+    return;
+  }
+  modelValue.value = injectForm.getDefaultDataByFieldName(
+    propsComponent.field.metadata.field_name
+  ) as T;
+}
+function clear() {
+  switch (typeof modelValue.value) {
+    case "boolean":
+      modelValue.value = false as T;
+    case "string":
+      modelValue.value = "" as T;
+    case "number":
+      modelValue.value = 0 as T;
+    case "object":
+      modelValue.value = {} as T;
+  }
+}
+function getComputedRules() {
+  if (!injectForm) {
+  }
+  return Submit64Rules.computeServerRules(
+    propsComponent.field.rules ?? [],
+    injectForm.getFormFactory().formSettings
+  );
 }
 
 // exposes
 defineExpose({
   reset,
+  clear,
   getValue,
 });
 
 // lifeCycle
 onMounted(() => {
-  modelValue.value = propsComponent.modelValue;
-  const proxyInstanceRef = getCurrentInstance()?.proxy
-  if (proxyInstanceRef) {
-    injectForm?.registerRef(proxyInstanceRef as TSubmit64Field)
+  reset();
+  const proxyInstanceRef = getCurrentInstance()?.proxy;
+  if (proxyInstanceRef && injectForm) {
+    injectForm.registerRef(
+      propsComponent.field.metadata.field_name,
+      proxyInstanceRef as TSubmit64Field
+    );
   }
 });
 </script>
 
 <template>
-    <slot :propsWrapper="modelValue"></slot>
+  <div>
+    <template v-if="propsComponent.field.resetable">
+      <slot
+        name="reset"
+        :actionProps="({ reset } as TSubmit64FieldWrapperResetPropsSlot)"
+      >
+        <component :is="injectForm.getFormFactory().wrapperResetComponent" :reset="reset" />
+      </slot>
+    </template>
+    <slot
+      :propsWrapper="({ modelValue, field, injectForm, reset, clear, getComputedRules } as TSubmit64FieldWrapperPropsSlot)"
+    ></slot>
+  </div>
 </template>

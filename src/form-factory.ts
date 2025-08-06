@@ -1,51 +1,48 @@
 import StringField from "./components/StringField.vue";
 import TextField from "./components/TextField.vue";
 import DateField from "./components/DateField.vue";
-import SelectField from "./components/SelectField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
 import type { Component } from "vue";
 import type {
   TFormDef,
   TFormFieldDef,
-  TFormStyleConfig as TFormStyleConfig,
+  TFormStyleConfig,
   TFormSettings,
-  TResourceColumnMetaData,
   TFormSection,
+  TResourceFormMetadataAndData,
 } from "./models";
 import { Submit64 } from "./submit64";
 import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
 import DefaultActionComponent from "./components/DefaultActionComponent.vue";
-import {
-  Submit64Rules,
-  TSubmit64Rule,
-  TSubmit64RuleMaxDate,
-  TSubmit64RuleMaxLength,
-  TSubmit64RuleMinDate,
-  TSubmit64RuleMinLength,
-  TSubmit64RuleValidDate,
-} from "./rules";
-import { ValidationRule } from "quasar";
+import NumberField from "./components/NumberField.vue";
+import SelectHasManyField from "./components/SelectHasManyField.vue";
+import ObjectField from "./components/ObjectField.vue";
+import SelectField from "./components/SelectField.vue";
+import SelectBelongsToField from "./components/SelectBelongsToField.vue";
+import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
 
 export class FormFactory {
-  private static getFieldComponentByFormFieldType(): Record<
-    TFormFieldDef["type"],
-    Component
-  > {
+  private static getFieldComponentByFormFieldType(
+    fieldType: TFormFieldDef["type"]
+  ): Component {
     return {
       string: StringField,
       text: TextField,
+      number: NumberField,
       date: DateField,
-      select: SelectField,
+      selectString: SelectField,
+      selectBelongsTo: SelectBelongsToField,
+      selectHasMany: SelectHasManyField,
       checkbox: CheckboxField,
-    };
+      object: ObjectField,
+    }[fieldType];
   }
   private static getDefaultFormSettings(): TFormSettings {
     return {
       rulesBehaviour: "lazy",
-      stringDefaultMaxLength: 255,
-      textDefaultMaxLength: 1000,
       dateFormat: "DD/MM/YYYY",
       datetimeFormat: "DD/MM/YYYY:HHmm",
+      renderBackendHint: true,
     };
   }
 
@@ -54,6 +51,12 @@ export class FormFactory {
       fieldOutlined: true,
       fieldDense: true,
       fieldHideBottomSpace: true,
+      fieldFilled: false,
+      fieldStandout: false,
+      fieldBorderless: false,
+      fieldRounded: false,
+      fieldSquare: false,
+      fieldClass: "",
       fieldColor: "primary",
       fieldBgColor: "white",
     };
@@ -67,28 +70,36 @@ export class FormFactory {
     return DefaultSectionComponent;
   }
 
+  private static getDefaultWrapperResetComponent(): Component {
+    return DefaultWrapperResetComponent;
+  }
+
   resourceName: string;
   formSettings: TFormSettings;
   formStyleConfig: TFormStyleConfig;
   actionComponent: Component;
   sectionComponent: Component;
+  wrapperResetComponent: Component;
 
   constructor(
     resourceName: string,
-    globalFormSettings?: TFormSettings,
-    globalFormStyleConfig?: TFormStyleConfig,
+    globalFormSettings?: Partial<TFormSettings>,
+    globalFormStyleConfig?: Partial<TFormStyleConfig>,
     actionComponent?: Component,
-    sectionComponent?: Component
+    sectionComponent?: Component,
+    wrapperResetComponent?: Component
   ) {
     this.resourceName = resourceName;
-    this.formSettings =
-      globalFormSettings ??
-      Submit64.getGlobalFormSetting() ??
-      FormFactory.getDefaultFormSettings();
-    this.formStyleConfig =
-      globalFormStyleConfig ??
-      Submit64.getGlobalFormStyleConfig() ??
-      FormFactory.getDefaultFormStyleSettings();
+    this.formSettings = {
+      ...FormFactory.getDefaultFormSettings(),
+      ...Submit64.getGlobalFormSetting(),
+      ...globalFormSettings,
+    };
+    this.formStyleConfig = {
+      ...FormFactory.getDefaultFormStyleSettings(),
+      ...Submit64.getGlobalFormStyleConfig(),
+      ...globalFormStyleConfig,
+    };
     this.actionComponent =
       actionComponent ??
       Submit64.getGlobalActionComponent() ??
@@ -97,52 +108,47 @@ export class FormFactory {
       sectionComponent ??
       Submit64.getGlobalSectionComponent() ??
       FormFactory.getDefaultSectionComponent();
+    this.wrapperResetComponent =
+      wrapperResetComponent ??
+      Submit64.getGlobalWrapperResetComponent() ??
+      FormFactory.getDefaultWrapperResetComponent();
   }
 
-  getAllField(
-    resourceName: string,
-    resourceMetaDatas: TResourceColumnMetaData[]
-  ): TFormDef {
-    const form: TFormDef = {
-      sections: [],
-    };
-    resourceMetaDatas.forEach((metadata) => {
-      // TODO comment déclarer ça en back ?
-      // TODO faire les espacement dans le layout dans le form aussi
+  getAllField<T>(formMetadataAndData: TResourceFormMetadataAndData): TFormDef {
+    const sections: TFormSection[] = [];
+    formMetadataAndData.form.sections.forEach((sectionMetadata) => {
+      const fields: TFormFieldDef[] = [];
+      sectionMetadata.fields.forEach((columnMetadata) => {
+        const component = FormFactory.getFieldComponentByFormFieldType(
+          columnMetadata.form_field_type
+        );
+        const field: TFormFieldDef = {
+          type: columnMetadata.form_field_type,
+          metadata: columnMetadata,
+          label: columnMetadata.form_label,
+          hint: columnMetadata.form_hint,
+          cssClass: columnMetadata.form_css_class,
+          selectOptions: columnMetadata.form_select_options,
+          rules: columnMetadata.form_rules,
+          clearable: columnMetadata.clearable,
+          resetable: columnMetadata.resetable,
+          component,
+        };
+        fields.push(field);
+      });
       const section: TFormSection = {
-        fields: []
-      }
-      form.sections.push(section)
+        label: sectionMetadata.label,
+        fields,
+      };
+      sections.push(section);
     });
+    const form: TFormDef = {
+      sections,
+      resetable: formMetadataAndData.form.resetable,
+      clearable: formMetadataAndData.form.clearable,
+      hasGlobalCustomValidation:
+        formMetadataAndData.form.has_global_custom_validation ?? false,
+    };
     return form;
-  }
-
-  private static computedServerRule(rule: TSubmit64Rule): ValidationRule {
-    switch (rule.type) {
-      case "required":
-        return Submit64Rules.required;
-      case "maxNumber":
-        return Submit64Rules.maxNumber((rule as TSubmit64RuleMaxLength).max);
-      case "minNumber":
-        return Submit64Rules.minNumber((rule as TSubmit64RuleMinLength).min);
-      case "maxString":
-        return Submit64Rules.maxString((rule as TSubmit64RuleMaxLength).max);
-      case "minString":
-        return Submit64Rules.minString((rule as TSubmit64RuleMinLength).min);
-      case "maxDate":
-        return Submit64Rules.maxDate(
-          (rule as TSubmit64RuleMaxDate).max,
-          (rule as TSubmit64RuleMaxDate).format
-        );
-      case "minDate":
-        return Submit64Rules.minDate(
-          (rule as TSubmit64RuleMaxDate).max,
-          (rule as TSubmit64RuleMinDate).format
-        );
-      case "validDate":
-        return Submit64Rules.validDate((rule as TSubmit64RuleValidDate).format);
-      case "positiveNumber":
-        return Submit64Rules.positiveNumber;
-    }
   }
 }

@@ -1,46 +1,54 @@
 <script setup lang="ts">
+import {
+  TPropsWithClass,
+  TSubmit64FieldProps,
+  TSubmit64FieldWrapperPropsSlot,
+} from "../models";
 import { QInputProps } from "quasar";
-import { onMounted, ref } from "vue";
-
-// types
-type TTextFieldProps = {
-  binding?: Partial<QInputProps>;
-  value?: string;
-  label?: string;
-};
+import FieldWrapper from "./FieldWrapper.vue";
 
 // props
-const propsComponent = withDefaults(defineProps<TTextFieldProps>(), {
-  value: '',
-});
-
-// refs
-const stringField = ref('');
+const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // functions
-function getValue() {
-    return stringField.value
-}
-function reset() {
-  stringField.value = propsComponent.value;
-}
+function getBindings(
+  propsWrapper: TSubmit64FieldWrapperPropsSlot
+): QInputProps & TPropsWithClass {
+  const formFactory = propsWrapper.injectForm.getFormFactory()
+  const formSetting = formFactory.formSettings;
+  const styleConfig = formFactory.formStyleConfig;
+  return {
+    // behaviour
+    modelValue: propsWrapper.modelValue as string,
+    lazyRules: formSetting.rulesBehaviour === "lazy",
+    clearable: propsWrapper.field.clearable,
+    rules: propsWrapper.getComputedRules(),
 
-// exposes
-defineExpose({
-  reset,
-  getValue
-});
+    // events
+    onClear: propsWrapper.clear,
 
-// lifeCycle
-onMounted(() => {
-  stringField.value = propsComponent.value;
-});
+    // display
+    label: propsWrapper.field.label,
+    hint: propsWrapper.field.hint,
+    outlined: styleConfig.fieldOutlined,
+    filled: styleConfig.fieldFilled,
+    standout: styleConfig.fieldStandout,
+    borderless: styleConfig.fieldBorderless,
+    rounded: styleConfig.fieldRounded,
+    square: styleConfig.fieldSquare,
+    dense: styleConfig.fieldDense,
+    hideBottomSpace: styleConfig.fieldHideBottomSpace,
+    color: styleConfig.fieldColor,
+    bgColor: styleConfig.fieldBgColor,
+    class: propsWrapper.field.cssClass,
+  };
+}
 </script>
 
 <template>
-  <q-input
-    v-model="stringField"
-    v-bind="propsComponent.binding"
-    :label="propsComponent.label"
-  />
+  <FieldWrapper :field="propsComponent.field">
+    <template v-slot:default="{ propsWrapper }">
+      <q-input v-bind="getBindings(propsWrapper)" type="textarea" />
+    </template>
+  </FieldWrapper>
 </template>

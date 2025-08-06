@@ -3,16 +3,17 @@ import { TFormStyleConfig, TFormSettings } from "./models";
 
 export class Submit64 {
   private static _instance: Submit64 = new Submit64();
-  private _formSettings: TFormSettings | undefined;
-  private _formStyleConfig: TFormStyleConfig | undefined;
+  private _formSettings: Partial<TFormSettings> | undefined;
+  private _formStyleConfig: Partial<TFormStyleConfig> | undefined;
   private _actionComponent: Component | undefined;
   private _sectionComponent: Component | undefined;
+  private _wrapperResetComponent: Component | undefined;
 
-  static registerGlobalFormSetting(formSetting: TFormSettings) {
+  static registerGlobalFormSetting(formSetting: Partial<TFormSettings>) {
     this._instance._formSettings = formSetting;
   }
 
-  static registerGlobalFormStyleSetting(formStyle: TFormStyleConfig) {
+  static registerGlobalFormStyleSetting(formStyle: Partial<TFormStyleConfig>) {
     this._instance._formStyleConfig = formStyle;
   }
 
@@ -22,6 +23,10 @@ export class Submit64 {
 
   static registerGlobalSectionComponent(sectionComponent: Component) {
     this._instance._sectionComponent = sectionComponent;
+  }
+
+  static registerGlobalWrapperResetComponent(wrapperResetComponent: Component) {
+    this._instance._wrapperResetComponent = wrapperResetComponent;
   }
 
   static getGlobalFormSetting() {
@@ -38,6 +43,10 @@ export class Submit64 {
 
   static getGlobalSectionComponent() {
     return this._instance._sectionComponent;
+  }
+
+  static getGlobalWrapperResetComponent() {
+    return this._instance._wrapperResetComponent;
   }
 
   private constructor() {}

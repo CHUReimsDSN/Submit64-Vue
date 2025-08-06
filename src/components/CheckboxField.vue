@@ -1,46 +1,37 @@
 <script setup lang="ts">
+import {
+  TPropsWithClass,
+  TSubmit64FieldProps,
+  TSubmit64FieldWrapperPropsSlot,
+} from "../models";
 import { QCheckboxProps } from "quasar";
-import { onMounted, ref } from "vue";
-
-// types
-type TCheckboxFieldProps = {
-  binding?: Partial<QCheckboxProps>;
-  value?: boolean;
-  label?: string;
-};
+import FieldWrapper from "./FieldWrapper.vue";
 
 // props
-const propsComponent = withDefaults(defineProps<TCheckboxFieldProps>(), {
-  value: false,
-});
-
-// refs
-const checkbox = ref(false);
+const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // functions
-function getValue() {
-    return checkbox.value
-}
-function reset() {
-  checkbox.value = propsComponent.value;
-}
+function getBindings(
+  propsWrapper: TSubmit64FieldWrapperPropsSlot
+): QCheckboxProps & TPropsWithClass {
+  const styleConfig = propsWrapper.injectForm.getFormFactory().formStyleConfig;
+  return {
+    // behaviour
+    modelValue: propsWrapper.modelValue as boolean,
 
-// exposes
-defineExpose({
-  reset,
-  getValue
-});
-
-// lifeCycle
-onMounted(() => {
-  checkbox.value = propsComponent.value;
-});
+    // display
+    label: propsWrapper.field.label,
+    dense: styleConfig.fieldDense,
+    color: styleConfig.fieldColor,
+    class: propsWrapper.field.cssClass,
+  };
+}
 </script>
 
 <template>
-  <q-checkbox
-    v-model="checkbox"
-    v-bind="propsComponent.binding"
-    :label="propsComponent.label"
-  />
+  <FieldWrapper :field="propsComponent.field">
+    <template v-slot:default="{ propsWrapper }">
+      <q-checkbox v-bind="getBindings(propsWrapper)" />
+    </template>
+  </FieldWrapper>
 </template>
