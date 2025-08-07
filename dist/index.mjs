@@ -21117,7 +21117,8 @@ const Jg = /* @__PURE__ */ Ot({
     resourceId: {},
     getMetadataAndData: {},
     submitForm: {},
-    globalFormSettings: {}
+    globalFormSettings: {},
+    context: {}
   },
   setup(e, { expose: t }) {
     const n = e;
@@ -21131,7 +21132,8 @@ const Jg = /* @__PURE__ */ Ot({
     async function f() {
       a = await n.getMetadataAndData({
         resourceName: n.resourceName,
-        resourceId: n.resourceId
+        resourceId: n.resourceId,
+        context: n.context
       }), o.value = Object.freeze(
         l.getAllField(a)
       );
