@@ -1,5 +1,5 @@
 declare module "*.vue" {
   import { DefineComponent } from "vue";
-  const component: DefineComponent<TQuery64GridProps<TRecord>>;
+  const component: DefineComponent<TSubmit64FormProps<TRecord>>;
   export default component;
 }
