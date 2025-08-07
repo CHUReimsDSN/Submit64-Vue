@@ -104,12 +104,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <q-form
-    v-if="setupIsDone && generatedForm"
-    class="flex q-pa-sm q-gutter-sm"
-    @submit="submitForm"
-    @reset="resetForm"
-  >
+  <div v-if="setupIsDone && generatedForm" class="flex q-pa-sm q-gutter-sm">
     <Component
       v-for="(section, indexSection) in generatedForm.sections"
       :key="indexSection"
@@ -146,5 +141,5 @@ onMounted(async () => {
     <template v-if="$slots['more_actions']">
       <slot name="more_actions" :propsForm="{ generatedForm }"></slot>
     </template>
-  </q-form>
+  </div>
 </template>

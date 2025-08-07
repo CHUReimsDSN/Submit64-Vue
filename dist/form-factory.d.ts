@@ -14,5 +14,5 @@ export declare class FormFactory {
     sectionComponent: Component;
     wrapperResetComponent: Component;
     constructor(resourceName: string, globalFormSettings?: Partial<TFormSettings>, globalFormStyleConfig?: Partial<TFormStyleConfig>, actionComponent?: Component, sectionComponent?: Component, wrapperResetComponent?: Component);
-    getAllField<T>(formMetadataAndData: TResourceFormMetadataAndData): TFormDef;
+    getAllField(formMetadataAndData: TResourceFormMetadataAndData): TFormDef;
 }

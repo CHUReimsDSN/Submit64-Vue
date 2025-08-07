@@ -114,7 +114,7 @@ export class FormFactory {
       FormFactory.getDefaultWrapperResetComponent();
   }
 
-  getAllField<T>(formMetadataAndData: TResourceFormMetadataAndData): TFormDef {
+  getAllField(formMetadataAndData: TResourceFormMetadataAndData): TFormDef {
     const sections: TFormSection[] = [];
     formMetadataAndData.form.sections.forEach((sectionMetadata) => {
       const fields: TFormFieldDef[] = [];
