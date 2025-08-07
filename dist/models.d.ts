@@ -112,14 +112,16 @@ export type TSubmit64FormProvider = {
 export type TSubmit64FormProps = {
     resourceName: string;
     resourceId: TRecord["id"];
-    getMetadataAndData: (submit64Params: {
-        resourceName: string;
-        resourceId: TRecord["id"];
-    }) => Promise<TResourceFormMetadataAndData>;
+    getMetadataAndData: (submit64Params: TSubmit64GetMetadataAndData) => Promise<TResourceFormMetadataAndData>;
     submitForm: (submit64Params: {
         formData: Record<string, unknown>;
     }) => Promise<TResourceData>;
     globalFormSettings?: TFormSettings;
+};
+export type TSubmit64GetMetadataAndData = {
+    resourceName: string;
+    resourceId: TRecord["id"];
+    context: Record<string, unknown>;
 };
 export type TSubmit64Expose = {};
 export type TPropsWithClass = {
