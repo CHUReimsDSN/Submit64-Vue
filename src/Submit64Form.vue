@@ -104,6 +104,8 @@ onMounted(async () => {
 </script>
 
 <template>
+  {{ setupIsDone }}
+  <pre>{{ generatedForm }}</pre>
   <div v-if="setupIsDone && generatedForm" class="flex q-pa-sm q-gutter-sm">
     <Component
       v-for="(section, indexSection) in generatedForm.sections"

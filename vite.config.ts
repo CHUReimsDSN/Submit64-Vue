@@ -13,10 +13,11 @@ export default defineConfig({
       formats: ['es', 'umd']
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', 'quasar'],
       output: {
         globals: {
-          vue: 'Vue'
+          vue: 'Vue',
+          quasar: 'Quasar'
         }
       }
     }
