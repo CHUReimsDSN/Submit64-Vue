@@ -131,11 +131,12 @@ export type TSubmit64FormProps = {
     formData: Record<string, unknown>;
   }) => Promise<TResourceData>;
   globalFormSettings?: TFormSettings;
+  context?: Record<string, unknown>;
 };
 export type TSubmit64GetMetadataAndData = {
   resourceName: string;
   resourceId: TRecord["id"];
-  context: Record<string, unknown>;
+  context?: Record<string, unknown>;
 };
 export type TSubmit64Expose = {}; // TODO api for outside package
 export type TPropsWithClass = {

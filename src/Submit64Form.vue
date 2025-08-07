@@ -34,6 +34,7 @@ async function setupMetadatasAndForm() {
   formMetadataAndData = await propsComponent.getMetadataAndData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
+    context: propsComponent.context,
   });
   generatedForm.value = Object.freeze(
     formFactory.getAllField(formMetadataAndData)
