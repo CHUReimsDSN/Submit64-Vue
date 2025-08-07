@@ -1074,7 +1074,7 @@ const ct = {
         context: t.context
       }), l.value = Object.freeze(
         r.getAllField(n)
-      );
+      ), i.value = !0;
     }
     async function S() {
       u.value = !0;
