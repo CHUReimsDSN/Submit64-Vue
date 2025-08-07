@@ -39,6 +39,7 @@ async function setupMetadatasAndForm() {
   generatedForm.value = Object.freeze(
     formFactory.getAllField(formMetadataAndData)
   );
+  setupIsDone.value = true;
 }
 async function submitForm(): Promise<void> {
   isLoadingSubmit.value = true;
