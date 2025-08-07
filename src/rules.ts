@@ -360,7 +360,7 @@ function allowNull(
       return true;
     }
     subRules.forEach((subRule) => {
-      const subRuleResult = subRule.call(arguments, val);
+      const subRuleResult = subRule(val);
       if (subRuleResult !== true) {
         return subRuleResult;
       }
@@ -376,7 +376,7 @@ function allowBlank(
       return true;
     }
     subRules.forEach((subRule) => {
-      const subRuleResult = subRule.call(arguments, val);
+      const subRuleResult = subRule(val);
       if (subRuleResult !== true) {
         return subRuleResult;
       }

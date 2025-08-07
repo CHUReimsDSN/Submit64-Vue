@@ -20345,14 +20345,14 @@ function ng() {
 }
 function ag(e) {
   return (t) => (t === null || e.forEach((n) => {
-    const a = n.call(arguments, t);
+    const a = n(t);
     if (a !== !0)
       return a;
   }), !0);
 }
 function lg(e) {
   return (t) => (t === "" || e.forEach((n) => {
-    const a = n.call(arguments, t);
+    const a = n(t);
     if (a !== !0)
       return a;
   }), !0);
