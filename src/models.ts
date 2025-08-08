@@ -105,6 +105,7 @@ export type TSubmit64FieldProps = {
 // FieldWrapper default slot
 export type TSubmit64FieldWrapperPropsSlot = {
   modelValue: unknown;
+  modelValueOnUpdate: (value: unknown) => void;
   field: TFormFieldDef;
   injectForm: TSubmit64FormProvider;
   reset: () => void;

@@ -169,7 +169,6 @@ function computeServerRules(metadataRules, formSettings) {
             }
         });
     }
-    console.log(rules);
     return rules;
 }
 // general

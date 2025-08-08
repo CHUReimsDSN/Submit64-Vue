@@ -328,7 +328,6 @@ function computeServerRules(
       }
     });
   }
-  console.log(rules)
   return rules;
 }
 

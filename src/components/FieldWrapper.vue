@@ -52,6 +52,9 @@ function getComputedRules() {
     injectForm.getFormFactory().formSettings
   );
 }
+function modelValueOnUpdate(value: unknown) {
+  modelValue.value = value as T;
+}
 
 // exposes
 defineExpose({
@@ -84,7 +87,7 @@ onMounted(() => {
       </slot>
     </template>
     <slot
-      :propsWrapper="({ modelValue, field, injectForm, reset, clear, getComputedRules } as TSubmit64FieldWrapperPropsSlot)"
+      :propsWrapper="({ modelValue, modelValueOnUpdate,  field, injectForm, reset, clear, getComputedRules } as TSubmit64FieldWrapperPropsSlot)"
     ></slot>
   </div>
 </template>
