@@ -1,5 +1,6 @@
 import { date } from "quasar";
 function computeServerRules(metadataRules, formSettings) {
+    console.log(metadataRules);
     const rules = [];
     const upperRules = [];
     metadataRules.forEach((rule) => {

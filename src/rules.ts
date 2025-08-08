@@ -93,6 +93,7 @@ function computeServerRules(
   metadataRules: TSubmit64Rule[],
   formSettings: TFormSettings
 ): ValidationRule[] {
+  console.log(metadataRules)
   const rules: TSubmit64ValidationRule[] = [];
   const upperRules: TUpperRule[] = [];
   metadataRules.forEach((rule) => {
