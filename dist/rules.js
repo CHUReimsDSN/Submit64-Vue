@@ -1,6 +1,5 @@
 import { date } from "quasar";
 function computeServerRules(metadataRules, formSettings) {
-    console.log(metadataRules);
     const rules = [];
     const upperRules = [];
     metadataRules.forEach((rule) => {
@@ -170,6 +169,7 @@ function computeServerRules(metadataRules, formSettings) {
             }
         });
     }
+    console.log(rules);
     return rules;
 }
 // general

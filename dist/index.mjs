@@ -46,7 +46,6 @@ b(H, "_instance", new H());
 let B = H;
 const W = Symbol();
 function Ce(l, e) {
-  console.log(l);
   const t = [], n = [];
   return l.forEach((r) => {
     switch (r.type) {
@@ -260,7 +259,7 @@ function Ce(l, e) {
       case "allowNull":
         return De(t);
     }
-  }) : t;
+  }) : (console.log(t), t);
 }
 function U() {
   return (l) => !!l || "Ce champ est requis";
