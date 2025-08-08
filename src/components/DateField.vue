@@ -4,7 +4,8 @@ import {
   TSubmit64FieldProps,
   TSubmit64FieldWrapperPropsSlot,
 } from "../models";
-import { QDateProps, QIconProps, QInputProps } from "quasar";
+import type { QDateProps, QIconProps, QInputProps } from "quasar";
+import { QInput, QIcon, QPopupProxy, QDate, QBtn } from "quasar";
 import FieldWrapper from "./FieldWrapper.vue";
 
 // props
@@ -58,7 +59,7 @@ function getBindingsDate(
 ): QDateProps & TPropsWithClass {
   return {
     modelValue: propsWrapper.modelValue,
-    mask: propsWrapper.injectForm.getFormSettings().dateFormat,
+    mask: propsWrapper.injectForm.getFormFactory().formSettings.dateFormat,
   };
 }
 </script>

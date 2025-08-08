@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { QBtn } from 'quasar';
 // props
 const propsComponent = defineProps<{
   isLoadingSubmit: boolean;

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { QSelectProps } from "quasar";
+import type { QSelectProps } from "quasar";
+import { QSelect } from 'quasar';
 import {
   TPropsWithClass,
   TSubmit64FieldProps,

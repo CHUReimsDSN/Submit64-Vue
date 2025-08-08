@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T">
 import { getCurrentInstance, inject, onMounted, ref } from "vue";
 import { submit64FormProviderSymbol } from "../inject-provider-symbol";
-import {
+import type {
   TFormFieldDef,
   TSubmit64Field,
   TSubmit64FieldWrapperPropsSlot,
