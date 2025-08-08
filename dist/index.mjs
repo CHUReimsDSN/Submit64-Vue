@@ -1,15 +1,15 @@
 var ae = Object.defineProperty;
 var re = (l, e, t) => e in l ? ae(l, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : l[e] = t;
-var b = (l, e, t) => re(l, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as C, inject as se, ref as x, onMounted as X, getCurrentInstance as ie, createElementBlock as v, openBlock as u, renderSlot as R, createCommentVNode as O, createBlock as m, resolveDynamicComponent as G, unref as f, withCtx as g, createVNode as _, normalizeProps as N, guardReactiveProps as q, mergeProps as Z, resolveDirective as ue, createElementVNode as z, withDirectives as ce, normalizeClass as de, toDisplayString as fe, resolveComponent as me, provide as ge, Fragment as Q, renderList as J } from "vue";
-import { date as c, QInput as A, QIcon as M, QPopupProxy as he, QDate as be, QBtn as I, QCheckbox as _e, QSelect as U } from "quasar";
+var _ = (l, e, t) => re(l, typeof e != "symbol" ? e + "" : e, t);
+import { defineComponent as S, inject as se, ref as x, onMounted as X, getCurrentInstance as ie, createElementBlock as v, openBlock as u, renderSlot as R, createCommentVNode as O, createBlock as m, resolveDynamicComponent as G, unref as f, withCtx as h, createVNode as C, normalizeProps as N, guardReactiveProps as q, mergeProps as Z, createElementVNode as z, normalizeClass as ue, toDisplayString as ce, resolveComponent as de, provide as fe, Fragment as Q, renderList as J } from "vue";
+import { date as c, QInput as P, QIcon as M, QPopupProxy as me, QDate as ge, QBtn as I, QCheckbox as he, QSelect as U } from "quasar";
 const H = class H {
   constructor() {
-    b(this, "_formSettings");
-    b(this, "_formStyleConfig");
-    b(this, "_actionComponent");
-    b(this, "_sectionComponent");
-    b(this, "_wrapperResetComponent");
+    _(this, "_formSettings");
+    _(this, "_formStyleConfig");
+    _(this, "_actionComponent");
+    _(this, "_sectionComponent");
+    _(this, "_wrapperResetComponent");
   }
   static registerGlobalFormSetting(e) {
     this._instance._formSettings = e;
@@ -42,29 +42,29 @@ const H = class H {
     return this._instance._wrapperResetComponent;
   }
 };
-b(H, "_instance", new H());
+_(H, "_instance", new H());
 let k = H;
 const W = Symbol();
-function Ce(l, e) {
+function be(l, e) {
   const t = [], n = [];
-  return l.forEach((a) => {
-    switch (a.type) {
+  return l.forEach((o) => {
+    switch (o.type) {
       case "required":
         t.push(K());
         break;
       case "absence":
-        t.push(ye());
+        t.push(Ce());
         break;
       case "acceptance":
-        t.push(Fe());
+        t.push(Se());
         break;
       case "inclusion":
-        const r = a;
+        const r = o;
         t.push(ee(r.including));
         break;
       case "exclusion":
-        const o = a;
-        t.push(Se(o.excluding));
+        const a = o;
+        t.push(_e(a.excluding));
         break;
       case "backend":
         t.push(K());
@@ -76,147 +76,147 @@ function Ce(l, e) {
         n.push("allowBlank");
         break;
       case "positiveNumber":
-        t.push(Te());
+        t.push(De());
         break;
       case "lessThanOrEqualNumber":
-        const s = a;
+        const s = o;
         if (s.less_than) {
           t.push(
-            Ne(
+            pe(
               () => s.less_than
             )
           );
           break;
         }
       case "lessThanNumber":
-        const i = a;
-        if (i.less_than) {
-          t.push(qe(() => i.less_than));
+        const g = o;
+        if (g.less_than) {
+          t.push(Te(() => g.less_than));
           break;
         }
       case "greaterThanOrEqualNumber":
-        const p = a;
-        if (p.greater_than) {
+        const b = o;
+        if (b.greater_than) {
           t.push(
-            Be(
-              () => p.greater_than
+            Ne(
+              () => b.greater_than
             )
           );
           break;
         }
       case "greaterThanNumber":
-        const h = a;
-        if (h.greater_than) {
+        const i = o;
+        if (i.greater_than) {
           t.push(
-            ke(() => h.greater_than)
+            qe(() => i.greater_than)
           );
           break;
         }
       case "equalToNumber":
-        const y = a;
-        if (y.equal_to) {
-          t.push(ve(() => y.equal_to));
+        const F = o;
+        if (F.equal_to) {
+          t.push(Be(() => F.equal_to));
           break;
         }
       case "otherThanNumber":
-        const $ = a;
+        const $ = o;
         if ($.other_than) {
-          t.push(Ve(() => $.other_than));
+          t.push(ke(() => $.other_than));
           break;
         }
       case "numberIntegerOnly":
-        t.push(Oe());
+        t.push(ve());
         break;
       case "numberNumericOnly":
-        t.push(xe());
+        t.push(Ve());
         break;
       case "numberEvenOnly":
-        t.push(Re());
+        t.push(xe());
         break;
       case "numberOddOnly":
-        t.push($e());
+        t.push(Oe());
         break;
       case "lessThanOrEqualStringLength":
-        const E = a;
+        const E = o;
         if (E.less_than) {
           t.push(
-            Ee(
+            Re(
               () => E.less_than
             )
           );
           break;
         }
       case "lessThanStringLength":
-        const w = a;
+        const w = o;
         if (w.less_than) {
           t.push(
-            we(() => w.less_than)
+            $e(() => w.less_than)
           );
           break;
         }
       case "greaterThanOrEqualStringLength":
-        const L = a;
+        const L = o;
         if (L.greater_than) {
           t.push(
-            Le(
+            Ee(
               () => L.greater_than
             )
           );
           break;
         }
       case "greaterThanStringLength":
-        const j = a;
+        const j = o;
         if (j.greater_than) {
           t.push(
-            je(
+            we(
               () => j.greater_than
             )
           );
           break;
         }
       case "equalToString":
-        const d = a;
+        const d = o;
         if (d.equal_to) {
-          t.push(ze(() => d.equal_to));
+          t.push(je(() => d.equal_to));
           break;
         }
       case "betweenStringLength":
-        const S = a;
+        const y = o;
         t.push(
-          Ge(
-            () => S.min,
-            () => S.max
+          Le(
+            () => y.min,
+            () => y.max
           )
         );
         break;
       case "equalToStringLength":
-        const F = a;
-        t.push(Ie(() => F.equal_to));
+        const D = o;
+        t.push(Ge(() => D.equal_to));
         break;
       case "otherThanString":
-        const Y = a;
-        t.push(He(() => Y.other_than));
+        const A = o;
+        t.push(ze(() => A.other_than));
         break;
       case "lessThanOrEqualDate":
-        const B = a;
+        const B = o;
         t.push(V(e.dateFormat)), t.push(
-          Ae(
+          Ie(
             () => B.less_than,
             e.dateFormat
           )
         );
         break;
       case "lessThanDate":
-        const P = a;
+        const Y = o;
         t.push(V(e.dateFormat)), t.push(
-          Ye(
-            () => P.less_than,
+          He(
+            () => Y.less_than,
             e.dateFormat
           )
         );
         break;
       case "greaterThanOrEqualDate":
-        const te = a;
+        const te = o;
         t.push(V(e.dateFormat)), t.push(
           Pe(
             () => te.greater_than,
@@ -225,39 +225,39 @@ function Ce(l, e) {
         );
         break;
       case "greaterThanDate":
-        const ne = a;
+        const ne = o;
         t.push(V(e.dateFormat)), t.push(
-          Qe(
+          Ae(
             () => ne.greater_than,
             e.dateFormat
           )
         );
         break;
       case "equalToDate":
-        const le = a;
+        const le = o;
         t.push(V(e.dateFormat)), t.push(
-          Ue(
+          Ye(
             () => le.equal_to,
             e.dateFormat
           )
         );
         break;
       case "otherThanDate":
-        const oe = a;
+        const oe = o;
         t.push(V(e.dateFormat)), t.push(
-          Je(
+          Qe(
             () => oe.other_than,
             e.dateFormat
           )
         );
         break;
     }
-  }), n.length > 0 ? n.map((a) => {
-    switch (a) {
+  }), n.length > 0 ? n.map((o) => {
+    switch (o) {
       case "allowBlank":
-        return pe(t);
+        return Fe(t);
       case "allowNull":
-        return De(t);
+        return ye(t);
     }
   }) : t;
 }
@@ -267,115 +267,115 @@ function K() {
 function ee(l) {
   return (e) => l.includes(String(e)) || `Doit être contenu dans ${l.toString()}`;
 }
-function Se(l) {
+function _e(l) {
   return (e) => !l.includes(
     String(e) || `Ne doit pas être contenu dans ${ee.toString()}`
   );
 }
-function ye() {
+function Ce() {
   return (l) => !l || "Ce champ doit être vide";
 }
-function Fe() {
+function Se() {
   return (l) => !!l || "Doit être accepté";
 }
-function De(l) {
+function ye(l) {
   return (e) => (e === null || l.forEach((t) => {
     const n = t(e);
     if (n !== !0)
       return n;
   }), !0);
 }
-function pe(l) {
+function Fe(l) {
   return (e) => (e === "" || l.forEach((t) => {
     const n = t(e);
     if (n !== !0)
       return n;
   }), !0);
 }
-function Te() {
+function De() {
   return (l) => Number(l) > 0 || "Val. positive uniquement";
 }
-function Ne(l) {
+function pe(l) {
   return (e) => {
     const t = l();
     return Number(e) <= t || `Inf. ou égal à ${t}`;
   };
 }
-function qe(l) {
+function Te(l) {
   return (e) => {
     const t = l();
     return Number(e) < t || `Inf. ${t}`;
   };
 }
-function Be(l) {
+function Ne(l) {
   return (e) => {
     const t = l();
     return Number(e) >= t || `Sup. ou égal à ${t}`;
   };
 }
-function ke(l) {
+function qe(l) {
   return (e) => {
     const t = l();
     return Number(e) > t || `Sup. à ${t}`;
   };
 }
-function ve(l, e) {
+function Be(l, e) {
   const t = l();
   return (n) => Number(n) === t || `Égale à ${t}`;
 }
-function Ve(l, e) {
+function ke(l, e) {
   const t = l();
   return (n) => Number(n) !== t || `Doit être différent de ${l}`;
 }
-function Oe() {
+function ve() {
   return (l) => /^-?\d+$/.test(String(l).trim()) || "Nombre entier uniquement";
 }
-function xe() {
+function Ve() {
   return (l) => /^-?\d+(\.\d+)?$/.test(String(l).trim()) || "Caractère numérique uniquement";
 }
-function Re() {
+function xe() {
   return (l) => Number.isInteger(Number(l)) && Number(l) % 2 === 0 || "Nombre pair uniquement";
 }
-function $e() {
+function Oe() {
   return (l) => Number.isInteger(Number(l)) && Number(l) % 2 === 1 || "Nombre impair uniquement";
 }
-function Ee(l) {
+function Re(l) {
   const e = l();
   return (t) => String(t).length <= e || `Inf. ou égal à ${e}`;
 }
-function we(l) {
+function $e(l) {
   const e = l();
   return (t) => String(t).length < e || `Inf. à ${e}`;
 }
-function Le(l) {
+function Ee(l) {
   const e = l();
   return (t) => String(t).length >= e || `Sup. ou égal à ${e}`;
 }
-function je(l) {
+function we(l) {
   const e = l();
   return (t) => String(t).length > e || `Sup. à ${e}`;
 }
-function Ge(l, e) {
+function Le(l, e) {
   const t = l(), n = e();
-  return (a) => String(a).length >= t && String(a).length <= n || `Entre ${t} et ${n}`;
+  return (o) => String(o).length >= t && String(o).length <= n || `Entre ${t} et ${n}`;
 }
-function ze(l, e) {
+function je(l, e) {
   const t = l();
   return (n) => String(n) === t || `Égale à ${t}`;
 }
-function Ie(l) {
+function Ge(l) {
   const e = l();
   return (t) => String(t).length === e || `Doit contenir ${e} caractères`;
 }
-function He(l, e) {
+function ze(l, e) {
   const t = l();
   return (n) => String(n) !== t || `Doit être différent de ${t}`;
 }
-function Ae(l, e) {
+function Ie(l, e) {
   const t = l();
   return (n) => !Number.isNaN(c.extractDate(String(n), e).getTime()) && c.extractDate(String(n), e) <= c.extractDate(t, e) || `Inf. ou égal à ${c.formatDate(t, e)}`;
 }
-function Ye(l, e) {
+function He(l, e) {
   const t = l();
   return (n) => !Number.isNaN(c.extractDate(String(n), e).getTime()) && c.extractDate(String(n), e) < c.extractDate(t, e) || `Inf. à ${c.formatDate(t, e)}`;
 }
@@ -383,84 +383,84 @@ function Pe(l, e) {
   const t = l();
   return (n) => !Number.isNaN(c.extractDate(String(n), e).getTime()) && c.extractDate(String(n), e) >= c.extractDate(t, e) || `Sup. ou égal à ${c.formatDate(t, e)}`;
 }
-function Qe(l, e) {
+function Ae(l, e) {
   const t = l();
   return (n) => !Number.isNaN(c.extractDate(String(n), e).getTime()) && c.extractDate(String(n), e) > c.extractDate(t, e) || `Sup. à ${c.formatDate(t, e)}`;
 }
-function Ue(l, e, t) {
+function Ye(l, e, t) {
   const n = l();
-  return (a) => c.extractDate(String(a), e) === c.extractDate(n, e) || `Égale à ${c.extractDate(n, e)}`;
+  return (o) => c.extractDate(String(o), e) === c.extractDate(n, e) || `Égale à ${c.extractDate(n, e)}`;
 }
-function Je(l, e, t) {
+function Qe(l, e, t) {
   const n = l();
-  return (a) => c.extractDate(String(a), e) !== c.extractDate(n, e) || `Doit être différent de ${n}`;
+  return (o) => c.extractDate(String(o), e) !== c.extractDate(n, e) || `Doit être différent de ${n}`;
 }
 function V(l) {
   return (e) => !Number.isNaN(c.extractDate(String(e), l).getTime()) || "Date invalide";
 }
-const Ke = {
-  computeServerRules: Ce
-}, D = /* @__PURE__ */ C({
+const Ue = {
+  computeServerRules: be
+}, p = /* @__PURE__ */ S({
   __name: "FieldWrapper",
   props: {
     field: {}
   },
   setup(l, { expose: e }) {
-    const t = l, n = se(W), a = x();
+    const t = l, n = se(W), o = x();
     function r() {
-      return a.value;
+      return o.value;
     }
-    function o() {
-      n && (a.value = n.getDefaultDataByFieldName(
+    function a() {
+      n && (o.value = n.getDefaultDataByFieldName(
         t.field.metadata.field_name
       ));
     }
     function s() {
-      switch (typeof a.value) {
+      switch (typeof o.value) {
         case "boolean":
-          a.value = !1;
+          o.value = !1;
         case "string":
-          a.value = "";
+          o.value = "";
         case "number":
-          a.value = 0;
+          o.value = 0;
         case "object":
-          a.value = {};
+          o.value = {};
       }
     }
-    function i() {
-      return Ke.computeServerRules(
+    function g() {
+      return Ue.computeServerRules(
         t.field.rules ?? [],
         n.getFormFactory().formSettings
       );
     }
-    function p(h) {
-      a.value = h;
+    function b(i) {
+      o.value = i;
     }
     return e({
-      reset: o,
+      reset: a,
       clear: s,
       getValue: r
     }), X(() => {
-      var y;
-      o();
-      const h = (y = ie()) == null ? void 0 : y.proxy;
-      h && n && n.registerRef(
+      var F;
+      a();
+      const i = (F = ie()) == null ? void 0 : F.proxy;
+      i && n && n.registerRef(
         t.field.metadata.field_name,
-        h
+        i
       );
-    }), (h, y) => (u(), v("div", null, [
-      t.field.resetable ? R(h.$slots, "reset", {
+    }), (i, F) => (u(), v("div", null, [
+      t.field.resetable ? R(i.$slots, "reset", {
         key: 0,
-        actionProps: { reset: o }
+        actionProps: { reset: a }
       }, () => [
-        (u(), m(G(f(n).getFormFactory().wrapperResetComponent), { reset: o }))
+        (u(), m(G(f(n).getFormFactory().wrapperResetComponent), { reset: a }))
       ]) : O("", !0),
-      R(h.$slots, "default", {
-        propsWrapper: { modelValue: a.value, modelValueOnUpdate: p, field: h.field, injectForm: f(n), reset: o, clear: s, getComputedRules: i }
+      R(i.$slots, "default", {
+        propsWrapper: { modelValue: o.value, modelValueOnUpdate: b, field: i.field, injectForm: f(n), reset: a, clear: s, getComputedRules: g }
       })
     ]));
   }
-}), Xe = /* @__PURE__ */ C({
+}), Je = /* @__PURE__ */ S({
   __name: "StringField",
   props: {
     field: {}
@@ -468,7 +468,7 @@ const Ke = {
   setup(l) {
     const e = l;
     function t(n) {
-      const a = n.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const o = n.injectForm.getFormFactory(), r = o.formSettings, a = o.formStyleConfig;
       return {
         // behaviour
         "onUpdate:modelValue": (s) => n.modelValueOnUpdate(s),
@@ -481,29 +481,29 @@ const Ke = {
         // display
         label: n.field.label,
         hint: n.field.hint,
-        outlined: o.fieldOutlined,
-        filled: o.fieldFilled,
-        standout: o.fieldStandout,
-        borderless: o.fieldBorderless,
-        rounded: o.fieldRounded,
-        square: o.fieldSquare,
-        dense: o.fieldDense,
-        hideBottomSpace: o.fieldHideBottomSpace,
-        color: o.fieldColor,
-        bgColor: o.fieldBgColor,
+        outlined: a.fieldOutlined,
+        filled: a.fieldFilled,
+        standout: a.fieldStandout,
+        borderless: a.fieldBorderless,
+        rounded: a.fieldRounded,
+        square: a.fieldSquare,
+        dense: a.fieldDense,
+        hideBottomSpace: a.fieldHideBottomSpace,
+        color: a.fieldColor,
+        bgColor: a.fieldBgColor,
         class: n.field.cssClass
       };
     }
-    return (n, a) => (u(), m(D, {
+    return (n, o) => (u(), m(p, {
       field: e.field
     }, {
-      default: g(({ propsWrapper: r }) => [
-        _(f(A), N(q(t(r))), null, 16)
+      default: h(({ propsWrapper: r }) => [
+        C(f(P), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), Ze = /* @__PURE__ */ C({
+}), Ke = /* @__PURE__ */ S({
   __name: "TextField",
   props: {
     field: {}
@@ -511,7 +511,7 @@ const Ke = {
   setup(l) {
     const e = l;
     function t(n) {
-      const a = n.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const o = n.injectForm.getFormFactory(), r = o.formSettings, a = o.formStyleConfig;
       return {
         // behaviour
         "onUpdate:modelValue": (s) => n.modelValueOnUpdate(s),
@@ -524,48 +524,48 @@ const Ke = {
         // display
         label: n.field.label,
         hint: n.field.hint,
-        outlined: o.fieldOutlined,
-        filled: o.fieldFilled,
-        standout: o.fieldStandout,
-        borderless: o.fieldBorderless,
-        rounded: o.fieldRounded,
-        square: o.fieldSquare,
-        dense: o.fieldDense,
-        hideBottomSpace: o.fieldHideBottomSpace,
-        color: o.fieldColor,
-        bgColor: o.fieldBgColor,
+        outlined: a.fieldOutlined,
+        filled: a.fieldFilled,
+        standout: a.fieldStandout,
+        borderless: a.fieldBorderless,
+        rounded: a.fieldRounded,
+        square: a.fieldSquare,
+        dense: a.fieldDense,
+        hideBottomSpace: a.fieldHideBottomSpace,
+        color: a.fieldColor,
+        bgColor: a.fieldBgColor,
         class: n.field.cssClass
       };
     }
-    return (n, a) => (u(), m(D, {
+    return (n, o) => (u(), m(p, {
       field: e.field
     }, {
-      default: g(({ propsWrapper: r }) => [
-        _(f(A), Z(t(r), { type: "textarea" }), null, 16)
+      default: h(({ propsWrapper: r }) => [
+        C(f(P), Z(t(r), { type: "textarea" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), Me = { class: "row items-center justify-end" }, We = /* @__PURE__ */ C({
+}), Xe = { class: "row items-center justify-end" }, Ze = /* @__PURE__ */ S({
   __name: "DateField",
   props: {
     field: {}
   },
   setup(l) {
-    const e = l;
-    function t(r) {
-      const o = r.injectForm.getFormFactory(), s = o.formSettings, i = o.formStyleConfig;
+    const e = l, t = x();
+    function n(s) {
+      const g = s.injectForm.getFormFactory(), b = g.formSettings, i = g.formStyleConfig;
       return {
         // behaviour
-        modelValue: r.modelValue,
-        lazyRules: s.rulesBehaviour === "lazy",
-        clearable: r.field.clearable,
-        rules: r.getComputedRules(),
+        modelValue: s.modelValue,
+        lazyRules: b.rulesBehaviour === "lazy",
+        clearable: s.field.clearable,
+        rules: s.getComputedRules(),
         // events
-        onClear: r.clear,
+        onClear: s.clear,
         // display
-        label: r.field.label,
-        hint: r.field.hint,
+        label: s.field.label,
+        hint: s.field.hint,
         outlined: i.fieldOutlined,
         filled: i.fieldFilled,
         standout: i.fieldStandout,
@@ -576,10 +576,10 @@ const Ke = {
         hideBottomSpace: i.fieldHideBottomSpace,
         color: i.fieldColor,
         bgColor: i.fieldBgColor,
-        class: r.field.cssClass
+        class: s.field.cssClass
       };
     }
-    function n(r) {
+    function o(s) {
       return {
         size: "sm",
         color: "primary",
@@ -587,58 +587,59 @@ const Ke = {
         class: "cursor-pointer"
       };
     }
-    function a(r) {
+    function r(s) {
       return {
-        modelValue: r.modelValue,
-        mask: r.injectForm.getFormFactory().formSettings.dateFormat
+        modelValue: s.modelValue,
+        mask: s.injectForm.getFormFactory().formSettings.dateFormat
       };
     }
-    return (r, o) => {
-      const s = ue("close-popup");
-      return u(), m(D, {
-        field: e.field
-      }, {
-        default: g(({ propsWrapper: i }) => [
-          _(f(A), N(q(t(i))), {
-            append: g(() => [
-              _(f(M), N(q(n())), {
-                default: g(() => [
-                  _(f(he), {
-                    cover: "",
-                    "transition-show": "scale",
-                    "transition-hide": "scale"
-                  }, {
-                    default: g(() => [
-                      _(f(be), N(q(a(i))), {
-                        default: g(() => [
-                          z("div", Me, [
-                            ce(_(f(I), {
-                              label: "Fermer",
-                              color: "secondary",
-                              flat: "",
-                              "no-caps": ""
-                            }, null, 512), [
-                              [s]
-                            ])
-                          ])
-                        ]),
-                        _: 2
-                      }, 1040)
-                    ]),
-                    _: 2
-                  }, 1024)
-                ]),
-                _: 2
-              }, 1040)
-            ]),
-            _: 2
-          }, 1040)
-        ]),
-        _: 1
-      }, 8, ["field"]);
-    };
+    function a() {
+      t.value && t.value.hide();
+    }
+    return (s, g) => (u(), m(p, {
+      field: e.field
+    }, {
+      default: h(({ propsWrapper: b }) => [
+        C(f(P), N(q(n(b))), {
+          append: h(() => [
+            C(f(M), N(q(o())), {
+              default: h(() => [
+                C(f(me), {
+                  ref_key: "popupProxyRef",
+                  ref: t,
+                  cover: "",
+                  "transition-show": "scale",
+                  "transition-hide": "scale"
+                }, {
+                  default: h(() => [
+                    C(f(ge), N(q(r(b))), {
+                      default: h(() => [
+                        z("div", Xe, [
+                          C(f(I), {
+                            onClick: a,
+                            label: "Fermer",
+                            color: "secondary",
+                            flat: "",
+                            "no-caps": ""
+                          })
+                        ])
+                      ]),
+                      _: 2
+                    }, 1040)
+                  ]),
+                  _: 2
+                }, 1536)
+              ]),
+              _: 2
+            }, 1040)
+          ]),
+          _: 2
+        }, 1040)
+      ]),
+      _: 1
+    }, 8, ["field"]));
   }
-}), et = /* @__PURE__ */ C({
+}), Me = /* @__PURE__ */ S({
   __name: "CheckboxField",
   props: {
     field: {}
@@ -646,27 +647,27 @@ const Ke = {
   setup(l) {
     const e = l;
     function t(n) {
-      const a = n.injectForm.getFormFactory().formStyleConfig;
+      const o = n.injectForm.getFormFactory().formStyleConfig;
       return {
         // behaviour
         modelValue: n.modelValue,
         // display
         label: n.field.label,
-        dense: a.fieldDense,
-        color: a.fieldColor,
+        dense: o.fieldDense,
+        color: o.fieldColor,
         class: n.field.cssClass
       };
     }
-    return (n, a) => (u(), m(D, {
+    return (n, o) => (u(), m(p, {
       field: e.field
     }, {
-      default: g(({ propsWrapper: r }) => [
-        _(f(_e), N(q(t(r))), null, 16)
+      default: h(({ propsWrapper: r }) => [
+        C(f(he), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), tt = { class: "flex row items-center" }, nt = { class: "text-body1 text-weight-medium" }, lt = { class: "flex column q-gutter-sm" }, ot = /* @__PURE__ */ C({
+}), We = { class: "flex row items-center" }, et = { class: "text-body1 text-weight-medium" }, tt = { class: "flex column q-gutter-sm" }, nt = /* @__PURE__ */ S({
   __name: "DefaultSectionComponent",
   props: {
     section: {}
@@ -674,22 +675,22 @@ const Ke = {
   setup(l) {
     const e = l;
     return (t, n) => (u(), v("div", {
-      class: de(["flex column", e.section.cssClass])
+      class: ue(["flex column", e.section.cssClass])
     }, [
-      z("div", tt, [
+      z("div", We, [
         e.section.icon ? (u(), m(f(M), {
           key: 0,
           name: e.section.icon,
           size: "sm"
         }, null, 8, ["name"])) : O("", !0),
-        z("div", nt, fe(e.section.label), 1)
+        z("div", et, ce(e.section.label), 1)
       ]),
-      z("div", lt, [
+      z("div", tt, [
         R(t.$slots, "default")
       ])
     ], 2));
   }
-}), at = { class: "flex row items-center no-wrap" }, rt = /* @__PURE__ */ C({
+}), lt = { class: "flex row items-center no-wrap" }, ot = /* @__PURE__ */ S({
   __name: "DefaultActionComponent",
   props: {
     isLoadingSubmit: { type: Boolean },
@@ -699,8 +700,8 @@ const Ke = {
   },
   setup(l) {
     const e = l;
-    return (t, n) => (u(), v("div", at, [
-      _(f(I), {
+    return (t, n) => (u(), v("div", lt, [
+      C(f(I), {
         label: "Enregistrer",
         loading: e.isLoadingSubmit,
         onClick: e.submit
@@ -719,7 +720,7 @@ const Ke = {
       }, null, 8, ["loading", "onClick"])) : O("", !0)
     ]));
   }
-}), st = /* @__PURE__ */ C({
+}), at = /* @__PURE__ */ S({
   __name: "NumberField",
   props: {
     field: {}
@@ -727,7 +728,7 @@ const Ke = {
   setup(l) {
     const e = l;
     function t(n) {
-      const a = n.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const o = n.injectForm.getFormFactory(), r = o.formSettings, a = o.formStyleConfig;
       return {
         // behaviour
         modelValue: n.modelValue,
@@ -739,29 +740,29 @@ const Ke = {
         // display
         label: n.field.label,
         hint: n.field.hint,
-        outlined: o.fieldOutlined,
-        filled: o.fieldFilled,
-        standout: o.fieldStandout,
-        borderless: o.fieldBorderless,
-        rounded: o.fieldRounded,
-        square: o.fieldSquare,
-        dense: o.fieldDense,
-        hideBottomSpace: o.fieldHideBottomSpace,
-        color: o.fieldColor,
-        bgColor: o.fieldBgColor,
+        outlined: a.fieldOutlined,
+        filled: a.fieldFilled,
+        standout: a.fieldStandout,
+        borderless: a.fieldBorderless,
+        rounded: a.fieldRounded,
+        square: a.fieldSquare,
+        dense: a.fieldDense,
+        hideBottomSpace: a.fieldHideBottomSpace,
+        color: a.fieldColor,
+        bgColor: a.fieldBgColor,
         class: n.field.cssClass
       };
     }
-    return (n, a) => (u(), m(D, {
+    return (n, o) => (u(), m(p, {
       field: e.field
     }, {
-      default: g(({ propsWrapper: r }) => [
-        _(f(A), Z(t(r), { type: "number" }), null, 16)
+      default: h(({ propsWrapper: r }) => [
+        C(f(P), Z(t(r), { type: "number" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), it = /* @__PURE__ */ C({
+}), rt = /* @__PURE__ */ S({
   __name: "SelectHasManyField",
   props: {
     field: {}
@@ -769,7 +770,7 @@ const Ke = {
   setup(l) {
     const e = l;
     function t(n) {
-      const a = n.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const o = n.injectForm.getFormFactory(), r = o.formSettings, a = o.formStyleConfig;
       return {
         // behaviour
         modelValue: n.modelValue,
@@ -787,38 +788,38 @@ const Ke = {
         // display
         label: n.field.label,
         hint: n.field.hint,
-        outlined: o.fieldOutlined,
-        filled: o.fieldFilled,
-        standout: o.fieldStandout,
-        borderless: o.fieldBorderless,
-        rounded: o.fieldRounded,
-        square: o.fieldSquare,
-        dense: o.fieldDense,
-        hideBottomSpace: o.fieldHideBottomSpace,
-        color: o.fieldColor,
-        bgColor: o.fieldBgColor,
+        outlined: a.fieldOutlined,
+        filled: a.fieldFilled,
+        standout: a.fieldStandout,
+        borderless: a.fieldBorderless,
+        rounded: a.fieldRounded,
+        square: a.fieldSquare,
+        dense: a.fieldDense,
+        hideBottomSpace: a.fieldHideBottomSpace,
+        color: a.fieldColor,
+        bgColor: a.fieldBgColor,
         class: n.field.cssClass
       };
     }
-    return (n, a) => (u(), m(D, {
+    return (n, o) => (u(), m(p, {
       field: e.field
     }, {
-      default: g(({ propsWrapper: r }) => [
-        _(f(U), N(q(t(r))), null, 16)
+      default: h(({ propsWrapper: r }) => [
+        C(f(U), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), ut = (l, e) => {
+}), st = (l, e) => {
   const t = l.__vccOpts || l;
-  for (const [n, a] of e)
-    t[n] = a;
+  for (const [n, o] of e)
+    t[n] = o;
   return t;
-}, ct = {};
-function dt(l, e) {
+}, it = {};
+function ut(l, e) {
   return " TODO json edit ? ";
 }
-const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ C({
+const ct = /* @__PURE__ */ st(it, [["render", ut]]), dt = /* @__PURE__ */ S({
   __name: "SelectField",
   props: {
     field: {}
@@ -826,7 +827,7 @@ const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ C({
   setup(l) {
     const e = l;
     function t(n) {
-      const a = n.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const o = n.injectForm.getFormFactory(), r = o.formSettings, a = o.formStyleConfig;
       return {
         // behaviour
         modelValue: n.modelValue,
@@ -841,29 +842,29 @@ const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ C({
         // display
         label: n.field.label,
         hint: n.field.hint,
-        outlined: o.fieldOutlined,
-        filled: o.fieldFilled,
-        standout: o.fieldStandout,
-        borderless: o.fieldBorderless,
-        rounded: o.fieldRounded,
-        square: o.fieldSquare,
-        dense: o.fieldDense,
-        hideBottomSpace: o.fieldHideBottomSpace,
-        color: o.fieldColor,
-        bgColor: o.fieldBgColor,
+        outlined: a.fieldOutlined,
+        filled: a.fieldFilled,
+        standout: a.fieldStandout,
+        borderless: a.fieldBorderless,
+        rounded: a.fieldRounded,
+        square: a.fieldSquare,
+        dense: a.fieldDense,
+        hideBottomSpace: a.fieldHideBottomSpace,
+        color: a.fieldColor,
+        bgColor: a.fieldBgColor,
         class: n.field.cssClass
       };
     }
-    return (n, a) => (u(), m(D, {
+    return (n, o) => (u(), m(p, {
       field: e.field
     }, {
-      default: g(({ propsWrapper: r }) => [
-        _(f(U), N(q(t(r))), null, 16)
+      default: h(({ propsWrapper: r }) => [
+        C(f(U), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), gt = /* @__PURE__ */ C({
+}), ft = /* @__PURE__ */ S({
   __name: "SelectBelongsToField",
   props: {
     field: {}
@@ -871,7 +872,7 @@ const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ C({
   setup(l) {
     const e = l;
     function t(n) {
-      const a = n.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const o = n.injectForm.getFormFactory(), r = o.formSettings, a = o.formStyleConfig;
       return {
         // behaviour
         modelValue: n.modelValue,
@@ -887,29 +888,29 @@ const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ C({
         // display
         label: n.field.label,
         hint: n.field.hint,
-        outlined: o.fieldOutlined,
-        filled: o.fieldFilled,
-        standout: o.fieldStandout,
-        borderless: o.fieldBorderless,
-        rounded: o.fieldRounded,
-        square: o.fieldSquare,
-        dense: o.fieldDense,
-        hideBottomSpace: o.fieldHideBottomSpace,
-        color: o.fieldColor,
-        bgColor: o.fieldBgColor,
+        outlined: a.fieldOutlined,
+        filled: a.fieldFilled,
+        standout: a.fieldStandout,
+        borderless: a.fieldBorderless,
+        rounded: a.fieldRounded,
+        square: a.fieldSquare,
+        dense: a.fieldDense,
+        hideBottomSpace: a.fieldHideBottomSpace,
+        color: a.fieldColor,
+        bgColor: a.fieldBgColor,
         class: n.field.cssClass
       };
     }
-    return (n, a) => (u(), m(D, {
+    return (n, o) => (u(), m(p, {
       field: e.field
     }, {
-      default: g(({ propsWrapper: r }) => [
-        _(f(U), N(q(t(r))), null, 16)
+      default: h(({ propsWrapper: r }) => [
+        C(f(U), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), ht = /* @__PURE__ */ C({
+}), mt = /* @__PURE__ */ S({
   __name: "DefaultWrapperResetComponent",
   props: {
     reset: { type: Function }
@@ -917,8 +918,8 @@ const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ C({
   setup(l) {
     const e = l;
     return (t, n) => {
-      const a = me("q-icon");
-      return u(), m(a, {
+      const o = de("q-icon");
+      return u(), m(o, {
         name: "reset",
         class: "cursor-pointer",
         onClick: n[0] || (n[0] = (r) => e.reset())
@@ -927,13 +928,13 @@ const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ C({
   }
 });
 class T {
-  constructor(e, t, n, a, r, o) {
-    b(this, "resourceName");
-    b(this, "formSettings");
-    b(this, "formStyleConfig");
-    b(this, "actionComponent");
-    b(this, "sectionComponent");
-    b(this, "wrapperResetComponent");
+  constructor(e, t, n, o, r, a) {
+    _(this, "resourceName");
+    _(this, "formSettings");
+    _(this, "formStyleConfig");
+    _(this, "actionComponent");
+    _(this, "sectionComponent");
+    _(this, "wrapperResetComponent");
     this.resourceName = e, this.formSettings = {
       ...T.getDefaultFormSettings(),
       ...k.getGlobalFormSetting(),
@@ -942,19 +943,19 @@ class T {
       ...T.getDefaultFormStyleSettings(),
       ...k.getGlobalFormStyleConfig(),
       ...n
-    }, this.actionComponent = a ?? k.getGlobalActionComponent() ?? T.getDefaultActionComponent(), this.sectionComponent = r ?? k.getGlobalSectionComponent() ?? T.getDefaultSectionComponent(), this.wrapperResetComponent = o ?? k.getGlobalWrapperResetComponent() ?? T.getDefaultWrapperResetComponent();
+    }, this.actionComponent = o ?? k.getGlobalActionComponent() ?? T.getDefaultActionComponent(), this.sectionComponent = r ?? k.getGlobalSectionComponent() ?? T.getDefaultSectionComponent(), this.wrapperResetComponent = a ?? k.getGlobalWrapperResetComponent() ?? T.getDefaultWrapperResetComponent();
   }
   static getFieldComponentByFormFieldType(e) {
     return {
-      string: Xe,
-      text: Ze,
-      number: st,
-      date: We,
-      selectString: mt,
-      selectBelongsTo: gt,
-      selectHasMany: it,
-      checkbox: et,
-      object: ft
+      string: Je,
+      text: Ke,
+      number: at,
+      date: Ze,
+      selectString: dt,
+      selectBelongsTo: ft,
+      selectHasMany: rt,
+      checkbox: Me,
+      object: ct
     }[e];
   }
   static getDefaultFormSettings() {
@@ -981,22 +982,22 @@ class T {
     };
   }
   static getDefaultActionComponent() {
-    return rt;
-  }
-  static getDefaultSectionComponent() {
     return ot;
   }
+  static getDefaultSectionComponent() {
+    return nt;
+  }
   static getDefaultWrapperResetComponent() {
-    return ht;
+    return mt;
   }
   getAllField(e) {
     const t = [];
-    return e.form.sections.forEach((a) => {
+    return e.form.sections.forEach((o) => {
       const r = [];
-      a.fields.forEach((s) => {
-        const i = T.getFieldComponentByFormFieldType(
+      o.fields.forEach((s) => {
+        const g = T.getFieldComponentByFormFieldType(
           s.form_field_type
-        ), p = {
+        ), b = {
           type: s.form_field_type,
           metadata: s,
           label: s.form_label,
@@ -1006,15 +1007,15 @@ class T {
           rules: s.form_rules,
           clearable: s.clearable,
           resetable: s.resetable,
-          component: i
+          component: g
         };
-        r.push(p);
+        r.push(b);
       });
-      const o = {
-        label: a.label,
+      const a = {
+        label: o.label,
         fields: r
       };
-      t.push(o);
+      t.push(a);
     }), {
       sections: t,
       resetable: e.form.resetable,
@@ -1023,10 +1024,10 @@ class T {
     };
   }
 }
-const bt = {
+const gt = {
   key: 0,
   class: "flex column q-pa-sm q-gutter-sm"
-}, yt = /* @__PURE__ */ C({
+}, Ct = /* @__PURE__ */ S({
   __name: "Submit64Form",
   props: {
     resourceName: {},
@@ -1039,31 +1040,31 @@ const bt = {
   setup(l, { expose: e }) {
     const t = l;
     let n = null;
-    const a = Object.freeze(
+    const o = Object.freeze(
       new T(
         t.resourceName,
         t.globalFormSettings
       )
-    ), r = x({}), o = x(), s = x(!1), i = x(!1);
-    async function p() {
+    ), r = x({}), a = x(), s = x(!1), g = x(!1);
+    async function b() {
       n = await t.getMetadataAndData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
         context: t.context
-      }), o.value = Object.freeze(
-        a.getAllField(n)
+      }), a.value = Object.freeze(
+        o.getAllField(n)
       ), s.value = !0;
     }
-    async function h() {
-      i.value = !0;
+    async function i() {
+      g.value = !0;
       const d = {};
-      Object.entries(r.value).forEach((F) => {
-        d[F[0]] = F[1].getValue();
+      Object.entries(r.value).forEach((D) => {
+        d[D[0]] = D[1].getValue();
       });
-      const S = await t.submitForm({ formData: d });
-      n && (n.resource_data = S), y(), i.value = !1;
+      const y = await t.submitForm({ formData: d });
+      n && (n.resource_data = y), F(), g.value = !1;
     }
-    function y() {
+    function F() {
       Object.values(r.value).forEach((d) => {
         d.reset();
       });
@@ -1073,42 +1074,42 @@ const bt = {
         d.clear();
       });
     }
-    function E(d, S) {
-      r.value[d] = S;
+    function E(d, y) {
+      r.value[d] = y;
     }
     function w(d) {
       if (n)
         return n.resource_data[d];
     }
     function L(d) {
-      const S = Object.entries(r.value).find((F) => F[0] === d);
-      return S ? S[1].getValue() : null;
+      const y = Object.entries(r.value).find((D) => D[0] === d);
+      return y ? y[1].getValue() : null;
     }
     function j() {
-      return a;
+      return o;
     }
-    return ge(W, {
+    return fe(W, {
       registerRef: E,
       getDefaultDataByFieldName: w,
       getFieldDataByFieldName: L,
       getFormFactory: j
     }), e({}), X(async () => {
-      await p();
-    }), (d, S) => s.value && o.value ? (u(), v("div", bt, [
-      (u(!0), v(Q, null, J(o.value.sections, (F, Y) => (u(), m(G(f(a).sectionComponent), {
-        key: Y,
-        section: F
+      await b();
+    }), (d, y) => s.value && a.value ? (u(), v("div", gt, [
+      (u(!0), v(Q, null, J(a.value.sections, (D, A) => (u(), m(G(f(o).sectionComponent), {
+        key: A,
+        section: D
       }, {
-        default: g(() => [
-          (u(!0), v(Q, null, J(F.fields, (B) => (u(), v(Q, {
+        default: h(() => [
+          (u(!0), v(Q, null, J(D.fields, (B) => (u(), v(Q, {
             key: B.metadata.field_name
           }, [
-            d.$slots[B.metadata.field_name] ? (u(), m(D, {
+            d.$slots[B.metadata.field_name] ? (u(), m(p, {
               key: 1,
               field: B
             }, {
-              default: g(({ propsWrapper: P }) => [
-                R(d.$slots, "default", { propsWrapper: P })
+              default: h(({ propsWrapper: Y }) => [
+                R(d.$slots, "default", { propsWrapper: Y })
               ]),
               _: 2
             }, 1032, ["field"])) : (u(), m(G(B.component), {
@@ -1119,20 +1120,20 @@ const bt = {
         ]),
         _: 2
       }, 1032, ["section"]))), 128)),
-      (u(), m(G(f(a).actionComponent), {
-        isLoadingSubmit: i.value,
-        submit: h,
-        clear: o.value.clearable ? $ : void 0,
-        reset: o.value.resetable ? y : void 0
+      (u(), m(G(f(o).actionComponent), {
+        isLoadingSubmit: g.value,
+        submit: i,
+        clear: a.value.clearable ? $ : void 0,
+        reset: a.value.resetable ? F : void 0
       }, null, 8, ["isLoadingSubmit", "clear", "reset"])),
       d.$slots.more_actions ? R(d.$slots, "more_actions", {
         key: 0,
-        propsForm: { generatedForm: o.value }
+        propsForm: { generatedForm: a.value }
       }) : O("", !0)
     ])) : O("", !0);
   }
 });
 export {
   k as Submit64,
-  yt as Submit64Form
+  Ct as Submit64Form
 };

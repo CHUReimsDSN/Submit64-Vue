@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { QBtn } from 'quasar';
+import type { TSubmit64ActionFormProps } from '../models';
 // props
-const propsComponent = defineProps<{
-  isLoadingSubmit: boolean;
-  reset?: () => void;
-  clear?: () => void;
-  submit: () => Promise<void> | void;
-}>();
+const propsComponent = defineProps<TSubmit64ActionFormProps>();
 </script>
 
 <template>

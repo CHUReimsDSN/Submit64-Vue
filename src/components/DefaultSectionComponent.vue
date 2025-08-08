@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { QIcon } from 'quasar'
-import type { TFormSection } from '../models';
+import type { TSubmit64SectionFormProps } from '../models';
 
 // props
-const propsComponent = defineProps<{
-  section: TFormSection;
-}>();
+const propsComponent = defineProps<TSubmit64SectionFormProps>();
 </script>
 
 <template>

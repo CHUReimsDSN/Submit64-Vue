@@ -120,6 +120,15 @@ export type TSubmit64FormProps = {
     globalFormSettings?: TFormSettings;
     context?: Record<string, unknown>;
 };
+export type TSubmit64SectionFormProps = {
+    section: TFormSection;
+};
+export type TSubmit64ActionFormProps = {
+    isLoadingSubmit: boolean;
+    reset?: () => void;
+    clear?: () => void;
+    submit: () => Promise<void> | void;
+};
 export type TSubmit64GetMetadataAndData = {
     resourceName: string;
     resourceId: TRecord["id"];

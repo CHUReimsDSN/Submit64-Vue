@@ -7,9 +7,13 @@ import {
 import type { QDateProps, QIconProps, QInputProps } from "quasar";
 import { QInput, QIcon, QPopupProxy, QDate, QBtn } from "quasar";
 import FieldWrapper from "./FieldWrapper.vue";
+import { ref } from "vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
+
+// refs
+const popupProxyRef = ref<InstanceType<typeof QPopupProxy>>()
 
 // functions
 function getBindings(
@@ -62,6 +66,12 @@ function getBindingsDate(
     mask: propsWrapper.injectForm.getFormFactory().formSettings.dateFormat,
   };
 }
+function closePopUp() {
+  if (!popupProxyRef.value) {
+    return
+  }
+  popupProxyRef.value.hide();
+}
 </script>
 
 <template>
@@ -71,6 +81,7 @@ function getBindingsDate(
         <template v-slot:append>
           <q-icon v-bind="getBindingsIcon(propsWrapper)">
             <q-popup-proxy
+              ref="popupProxyRef"
               cover
               transition-show="scale"
               transition-hide="scale"
@@ -78,7 +89,7 @@ function getBindingsDate(
               <q-date v-bind="getBindingsDate(propsWrapper)">
                 <div class="row items-center justify-end">
                   <q-btn
-                    v-close-popup
+                    @click="closePopUp"
                     label="Fermer"
                     color="secondary"
                     flat
