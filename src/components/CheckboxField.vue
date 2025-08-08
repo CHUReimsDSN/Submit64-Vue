@@ -4,7 +4,8 @@ import {
   TSubmit64FieldProps,
   TSubmit64FieldWrapperPropsSlot,
 } from "../models";
-import { QCheckboxProps } from "quasar";
+import type { QCheckboxProps } from "quasar";
+import { QCheckbox } from "quasar";
 import FieldWrapper from "./FieldWrapper.vue";
 
 // props

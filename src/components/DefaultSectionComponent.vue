@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { TFormSection } from '../models';
+import { QIcon } from 'quasar'
+import type { TFormSection } from '../models';
 
 // props
 const propsComponent = defineProps<{
