@@ -1,9 +1,9 @@
 var ae = Object.defineProperty;
 var re = (l, e, t) => e in l ? ae(l, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : l[e] = t;
 var _ = (l, e, t) => re(l, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as S, inject as se, ref as x, onMounted as X, getCurrentInstance as ie, createElementBlock as v, openBlock as u, renderSlot as R, createCommentVNode as O, createBlock as m, resolveDynamicComponent as G, unref as f, withCtx as h, createVNode as C, normalizeProps as N, guardReactiveProps as q, mergeProps as Z, createElementVNode as z, normalizeClass as ue, toDisplayString as ce, resolveComponent as de, provide as fe, Fragment as Q, renderList as J } from "vue";
-import { date as c, QInput as P, QIcon as M, QPopupProxy as me, QDate as ge, QBtn as I, QCheckbox as he, QSelect as U } from "quasar";
-const H = class H {
+import { defineComponent as S, inject as se, ref as v, onMounted as X, getCurrentInstance as ie, createElementBlock as k, openBlock as u, renderSlot as R, createCommentVNode as x, createBlock as m, resolveDynamicComponent as G, unref as f, withCtx as h, createVNode as C, normalizeProps as N, guardReactiveProps as q, mergeProps as Z, createElementVNode as z, normalizeClass as ue, toDisplayString as ce, resolveComponent as de, provide as fe, Fragment as Y, renderList as J } from "vue";
+import { date as c, QInput as H, QIcon as M, QPopupProxy as me, QDate as ge, QBtn as I, QCheckbox as he, QSelect as Q } from "quasar";
+const U = class U {
   constructor() {
     _(this, "_formSettings");
     _(this, "_formStyleConfig");
@@ -42,8 +42,8 @@ const H = class H {
     return this._instance._wrapperResetComponent;
   }
 };
-_(H, "_instance", new H());
-let k = H;
+_(U, "_instance", new U());
+let V = U;
 const W = Symbol();
 function be(l, e) {
   const t = [], n = [];
@@ -76,13 +76,13 @@ function be(l, e) {
         n.push("allowBlank");
         break;
       case "positiveNumber":
-        t.push(pe());
+        t.push(De());
         break;
       case "lessThanOrEqualNumber":
         const s = o;
         if (s.less_than) {
           t.push(
-            De(
+            Te(
               () => s.less_than
             )
           );
@@ -91,7 +91,7 @@ function be(l, e) {
       case "lessThanNumber":
         const g = o;
         if (g.less_than) {
-          t.push(Te(() => g.less_than));
+          t.push(pe(() => g.less_than));
           break;
         }
       case "greaterThanOrEqualNumber":
@@ -113,28 +113,28 @@ function be(l, e) {
           break;
         }
       case "equalToNumber":
-        const F = o;
-        if (F.equal_to) {
-          t.push(Be(() => F.equal_to));
+        const y = o;
+        if (y.equal_to) {
+          t.push(Be(() => y.equal_to));
           break;
         }
       case "otherThanNumber":
         const $ = o;
         if ($.other_than) {
-          t.push(ke(() => $.other_than));
+          t.push(Ve(() => $.other_than));
           break;
         }
       case "numberIntegerOnly":
-        t.push(ve());
+        t.push(ke());
         break;
       case "numberNumericOnly":
-        t.push(Ve());
+        t.push(Oe());
         break;
       case "numberEvenOnly":
-        t.push(xe());
+        t.push(ve());
         break;
       case "numberOddOnly":
-        t.push(Oe());
+        t.push(xe());
         break;
       case "lessThanOrEqualStringLength":
         const E = o;
@@ -181,25 +181,25 @@ function be(l, e) {
           break;
         }
       case "betweenStringLength":
-        const y = o;
+        const F = o;
         t.push(
           Le(
-            () => y.min,
-            () => y.max
+            () => F.min,
+            () => F.max
           )
         );
         break;
       case "equalToStringLength":
-        const p = o;
-        t.push(Ge(() => p.equal_to));
+        const D = o;
+        t.push(Ge(() => D.equal_to));
         break;
       case "otherThanString":
-        const A = o;
-        t.push(ze(() => A.other_than));
+        const P = o;
+        t.push(ze(() => P.other_than));
         break;
       case "lessThanOrEqualDate":
         const B = o;
-        t.push(V(e.dateFormat)), t.push(
+        t.push(O(e.dateFormat)), t.push(
           Ie(
             () => B.less_than,
             e.dateFormat
@@ -207,18 +207,18 @@ function be(l, e) {
         );
         break;
       case "lessThanDate":
-        const Y = o;
-        t.push(V(e.dateFormat)), t.push(
-          He(
-            () => Y.less_than,
+        const A = o;
+        t.push(O(e.dateFormat)), t.push(
+          Ue(
+            () => A.less_than,
             e.dateFormat
           )
         );
         break;
       case "greaterThanOrEqualDate":
         const te = o;
-        t.push(V(e.dateFormat)), t.push(
-          Pe(
+        t.push(O(e.dateFormat)), t.push(
+          He(
             () => te.greater_than,
             e.dateFormat
           )
@@ -226,8 +226,8 @@ function be(l, e) {
         break;
       case "greaterThanDate":
         const ne = o;
-        t.push(V(e.dateFormat)), t.push(
-          Ae(
+        t.push(O(e.dateFormat)), t.push(
+          Pe(
             () => ne.greater_than,
             e.dateFormat
           )
@@ -235,8 +235,8 @@ function be(l, e) {
         break;
       case "equalToDate":
         const le = o;
-        t.push(V(e.dateFormat)), t.push(
-          Ye(
+        t.push(O(e.dateFormat)), t.push(
+          Ae(
             () => le.equal_to,
             e.dateFormat
           )
@@ -244,8 +244,8 @@ function be(l, e) {
         break;
       case "otherThanDate":
         const oe = o;
-        t.push(V(e.dateFormat)), t.push(
-          Qe(
+        t.push(O(e.dateFormat)), t.push(
+          Ye(
             () => oe.other_than,
             e.dateFormat
           )
@@ -292,16 +292,16 @@ function Fe(l) {
       return n;
   }), !0);
 }
-function pe() {
+function De() {
   return (l) => Number(l) > 0 || "Val. positive uniquement";
 }
-function De(l) {
+function Te(l) {
   return (e) => {
     const t = l();
     return Number(e) <= t || `Inf. ou égal à ${t}`;
   };
 }
-function Te(l) {
+function pe(l) {
   return (e) => {
     const t = l();
     return Number(e) < t || `Inf. ${t}`;
@@ -323,20 +323,20 @@ function Be(l, e) {
   const t = l();
   return (n) => Number(n) === t || `Égale à ${t}`;
 }
-function ke(l, e) {
+function Ve(l, e) {
   const t = l();
   return (n) => Number(n) !== t || `Doit être différent de ${l}`;
 }
-function ve() {
+function ke() {
   return (l) => /^-?\d+$/.test(String(l).trim()) || "Nombre entier uniquement";
 }
-function Ve() {
+function Oe() {
   return (l) => /^-?\d+(\.\d+)?$/.test(String(l).trim()) || "Caractère numérique uniquement";
 }
-function xe() {
+function ve() {
   return (l) => Number.isInteger(Number(l)) && Number(l) % 2 === 0 || "Nombre pair uniquement";
 }
-function Oe() {
+function xe() {
   return (l) => Number.isInteger(Number(l)) && Number(l) % 2 === 1 || "Nombre impair uniquement";
 }
 function Re(l) {
@@ -375,38 +375,38 @@ function Ie(l, e) {
   const t = l();
   return (n) => !Number.isNaN(c.extractDate(String(n), e).getTime()) && c.extractDate(String(n), e) <= c.extractDate(t, e) || `Inf. ou égal à ${c.formatDate(t, e)}`;
 }
-function He(l, e) {
+function Ue(l, e) {
   const t = l();
   return (n) => !Number.isNaN(c.extractDate(String(n), e).getTime()) && c.extractDate(String(n), e) < c.extractDate(t, e) || `Inf. à ${c.formatDate(t, e)}`;
 }
-function Pe(l, e) {
+function He(l, e) {
   const t = l();
   return (n) => !Number.isNaN(c.extractDate(String(n), e).getTime()) && c.extractDate(String(n), e) >= c.extractDate(t, e) || `Sup. ou égal à ${c.formatDate(t, e)}`;
 }
-function Ae(l, e) {
+function Pe(l, e) {
   const t = l();
   return (n) => !Number.isNaN(c.extractDate(String(n), e).getTime()) && c.extractDate(String(n), e) > c.extractDate(t, e) || `Sup. à ${c.formatDate(t, e)}`;
 }
-function Ye(l, e, t) {
+function Ae(l, e, t) {
   const n = l();
   return (o) => c.extractDate(String(o), e) === c.extractDate(n, e) || `Égale à ${c.extractDate(n, e)}`;
 }
-function Qe(l, e, t) {
+function Ye(l, e, t) {
   const n = l();
   return (o) => c.extractDate(String(o), e) !== c.extractDate(n, e) || `Doit être différent de ${n}`;
 }
-function V(l) {
+function O(l) {
   return (e) => !Number.isNaN(c.extractDate(String(e), l).getTime()) || "Date invalide";
 }
-const Ue = {
+const Qe = {
   computeServerRules: be
-}, D = /* @__PURE__ */ S({
+}, T = /* @__PURE__ */ S({
   __name: "FieldWrapper",
   props: {
     field: {}
   },
   setup(l, { expose: e }) {
-    const t = l, n = se(W), o = x();
+    const t = l, n = se(W), o = v();
     function r() {
       return o.value;
     }
@@ -428,7 +428,7 @@ const Ue = {
       }
     }
     function g() {
-      return Ue.computeServerRules(
+      return Qe.computeServerRules(
         t.field.rules ?? [],
         n.getFormFactory().formSettings
       );
@@ -441,20 +441,20 @@ const Ue = {
       clear: s,
       getValue: r
     }), X(() => {
-      var F;
+      var y;
       a();
-      const i = (F = ie()) == null ? void 0 : F.proxy;
+      const i = (y = ie()) == null ? void 0 : y.proxy;
       i && n && n.registerRef(
         t.field.metadata.field_name,
         i
       );
-    }), (i, F) => (u(), v("div", null, [
+    }), (i, y) => (u(), k("div", null, [
       t.field.resetable ? R(i.$slots, "reset", {
         key: 0,
         actionProps: { reset: a }
       }, () => [
         (u(), m(G(f(n).getFormFactory().wrapperResetComponent), { reset: a }))
-      ]) : O("", !0),
+      ]) : x("", !0),
       R(i.$slots, "default", {
         propsWrapper: { modelValue: o.value, modelValueOnUpdate: b, field: i.field, injectForm: f(n), reset: a, clear: s, getComputedRules: g }
       })
@@ -494,11 +494,11 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(D, {
+    return (n, o) => (u(), m(T, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
-        C(f(P), N(q(t(r))), null, 16)
+        C(f(H), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -537,11 +537,11 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(D, {
+    return (n, o) => (u(), m(T, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
-        C(f(P), Z(t(r), { type: "textarea" }), null, 16)
+        C(f(H), Z(t(r), { type: "textarea" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -552,11 +552,12 @@ const Ue = {
     field: {}
   },
   setup(l) {
-    const e = l, t = x();
+    const e = l, t = v();
     function n(s) {
       const g = s.injectForm.getFormFactory(), b = g.formSettings, i = g.formStyleConfig;
       return {
         // behaviour
+        "onUpdate:modelValue": (y) => s.modelValueOnUpdate(y),
         modelValue: s.modelValue,
         lazyRules: b.rulesBehaviour === "lazy",
         clearable: s.field.clearable,
@@ -589,6 +590,7 @@ const Ue = {
     }
     function r(s) {
       return {
+        "onUpdate:modelValue": (g) => s.modelValueOnUpdate(g),
         modelValue: s.modelValue,
         mask: s.injectForm.getFormFactory().formSettings.dateFormat
       };
@@ -596,11 +598,11 @@ const Ue = {
     function a() {
       t.value && t.value.hide();
     }
-    return (s, g) => (u(), m(D, {
+    return (s, g) => (u(), m(T, {
       field: e.field
     }, {
       default: h(({ propsWrapper: b }) => [
-        C(f(P), N(q(n(b))), {
+        C(f(H), N(q(n(b))), {
           append: h(() => [
             C(f(M), N(q(o())), {
               default: h(() => [
@@ -650,6 +652,7 @@ const Ue = {
       const o = n.injectForm.getFormFactory().formStyleConfig;
       return {
         // behaviour
+        "onUpdate:modelValue": (r) => n.modelValueOnUpdate(r),
         modelValue: n.modelValue,
         // display
         label: n.field.label,
@@ -658,7 +661,7 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(D, {
+    return (n, o) => (u(), m(T, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
@@ -674,7 +677,7 @@ const Ue = {
   },
   setup(l) {
     const e = l;
-    return (t, n) => (u(), v("div", {
+    return (t, n) => (u(), k("div", {
       class: ue(["flex column", e.section.cssClass])
     }, [
       z("div", We, [
@@ -682,7 +685,7 @@ const Ue = {
           key: 0,
           name: e.section.icon,
           size: "sm"
-        }, null, 8, ["name"])) : O("", !0),
+        }, null, 8, ["name"])) : x("", !0),
         z("div", et, ce(e.section.label), 1)
       ]),
       z("div", tt, [
@@ -700,7 +703,7 @@ const Ue = {
   },
   setup(l) {
     const e = l;
-    return (t, n) => (u(), v("div", lt, [
+    return (t, n) => (u(), k("div", lt, [
       C(f(I), {
         label: "Enregistrer",
         loading: e.isLoadingSubmit,
@@ -711,13 +714,13 @@ const Ue = {
         loading: e.isLoadingSubmit,
         label: "Réinitialiser",
         onClick: e.reset
-      }, null, 8, ["loading", "onClick"])) : O("", !0),
+      }, null, 8, ["loading", "onClick"])) : x("", !0),
       e.clear ? (u(), m(f(I), {
         key: 1,
         loading: e.isLoadingSubmit,
         label: "Vider",
         onClick: e.clear
-      }, null, 8, ["loading", "onClick"])) : O("", !0)
+      }, null, 8, ["loading", "onClick"])) : x("", !0)
     ]));
   }
 }), at = /* @__PURE__ */ S({
@@ -731,6 +734,7 @@ const Ue = {
       const o = n.injectForm.getFormFactory(), r = o.formSettings, a = o.formStyleConfig;
       return {
         // behaviour
+        "onUpdate:modelValue": (s) => n.modelValueOnUpdate(s),
         modelValue: n.modelValue,
         lazyRules: r.rulesBehaviour === "lazy",
         clearable: n.field.clearable,
@@ -753,11 +757,11 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(D, {
+    return (n, o) => (u(), m(T, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
-        C(f(P), Z(t(r), { type: "number" }), null, 16)
+        C(f(H), Z(t(r), { type: "number" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -801,11 +805,11 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(D, {
+    return (n, o) => (u(), m(T, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
-        C(f(U), N(q(t(r))), null, 16)
+        C(f(Q), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -830,6 +834,7 @@ const ct = /* @__PURE__ */ st(it, [["render", ut]]), dt = /* @__PURE__ */ S({
       const o = n.injectForm.getFormFactory(), r = o.formSettings, a = o.formStyleConfig;
       return {
         // behaviour
+        "onUpdate:modelValue": (s) => n.modelValueOnUpdate(s),
         modelValue: n.modelValue,
         lazyRules: r.rulesBehaviour === "lazy",
         clearable: n.field.clearable,
@@ -855,11 +860,11 @@ const ct = /* @__PURE__ */ st(it, [["render", ut]]), dt = /* @__PURE__ */ S({
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(D, {
+    return (n, o) => (u(), m(T, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
-        C(f(U), N(q(t(r))), null, 16)
+        C(f(Q), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -901,11 +906,11 @@ const ct = /* @__PURE__ */ st(it, [["render", ut]]), dt = /* @__PURE__ */ S({
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(D, {
+    return (n, o) => (u(), m(T, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
-        C(f(U), N(q(t(r))), null, 16)
+        C(f(Q), N(q(t(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -927,7 +932,7 @@ const ct = /* @__PURE__ */ st(it, [["render", ut]]), dt = /* @__PURE__ */ S({
     };
   }
 });
-class T {
+class p {
   constructor(e, t, n, o, r, a) {
     _(this, "resourceName");
     _(this, "formSettings");
@@ -936,14 +941,14 @@ class T {
     _(this, "sectionComponent");
     _(this, "wrapperResetComponent");
     this.resourceName = e, this.formSettings = {
-      ...T.getDefaultFormSettings(),
-      ...k.getGlobalFormSetting(),
+      ...p.getDefaultFormSettings(),
+      ...V.getGlobalFormSetting(),
       ...t
     }, this.formStyleConfig = {
-      ...T.getDefaultFormStyleSettings(),
-      ...k.getGlobalFormStyleConfig(),
+      ...p.getDefaultFormStyleSettings(),
+      ...V.getGlobalFormStyleConfig(),
       ...n
-    }, this.actionComponent = o ?? k.getGlobalActionComponent() ?? T.getDefaultActionComponent(), this.sectionComponent = r ?? k.getGlobalSectionComponent() ?? T.getDefaultSectionComponent(), this.wrapperResetComponent = a ?? k.getGlobalWrapperResetComponent() ?? T.getDefaultWrapperResetComponent();
+    }, this.actionComponent = o ?? V.getGlobalActionComponent() ?? p.getDefaultActionComponent(), this.sectionComponent = r ?? V.getGlobalSectionComponent() ?? p.getDefaultSectionComponent(), this.wrapperResetComponent = a ?? V.getGlobalWrapperResetComponent() ?? p.getDefaultWrapperResetComponent();
   }
   static getFieldComponentByFormFieldType(e) {
     return {
@@ -995,7 +1000,7 @@ class T {
     return e.form.sections.forEach((o) => {
       const r = [];
       o.fields.forEach((s) => {
-        const g = T.getFieldComponentByFormFieldType(
+        const g = p.getFieldComponentByFormFieldType(
           s.field_type
         ), b = {
           type: s.field_type,
@@ -1044,11 +1049,11 @@ const gt = {
     const t = l;
     let n = null;
     const o = Object.freeze(
-      new T(
+      new p(
         t.resourceName,
         t.globalFormSettings
       )
-    ), r = x({}), a = x(), s = x(!1), g = x(!1);
+    ), r = v({}), a = v(), s = v(!1), g = v(!1);
     async function b() {
       n = await t.getMetadataAndData({
         resourceName: t.resourceName,
@@ -1061,13 +1066,13 @@ const gt = {
     async function i() {
       g.value = !0;
       const d = {};
-      Object.entries(r.value).forEach((p) => {
-        d[p[0]] = p[1].getValue();
+      Object.entries(r.value).forEach((D) => {
+        d[D[0]] = D[1].getValue();
       });
-      const y = await t.submitForm({ formData: d });
-      n && (n.resource_data = y), F(), g.value = !1;
+      const F = await t.submitForm({ formData: d });
+      n && (n.resource_data = F), y(), g.value = !1;
     }
-    function F() {
+    function y() {
       Object.values(r.value).forEach((d) => {
         d.reset();
       });
@@ -1077,16 +1082,16 @@ const gt = {
         d.clear();
       });
     }
-    function E(d, y) {
-      r.value[d] = y;
+    function E(d, F) {
+      r.value[d] = F;
     }
     function w(d) {
       if (n)
         return n.resource_data[d];
     }
     function L(d) {
-      const y = Object.entries(r.value).find((p) => p[0] === d);
-      return y ? y[1].getValue() : null;
+      const F = Object.entries(r.value).find((D) => D[0] === d);
+      return F ? F[1].getValue() : null;
     }
     function j() {
       return o;
@@ -1098,21 +1103,21 @@ const gt = {
       getFormFactory: j
     }), e({}), X(async () => {
       await b();
-    }), (d, y) => s.value && a.value ? (u(), v("div", gt, [
-      (u(!0), v(Q, null, J(a.value.sections, (p, A) => (u(), m(G(f(o).sectionComponent), {
-        key: A,
-        section: p
+    }), (d, F) => s.value && a.value ? (u(), k("div", gt, [
+      (u(!0), k(Y, null, J(a.value.sections, (D, P) => (u(), m(G(f(o).sectionComponent), {
+        key: P,
+        section: D
       }, {
         default: h(() => [
-          (u(!0), v(Q, null, J(p.fields, (B) => (u(), v(Q, {
+          (u(!0), k(Y, null, J(D.fields, (B) => (u(), k(Y, {
             key: B.metadata.field_name
           }, [
-            d.$slots[B.metadata.field_name] ? (u(), m(D, {
+            d.$slots[B.metadata.field_name] ? (u(), m(T, {
               key: 1,
               field: B
             }, {
-              default: h(({ propsWrapper: Y }) => [
-                R(d.$slots, "default", { propsWrapper: Y })
+              default: h(({ propsWrapper: A }) => [
+                R(d.$slots, "default", { propsWrapper: A })
               ]),
               _: 2
             }, 1032, ["field"])) : (u(), m(G(B.component), {
@@ -1127,16 +1132,16 @@ const gt = {
         isLoadingSubmit: g.value,
         submit: i,
         clear: a.value.clearable ? $ : void 0,
-        reset: a.value.resetable ? F : void 0
+        reset: a.value.resetable ? y : void 0
       }, null, 8, ["isLoadingSubmit", "clear", "reset"])),
       d.$slots.more_actions ? R(d.$slots, "more_actions", {
         key: 0,
         propsForm: { generatedForm: a.value }
-      }) : O("", !0)
-    ])) : O("", !0);
+      }) : x("", !0)
+    ])) : x("", !0);
   }
 });
 export {
-  k as Submit64,
+  V as Submit64,
   Ct as Submit64Form
 };
