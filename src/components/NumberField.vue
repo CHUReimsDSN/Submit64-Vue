@@ -20,6 +20,7 @@ function getBindings(
   const styleConfig = formFactory.formStyleConfig;
   return {
     // behaviour
+    "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue as number,
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,

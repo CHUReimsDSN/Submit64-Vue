@@ -18,6 +18,7 @@ function getBindings(
   const styleConfig = propsWrapper.injectForm.getFormFactory().formStyleConfig;
   return {
     // behaviour
+    "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue as boolean,
 
     // display

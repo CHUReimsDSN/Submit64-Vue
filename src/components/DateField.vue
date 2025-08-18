@@ -24,6 +24,7 @@ function getBindings(
   const styleConfig = formFactory.formStyleConfig;
   return {
     // behaviour
+    "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue as string,
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,
@@ -62,6 +63,7 @@ function getBindingsDate(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
 ): QDateProps & TPropsWithClass {
   return {
+    "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue,
     mask: propsWrapper.injectForm.getFormFactory().formSettings.dateFormat,
   };
