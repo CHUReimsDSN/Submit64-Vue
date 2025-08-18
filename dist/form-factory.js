@@ -93,15 +93,15 @@ export class FormFactory {
         formMetadataAndData.form.sections.forEach((sectionMetadata) => {
             const fields = [];
             sectionMetadata.fields.forEach((columnMetadata) => {
-                const component = FormFactory.getFieldComponentByFormFieldType(columnMetadata.form_field_type);
+                const component = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
                 const field = {
-                    type: columnMetadata.form_field_type,
+                    type: columnMetadata.field_type,
                     metadata: columnMetadata,
-                    label: columnMetadata.form_label,
-                    hint: columnMetadata.form_hint,
-                    cssClass: columnMetadata.form_css_class,
-                    selectOptions: columnMetadata.form_select_options,
-                    rules: columnMetadata.form_rules,
+                    label: columnMetadata.label,
+                    hint: columnMetadata.hint,
+                    cssClass: columnMetadata.css_class,
+                    selectOptions: columnMetadata.select_options,
+                    rules: columnMetadata.rules,
                     clearable: columnMetadata.clearable,
                     resetable: columnMetadata.resetable,
                     component,
@@ -110,12 +110,15 @@ export class FormFactory {
             });
             const section = {
                 label: sectionMetadata.label,
+                icon: sectionMetadata.icon,
+                cssClass: sectionMetadata.css_class,
                 fields,
             };
             sections.push(section);
         });
         const form = {
             sections,
+            cssClass: formMetadataAndData.form.css_class,
             resetable: formMetadataAndData.form.resetable,
             clearable: formMetadataAndData.form.clearable,
             hasGlobalCustomValidation: formMetadataAndData.form.has_global_custom_validation ?? false,

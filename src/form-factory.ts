@@ -120,16 +120,16 @@ export class FormFactory {
       const fields: TFormFieldDef[] = [];
       sectionMetadata.fields.forEach((columnMetadata) => {
         const component = FormFactory.getFieldComponentByFormFieldType(
-          columnMetadata.form_field_type
+          columnMetadata.field_type
         );
         const field: TFormFieldDef = {
-          type: columnMetadata.form_field_type,
+          type: columnMetadata.field_type,
           metadata: columnMetadata,
-          label: columnMetadata.form_label,
-          hint: columnMetadata.form_hint,
-          cssClass: columnMetadata.form_css_class,
-          selectOptions: columnMetadata.form_select_options,
-          rules: columnMetadata.form_rules,
+          label: columnMetadata.label,
+          hint: columnMetadata.hint,
+          cssClass: columnMetadata.css_class,
+          selectOptions: columnMetadata.select_options,
+          rules: columnMetadata.rules,
           clearable: columnMetadata.clearable,
           resetable: columnMetadata.resetable,
           component,
@@ -138,12 +138,15 @@ export class FormFactory {
       });
       const section: TFormSection = {
         label: sectionMetadata.label,
+        icon: sectionMetadata.icon,
+        cssClass: sectionMetadata.css_class,
         fields,
       };
       sections.push(section);
     });
     const form: TFormDef = {
       sections,
+      cssClass: formMetadataAndData.form.css_class,
       resetable: formMetadataAndData.form.resetable,
       clearable: formMetadataAndData.form.clearable,
       hasGlobalCustomValidation:

@@ -17,6 +17,7 @@ export type TResourceFormMetadata = {
   has_global_custom_validation?: boolean;
   resetable?: boolean;
   clearable?: boolean;
+  css_class?: string;
 };
 export type TResourceFormSectionMetadata = {
   fields: TResourceFieldMetadata[];
@@ -26,16 +27,16 @@ export type TResourceFormSectionMetadata = {
 };
 export type TResourceFieldMetadata = {
   field_name: string;
-  form_field_type: TFormFieldDef["type"];
-  form_label: string;
-  form_hint?: string;
-  form_rules?: TSubmit64Rule[];
-  form_select_options?: {
+  field_type: TFormFieldDef["type"];
+  label: string;
+  hint?: string;
+  rules?: TSubmit64Rule[];
+  select_options?: {
     label: string;
     value: unknown;
     disabled?: boolean;
   }[];
-  form_css_class?: string;
+  css_class?: string;
   resetable?: boolean;
   clearable?: boolean;
 };
@@ -63,6 +64,7 @@ export type TFormStyleConfig = {
 export type TFormDef = {
   sections: TFormSection[];
   hasGlobalCustomValidation: boolean;
+  cssClass?: string;
   resetable?: boolean;
   clearable?: boolean;
 };

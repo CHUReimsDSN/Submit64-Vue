@@ -76,13 +76,13 @@ function be(l, e) {
         n.push("allowBlank");
         break;
       case "positiveNumber":
-        t.push(De());
+        t.push(pe());
         break;
       case "lessThanOrEqualNumber":
         const s = o;
         if (s.less_than) {
           t.push(
-            pe(
+            De(
               () => s.less_than
             )
           );
@@ -190,8 +190,8 @@ function be(l, e) {
         );
         break;
       case "equalToStringLength":
-        const D = o;
-        t.push(Ge(() => D.equal_to));
+        const p = o;
+        t.push(Ge(() => p.equal_to));
         break;
       case "otherThanString":
         const A = o;
@@ -292,10 +292,10 @@ function Fe(l) {
       return n;
   }), !0);
 }
-function De() {
+function pe() {
   return (l) => Number(l) > 0 || "Val. positive uniquement";
 }
-function pe(l) {
+function De(l) {
   return (e) => {
     const t = l();
     return Number(e) <= t || `Inf. ou égal à ${t}`;
@@ -400,7 +400,7 @@ function V(l) {
 }
 const Ue = {
   computeServerRules: be
-}, p = /* @__PURE__ */ S({
+}, D = /* @__PURE__ */ S({
   __name: "FieldWrapper",
   props: {
     field: {}
@@ -494,7 +494,7 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(p, {
+    return (n, o) => (u(), m(D, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
@@ -537,7 +537,7 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(p, {
+    return (n, o) => (u(), m(D, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
@@ -596,7 +596,7 @@ const Ue = {
     function a() {
       t.value && t.value.hide();
     }
-    return (s, g) => (u(), m(p, {
+    return (s, g) => (u(), m(D, {
       field: e.field
     }, {
       default: h(({ propsWrapper: b }) => [
@@ -658,7 +658,7 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(p, {
+    return (n, o) => (u(), m(D, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
@@ -753,7 +753,7 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(p, {
+    return (n, o) => (u(), m(D, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
@@ -801,7 +801,7 @@ const Ue = {
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(p, {
+    return (n, o) => (u(), m(D, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
@@ -855,7 +855,7 @@ const ct = /* @__PURE__ */ st(it, [["render", ut]]), dt = /* @__PURE__ */ S({
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(p, {
+    return (n, o) => (u(), m(D, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
@@ -901,7 +901,7 @@ const ct = /* @__PURE__ */ st(it, [["render", ut]]), dt = /* @__PURE__ */ S({
         class: n.field.cssClass
       };
     }
-    return (n, o) => (u(), m(p, {
+    return (n, o) => (u(), m(D, {
       field: e.field
     }, {
       default: h(({ propsWrapper: r }) => [
@@ -996,15 +996,15 @@ class T {
       const r = [];
       o.fields.forEach((s) => {
         const g = T.getFieldComponentByFormFieldType(
-          s.form_field_type
+          s.field_type
         ), b = {
-          type: s.form_field_type,
+          type: s.field_type,
           metadata: s,
-          label: s.form_label,
-          hint: s.form_hint,
-          cssClass: s.form_css_class,
-          selectOptions: s.form_select_options,
-          rules: s.form_rules,
+          label: s.label,
+          hint: s.hint,
+          cssClass: s.css_class,
+          selectOptions: s.select_options,
+          rules: s.rules,
           clearable: s.clearable,
           resetable: s.resetable,
           component: g
@@ -1013,11 +1013,14 @@ class T {
       });
       const a = {
         label: o.label,
+        icon: o.icon,
+        cssClass: o.css_class,
         fields: r
       };
       t.push(a);
     }), {
       sections: t,
+      cssClass: e.form.css_class,
       resetable: e.form.resetable,
       clearable: e.form.clearable,
       hasGlobalCustomValidation: e.form.has_global_custom_validation ?? !1
@@ -1058,8 +1061,8 @@ const gt = {
     async function i() {
       g.value = !0;
       const d = {};
-      Object.entries(r.value).forEach((D) => {
-        d[D[0]] = D[1].getValue();
+      Object.entries(r.value).forEach((p) => {
+        d[p[0]] = p[1].getValue();
       });
       const y = await t.submitForm({ formData: d });
       n && (n.resource_data = y), F(), g.value = !1;
@@ -1082,7 +1085,7 @@ const gt = {
         return n.resource_data[d];
     }
     function L(d) {
-      const y = Object.entries(r.value).find((D) => D[0] === d);
+      const y = Object.entries(r.value).find((p) => p[0] === d);
       return y ? y[1].getValue() : null;
     }
     function j() {
@@ -1096,15 +1099,15 @@ const gt = {
     }), e({}), X(async () => {
       await b();
     }), (d, y) => s.value && a.value ? (u(), v("div", gt, [
-      (u(!0), v(Q, null, J(a.value.sections, (D, A) => (u(), m(G(f(o).sectionComponent), {
+      (u(!0), v(Q, null, J(a.value.sections, (p, A) => (u(), m(G(f(o).sectionComponent), {
         key: A,
-        section: D
+        section: p
       }, {
         default: h(() => [
-          (u(!0), v(Q, null, J(D.fields, (B) => (u(), v(Q, {
+          (u(!0), v(Q, null, J(p.fields, (B) => (u(), v(Q, {
             key: B.metadata.field_name
           }, [
-            d.$slots[B.metadata.field_name] ? (u(), m(p, {
+            d.$slots[B.metadata.field_name] ? (u(), m(D, {
               key: 1,
               field: B
             }, {
