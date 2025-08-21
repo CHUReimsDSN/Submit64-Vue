@@ -147,6 +147,8 @@ function computeServerRules(metadataRules, formFactorySettings, form, fieldType)
                 break;
             case "greaterThanDate":
                 const ruleGreaterThanDate = rule;
+                console.log(ruleGreaterThanDate.greater_than);
+                console.log(computedRuleDateFormatToFormFactoryFormat(ruleGreaterThanDate.greater_than));
                 rules.push(greaterThanDate(() => computedRuleDateFormatToFormFactoryFormat(ruleGreaterThanDate.greater_than), formFactorySettings.dateFormat));
                 break;
             case "equalToDate":
