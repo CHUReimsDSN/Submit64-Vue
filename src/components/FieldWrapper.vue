@@ -85,6 +85,7 @@ function getComputedRules() {
   return Submit64Rules.computeServerRules(
     propsComponent.field.rules ?? [],
     injectForm.getFormFactoryInstance().formSettings,
+    injectForm.getForm(),
     propsComponent.field.type
   );
 }

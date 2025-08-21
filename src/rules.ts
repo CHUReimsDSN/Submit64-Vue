@@ -98,11 +98,6 @@ function computeServerRules(
   const computedRuleDateFormatToFormFactoryFormat = (
     ruleDate: string
   ): string => {
-    console.log(ruleDate)
-    console.log(form.backendDateFormat)
-    console.log(formFactorySettings.dateFormat)
-    console.log(date.extractDate(ruleDate, form.backendDateFormat))
-    
     return String(
       date.formatDate(
         date.extractDate(ruleDate, form.backendDateFormat),

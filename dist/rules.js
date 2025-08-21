@@ -1,10 +1,6 @@
 import { date } from "quasar";
 function computeServerRules(metadataRules, formFactorySettings, form, fieldType) {
     const computedRuleDateFormatToFormFactoryFormat = (ruleDate) => {
-        console.log(ruleDate);
-        console.log(form.backendDateFormat);
-        console.log(formFactorySettings.dateFormat);
-        console.log(date.extractDate(ruleDate, form.backendDateFormat));
         return String(date.formatDate(date.extractDate(ruleDate, form.backendDateFormat), formFactorySettings.dateFormat));
     };
     const rules = [];

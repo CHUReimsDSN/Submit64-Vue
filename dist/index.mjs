@@ -138,12 +138,12 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
 C(U, "_instance", new U());
 let B = U;
 function ke(n, e, l, t) {
-  const r = (s) => (console.log(s), console.log(l.backendDateFormat), console.log(e.dateFormat), console.log(i.extractDate(s, l.backendDateFormat)), String(
+  const r = (s) => String(
     i.formatDate(
       i.extractDate(s, l.backendDateFormat),
       e.dateFormat
     )
-  )), a = [], o = [];
+  ), a = [], o = [];
   switch (t) {
     case "date":
       a.push(nt(e.dateFormat));
@@ -578,6 +578,7 @@ const lt = {
       return lt.computeServerRules(
         l.field.rules ?? [],
         t.getFormFactoryInstance().formSettings,
+        t.getForm(),
         l.field.type
       );
     }
