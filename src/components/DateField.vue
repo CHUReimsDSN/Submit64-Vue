@@ -89,7 +89,7 @@ function setupTimestamp(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-input v-bind="getBindings(propsWrapper)" v-on:vue:mounted="setupTimestamp(propsWrapper)">
+      <q-input v-bind="getBindings(propsWrapper)" v-on:vue:mounted="() => setupTimestamp(propsWrapper)">
         <template v-slot:append>
           <q-icon v-bind="getBindingsIcon(propsWrapper)">
             <q-popup-proxy
