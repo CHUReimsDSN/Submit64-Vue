@@ -497,7 +497,7 @@ function Me(n, e) {
 }
 function We(n, e) {
   const l = n();
-  return (t) => !Number.isNaN(i.extractDate(String(t), e).getTime()) && i.extractDate(String(t), e) > i.extractDate(l, e) || `Sup. à ${i.formatDate(l, e)}, current is ${i.formatDate(String(t), e)}`;
+  return console.log(n()), console.log(e), (t) => !Number.isNaN(i.extractDate(String(t), e).getTime()) && i.extractDate(String(t), e) > i.extractDate(l, e) || `Sup. à ${i.formatDate(l, e)}, current is ${i.formatDate(String(t), e)}`;
 }
 function et(n, e, l) {
   const t = n();

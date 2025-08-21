@@ -332,6 +332,8 @@ function greaterThanOrEqualDate(greaterThan, format) {
 }
 function greaterThanDate(greaterThan, format) {
     const greaterThanValue = greaterThan();
+    console.log(greaterThan());
+    console.log(format);
     return (val) => (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
         date.extractDate(String(val), format) >
             date.extractDate(greaterThanValue, format)) ||
