@@ -98,6 +98,7 @@ function computeServerRules(
   const computedRuleDateFormatToFormFactoryFormat = (
     ruleDate: string
   ): string => {
+    console.log(ruleDate)
     return String(
       date.formatDate(
         date.extractDate(ruleDate, form.backendDateFormat),
@@ -309,10 +310,6 @@ function computeServerRules(
         break;
       case "greaterThanDate":
         const ruleGreaterThanDate = rule as TSubmit64RuleGreaterThanDate;
-        console.log(ruleGreaterThanDate.greater_than!)
-        console.log(computedRuleDateFormatToFormFactoryFormat(
-                ruleGreaterThanDate.greater_than!
-              ))
         rules.push(
           greaterThanDate(
             () =>

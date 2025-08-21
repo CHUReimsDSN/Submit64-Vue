@@ -1,8 +1,8 @@
 var re = Object.defineProperty;
 var se = (n, e, l) => e in n ? re(n, e, { enumerable: !0, configurable: !0, writable: !0, value: l }) : n[e] = l;
 var C = (n, e, l) => se(n, typeof e != "symbol" ? e + "" : e, l);
-import { defineComponent as y, createElementBlock as v, openBlock as c, createVNode as S, createBlock as h, createCommentVNode as x, unref as f, normalizeClass as Z, createElementVNode as O, toDisplayString as ie, renderSlot as R, resolveComponent as ue, inject as ce, ref as V, onMounted as M, getCurrentInstance as de, resolveDynamicComponent as G, withCtx as _, normalizeProps as p, guardReactiveProps as q, mergeProps as W, provide as fe, Fragment as A, renderList as X } from "vue";
-import { QBtn as z, QIcon as ee, date as i, QInput as H, QPopupProxy as me, QDate as ge, QCheckbox as he, QSelect as K, uid as be } from "quasar";
+import { defineComponent as y, createElementBlock as v, openBlock as c, createVNode as S, createBlock as h, createCommentVNode as x, unref as f, normalizeClass as X, createElementVNode as O, toDisplayString as ie, renderSlot as R, resolveComponent as ue, inject as ce, ref as V, onMounted as Z, getCurrentInstance as de, resolveDynamicComponent as G, withCtx as _, normalizeProps as p, guardReactiveProps as q, mergeProps as M, provide as fe, Fragment as Q, renderList as J } from "vue";
+import { QBtn as z, QIcon as W, date as i, QInput as H, QPopupProxy as me, QDate as ge, QCheckbox as he, QSelect as A, uid as be } from "quasar";
 const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__ */ y({
   __name: "DefaultActionComponent",
   props: {
@@ -41,10 +41,10 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
   setup(n) {
     const e = n;
     return (l, t) => (c(), v("div", {
-      class: Z(["flex column", e.section.cssClass])
+      class: X(["flex column", e.section.cssClass])
     }, [
       O("div", Se, [
-        e.section.icon ? (c(), h(f(ee), {
+        e.section.icon ? (c(), h(f(W), {
           key: 0,
           name: e.section.icon,
           size: "sm"
@@ -138,12 +138,12 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
 C(U, "_instance", new U());
 let B = U;
 function ke(n, e, l, t) {
-  const r = (s) => String(
+  const r = (s) => (console.log(s), String(
     i.formatDate(
       i.extractDate(s, l.backendDateFormat),
       e.dateFormat
     )
-  ), a = [], o = [];
+  )), a = [], o = [];
   switch (t) {
     case "date":
       a.push(nt(e.dateFormat));
@@ -161,7 +161,7 @@ function ke(n, e, l, t) {
         break;
       case "inclusion":
         const u = s;
-        a.push(te(u.including));
+        a.push(ee(u.including));
         break;
       case "exclusion":
         const b = s;
@@ -309,35 +309,33 @@ function ke(n, e, l, t) {
         );
         break;
       case "lessThanDate":
-        const ne = s;
+        const te = s;
         a.push(
           Ze(
             () => r(
-              ne.less_than
+              te.less_than
             ),
             e.dateFormat
           )
         );
         break;
       case "greaterThanOrEqualDate":
-        const le = s;
+        const ne = s;
         a.push(
           Me(
             () => r(
-              le.greater_than
+              ne.greater_than
             ),
             e.dateFormat
           )
         );
         break;
       case "greaterThanDate":
-        const Q = s;
-        console.log(Q.greater_than), console.log(r(
-          Q.greater_than
-        )), a.push(
+        const le = s;
+        a.push(
           We(
             () => r(
-              Q.greater_than
+              le.greater_than
             ),
             e.dateFormat
           )
@@ -378,12 +376,12 @@ function ke(n, e, l, t) {
 function pe() {
   return (n) => !!n || "Ce champ est requis";
 }
-function te(n) {
+function ee(n) {
   return (e) => n.includes(String(e)) || `Doit être contenu dans ${n.toString()}`;
 }
 function qe(n) {
   return (e) => !n.includes(
-    String(e) || `Ne doit pas être contenu dans ${te.toString()}`
+    String(e) || `Ne doit pas être contenu dans ${ee.toString()}`
   );
 }
 function Ne() {
@@ -590,7 +588,7 @@ const lt = {
       reset: o,
       clear: u,
       getValue: a
-    }), M(() => {
+    }), Z(() => {
       var T;
       o();
       const g = (T = de()) == null ? void 0 : T.proxy;
@@ -691,7 +689,7 @@ const lt = {
       field: e.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(f(H), W(l(a), { type: "textarea" }), null, 16)
+        S(f(H), M(l(a), { type: "textarea" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -754,7 +752,7 @@ const lt = {
       default: _(({ propsWrapper: b }) => [
         S(f(H), p(q(t(b))), {
           append: _(() => [
-            S(f(ee), p(q(r())), {
+            S(f(W), p(q(r())), {
               default: _(() => [
                 S(f(me), {
                   ref_key: "popupProxyRef",
@@ -858,7 +856,7 @@ const lt = {
       field: e.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(f(H), W(l(a), { type: "number" }), null, 16)
+        S(f(H), M(l(a), { type: "number" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -906,7 +904,7 @@ const lt = {
       field: e.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(f(K), p(q(l(a))), null, 16)
+        S(f(A), p(q(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -961,7 +959,7 @@ const gt = /* @__PURE__ */ dt(ft, [["render", mt]]), ht = /* @__PURE__ */ y({
       field: e.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(f(K), p(q(l(a))), null, 16)
+        S(f(A), p(q(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -1007,13 +1005,13 @@ const gt = /* @__PURE__ */ dt(ft, [["render", mt]]), ht = /* @__PURE__ */ y({
       field: e.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(f(K), p(q(l(a))), null, 16)
+        S(f(A), p(q(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
 });
-class J {
+class K {
   constructor(e, l, t, r, a, o) {
     C(this, "resourceName");
     C(this, "formSettings");
@@ -1047,7 +1045,7 @@ class J {
     return e.form.sections.forEach((a) => {
       const o = [];
       a.fields.forEach((u) => {
-        const b = J.getFieldComponentByFormFieldType(
+        const b = K.getFieldComponentByFormFieldType(
           u.field_type
         ), m = {
           type: u.field_type,
@@ -1102,7 +1100,7 @@ const Ct = {
     const l = n;
     let t = null;
     const r = Object.freeze(
-      new J(
+      new K(
         l.resourceName,
         l.globalFormSettings
       )
@@ -1158,18 +1156,18 @@ const Ct = {
       getFieldDataByFieldName: I,
       getFormFactoryInstance: L,
       getForm: j
-    }), e({}), M(async () => {
+    }), e({}), Z(async () => {
       await m();
     }), (d, F) => u.value && s.value ? (c(), v("div", Ct, [
       O("div", {
-        class: Z(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
+        class: X(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (c(!0), v(A, null, X(s.value.sections, (D, P) => (c(), h(G(f(r).sectionComponent), {
+        (c(!0), v(Q, null, J(s.value.sections, (D, P) => (c(), h(G(f(r).sectionComponent), {
           key: P,
           section: D
         }, {
           default: _(() => [
-            (c(!0), v(A, null, X(D.fields, (N) => (c(), v(A, {
+            (c(!0), v(Q, null, J(D.fields, (N) => (c(), v(Q, {
               key: N.metadata.field_name
             }, [
               d.$slots[N.metadata.field_name] ? (c(), h(k, {

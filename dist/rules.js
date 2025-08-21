@@ -1,6 +1,7 @@
 import { date } from "quasar";
 function computeServerRules(metadataRules, formFactorySettings, form, fieldType) {
     const computedRuleDateFormatToFormFactoryFormat = (ruleDate) => {
+        console.log(ruleDate);
         return String(date.formatDate(date.extractDate(ruleDate, form.backendDateFormat), formFactorySettings.dateFormat));
     };
     const rules = [];
@@ -147,8 +148,6 @@ function computeServerRules(metadataRules, formFactorySettings, form, fieldType)
                 break;
             case "greaterThanDate":
                 const ruleGreaterThanDate = rule;
-                console.log(ruleGreaterThanDate.greater_than);
-                console.log(computedRuleDateFormatToFormFactoryFormat(ruleGreaterThanDate.greater_than));
                 rules.push(greaterThanDate(() => computedRuleDateFormatToFormFactoryFormat(ruleGreaterThanDate.greater_than), formFactorySettings.dateFormat));
                 break;
             case "equalToDate":
