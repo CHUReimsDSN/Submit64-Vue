@@ -77,12 +77,14 @@ function closePopUp() {
   popupProxyRef.value.hide();
 }
 function setupTimestamp(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
+  console.log(propsWrapper.modelValue)
   propsWrapper.modelValueOnUpdate(
     date.formatDate(
       new Date(String(propsWrapper.modelValue)),
       Submit64.getGlobalFormSetting().dateFormat
     )
   );
+  console.log(propsWrapper.modelValue)
 }
 </script>
 
