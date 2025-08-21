@@ -90,32 +90,31 @@ function setupTimestamp(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <template @vue:mounted="() => setupTimestamp(propsWrapper)">
-        <q-input v-bind="getBindings(propsWrapper)">
-          <template v-slot:append>
-            <q-icon v-bind="getBindingsIcon(propsWrapper)">
-              <q-popup-proxy
-                ref="popupProxyRef"
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
-                <q-date v-bind="getBindingsDate(propsWrapper)">
-                  <div class="row items-center justify-end">
-                    <q-btn
-                      @click="closePopUp"
-                      label="Fermer"
-                      color="secondary"
-                      flat
-                      no-caps
-                    />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-      </template>
+      {{ console.log('osdfosdof') }}
+      <q-input v-bind="getBindings(propsWrapper)">
+        <template v-slot:append>
+          <q-icon v-bind="getBindingsIcon(propsWrapper)">
+            <q-popup-proxy
+              ref="popupProxyRef"
+              cover
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-date v-bind="getBindingsDate(propsWrapper)">
+                <div class="row items-center justify-end">
+                  <q-btn
+                    @click="closePopUp"
+                    label="Fermer"
+                    color="secondary"
+                    flat
+                    no-caps
+                  />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
     </template>
   </FieldWrapper>
 </template>
