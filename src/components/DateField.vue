@@ -77,21 +77,19 @@ function closePopUp() {
   popupProxyRef.value.hide();
 }
 function setupTimestamp(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  console.log(propsWrapper.modelValue)
   propsWrapper.modelValueOnUpdate(
     date.formatDate(
       new Date(String(propsWrapper.modelValue)),
       Submit64.getGlobalFormSetting().dateFormat
     )
   );
-  console.log(propsWrapper.modelValue)
 }
 </script>
 
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-input v-bind="getBindings(propsWrapper)" @vue:mounted="setupTimestamp">
+      <q-input v-bind="getBindings(propsWrapper)" v-on:vue:mounted="setupTimestamp(propsWrapper)">
         <template v-slot:append>
           <q-icon v-bind="getBindingsIcon(propsWrapper)">
             <q-popup-proxy
