@@ -6,7 +6,7 @@ const propsComponent = defineProps<TSubmit64ActionFormProps>();
 </script>
 
 <template>
-  <div class="flex row items-center no-wrap">
+  <div class="flex row items-center no-wrap q-pt-sm">
     <q-btn
       label="Enregistrer"
       :loading="propsComponent.isLoadingSubmit"

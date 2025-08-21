@@ -1,7 +1,7 @@
 var ae = Object.defineProperty;
 var re = (n, t, l) => t in n ? ae(n, t, { enumerable: !0, configurable: !0, writable: !0, value: l }) : n[t] = l;
 var _ = (n, t, l) => re(n, typeof t != "symbol" ? t + "" : t, l);
-import { defineComponent as S, inject as se, ref as v, onMounted as X, getCurrentInstance as ie, createElementBlock as k, openBlock as c, renderSlot as R, createCommentVNode as O, createBlock as g, resolveDynamicComponent as G, unref as m, withCtx as b, createVNode as C, normalizeProps as q, guardReactiveProps as N, mergeProps as Z, createElementVNode as z, normalizeClass as M, toDisplayString as ue, resolveComponent as ce, provide as de, Fragment as Y, renderList as K } from "vue";
+import { defineComponent as S, inject as se, ref as v, onMounted as X, getCurrentInstance as ie, createElementBlock as k, openBlock as c, renderSlot as $, createCommentVNode as O, createBlock as g, resolveDynamicComponent as z, unref as m, withCtx as b, createVNode as C, normalizeProps as q, guardReactiveProps as N, mergeProps as Z, createElementVNode as R, normalizeClass as M, toDisplayString as ue, resolveComponent as ce, provide as de, Fragment as Y, renderList as K } from "vue";
 import { date as d, QInput as H, QIcon as W, QPopupProxy as fe, QDate as me, QBtn as I, QCheckbox as ge, QSelect as Q, uid as he } from "quasar";
 const U = class U {
   constructor() {
@@ -122,9 +122,9 @@ function be(n, t, l) {
           break;
         }
       case "otherThanNumber":
-        const $ = a;
-        if ($.other_than) {
-          e.push(Ve(() => $.other_than));
+        const E = a;
+        if (E.other_than) {
+          e.push(Ve(() => E.other_than));
           break;
         }
       case "numberIntegerOnly":
@@ -140,39 +140,39 @@ function be(n, t, l) {
         e.push(xe());
         break;
       case "lessThanOrEqualStringLength":
-        const E = a;
-        if (E.less_than) {
+        const w = a;
+        if (w.less_than) {
           e.push(
             Re(
-              () => E.less_than
+              () => w.less_than
             )
           );
           break;
         }
       case "lessThanStringLength":
-        const w = a;
-        if (w.less_than) {
+        const L = a;
+        if (L.less_than) {
           e.push(
-            $e(() => w.less_than)
+            $e(() => L.less_than)
           );
           break;
         }
       case "greaterThanOrEqualStringLength":
-        const L = a;
-        if (L.greater_than) {
+        const j = a;
+        if (j.greater_than) {
           e.push(
             Ee(
-              () => L.greater_than
+              () => j.greater_than
             )
           );
           break;
         }
       case "greaterThanStringLength":
-        const j = a;
-        if (j.greater_than) {
+        const G = a;
+        if (G.greater_than) {
           e.push(
             we(
-              () => j.greater_than
+              () => G.greater_than
             )
           );
           break;
@@ -453,13 +453,13 @@ const Ke = {
         i
       );
     }), (i, y) => (c(), k("div", null, [
-      l.field.resetable ? R(i.$slots, "reset", {
+      l.field.resetable ? $(i.$slots, "reset", {
         key: 0,
         actionProps: { reset: o }
       }, () => [
-        (c(), g(G(m(e).getFormFactory().wrapperResetComponent), { reset: o }))
+        (c(), g(z(m(e).getFormFactory().wrapperResetComponent), { reset: o }))
       ]) : O("", !0),
-      R(i.$slots, "default", {
+      $(i.$slots, "default", {
         propsWrapper: { modelValue: r.value, modelValueOnUpdate: h, field: i.field, injectForm: m(e), reset: o, clear: s, getComputedRules: u }
       })
     ]));
@@ -620,7 +620,7 @@ const Ke = {
                   default: b(() => [
                     C(m(me), q(N(a(h))), {
                       default: b(() => [
-                        z("div", Ze, [
+                        R("div", Ze, [
                           C(m(I), {
                             onClick: o,
                             label: "Fermer",
@@ -684,20 +684,20 @@ const Ke = {
     return (l, e) => (c(), k("div", {
       class: M(["flex column", t.section.cssClass])
     }, [
-      z("div", et, [
+      R("div", et, [
         t.section.icon ? (c(), g(m(W), {
           key: 0,
           name: t.section.icon,
           size: "sm"
         }, null, 8, ["name"])) : O("", !0),
-        z("div", tt, ue(t.section.label), 1)
+        R("div", tt, ue(t.section.label), 1)
       ]),
-      z("div", nt, [
-        R(l.$slots, "default")
+      R("div", nt, [
+        $(l.$slots, "default")
       ])
     ], 2));
   }
-}), ot = { class: "flex row items-center no-wrap" }, at = /* @__PURE__ */ S({
+}), ot = { class: "flex row items-center no-wrap q-pt-sm" }, at = /* @__PURE__ */ S({
   __name: "DefaultActionComponent",
   props: {
     isLoadingSubmit: { type: Boolean },
@@ -1040,7 +1040,10 @@ class p {
 function ht(n) {
   return Symbol(n);
 }
-const St = /* @__PURE__ */ S({
+const bt = {
+  key: 0,
+  class: "flex column"
+}, yt = /* @__PURE__ */ S({
   __name: "Submit64Form",
   props: {
     resourceName: {},
@@ -1082,74 +1085,75 @@ const St = /* @__PURE__ */ S({
         f.reset();
       });
     }
-    function $() {
+    function E() {
       Object.values(o.value).forEach((f) => {
         f.clear();
       });
     }
-    function E(f, F) {
+    function w(f, F) {
       o.value[f] = F;
     }
-    function w(f) {
+    function L(f) {
       if (e)
         return e.resource_data[f];
     }
-    function L(f) {
+    function j(f) {
       const F = Object.entries(o.value).find((D) => D[0] === f);
       return F ? F[1].getValue() : null;
     }
-    function j() {
+    function G() {
       return r;
     }
     return de(a, {
-      registerRef: E,
-      getDefaultDataByFieldName: w,
-      getFieldDataByFieldName: L,
-      getFormFactory: j
+      registerRef: w,
+      getDefaultDataByFieldName: L,
+      getFieldDataByFieldName: j,
+      getFormFactory: G
     }), t({}), X(async () => {
       await i();
-    }), (f, F) => u.value && s.value ? (c(), k("div", {
-      key: 0,
-      class: M(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
-    }, [
-      (c(!0), k(Y, null, K(s.value.sections, (D, P) => (c(), g(G(m(r).sectionComponent), {
-        key: P,
-        section: D
-      }, {
-        default: b(() => [
-          (c(!0), k(Y, null, K(D.fields, (B) => (c(), k(Y, {
-            key: B.metadata.field_name
-          }, [
-            f.$slots[B.metadata.field_name] ? (c(), g(T, {
-              key: 1,
-              field: B
-            }, {
-              default: b(({ propsWrapper: A }) => [
-                R(f.$slots, "default", { propsWrapper: A })
-              ]),
-              _: 2
-            }, 1032, ["field"])) : (c(), g(G(B.component), {
-              key: 0,
-              field: B
-            }, null, 8, ["field"]))
-          ], 64))), 128))
-        ]),
-        _: 2
-      }, 1032, ["section"]))), 128)),
-      (c(), g(G(m(r).actionComponent), {
+    }), (f, F) => u.value && s.value ? (c(), k("div", bt, [
+      R("div", {
+        class: M(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
+      }, [
+        (c(!0), k(Y, null, K(s.value.sections, (D, P) => (c(), g(z(m(r).sectionComponent), {
+          key: P,
+          section: D
+        }, {
+          default: b(() => [
+            (c(!0), k(Y, null, K(D.fields, (B) => (c(), k(Y, {
+              key: B.metadata.field_name
+            }, [
+              f.$slots[B.metadata.field_name] ? (c(), g(T, {
+                key: 1,
+                field: B
+              }, {
+                default: b(({ propsWrapper: A }) => [
+                  $(f.$slots, "default", { propsWrapper: A })
+                ]),
+                _: 2
+              }, 1032, ["field"])) : (c(), g(z(B.component), {
+                key: 0,
+                field: B
+              }, null, 8, ["field"]))
+            ], 64))), 128))
+          ]),
+          _: 2
+        }, 1032, ["section"]))), 128))
+      ], 2),
+      (c(), g(z(m(r).actionComponent), {
         isLoadingSubmit: h.value,
         submit: y,
-        clear: s.value.clearable ? $ : void 0,
+        clear: s.value.clearable ? E : void 0,
         reset: s.value.resetable ? x : void 0
       }, null, 8, ["isLoadingSubmit", "clear", "reset"])),
-      f.$slots.more_actions ? R(f.$slots, "more_actions", {
+      f.$slots.more_actions ? $(f.$slots, "more_actions", {
         key: 0,
         propsForm: { generatedForm: s.value }
       }) : O("", !0)
-    ], 2)) : O("", !0);
+    ])) : O("", !0);
   }
 });
 export {
   V as Submit64,
-  St as Submit64Form
+  yt as Submit64Form
 };

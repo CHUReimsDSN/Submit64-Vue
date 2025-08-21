@@ -106,36 +106,34 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div
-    v-if="setupIsDone && generatedForm"
-    :class="generatedForm.cssClass ?? 'flex column q-pa-sm q-gutter-sm'"
-  >
-    <Component
-      v-for="(section, indexSection) in generatedForm.sections"
-      :key="indexSection"
-      :is="formFactory.sectionComponent"
-      :section="section"
-    >
-      <template
-        v-for="field in section.fields"
-        :key="field.metadata.field_name"
+  <div v-if="setupIsDone && generatedForm" class="flex column">
+    <div :class="generatedForm.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
+      <Component
+        v-for="(section, indexSection) in generatedForm.sections"
+        :key="indexSection"
+        :is="formFactory.sectionComponent"
+        :section="section"
       >
-        <Component
-          v-if="!$slots[field.metadata.field_name]"
-          :is="field.component"
-          :field="field"
-        />
+        <template
+          v-for="field in section.fields"
+          :key="field.metadata.field_name"
+        >
+          <Component
+            v-if="!$slots[field.metadata.field_name]"
+            :is="field.component"
+            :field="field"
+          />
 
-        <template v-else>
-          <FieldWrapper :field="field">
-            <template v-slot:default="{ propsWrapper }">
-              <slot :propsWrapper="propsWrapper"> </slot>
-            </template>
-          </FieldWrapper>
+          <template v-else>
+            <FieldWrapper :field="field">
+              <template v-slot:default="{ propsWrapper }">
+                <slot :propsWrapper="propsWrapper"> </slot>
+              </template>
+            </FieldWrapper>
+          </template>
         </template>
-      </template>
-    </Component>
-
+      </Component>
+    </div>
     <component
       :is="formFactory.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
