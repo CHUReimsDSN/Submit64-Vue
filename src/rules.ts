@@ -3,7 +3,7 @@ import { TFormFieldDef, TFormSettings } from "./models";
 
 export type TSubmit64Rule = {
   type: // general
-  | "required"
+    | "required"
     | "absence"
     | "acceptance"
     | "inclusion"
@@ -120,8 +120,7 @@ function computeServerRules(
         const ruleCastExclusion = rule as TSubmit64RuleExclusion;
         rules.push(excluding(ruleCastExclusion.excluding));
         break;
-      case "backend": // TODO
-        rules.push(required());
+      case "backend":
         break;
       case "allowNull":
         upperRules.push("allowNull");

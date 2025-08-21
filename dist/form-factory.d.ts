@@ -3,8 +3,8 @@ import type { TFormDef, TFormStyleConfig, TFormSettings, TResourceFormMetadataAn
 export declare class FormFactory {
     private static getFieldComponentByFormFieldType;
     resourceName: string;
-    formSettings: Partial<TFormSettings>;
-    formStyleConfig: Partial<TFormStyleConfig>;
+    formSettings: TFormSettings;
+    formStyleConfig: TFormStyleConfig;
     actionComponent: Component;
     sectionComponent: Component;
     wrapperResetComponent: Component;

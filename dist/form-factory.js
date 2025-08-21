@@ -82,6 +82,8 @@ export class FormFactory {
             cssClass: formMetadataAndData.form.css_class,
             resetable: formMetadataAndData.form.resetable,
             clearable: formMetadataAndData.form.clearable,
+            backendDateFormat: formMetadataAndData.form.backend_date_format,
+            backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
             hasGlobalCustomValidation: formMetadataAndData.form.has_global_custom_validation ?? false,
         };
         return form;

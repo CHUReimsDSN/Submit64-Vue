@@ -26,8 +26,7 @@ function computeServerRules(metadataRules, formSettings, fieldType) {
                 const ruleCastExclusion = rule;
                 rules.push(excluding(ruleCastExclusion.excluding));
                 break;
-            case "backend": // TODO
-                rules.push(required());
+            case "backend":
                 break;
             case "allowNull":
                 upperRules.push("allowNull");

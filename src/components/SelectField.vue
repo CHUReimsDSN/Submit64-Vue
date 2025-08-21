@@ -15,7 +15,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 function getBindings(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
 ): QSelectProps & TPropsWithClass {
-  const formFactory = propsWrapper.injectForm.getFormFactory()
+  const formFactory = propsWrapper.injectForm.getFormFactoryInstance()
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
   return {

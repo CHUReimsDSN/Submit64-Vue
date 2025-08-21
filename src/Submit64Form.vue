@@ -17,7 +17,7 @@ const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
 
 // consts
 let formMetadataAndData: TResourceFormMetadataAndData | null = null;
-const formFactory = Object.freeze(
+const formFactoryInstance = Object.freeze(
   new FormFactory(
     propsComponent.resourceName,
     propsComponent.globalFormSettings
@@ -39,7 +39,7 @@ async function setupMetadatasAndForm() {
     context: propsComponent.context,
   });
   generatedForm.value = Object.freeze(
-    formFactory.getAllField(formMetadataAndData, providingUniqKey)
+    formFactoryInstance.getAllField(formMetadataAndData, providingUniqKey)
   );
   setupIsDone.value = true;
 }
@@ -84,8 +84,11 @@ function getFieldDataByFieldName(fieldName: string) {
   }
   return fieldRef[1].getValue();
 }
-function getFormFactory() {
-  return formFactory;
+function getFormFactoryInstance() {
+  return formFactoryInstance;
+}
+function getForm() {
+  return generatedForm.value!;
 }
 
 // provides
@@ -93,7 +96,8 @@ provide(providingUniqKey, {
   registerRef,
   getDefaultDataByFieldName,
   getFieldDataByFieldName,
-  getFormFactory,
+  getFormFactoryInstance,
+  getForm
 });
 
 // exposes
@@ -111,7 +115,7 @@ onMounted(async () => {
       <Component
         v-for="(section, indexSection) in generatedForm.sections"
         :key="indexSection"
-        :is="formFactory.sectionComponent"
+        :is="formFactoryInstance.sectionComponent"
         :section="section"
       >
         <template
@@ -135,7 +139,7 @@ onMounted(async () => {
       </Component>
     </div>
     <component
-      :is="formFactory.actionComponent"
+      :is="formFactoryInstance.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
       :submit="submitForm"
       :clear="generatedForm.clearable ? clearForm : undefined"

@@ -12,6 +12,8 @@ export type TResourceFormMetadataAndData = {
 };
 export type TResourceFormMetadata = {
     sections: TResourceFormSectionMetadata[];
+    backend_date_format: string;
+    backend_datetime_format: string;
     has_global_custom_validation?: boolean;
     resetable?: boolean;
     clearable?: boolean;
@@ -60,9 +62,11 @@ export type TFormStyleConfig = {
 export type TFormDef = {
     sections: TFormSection[];
     hasGlobalCustomValidation: boolean;
-    cssClass?: string;
+    backendDateFormat: string;
+    backendDatetimeFormat: string;
     resetable?: boolean;
     clearable?: boolean;
+    cssClass?: string;
 };
 export type TFormSection = {
     fields: TFormFieldDef[];
@@ -111,7 +115,8 @@ export type TSubmit64FormProvider = {
     registerRef: (resourceDataKey: string, fieldRef: TSubmit64Field) => void;
     getDefaultDataByFieldName: (fieldName: string) => void | unknown;
     getFieldDataByFieldName: (fieldName: string) => unknown;
-    getFormFactory: () => FormFactory;
+    getFormFactoryInstance: () => FormFactory;
+    getForm: () => TFormDef;
 };
 export type TSubmit64FormProps = {
     resourceName: string;

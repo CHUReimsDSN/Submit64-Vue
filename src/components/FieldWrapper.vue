@@ -7,6 +7,7 @@ import type {
   TSubmit64FieldWrapperResetPropsSlot,
 } from "../models";
 import { Submit64Rules } from "../rules";
+import { date } from "quasar";
 
 // props
 const propsComponent = defineProps<{
@@ -30,25 +31,60 @@ function reset() {
   modelValue.value = injectForm.getDefaultDataByFieldName(
     propsComponent.field.metadata.field_name
   ) as T;
+  modelValue.value = formModelValueByType(modelValue.value);
+}
+function formModelValueByType(value: T) {
+  switch (propsComponent.field.type) {
+    case "date":
+      return date.formatDate(
+        date.extractDate(
+          String(value),
+          injectForm.getForm().backendDateFormat!
+        ),
+        injectForm.getFormFactoryInstance().formSettings.dateFormat
+      ) as T;
+  }
+  return value;
 }
 function clear() {
-  switch (typeof modelValue.value) {
-    case "boolean":
-      modelValue.value = false as T;
+  switch (propsComponent.field.type) {
     case "string":
       modelValue.value = "" as T;
+      break;
+    case "checkbox":
+      modelValue.value = false as T;
+      break;
+    case "date":
+      modelValue.value = date.formatDate(
+        new Date(),
+        injectForm.getFormFactoryInstance().formSettings.dateFormat
+      ) as T;
+      break;
     case "number":
       modelValue.value = 0 as T;
+      break;
+    case "selectString":
+      modelValue.value = null as T;
+      break;
+
+    case "text":
+      modelValue.value = "" as T;
+      break;
     case "object":
       modelValue.value = {} as T;
+      break;
+    case "selectBelongsTo":
+      modelValue.value = null as T;
+      break;
+    case "selectHasMany":
+      modelValue.value = null as T;
+      break;
   }
 }
 function getComputedRules() {
-  if (!injectForm) {
-  }
   return Submit64Rules.computeServerRules(
     propsComponent.field.rules ?? [],
-    injectForm.getFormFactory().formSettings,
+    injectForm.getFormFactoryInstance().formSettings,
     propsComponent.field.type
   );
 }
@@ -83,7 +119,10 @@ onMounted(() => {
         name="reset"
         :actionProps="({ reset } as TSubmit64FieldWrapperResetPropsSlot)"
       >
-        <component :is="injectForm.getFormFactory().wrapperResetComponent" :reset="reset" />
+        <component
+          :is="injectForm.getFormFactoryInstance().wrapperResetComponent"
+          :reset="reset"
+        />
       </slot>
     </template>
     <slot

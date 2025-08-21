@@ -15,7 +15,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 function getBindings(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
 ): QCheckboxProps & TPropsWithClass {
-  const styleConfig = propsWrapper.injectForm.getFormFactory().formStyleConfig;
+  const styleConfig = propsWrapper.injectForm.getFormFactoryInstance().formStyleConfig;
   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),

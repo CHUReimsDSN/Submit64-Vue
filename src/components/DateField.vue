@@ -8,7 +8,6 @@ import type { QDateProps, QIconProps, QInputProps } from "quasar";
 import { QInput, QIcon, QPopupProxy, QDate, QBtn, date } from "quasar";
 import FieldWrapper from "./FieldWrapper.vue";
 import { ref } from "vue";
-import { Submit64 } from "../submit64";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -20,7 +19,7 @@ const popupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
 function getBindings(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
 ): QInputProps & TPropsWithClass {
-  const formFactory = propsWrapper.injectForm.getFormFactory();
+  const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
   return {
@@ -64,10 +63,11 @@ function getBindingsIcon(
 function getBindingsDate(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
 ): QDateProps & TPropsWithClass {
+  console.log(propsWrapper.injectForm.getFormFactoryInstance().formSettings.dateFormat)
   return {
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue,
-    mask: propsWrapper.injectForm.getFormFactory().formSettings.dateFormat,
+    mask: propsWrapper.injectForm.getFormFactoryInstance().formSettings.dateFormat,
   };
 }
 function closePopUp() {
@@ -76,24 +76,14 @@ function closePopUp() {
   }
   popupProxyRef.value.hide();
 }
-function setupTimestamp(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  console.log("drogdfogodfg");
-  propsWrapper.modelValueOnUpdate(
-    date.formatDate(
-      new Date(String(propsWrapper.modelValue)),
-      Submit64.getGlobalFormSetting().dateFormat
-    )
-  );
-}
 </script>
 
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      {{ console.log('osdfosdof') }}
       <q-input v-bind="getBindings(propsWrapper)">
         <template v-slot:append>
-          <q-icon v-bind="getBindingsIcon(propsWrapper)">
+          <q-icon v-bind="getBindingsIcon(propsWrapper)"> 
             <q-popup-proxy
               ref="popupProxyRef"
               cover

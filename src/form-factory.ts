@@ -37,8 +37,8 @@ export class FormFactory {
   }
 
   resourceName: string;
-  formSettings: Partial<TFormSettings>;
-  formStyleConfig: Partial<TFormStyleConfig>;
+  formSettings: TFormSettings;
+  formStyleConfig: TFormStyleConfig;
   actionComponent: Component;
   sectionComponent: Component;
   wrapperResetComponent: Component;
@@ -107,6 +107,8 @@ export class FormFactory {
       cssClass: formMetadataAndData.form.css_class,
       resetable: formMetadataAndData.form.resetable,
       clearable: formMetadataAndData.form.clearable,
+      backendDateFormat: formMetadataAndData.form.backend_date_format,
+      backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
       hasGlobalCustomValidation:
         formMetadataAndData.form.has_global_custom_validation ?? false,
     };
