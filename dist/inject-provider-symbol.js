@@ -1,1 +1,3 @@
-export const submit64FormProviderSymbol = Symbol();
+export function getSubmit64FormProviderSymbol(uuid) {
+    return Symbol(uuid);
+}

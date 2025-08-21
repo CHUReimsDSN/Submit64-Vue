@@ -1,5 +1,5 @@
 import { date, ValidationRule } from "quasar";
-import { TFormSettings } from "./models";
+import { TFormFieldDef, TFormSettings } from "./models";
 
 export type TSubmit64Rule = {
   type: // general
@@ -91,10 +91,15 @@ type TSubmit64ValidationRule = (val: unknown) => boolean | string;
 
 function computeServerRules(
   metadataRules: TSubmit64Rule[],
-  formSettings: TFormSettings
+  formSettings: TFormSettings,
+  fieldType: TFormFieldDef['type']
 ): ValidationRule[] {
   const rules: TSubmit64ValidationRule[] = [];
   const upperRules: TUpperRule[] = [];
+  switch (fieldType) {
+    case 'date':
+        rules.push(validDate(formSettings.dateFormat));
+  }
   metadataRules.forEach((rule) => {
     switch (rule.type) {
       // general
@@ -258,7 +263,6 @@ function computeServerRules(
       // date
       case "lessThanOrEqualDate":
         const ruleLessthanOrEqualDate = rule as TSubmit64RuleLessThanDate;
-        rules.push(validDate(formSettings.dateFormat));
         rules.push(
           lessThanOrEqualDate(
             () => ruleLessthanOrEqualDate.less_than!,
@@ -268,7 +272,6 @@ function computeServerRules(
         break;
       case "lessThanDate":
         const ruleLessThanDate = rule as TSubmit64RuleLessThanDate;
-        rules.push(validDate(formSettings.dateFormat));
         rules.push(
           lessThanDate(
             () => ruleLessThanDate.less_than!,
@@ -278,7 +281,6 @@ function computeServerRules(
         break;
       case "greaterThanOrEqualDate":
         const ruleGreaterThanOrEqualDate = rule as TSubmit64RuleGreaterThanDate;
-        rules.push(validDate(formSettings.dateFormat));
         rules.push(
           greaterThanOrEqualDate(
             () => ruleGreaterThanOrEqualDate.greater_than!,
@@ -288,7 +290,6 @@ function computeServerRules(
         break;
       case "greaterThanDate":
         const ruleGreaterThanDate = rule as TSubmit64RuleGreaterThanDate;
-        rules.push(validDate(formSettings.dateFormat));
         rules.push(
           greaterThanDate(
             () => ruleGreaterThanDate.greater_than!,
@@ -298,7 +299,6 @@ function computeServerRules(
         break;
       case "equalToDate":
         const ruleEqualToDate = rule as TSubmit64RuleEqualString;
-        rules.push(validDate(formSettings.dateFormat));
         rules.push(
           equalToDate(
             () => ruleEqualToDate.equal_to!,
@@ -308,7 +308,6 @@ function computeServerRules(
         break;
       case "otherThanDate":
         const ruleOtherThanDate = rule as TSubmit64RuleOtherThanString;
-        rules.push(validDate(formSettings.dateFormat));
         rules.push(
           otherThanDate(
             () => ruleOtherThanDate.other_than!,

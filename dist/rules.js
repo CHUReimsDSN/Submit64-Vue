@@ -1,7 +1,11 @@
 import { date } from "quasar";
-function computeServerRules(metadataRules, formSettings) {
+function computeServerRules(metadataRules, formSettings, fieldType) {
     const rules = [];
     const upperRules = [];
+    switch (fieldType) {
+        case 'date':
+            rules.push(validDate(formSettings.dateFormat));
+    }
     metadataRules.forEach((rule) => {
         switch (rule.type) {
             // general
@@ -129,32 +133,26 @@ function computeServerRules(metadataRules, formSettings) {
             // date
             case "lessThanOrEqualDate":
                 const ruleLessthanOrEqualDate = rule;
-                rules.push(validDate(formSettings.dateFormat));
                 rules.push(lessThanOrEqualDate(() => ruleLessthanOrEqualDate.less_than, formSettings.dateFormat));
                 break;
             case "lessThanDate":
                 const ruleLessThanDate = rule;
-                rules.push(validDate(formSettings.dateFormat));
                 rules.push(lessThanDate(() => ruleLessThanDate.less_than, formSettings.dateFormat));
                 break;
             case "greaterThanOrEqualDate":
                 const ruleGreaterThanOrEqualDate = rule;
-                rules.push(validDate(formSettings.dateFormat));
                 rules.push(greaterThanOrEqualDate(() => ruleGreaterThanOrEqualDate.greater_than, formSettings.dateFormat));
                 break;
             case "greaterThanDate":
                 const ruleGreaterThanDate = rule;
-                rules.push(validDate(formSettings.dateFormat));
                 rules.push(greaterThanDate(() => ruleGreaterThanDate.greater_than, formSettings.dateFormat));
                 break;
             case "equalToDate":
                 const ruleEqualToDate = rule;
-                rules.push(validDate(formSettings.dateFormat));
                 rules.push(equalToDate(() => ruleEqualToDate.equal_to, formSettings.dateFormat));
                 break;
             case "otherThanDate":
                 const ruleOtherThanDate = rule;
-                rules.push(validDate(formSettings.dateFormat));
                 rules.push(otherThanDate(() => ruleOtherThanDate.other_than, formSettings.dateFormat));
                 break;
         }

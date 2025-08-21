@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="T">
 import { getCurrentInstance, inject, onMounted, ref } from "vue";
-import { submit64FormProviderSymbol } from "../inject-provider-symbol";
 import type {
   TFormFieldDef,
   TSubmit64Field,
@@ -15,7 +14,7 @@ const propsComponent = defineProps<{
 }>();
 
 // consts
-const injectForm = inject(submit64FormProviderSymbol)!;
+const injectForm = inject(propsComponent.field.provideUniqKey)!;
 
 // refs
 const modelValue = ref<T>();
@@ -49,7 +48,8 @@ function getComputedRules() {
   }
   return Submit64Rules.computeServerRules(
     propsComponent.field.rules ?? [],
-    injectForm.getFormFactory().formSettings
+    injectForm.getFormFactory().formSettings,
+    propsComponent.field.type
   );
 }
 function modelValueOnUpdate(value: unknown) {

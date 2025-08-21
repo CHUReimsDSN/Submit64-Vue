@@ -20,6 +20,7 @@ import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
 import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
+import { getSubmit64FormProviderSymbol } from "./inject-provider-symbol";
 
 export class FormFactory {
   private static getFieldComponentByFormFieldType(
@@ -114,7 +115,8 @@ export class FormFactory {
       FormFactory.getDefaultWrapperResetComponent();
   }
 
-  getAllField(formMetadataAndData: TResourceFormMetadataAndData): TFormDef {
+  getAllField(formMetadataAndData: TResourceFormMetadataAndData, provideUuid: string): TFormDef {
+    const provideUniqKey = getSubmit64FormProviderSymbol(provideUuid);
     const sections: TFormSection[] = [];
     formMetadataAndData.form.sections.forEach((sectionMetadata) => {
       const fields: TFormFieldDef[] = [];
@@ -132,6 +134,7 @@ export class FormFactory {
           rules: columnMetadata.rules,
           clearable: columnMetadata.clearable,
           resetable: columnMetadata.resetable,
+          provideUniqKey,
           component,
         };
         fields.push(field);

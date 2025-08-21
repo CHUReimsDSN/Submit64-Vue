@@ -8,8 +8,8 @@ import {
   TResourceFormMetadataAndData,
 } from "./models";
 import { FormFactory } from "./form-factory";
-import { submit64FormProviderSymbol } from "./inject-provider-symbol";
 import FieldWrapper from "./components/FieldWrapper.vue";
+import { uid } from "quasar";
 
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
@@ -22,6 +22,7 @@ const formFactory = Object.freeze(
     propsComponent.globalFormSettings
   )
 );
+const provideUniqKey = uid();
 
 // refs
 const fieldRefs = ref<Record<string, TSubmit64Field>>({});
@@ -37,7 +38,7 @@ async function setupMetadatasAndForm() {
     context: propsComponent.context,
   });
   generatedForm.value = Object.freeze(
-    formFactory.getAllField(formMetadataAndData)
+    formFactory.getAllField(formMetadataAndData, provideUniqKey)
   );
   setupIsDone.value = true;
 }
@@ -87,8 +88,7 @@ function getFormFactory() {
 }
 
 // provides
-// TODO make by resource, for relation edition
-provide(submit64FormProviderSymbol, {
+provide(provideUniqKey, {
   registerRef,
   getDefaultDataByFieldName,
   getFieldDataByFieldName,
@@ -105,7 +105,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="setupIsDone && generatedForm" class="flex column q-pa-sm q-gutter-sm">
+  <div
+    v-if="setupIsDone && generatedForm"
+    :class="generatedForm.cssClass ?? 'flex column q-pa-sm q-gutter-sm'"
+  >
     <Component
       v-for="(section, indexSection) in generatedForm.sections"
       :key="indexSection"

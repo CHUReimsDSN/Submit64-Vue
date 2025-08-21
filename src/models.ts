@@ -1,4 +1,4 @@
-import { type Component, type ComponentPublicInstance } from "vue";
+import { InjectionKey, type Component, type ComponentPublicInstance } from "vue";
 import { TSubmit64Rule } from "./rules";
 import { ValidationRule } from "quasar";
 import { FormFactory } from "./form-factory";
@@ -86,6 +86,7 @@ export type TFormFieldDef = {
     | "number"
     | "object";
   metadata: TResourceFieldMetadata;
+  provideUniqKey: InjectionKey<TSubmit64FormProvider>;
   label?: string;
   hint?: string;
   rules?: TSubmit64Rule[];
