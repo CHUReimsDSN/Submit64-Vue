@@ -45,13 +45,13 @@ const U = class U {
 _(U, "_instance", new U());
 let V = U;
 function be(n, t, l) {
-  const e = [], a = [];
+  const e = [], r = [];
   switch (l) {
     case "date":
       e.push(Qe(t.dateFormat));
   }
-  return n.forEach((r) => {
-    switch (r.type) {
+  return n.forEach((a) => {
+    switch (a.type) {
       case "required":
         e.push(J());
         break;
@@ -62,43 +62,43 @@ function be(n, t, l) {
         e.push(Se());
         break;
       case "inclusion":
-        const o = r;
+        const o = a;
         e.push(ee(o.including));
         break;
       case "exclusion":
-        const s = r;
+        const s = a;
         e.push(_e(s.excluding));
         break;
       case "backend":
         e.push(J());
         break;
       case "allowNull":
-        a.push("allowNull");
+        r.push("allowNull");
         break;
       case "allowBlank":
-        a.push("allowBlank");
+        r.push("allowBlank");
         break;
       case "positiveNumber":
         e.push(De());
         break;
       case "lessThanOrEqualNumber":
-        const h = r;
-        if (h.less_than) {
+        const u = a;
+        if (u.less_than) {
           e.push(
             Te(
-              () => h.less_than
+              () => u.less_than
             )
           );
           break;
         }
       case "lessThanNumber":
-        const u = r;
-        if (u.less_than) {
-          e.push(pe(() => u.less_than));
+        const h = a;
+        if (h.less_than) {
+          e.push(pe(() => h.less_than));
           break;
         }
       case "greaterThanOrEqualNumber":
-        const i = r;
+        const i = a;
         if (i.greater_than) {
           e.push(
             qe(
@@ -108,7 +108,7 @@ function be(n, t, l) {
           break;
         }
       case "greaterThanNumber":
-        const y = r;
+        const y = a;
         if (y.greater_than) {
           e.push(
             Ne(() => y.greater_than)
@@ -116,13 +116,13 @@ function be(n, t, l) {
           break;
         }
       case "equalToNumber":
-        const x = r;
+        const x = a;
         if (x.equal_to) {
           e.push(Be(() => x.equal_to));
           break;
         }
       case "otherThanNumber":
-        const $ = r;
+        const $ = a;
         if ($.other_than) {
           e.push(Ve(() => $.other_than));
           break;
@@ -140,7 +140,7 @@ function be(n, t, l) {
         e.push(xe());
         break;
       case "lessThanOrEqualStringLength":
-        const E = r;
+        const E = a;
         if (E.less_than) {
           e.push(
             Re(
@@ -150,7 +150,7 @@ function be(n, t, l) {
           break;
         }
       case "lessThanStringLength":
-        const w = r;
+        const w = a;
         if (w.less_than) {
           e.push(
             $e(() => w.less_than)
@@ -158,7 +158,7 @@ function be(n, t, l) {
           break;
         }
       case "greaterThanOrEqualStringLength":
-        const L = r;
+        const L = a;
         if (L.greater_than) {
           e.push(
             Ee(
@@ -168,7 +168,7 @@ function be(n, t, l) {
           break;
         }
       case "greaterThanStringLength":
-        const j = r;
+        const j = a;
         if (j.greater_than) {
           e.push(
             we(
@@ -178,13 +178,13 @@ function be(n, t, l) {
           break;
         }
       case "equalToString":
-        const f = r;
+        const f = a;
         if (f.equal_to) {
           e.push(je(() => f.equal_to));
           break;
         }
       case "betweenStringLength":
-        const F = r;
+        const F = a;
         e.push(
           Le(
             () => F.min,
@@ -193,15 +193,15 @@ function be(n, t, l) {
         );
         break;
       case "equalToStringLength":
-        const D = r;
+        const D = a;
         e.push(Ge(() => D.equal_to));
         break;
       case "otherThanString":
-        const P = r;
+        const P = a;
         e.push(ze(() => P.other_than));
         break;
       case "lessThanOrEqualDate":
-        const B = r;
+        const B = a;
         e.push(
           Ie(
             () => B.less_than,
@@ -210,7 +210,7 @@ function be(n, t, l) {
         );
         break;
       case "lessThanDate":
-        const A = r;
+        const A = a;
         e.push(
           Ue(
             () => A.less_than,
@@ -219,7 +219,7 @@ function be(n, t, l) {
         );
         break;
       case "greaterThanOrEqualDate":
-        const te = r;
+        const te = a;
         e.push(
           He(
             () => te.greater_than,
@@ -228,7 +228,7 @@ function be(n, t, l) {
         );
         break;
       case "greaterThanDate":
-        const ne = r;
+        const ne = a;
         e.push(
           Pe(
             () => ne.greater_than,
@@ -237,7 +237,7 @@ function be(n, t, l) {
         );
         break;
       case "equalToDate":
-        const le = r;
+        const le = a;
         e.push(
           Ae(
             () => le.equal_to,
@@ -246,7 +246,7 @@ function be(n, t, l) {
         );
         break;
       case "otherThanDate":
-        const oe = r;
+        const oe = a;
         e.push(
           Ye(
             () => oe.other_than,
@@ -255,8 +255,8 @@ function be(n, t, l) {
         );
         break;
     }
-  }), a.length > 0 ? a.map((r) => {
-    switch (r) {
+  }), r.length > 0 ? r.map((a) => {
+    switch (a) {
       case "allowBlank":
         return Fe(e);
       case "allowNull":
@@ -360,7 +360,7 @@ function we(n) {
 }
 function Le(n, t) {
   const l = n(), e = t();
-  return (a) => String(a).length >= l && String(a).length <= e || `Entre ${l} et ${e}`;
+  return (r) => String(r).length >= l && String(r).length <= e || `Entre ${l} et ${e}`;
 }
 function je(n, t) {
   const l = n();
@@ -392,11 +392,11 @@ function Pe(n, t) {
 }
 function Ae(n, t, l) {
   const e = n();
-  return (a) => d.extractDate(String(a), t) === d.extractDate(e, t) || `Égale à ${d.extractDate(e, t)}`;
+  return (r) => d.extractDate(String(r), t) === d.extractDate(e, t) || `Égale à ${d.extractDate(e, t)}`;
 }
 function Ye(n, t, l) {
   const e = n();
-  return (a) => d.extractDate(String(a), t) !== d.extractDate(e, t) || `Doit être différent de ${e}`;
+  return (r) => d.extractDate(String(r), t) !== d.extractDate(e, t) || `Doit être différent de ${e}`;
 }
 function Qe(n) {
   return (t) => !Number.isNaN(d.extractDate(String(t), n).getTime()) || "Date invalide";
@@ -409,41 +409,41 @@ const Ke = {
     field: {}
   },
   setup(n, { expose: t }) {
-    const l = n, e = se(l.field.provideUniqKey), a = v();
-    function r() {
-      return a.value;
+    const l = n, e = se(l.field.provideUniqKey), r = v();
+    function a() {
+      return r.value;
     }
     function o() {
-      e && (a.value = e.getDefaultDataByFieldName(
+      e && (r.value = e.getDefaultDataByFieldName(
         l.field.metadata.field_name
       ));
     }
     function s() {
-      switch (typeof a.value) {
+      switch (typeof r.value) {
         case "boolean":
-          a.value = !1;
+          r.value = !1;
         case "string":
-          a.value = "";
+          r.value = "";
         case "number":
-          a.value = 0;
+          r.value = 0;
         case "object":
-          a.value = {};
+          r.value = {};
       }
     }
-    function h() {
+    function u() {
       return Ke.computeServerRules(
         l.field.rules ?? [],
         e.getFormFactory().formSettings,
         l.field.type
       );
     }
-    function u(i) {
-      a.value = i;
+    function h(i) {
+      r.value = i;
     }
     return t({
       reset: o,
       clear: s,
-      getValue: r
+      getValue: a
     }), X(() => {
       var y;
       o();
@@ -460,7 +460,7 @@ const Ke = {
         (c(), g(G(m(e).getFormFactory().wrapperResetComponent), { reset: o }))
       ]) : O("", !0),
       R(i.$slots, "default", {
-        propsWrapper: { modelValue: a.value, modelValueOnUpdate: u, field: i.field, injectForm: m(e), reset: o, clear: s, getComputedRules: h }
+        propsWrapper: { modelValue: r.value, modelValueOnUpdate: h, field: i.field, injectForm: m(e), reset: o, clear: s, getComputedRules: u }
       })
     ]));
   }
@@ -472,12 +472,12 @@ const Ke = {
   setup(n) {
     const t = n;
     function l(e) {
-      const a = e.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const r = e.injectForm.getFormFactory(), a = r.formSettings, o = r.formStyleConfig;
       return {
         // behaviour
         "onUpdate:modelValue": (s) => e.modelValueOnUpdate(s),
         modelValue: e.modelValue,
-        lazyRules: r.rulesBehaviour === "lazy",
+        lazyRules: a.rulesBehaviour === "lazy",
         clearable: e.field.clearable,
         rules: e.getComputedRules(),
         // events
@@ -498,11 +498,11 @@ const Ke = {
         class: e.field.cssClass
       };
     }
-    return (e, a) => (c(), g(T, {
+    return (e, r) => (c(), g(T, {
       field: t.field
     }, {
-      default: b(({ propsWrapper: r }) => [
-        C(m(H), q(N(l(r))), null, 16)
+      default: b(({ propsWrapper: a }) => [
+        C(m(H), q(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -515,12 +515,12 @@ const Ke = {
   setup(n) {
     const t = n;
     function l(e) {
-      const a = e.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const r = e.injectForm.getFormFactory(), a = r.formSettings, o = r.formStyleConfig;
       return {
         // behaviour
         "onUpdate:modelValue": (s) => e.modelValueOnUpdate(s),
         modelValue: e.modelValue,
-        lazyRules: r.rulesBehaviour === "lazy",
+        lazyRules: a.rulesBehaviour === "lazy",
         clearable: e.field.clearable,
         rules: e.getComputedRules(),
         // events
@@ -541,11 +541,11 @@ const Ke = {
         class: e.field.cssClass
       };
     }
-    return (e, a) => (c(), g(T, {
+    return (e, r) => (c(), g(T, {
       field: t.field
     }, {
-      default: b(({ propsWrapper: r }) => [
-        C(m(H), Z(l(r), { type: "textarea" }), null, 16)
+      default: b(({ propsWrapper: a }) => [
+        C(m(H), Z(l(a), { type: "textarea" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -558,12 +558,12 @@ const Ke = {
   setup(n) {
     const t = n, l = v();
     function e(s) {
-      const h = s.injectForm.getFormFactory(), u = h.formSettings, i = h.formStyleConfig;
+      const u = s.injectForm.getFormFactory(), h = u.formSettings, i = u.formStyleConfig;
       return {
         // behaviour
         "onUpdate:modelValue": (y) => s.modelValueOnUpdate(y),
         modelValue: s.modelValue,
-        lazyRules: u.rulesBehaviour === "lazy",
+        lazyRules: h.rulesBehaviour === "lazy",
         clearable: s.field.clearable,
         rules: s.getComputedRules(),
         // events
@@ -584,7 +584,7 @@ const Ke = {
         class: s.field.cssClass
       };
     }
-    function a(s) {
+    function r(s) {
       return {
         size: "sm",
         color: "primary",
@@ -592,9 +592,9 @@ const Ke = {
         class: "cursor-pointer"
       };
     }
-    function r(s) {
+    function a(s) {
       return {
-        "onUpdate:modelValue": (h) => s.modelValueOnUpdate(h),
+        "onUpdate:modelValue": (u) => s.modelValueOnUpdate(u),
         modelValue: s.modelValue,
         mask: s.injectForm.getFormFactory().formSettings.dateFormat
       };
@@ -602,13 +602,13 @@ const Ke = {
     function o() {
       l.value && l.value.hide();
     }
-    return (s, h) => (c(), g(T, {
+    return (s, u) => (c(), g(T, {
       field: t.field
     }, {
-      default: b(({ propsWrapper: u }) => [
-        C(m(H), q(N(e(u))), {
+      default: b(({ propsWrapper: h }) => [
+        C(m(H), q(N(e(h))), {
           append: b(() => [
-            C(m(W), q(N(a())), {
+            C(m(W), q(N(r())), {
               default: b(() => [
                 C(m(fe), {
                   ref_key: "popupProxyRef",
@@ -618,7 +618,7 @@ const Ke = {
                   "transition-hide": "scale"
                 }, {
                   default: b(() => [
-                    C(m(me), q(N(r(u))), {
+                    C(m(me), q(N(a(h))), {
                       default: b(() => [
                         z("div", Ze, [
                           C(m(I), {
@@ -653,23 +653,23 @@ const Ke = {
   setup(n) {
     const t = n;
     function l(e) {
-      const a = e.injectForm.getFormFactory().formStyleConfig;
+      const r = e.injectForm.getFormFactory().formStyleConfig;
       return {
         // behaviour
-        "onUpdate:modelValue": (r) => e.modelValueOnUpdate(r),
+        "onUpdate:modelValue": (a) => e.modelValueOnUpdate(a),
         modelValue: e.modelValue,
         // display
         label: e.field.label,
-        dense: a.fieldDense,
-        color: a.fieldColor,
+        dense: r.fieldDense,
+        color: r.fieldColor,
         class: e.field.cssClass
       };
     }
-    return (e, a) => (c(), g(T, {
+    return (e, r) => (c(), g(T, {
       field: t.field
     }, {
-      default: b(({ propsWrapper: r }) => [
-        C(m(ge), q(N(l(r))), null, 16)
+      default: b(({ propsWrapper: a }) => [
+        C(m(ge), q(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -735,12 +735,12 @@ const Ke = {
   setup(n) {
     const t = n;
     function l(e) {
-      const a = e.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const r = e.injectForm.getFormFactory(), a = r.formSettings, o = r.formStyleConfig;
       return {
         // behaviour
         "onUpdate:modelValue": (s) => e.modelValueOnUpdate(s),
         modelValue: e.modelValue,
-        lazyRules: r.rulesBehaviour === "lazy",
+        lazyRules: a.rulesBehaviour === "lazy",
         clearable: e.field.clearable,
         rules: e.getComputedRules(),
         // events
@@ -761,11 +761,11 @@ const Ke = {
         class: e.field.cssClass
       };
     }
-    return (e, a) => (c(), g(T, {
+    return (e, r) => (c(), g(T, {
       field: t.field
     }, {
-      default: b(({ propsWrapper: r }) => [
-        C(m(H), Z(l(r), { type: "number" }), null, 16)
+      default: b(({ propsWrapper: a }) => [
+        C(m(H), Z(l(a), { type: "number" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -778,11 +778,11 @@ const Ke = {
   setup(n) {
     const t = n;
     function l(e) {
-      const a = e.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const r = e.injectForm.getFormFactory(), a = r.formSettings, o = r.formStyleConfig;
       return {
         // behaviour
         modelValue: e.modelValue,
-        lazyRules: r.rulesBehaviour === "lazy",
+        lazyRules: a.rulesBehaviour === "lazy",
         clearable: e.field.clearable,
         rules: e.getComputedRules(),
         multiple: !0,
@@ -809,19 +809,19 @@ const Ke = {
         class: e.field.cssClass
       };
     }
-    return (e, a) => (c(), g(T, {
+    return (e, r) => (c(), g(T, {
       field: t.field
     }, {
-      default: b(({ propsWrapper: r }) => [
-        C(m(Q), q(N(l(r))), null, 16)
+      default: b(({ propsWrapper: a }) => [
+        C(m(Q), q(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
 }), it = (n, t) => {
   const l = n.__vccOpts || n;
-  for (const [e, a] of t)
-    l[e] = a;
+  for (const [e, r] of t)
+    l[e] = r;
   return l;
 }, ut = {};
 function ct(n, t) {
@@ -835,12 +835,12 @@ const dt = /* @__PURE__ */ it(ut, [["render", ct]]), ft = /* @__PURE__ */ S({
   setup(n) {
     const t = n;
     function l(e) {
-      const a = e.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const r = e.injectForm.getFormFactory(), a = r.formSettings, o = r.formStyleConfig;
       return {
         // behaviour
         "onUpdate:modelValue": (s) => e.modelValueOnUpdate(s),
         modelValue: e.modelValue,
-        lazyRules: r.rulesBehaviour === "lazy",
+        lazyRules: a.rulesBehaviour === "lazy",
         clearable: e.field.clearable,
         rules: e.getComputedRules(),
         mapOptions: !0,
@@ -864,11 +864,11 @@ const dt = /* @__PURE__ */ it(ut, [["render", ct]]), ft = /* @__PURE__ */ S({
         class: e.field.cssClass
       };
     }
-    return (e, a) => (c(), g(T, {
+    return (e, r) => (c(), g(T, {
       field: t.field
     }, {
-      default: b(({ propsWrapper: r }) => [
-        C(m(Q), q(N(l(r))), null, 16)
+      default: b(({ propsWrapper: a }) => [
+        C(m(Q), q(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -881,11 +881,11 @@ const dt = /* @__PURE__ */ it(ut, [["render", ct]]), ft = /* @__PURE__ */ S({
   setup(n) {
     const t = n;
     function l(e) {
-      const a = e.injectForm.getFormFactory(), r = a.formSettings, o = a.formStyleConfig;
+      const r = e.injectForm.getFormFactory(), a = r.formSettings, o = r.formStyleConfig;
       return {
         // behaviour
         modelValue: e.modelValue,
-        lazyRules: r.rulesBehaviour === "lazy",
+        lazyRules: a.rulesBehaviour === "lazy",
         clearable: e.field.clearable,
         rules: e.getComputedRules(),
         mapOptions: !0,
@@ -910,11 +910,11 @@ const dt = /* @__PURE__ */ it(ut, [["render", ct]]), ft = /* @__PURE__ */ S({
         class: e.field.cssClass
       };
     }
-    return (e, a) => (c(), g(T, {
+    return (e, r) => (c(), g(T, {
       field: t.field
     }, {
-      default: b(({ propsWrapper: r }) => [
-        C(m(Q), q(N(l(r))), null, 16)
+      default: b(({ propsWrapper: a }) => [
+        C(m(Q), q(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -927,20 +927,17 @@ const dt = /* @__PURE__ */ it(ut, [["render", ct]]), ft = /* @__PURE__ */ S({
   setup(n) {
     const t = n;
     return (l, e) => {
-      const a = ce("q-icon");
-      return c(), g(a, {
+      const r = ce("q-icon");
+      return c(), g(r, {
         name: "reset",
         class: "cursor-pointer",
-        onClick: e[0] || (e[0] = (r) => t.reset())
+        onClick: e[0] || (e[0] = (a) => t.reset())
       });
     };
   }
 });
-function ht(n) {
-  return Symbol(n);
-}
 class p {
-  constructor(t, l, e, a, r, o) {
+  constructor(t, l, e, r, a, o) {
     _(this, "resourceName");
     _(this, "formSettings");
     _(this, "formStyleConfig");
@@ -955,7 +952,7 @@ class p {
       ...p.getDefaultFormStyleSettings(),
       ...V.getGlobalFormStyleConfig(),
       ...e
-    }, this.actionComponent = a ?? V.getGlobalActionComponent() ?? p.getDefaultActionComponent(), this.sectionComponent = r ?? V.getGlobalSectionComponent() ?? p.getDefaultSectionComponent(), this.wrapperResetComponent = o ?? V.getGlobalWrapperResetComponent() ?? p.getDefaultWrapperResetComponent();
+    }, this.actionComponent = r ?? V.getGlobalActionComponent() ?? p.getDefaultActionComponent(), this.sectionComponent = a ?? V.getGlobalSectionComponent() ?? p.getDefaultSectionComponent(), this.wrapperResetComponent = o ?? V.getGlobalWrapperResetComponent() ?? p.getDefaultWrapperResetComponent();
   }
   static getFieldComponentByFormFieldType(t) {
     return {
@@ -1003,13 +1000,13 @@ class p {
     return gt;
   }
   getAllField(t, l) {
-    const e = ht(l), a = [];
-    return t.form.sections.forEach((o) => {
-      const s = [];
-      o.fields.forEach((u) => {
-        const i = p.getFieldComponentByFormFieldType(
+    const e = [];
+    return t.form.sections.forEach((a) => {
+      const o = [];
+      a.fields.forEach((u) => {
+        const h = p.getFieldComponentByFormFieldType(
           u.field_type
-        ), y = {
+        ), i = {
           type: u.field_type,
           metadata: u,
           label: u.label,
@@ -1019,26 +1016,29 @@ class p {
           rules: u.rules,
           clearable: u.clearable,
           resetable: u.resetable,
-          provideUniqKey: e,
-          component: i
+          provideUniqKey: l,
+          component: h
         };
-        s.push(y);
+        o.push(i);
       });
-      const h = {
-        label: o.label,
-        icon: o.icon,
-        cssClass: o.css_class,
-        fields: s
+      const s = {
+        label: a.label,
+        icon: a.icon,
+        cssClass: a.css_class,
+        fields: o
       };
-      a.push(h);
+      e.push(s);
     }), {
-      sections: a,
+      sections: e,
       cssClass: t.form.css_class,
       resetable: t.form.resetable,
       clearable: t.form.clearable,
       hasGlobalCustomValidation: t.form.has_global_custom_validation ?? !1
     };
   }
+}
+function ht(n) {
+  return Symbol(n);
 }
 const St = /* @__PURE__ */ S({
   __name: "Submit64Form",
@@ -1053,29 +1053,29 @@ const St = /* @__PURE__ */ S({
   setup(n, { expose: t }) {
     const l = n;
     let e = null;
-    const a = Object.freeze(
+    const r = Object.freeze(
       new p(
         l.resourceName,
         l.globalFormSettings
       )
-    ), r = he(), o = v({}), s = v(), h = v(!1), u = v(!1);
+    ), a = ht(he()), o = v({}), s = v(), u = v(!1), h = v(!1);
     async function i() {
       e = await l.getMetadataAndData({
         resourceName: l.resourceName,
         resourceId: l.resourceId,
         context: l.context
       }), s.value = Object.freeze(
-        a.getAllField(e, r)
-      ), h.value = !0;
+        r.getAllField(e, a)
+      ), u.value = !0;
     }
     async function y() {
-      u.value = !0;
+      h.value = !0;
       const f = {};
       Object.entries(o.value).forEach((D) => {
         f[D[0]] = D[1].getValue();
       });
       const F = await l.submitForm({ formData: f });
-      e && (e.resource_data = F), x(), u.value = !1;
+      e && (e.resource_data = F), x(), h.value = !1;
     }
     function x() {
       Object.values(o.value).forEach((f) => {
@@ -1099,20 +1099,20 @@ const St = /* @__PURE__ */ S({
       return F ? F[1].getValue() : null;
     }
     function j() {
-      return a;
+      return r;
     }
-    return de(r, {
+    return de(a, {
       registerRef: E,
       getDefaultDataByFieldName: w,
       getFieldDataByFieldName: L,
       getFormFactory: j
     }), t({}), X(async () => {
       await i();
-    }), (f, F) => h.value && s.value ? (c(), k("div", {
+    }), (f, F) => u.value && s.value ? (c(), k("div", {
       key: 0,
       class: M(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
     }, [
-      (c(!0), k(Y, null, K(s.value.sections, (D, P) => (c(), g(G(m(a).sectionComponent), {
+      (c(!0), k(Y, null, K(s.value.sections, (D, P) => (c(), g(G(m(r).sectionComponent), {
         key: P,
         section: D
       }, {
@@ -1136,8 +1136,8 @@ const St = /* @__PURE__ */ S({
         ]),
         _: 2
       }, 1032, ["section"]))), 128)),
-      (c(), g(G(m(a).actionComponent), {
-        isLoadingSubmit: u.value,
+      (c(), g(G(m(r).actionComponent), {
+        isLoadingSubmit: h.value,
         submit: y,
         clear: s.value.clearable ? $ : void 0,
         reset: s.value.resetable ? x : void 0

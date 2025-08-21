@@ -1,5 +1,5 @@
-import type { Component } from "vue";
-import type { TFormDef, TFormStyleConfig, TFormSettings, TResourceFormMetadataAndData } from "./models";
+import type { Component, InjectionKey } from "vue";
+import type { TFormDef, TFormStyleConfig, TFormSettings, TResourceFormMetadataAndData, TSubmit64FormProvider } from "./models";
 export declare class FormFactory {
     private static getFieldComponentByFormFieldType;
     private static getDefaultFormSettings;
@@ -14,5 +14,5 @@ export declare class FormFactory {
     sectionComponent: Component;
     wrapperResetComponent: Component;
     constructor(resourceName: string, globalFormSettings?: Partial<TFormSettings>, globalFormStyleConfig?: Partial<TFormStyleConfig>, actionComponent?: Component, sectionComponent?: Component, wrapperResetComponent?: Component);
-    getAllField(formMetadataAndData: TResourceFormMetadataAndData, provideUuid: string): TFormDef;
+    getAllField(formMetadataAndData: TResourceFormMetadataAndData, providingUniqKey: InjectionKey<TSubmit64FormProvider>): TFormDef;
 }
