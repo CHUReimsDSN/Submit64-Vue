@@ -1,9 +1,9 @@
 import { date, ValidationRule } from "quasar";
-import { TFormFieldDef, TFormSettings } from "./models";
+import { TFormDef, TFormFieldDef, TFormSettings } from "./models";
 
 export type TSubmit64Rule = {
   type: // general
-    | "required"
+  | "required"
     | "absence"
     | "acceptance"
     | "inclusion"
@@ -91,14 +91,25 @@ type TSubmit64ValidationRule = (val: unknown) => boolean | string;
 
 function computeServerRules(
   metadataRules: TSubmit64Rule[],
-  formSettings: TFormSettings,
-  fieldType: TFormFieldDef['type']
+  formFactorySettings: TFormSettings,
+  form: TFormDef,
+  fieldType: TFormFieldDef["type"]
 ): ValidationRule[] {
+  const computedRuleDateFormatToFormFactoryFormat = (
+    ruleDate: string
+  ): string => {
+    return String(
+      date.formatDate(
+        date.extractDate(ruleDate, form.backendDateFormat),
+        formFactorySettings.dateFormat
+      )
+    );
+  };
   const rules: TSubmit64ValidationRule[] = [];
   const upperRules: TUpperRule[] = [];
   switch (fieldType) {
-    case 'date':
-        rules.push(validDate(formSettings.dateFormat));
+    case "date":
+      rules.push(validDate(formFactorySettings.dateFormat));
   }
   metadataRules.forEach((rule) => {
     switch (rule.type) {
@@ -264,8 +275,11 @@ function computeServerRules(
         const ruleLessthanOrEqualDate = rule as TSubmit64RuleLessThanDate;
         rules.push(
           lessThanOrEqualDate(
-            () => ruleLessthanOrEqualDate.less_than!,
-            formSettings.dateFormat
+            () =>
+              computedRuleDateFormatToFormFactoryFormat(
+                ruleLessthanOrEqualDate.less_than!
+              ),
+            formFactorySettings.dateFormat
           )
         );
         break;
@@ -273,8 +287,11 @@ function computeServerRules(
         const ruleLessThanDate = rule as TSubmit64RuleLessThanDate;
         rules.push(
           lessThanDate(
-            () => ruleLessThanDate.less_than!,
-            formSettings.dateFormat
+            () =>
+              computedRuleDateFormatToFormFactoryFormat(
+                ruleLessThanDate.less_than!
+              ),
+            formFactorySettings.dateFormat
           )
         );
         break;
@@ -282,8 +299,11 @@ function computeServerRules(
         const ruleGreaterThanOrEqualDate = rule as TSubmit64RuleGreaterThanDate;
         rules.push(
           greaterThanOrEqualDate(
-            () => ruleGreaterThanOrEqualDate.greater_than!,
-            formSettings.dateFormat
+            () =>
+              computedRuleDateFormatToFormFactoryFormat(
+                ruleGreaterThanOrEqualDate.greater_than!
+              ),
+            formFactorySettings.dateFormat
           )
         );
         break;
@@ -291,8 +311,11 @@ function computeServerRules(
         const ruleGreaterThanDate = rule as TSubmit64RuleGreaterThanDate;
         rules.push(
           greaterThanDate(
-            () => ruleGreaterThanDate.greater_than!,
-            formSettings.dateFormat
+            () =>
+              computedRuleDateFormatToFormFactoryFormat(
+                ruleGreaterThanDate.greater_than!
+              ),
+            formFactorySettings.dateFormat
           )
         );
         break;
@@ -300,8 +323,11 @@ function computeServerRules(
         const ruleEqualToDate = rule as TSubmit64RuleEqualString;
         rules.push(
           equalToDate(
-            () => ruleEqualToDate.equal_to!,
-            formSettings.dateFormat
+            () =>
+              computedRuleDateFormatToFormFactoryFormat(
+                ruleEqualToDate.equal_to!
+              ),
+            formFactorySettings.dateFormat
           )
         );
         break;
@@ -309,8 +335,11 @@ function computeServerRules(
         const ruleOtherThanDate = rule as TSubmit64RuleOtherThanString;
         rules.push(
           otherThanDate(
-            () => ruleOtherThanDate.other_than!,
-            formSettings.dateFormat
+            () =>
+              computedRuleDateFormatToFormFactoryFormat(
+                ruleOtherThanDate.other_than!
+              ),
+            formFactorySettings.dateFormat
           )
         );
         break;

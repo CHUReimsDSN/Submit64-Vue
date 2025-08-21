@@ -63,7 +63,6 @@ function getBindingsIcon(
 function getBindingsDate(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
 ): QDateProps & TPropsWithClass {
-  console.log(propsWrapper.injectForm.getFormFactoryInstance().formSettings.dateFormat)
   return {
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue,

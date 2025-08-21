@@ -1,10 +1,13 @@
 import { date } from "quasar";
-function computeServerRules(metadataRules, formSettings, fieldType) {
+function computeServerRules(metadataRules, formFactorySettings, form, fieldType) {
+    const computedRuleDateFormatToFormFactoryFormat = (ruleDate) => {
+        return String(date.formatDate(date.extractDate(ruleDate, form.backendDateFormat), formFactorySettings.dateFormat));
+    };
     const rules = [];
     const upperRules = [];
     switch (fieldType) {
-        case 'date':
-            rules.push(validDate(formSettings.dateFormat));
+        case "date":
+            rules.push(validDate(formFactorySettings.dateFormat));
     }
     metadataRules.forEach((rule) => {
         switch (rule.type) {
@@ -132,27 +135,27 @@ function computeServerRules(metadataRules, formSettings, fieldType) {
             // date
             case "lessThanOrEqualDate":
                 const ruleLessthanOrEqualDate = rule;
-                rules.push(lessThanOrEqualDate(() => ruleLessthanOrEqualDate.less_than, formSettings.dateFormat));
+                rules.push(lessThanOrEqualDate(() => computedRuleDateFormatToFormFactoryFormat(ruleLessthanOrEqualDate.less_than), formFactorySettings.dateFormat));
                 break;
             case "lessThanDate":
                 const ruleLessThanDate = rule;
-                rules.push(lessThanDate(() => ruleLessThanDate.less_than, formSettings.dateFormat));
+                rules.push(lessThanDate(() => computedRuleDateFormatToFormFactoryFormat(ruleLessThanDate.less_than), formFactorySettings.dateFormat));
                 break;
             case "greaterThanOrEqualDate":
                 const ruleGreaterThanOrEqualDate = rule;
-                rules.push(greaterThanOrEqualDate(() => ruleGreaterThanOrEqualDate.greater_than, formSettings.dateFormat));
+                rules.push(greaterThanOrEqualDate(() => computedRuleDateFormatToFormFactoryFormat(ruleGreaterThanOrEqualDate.greater_than), formFactorySettings.dateFormat));
                 break;
             case "greaterThanDate":
                 const ruleGreaterThanDate = rule;
-                rules.push(greaterThanDate(() => ruleGreaterThanDate.greater_than, formSettings.dateFormat));
+                rules.push(greaterThanDate(() => computedRuleDateFormatToFormFactoryFormat(ruleGreaterThanDate.greater_than), formFactorySettings.dateFormat));
                 break;
             case "equalToDate":
                 const ruleEqualToDate = rule;
-                rules.push(equalToDate(() => ruleEqualToDate.equal_to, formSettings.dateFormat));
+                rules.push(equalToDate(() => computedRuleDateFormatToFormFactoryFormat(ruleEqualToDate.equal_to), formFactorySettings.dateFormat));
                 break;
             case "otherThanDate":
                 const ruleOtherThanDate = rule;
-                rules.push(otherThanDate(() => ruleOtherThanDate.other_than, formSettings.dateFormat));
+                rules.push(otherThanDate(() => computedRuleDateFormatToFormFactoryFormat(ruleOtherThanDate.other_than), formFactorySettings.dateFormat));
                 break;
         }
     });
