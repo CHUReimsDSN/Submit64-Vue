@@ -87,7 +87,7 @@ onMounted(() => {
       </slot>
     </template>
     <slot
-      :propsWrapper="({ modelValue, modelValueOnUpdate,  field, injectForm, reset, clear, getComputedRules } as TSubmit64FieldWrapperPropsSlot)"
+      :propsWrapper="({ modelValue, modelValueOnUpdate, field, injectForm, reset, clear, getComputedRules } as TSubmit64FieldWrapperPropsSlot)"
     ></slot>
   </div>
 </template>

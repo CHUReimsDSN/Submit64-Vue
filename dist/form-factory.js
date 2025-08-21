@@ -3,14 +3,11 @@ import TextField from "./components/TextField.vue";
 import DateField from "./components/DateField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
 import { Submit64 } from "./submit64";
-import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
-import DefaultActionComponent from "./components/DefaultActionComponent.vue";
 import NumberField from "./components/NumberField.vue";
 import SelectHasManyField from "./components/SelectHasManyField.vue";
 import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
-import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
 export class FormFactory {
     static getFieldComponentByFormFieldType(fieldType) {
         return {
@@ -25,38 +22,6 @@ export class FormFactory {
             object: ObjectField,
         }[fieldType];
     }
-    static getDefaultFormSettings() {
-        return {
-            rulesBehaviour: "lazy",
-            dateFormat: "DD/MM/YYYY",
-            datetimeFormat: "DD/MM/YYYY:HHmm",
-            renderBackendHint: true,
-        };
-    }
-    static getDefaultFormStyleSettings() {
-        return {
-            fieldOutlined: true,
-            fieldDense: true,
-            fieldHideBottomSpace: true,
-            fieldFilled: false,
-            fieldStandout: false,
-            fieldBorderless: false,
-            fieldRounded: false,
-            fieldSquare: false,
-            fieldClass: "",
-            fieldColor: "primary",
-            fieldBgColor: "white",
-        };
-    }
-    static getDefaultActionComponent() {
-        return DefaultActionComponent;
-    }
-    static getDefaultSectionComponent() {
-        return DefaultSectionComponent;
-    }
-    static getDefaultWrapperResetComponent() {
-        return DefaultWrapperResetComponent;
-    }
     resourceName;
     formSettings;
     formStyleConfig;
@@ -66,27 +31,22 @@ export class FormFactory {
     constructor(resourceName, globalFormSettings, globalFormStyleConfig, actionComponent, sectionComponent, wrapperResetComponent) {
         this.resourceName = resourceName;
         this.formSettings = {
-            ...FormFactory.getDefaultFormSettings(),
             ...Submit64.getGlobalFormSetting(),
             ...globalFormSettings,
         };
         this.formStyleConfig = {
-            ...FormFactory.getDefaultFormStyleSettings(),
             ...Submit64.getGlobalFormStyleConfig(),
             ...globalFormStyleConfig,
         };
         this.actionComponent =
             actionComponent ??
-                Submit64.getGlobalActionComponent() ??
-                FormFactory.getDefaultActionComponent();
+                Submit64.getGlobalActionComponent();
         this.sectionComponent =
             sectionComponent ??
-                Submit64.getGlobalSectionComponent() ??
-                FormFactory.getDefaultSectionComponent();
+                Submit64.getGlobalSectionComponent();
         this.wrapperResetComponent =
             wrapperResetComponent ??
-                Submit64.getGlobalWrapperResetComponent() ??
-                FormFactory.getDefaultWrapperResetComponent();
+                Submit64.getGlobalWrapperResetComponent();
     }
     getAllField(formMetadataAndData, providingUniqKey) {
         const sections = [];

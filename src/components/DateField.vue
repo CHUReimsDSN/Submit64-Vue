@@ -5,20 +5,21 @@ import {
   TSubmit64FieldWrapperPropsSlot,
 } from "../models";
 import type { QDateProps, QIconProps, QInputProps } from "quasar";
-import { QInput, QIcon, QPopupProxy, QDate, QBtn } from "quasar";
+import { QInput, QIcon, QPopupProxy, QDate, QBtn, date } from "quasar";
 import FieldWrapper from "./FieldWrapper.vue";
-import { ref } from "vue";
+import { Component, ref } from "vue";
+import { Submit64 } from "../submit64";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // refs
-const popupProxyRef = ref<InstanceType<typeof QPopupProxy>>()
+const popupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
 
 // functions
 function getBindings(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
-): QInputProps & TPropsWithClass {
+): QInputProps & TPropsWithClass & Component {
   const formFactory = propsWrapper.injectForm.getFormFactory();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
@@ -26,12 +27,20 @@ function getBindings(
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue as string,
+
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,
     rules: propsWrapper.getComputedRules(),
 
     // events
     onClear: propsWrapper.clear,
+    mounted: () =>
+      propsWrapper.modelValueOnUpdate(
+        date.formatDate(
+          new Date(String(propsWrapper.modelValue)),
+          Submit64.getGlobalFormSetting().dateFormat
+        )
+      ),
 
     // display
     label: propsWrapper.field.label,
@@ -70,7 +79,7 @@ function getBindingsDate(
 }
 function closePopUp() {
   if (!popupProxyRef.value) {
-    return
+    return;
   }
   popupProxyRef.value.hide();
 }

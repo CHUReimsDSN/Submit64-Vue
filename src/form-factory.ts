@@ -13,14 +13,11 @@ import type {
   TSubmit64FormProvider,
 } from "./models";
 import { Submit64 } from "./submit64";
-import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
-import DefaultActionComponent from "./components/DefaultActionComponent.vue";
 import NumberField from "./components/NumberField.vue";
 import SelectHasManyField from "./components/SelectHasManyField.vue";
 import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
-import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
 
 export class FormFactory {
   private static getFieldComponentByFormFieldType(
@@ -38,46 +35,10 @@ export class FormFactory {
       object: ObjectField,
     }[fieldType];
   }
-  private static getDefaultFormSettings(): TFormSettings {
-    return {
-      rulesBehaviour: "lazy",
-      dateFormat: "DD/MM/YYYY",
-      datetimeFormat: "DD/MM/YYYY:HHmm",
-      renderBackendHint: true,
-    };
-  }
-
-  private static getDefaultFormStyleSettings(): TFormStyleConfig {
-    return {
-      fieldOutlined: true,
-      fieldDense: true,
-      fieldHideBottomSpace: true,
-      fieldFilled: false,
-      fieldStandout: false,
-      fieldBorderless: false,
-      fieldRounded: false,
-      fieldSquare: false,
-      fieldClass: "",
-      fieldColor: "primary",
-      fieldBgColor: "white",
-    };
-  }
-
-  private static getDefaultActionComponent(): Component {
-    return DefaultActionComponent;
-  }
-
-  private static getDefaultSectionComponent(): Component {
-    return DefaultSectionComponent;
-  }
-
-  private static getDefaultWrapperResetComponent(): Component {
-    return DefaultWrapperResetComponent;
-  }
 
   resourceName: string;
-  formSettings: TFormSettings;
-  formStyleConfig: TFormStyleConfig;
+  formSettings: Partial<TFormSettings>;
+  formStyleConfig: Partial<TFormStyleConfig>;
   actionComponent: Component;
   sectionComponent: Component;
   wrapperResetComponent: Component;
@@ -92,27 +53,22 @@ export class FormFactory {
   ) {
     this.resourceName = resourceName;
     this.formSettings = {
-      ...FormFactory.getDefaultFormSettings(),
       ...Submit64.getGlobalFormSetting(),
       ...globalFormSettings,
     };
     this.formStyleConfig = {
-      ...FormFactory.getDefaultFormStyleSettings(),
       ...Submit64.getGlobalFormStyleConfig(),
       ...globalFormStyleConfig,
     };
     this.actionComponent =
       actionComponent ??
-      Submit64.getGlobalActionComponent() ??
-      FormFactory.getDefaultActionComponent();
+      Submit64.getGlobalActionComponent()
     this.sectionComponent =
       sectionComponent ??
-      Submit64.getGlobalSectionComponent() ??
-      FormFactory.getDefaultSectionComponent();
+      Submit64.getGlobalSectionComponent()
     this.wrapperResetComponent =
       wrapperResetComponent ??
-      Submit64.getGlobalWrapperResetComponent() ??
-      FormFactory.getDefaultWrapperResetComponent();
+      Submit64.getGlobalWrapperResetComponent()
   }
 
   getAllField(formMetadataAndData: TResourceFormMetadataAndData, providingUniqKey: InjectionKey<TSubmit64FormProvider>): TFormDef {
