@@ -2,7 +2,7 @@ import StringField from "./components/StringField.vue";
 import TextField from "./components/TextField.vue";
 import DateField from "./components/DateField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
-import type { Component } from "vue";
+import type { Component, InjectionKey } from "vue";
 import type {
   TFormDef,
   TFormFieldDef,
@@ -10,6 +10,7 @@ import type {
   TFormSettings,
   TFormSection,
   TResourceFormMetadataAndData,
+  TSubmit64FormProvider,
 } from "./models";
 import { Submit64 } from "./submit64";
 import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
@@ -20,7 +21,6 @@ import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
 import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
-import { getSubmit64FormProviderSymbol } from "./inject-provider-symbol";
 
 export class FormFactory {
   private static getFieldComponentByFormFieldType(
@@ -115,8 +115,7 @@ export class FormFactory {
       FormFactory.getDefaultWrapperResetComponent();
   }
 
-  getAllField(formMetadataAndData: TResourceFormMetadataAndData, provideUuid: string): TFormDef {
-    const provideUniqKey = getSubmit64FormProviderSymbol(provideUuid);
+  getAllField(formMetadataAndData: TResourceFormMetadataAndData, providingUniqKey: InjectionKey<TSubmit64FormProvider>): TFormDef {
     const sections: TFormSection[] = [];
     formMetadataAndData.form.sections.forEach((sectionMetadata) => {
       const fields: TFormFieldDef[] = [];
@@ -134,7 +133,7 @@ export class FormFactory {
           rules: columnMetadata.rules,
           clearable: columnMetadata.clearable,
           resetable: columnMetadata.resetable,
-          provideUniqKey,
+          provideUniqKey: providingUniqKey,
           component,
         };
         fields.push(field);

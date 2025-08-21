@@ -10,6 +10,7 @@ import {
 import { FormFactory } from "./form-factory";
 import FieldWrapper from "./components/FieldWrapper.vue";
 import { uid } from "quasar";
+import { getSubmit64FormProviderSymbol } from "./inject-provider-symbol";
 
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
@@ -22,7 +23,7 @@ const formFactory = Object.freeze(
     propsComponent.globalFormSettings
   )
 );
-const provideUniqKey = uid();
+const providingUniqKey = getSubmit64FormProviderSymbol(uid());
 
 // refs
 const fieldRefs = ref<Record<string, TSubmit64Field>>({});
@@ -38,7 +39,7 @@ async function setupMetadatasAndForm() {
     context: propsComponent.context,
   });
   generatedForm.value = Object.freeze(
-    formFactory.getAllField(formMetadataAndData, provideUniqKey)
+    formFactory.getAllField(formMetadataAndData, providingUniqKey)
   );
   setupIsDone.value = true;
 }
@@ -88,7 +89,7 @@ function getFormFactory() {
 }
 
 // provides
-provide(provideUniqKey, {
+provide(providingUniqKey, {
   registerRef,
   getDefaultDataByFieldName,
   getFieldDataByFieldName,
