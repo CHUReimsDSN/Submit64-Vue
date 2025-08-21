@@ -7,7 +7,7 @@ import {
 import type { QDateProps, QIconProps, QInputProps } from "quasar";
 import { QInput, QIcon, QPopupProxy, QDate, QBtn, date } from "quasar";
 import FieldWrapper from "./FieldWrapper.vue";
-import { Component, ref } from "vue";
+import { ref } from "vue";
 import { Submit64 } from "../submit64";
 
 // props
@@ -19,7 +19,7 @@ const popupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
 // functions
 function getBindings(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
-): QInputProps & TPropsWithClass & Component {
+): QInputProps & TPropsWithClass {
   const formFactory = propsWrapper.injectForm.getFormFactory();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
@@ -34,13 +34,6 @@ function getBindings(
 
     // events
     onClear: propsWrapper.clear,
-    mounted: () =>
-      propsWrapper.modelValueOnUpdate(
-        date.formatDate(
-          new Date(String(propsWrapper.modelValue)),
-          Submit64.getGlobalFormSetting().dateFormat
-        )
-      ),
 
     // display
     label: propsWrapper.field.label,
@@ -83,12 +76,20 @@ function closePopUp() {
   }
   popupProxyRef.value.hide();
 }
+function setupTimestamp(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
+  propsWrapper.modelValueOnUpdate(
+    date.formatDate(
+      new Date(String(propsWrapper.modelValue)),
+      Submit64.getGlobalFormSetting().dateFormat
+    )
+  );
+}
 </script>
 
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-input v-bind="getBindings(propsWrapper)">
+      <q-input v-bind="getBindings(propsWrapper)" @vue:mounted="setupTimestamp">
         <template v-slot:append>
           <q-icon v-bind="getBindingsIcon(propsWrapper)">
             <q-popup-proxy
