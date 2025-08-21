@@ -1,8 +1,8 @@
 var ae = Object.defineProperty;
 var re = (n, t, l) => t in n ? ae(n, t, { enumerable: !0, configurable: !0, writable: !0, value: l }) : n[t] = l;
 var C = (n, t, l) => re(n, typeof t != "symbol" ? t + "" : t, l);
-import { defineComponent as y, createElementBlock as B, openBlock as u, createVNode as S, createBlock as h, createCommentVNode as O, unref as m, normalizeClass as Z, createElementVNode as x, toDisplayString as se, renderSlot as R, resolveComponent as ie, inject as ue, ref as v, onMounted as M, getCurrentInstance as ce, resolveDynamicComponent as G, withCtx as _, normalizeProps as p, guardReactiveProps as k, mergeProps as Q, provide as de, Fragment as Y, renderList as J } from "vue";
-import { QBtn as z, QIcon as W, date as c, QInput as U, QPopupProxy as fe, QDate as me, QCheckbox as ge, QSelect as A, uid as he } from "quasar";
+import { defineComponent as y, createElementBlock as k, openBlock as u, createVNode as S, createBlock as h, createCommentVNode as x, unref as m, normalizeClass as X, createElementVNode as O, toDisplayString as se, renderSlot as R, resolveComponent as ie, inject as ue, ref as v, onMounted as Z, getCurrentInstance as ce, resolveDynamicComponent as G, withCtx as _, normalizeProps as V, guardReactiveProps as N, mergeProps as M, provide as de, Fragment as Y, renderList as K } from "vue";
+import { QBtn as z, QIcon as W, date as c, QInput as U, QPopupProxy as fe, QDate as me, QCheckbox as ge, QSelect as Q, uid as he } from "quasar";
 const be = { class: "flex row items-center no-wrap q-pt-sm" }, _e = /* @__PURE__ */ y({
   __name: "DefaultActionComponent",
   props: {
@@ -13,7 +13,7 @@ const be = { class: "flex row items-center no-wrap q-pt-sm" }, _e = /* @__PURE__
   },
   setup(n) {
     const t = n;
-    return (l, e) => (u(), B("div", be, [
+    return (l, e) => (u(), k("div", be, [
       S(m(z), {
         label: "Enregistrer",
         loading: t.isLoadingSubmit,
@@ -24,13 +24,13 @@ const be = { class: "flex row items-center no-wrap q-pt-sm" }, _e = /* @__PURE__
         loading: t.isLoadingSubmit,
         label: "Réinitialiser",
         onClick: t.reset
-      }, null, 8, ["loading", "onClick"])) : O("", !0),
+      }, null, 8, ["loading", "onClick"])) : x("", !0),
       t.clear ? (u(), h(m(z), {
         key: 1,
         loading: t.isLoadingSubmit,
         label: "Vider",
         onClick: t.clear
-      }, null, 8, ["loading", "onClick"])) : O("", !0)
+      }, null, 8, ["loading", "onClick"])) : x("", !0)
     ]));
   }
 }), Ce = { class: "flex row items-center" }, Se = { class: "text-body1 text-weight-medium" }, ye = { class: "flex column q-gutter-sm" }, Fe = /* @__PURE__ */ y({
@@ -40,18 +40,18 @@ const be = { class: "flex row items-center no-wrap q-pt-sm" }, _e = /* @__PURE__
   },
   setup(n) {
     const t = n;
-    return (l, e) => (u(), B("div", {
-      class: Z(["flex column", t.section.cssClass])
+    return (l, e) => (u(), k("div", {
+      class: X(["flex column", t.section.cssClass])
     }, [
-      x("div", Ce, [
+      O("div", Ce, [
         t.section.icon ? (u(), h(m(W), {
           key: 0,
           name: t.section.icon,
           size: "sm"
-        }, null, 8, ["name"])) : O("", !0),
-        x("div", Se, se(t.section.label), 1)
+        }, null, 8, ["name"])) : x("", !0),
+        O("div", Se, se(t.section.label), 1)
       ]),
-      x("div", ye, [
+      O("div", ye, [
         R(l.$slots, "default")
       ])
     ], 2));
@@ -146,7 +146,7 @@ function De(n, t, l) {
   return n.forEach((a) => {
     switch (a.type) {
       case "required":
-        e.push(X());
+        e.push(J());
         break;
       case "absence":
         e.push(Ve());
@@ -163,7 +163,7 @@ function De(n, t, l) {
         e.push(qe(i.excluding));
         break;
       case "backend":
-        e.push(X());
+        e.push(J());
         break;
       case "allowNull":
         r.push("allowNull");
@@ -209,9 +209,9 @@ function De(n, t, l) {
           break;
         }
       case "equalToNumber":
-        const V = a;
-        if (V.equal_to) {
-          e.push($e(() => V.equal_to));
+        const p = a;
+        if (p.equal_to) {
+          e.push($e(() => p.equal_to));
           break;
         }
       case "otherThanNumber":
@@ -294,10 +294,10 @@ function De(n, t, l) {
         e.push(Ae(() => H.other_than));
         break;
       case "lessThanOrEqualDate":
-        const N = a;
+        const B = a;
         e.push(
           Ke(
-            () => N.less_than,
+            () => B.less_than,
             t.dateFormat
           )
         );
@@ -351,13 +351,13 @@ function De(n, t, l) {
   }), r.length > 0 ? r.map((a) => {
     switch (a) {
       case "allowBlank":
-        return pe(e);
-      case "allowNull":
         return Be(e);
+      case "allowNull":
+        return pe(e);
     }
   }) : e;
 }
-function X() {
+function J() {
   return (n) => !!n || "Ce champ est requis";
 }
 function ee(n) {
@@ -374,14 +374,14 @@ function Ve() {
 function Ne() {
   return (n) => !!n || "Doit être accepté";
 }
-function Be(n) {
+function pe(n) {
   return (t) => (t === null || n.forEach((l) => {
     const e = l(t);
     if (e !== !0)
       return e;
   }), !0);
 }
-function pe(n) {
+function Be(n) {
   return (t) => (t === "" || n.forEach((l) => {
     const e = l(t);
     if (e !== !0)
@@ -537,7 +537,7 @@ const tt = {
       reset: o,
       clear: i,
       getValue: a
-    }), M(() => {
+    }), Z(() => {
       var g;
       o();
       const d = (g = ce()) == null ? void 0 : g.proxy;
@@ -545,13 +545,13 @@ const tt = {
         l.field.metadata.field_name,
         d
       );
-    }), (d, g) => (u(), B("div", null, [
+    }), (d, g) => (u(), k("div", null, [
       l.field.resetable ? R(d.$slots, "reset", {
         key: 0,
         actionProps: { reset: o }
       }, () => [
         (u(), h(G(m(e).getFormFactory().wrapperResetComponent), { reset: o }))
-      ]) : O("", !0),
+      ]) : x("", !0),
       R(d.$slots, "default", {
         propsWrapper: { modelValue: r.value, modelValueOnUpdate: b, field: d.field, injectForm: m(e), reset: o, clear: i, getComputedRules: s }
       })
@@ -595,7 +595,7 @@ const tt = {
       field: t.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(m(U), p(k(l(a))), null, 16)
+        S(m(U), V(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -638,12 +638,12 @@ const tt = {
       field: t.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(m(U), Q(l(a), { type: "textarea" }), null, 16)
+        S(m(U), M(l(a), { type: "textarea" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), ot = { class: "row items-center justify-end" }, at = /* @__PURE__ */ y({
+}), ot = ["onVnodeMounted"], at = { class: "row items-center justify-end" }, rt = /* @__PURE__ */ y({
   __name: "DateField",
   props: {
     field: {}
@@ -654,7 +654,7 @@ const tt = {
       const b = s.injectForm.getFormFactory(), d = b.formSettings, g = b.formStyleConfig;
       return {
         // behaviour
-        "onUpdate:modelValue": (V) => s.modelValueOnUpdate(V),
+        "onUpdate:modelValue": (p) => s.modelValueOnUpdate(p),
         modelValue: s.modelValue,
         lazyRules: d.rulesBehaviour === "lazy",
         clearable: s.field.clearable,
@@ -707,48 +707,50 @@ const tt = {
       field: t.field
     }, {
       default: _(({ propsWrapper: d }) => [
-        S(m(U), Q(e(d), {
+        O("template", {
           onVnodeMounted: () => i(d)
-        }), {
-          append: _(() => [
-            S(m(W), p(k(r())), {
-              default: _(() => [
-                S(m(fe), {
-                  ref_key: "popupProxyRef",
-                  ref: l,
-                  cover: "",
-                  "transition-show": "scale",
-                  "transition-hide": "scale"
-                }, {
-                  default: _(() => [
-                    S(m(me), p(k(a(d))), {
-                      default: _(() => [
-                        x("div", ot, [
-                          S(m(z), {
-                            onClick: o,
-                            label: "Fermer",
-                            color: "secondary",
-                            flat: "",
-                            "no-caps": ""
-                          })
-                        ])
-                      ]),
-                      _: 2
-                    }, 1040)
-                  ]),
-                  _: 2
-                }, 1536)
-              ]),
-              _: 2
-            }, 1040)
-          ]),
-          _: 2
-        }, 1040, ["onVnodeMounted"])
+        }, [
+          S(m(U), V(N(e(d))), {
+            append: _(() => [
+              S(m(W), V(N(r())), {
+                default: _(() => [
+                  S(m(fe), {
+                    ref_key: "popupProxyRef",
+                    ref: l,
+                    cover: "",
+                    "transition-show": "scale",
+                    "transition-hide": "scale"
+                  }, {
+                    default: _(() => [
+                      S(m(me), V(N(a(d))), {
+                        default: _(() => [
+                          O("div", at, [
+                            S(m(z), {
+                              onClick: o,
+                              label: "Fermer",
+                              color: "secondary",
+                              flat: "",
+                              "no-caps": ""
+                            })
+                          ])
+                        ]),
+                        _: 2
+                      }, 1040)
+                    ]),
+                    _: 2
+                  }, 1536)
+                ]),
+                _: 2
+              }, 1040)
+            ]),
+            _: 2
+          }, 1040)
+        ], 8, ot)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), rt = /* @__PURE__ */ y({
+}), st = /* @__PURE__ */ y({
   __name: "CheckboxField",
   props: {
     field: {}
@@ -772,12 +774,12 @@ const tt = {
       field: t.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(m(ge), p(k(l(a))), null, 16)
+        S(m(ge), V(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), st = /* @__PURE__ */ y({
+}), it = /* @__PURE__ */ y({
   __name: "NumberField",
   props: {
     field: {}
@@ -815,12 +817,12 @@ const tt = {
       field: t.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(m(U), Q(l(a), { type: "number" }), null, 16)
+        S(m(U), M(l(a), { type: "number" }), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), it = /* @__PURE__ */ y({
+}), ut = /* @__PURE__ */ y({
   __name: "SelectHasManyField",
   props: {
     field: {}
@@ -863,21 +865,21 @@ const tt = {
       field: t.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(m(A), p(k(l(a))), null, 16)
+        S(m(Q), V(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), ut = (n, t) => {
+}), ct = (n, t) => {
   const l = n.__vccOpts || n;
   for (const [e, r] of t)
     l[e] = r;
   return l;
-}, ct = {};
-function dt(n, t) {
+}, dt = {};
+function ft(n, t) {
   return " TODO json edit ? ";
 }
-const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ y({
+const mt = /* @__PURE__ */ ct(dt, [["render", ft]]), gt = /* @__PURE__ */ y({
   __name: "SelectField",
   props: {
     field: {}
@@ -918,12 +920,12 @@ const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ y({
       field: t.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(m(A), p(k(l(a))), null, 16)
+        S(m(Q), V(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
-}), gt = /* @__PURE__ */ y({
+}), ht = /* @__PURE__ */ y({
   __name: "SelectBelongsToField",
   props: {
     field: {}
@@ -964,13 +966,13 @@ const ft = /* @__PURE__ */ ut(ct, [["render", dt]]), mt = /* @__PURE__ */ y({
       field: t.field
     }, {
       default: _(({ propsWrapper: a }) => [
-        S(m(A), p(k(l(a))), null, 16)
+        S(m(Q), V(N(l(a))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
   }
 });
-class K {
+class A {
   constructor(t, l, e, r, a, o) {
     C(this, "resourceName");
     C(this, "formSettings");
@@ -990,13 +992,13 @@ class K {
     return {
       string: nt,
       text: lt,
-      number: st,
-      date: at,
-      selectString: mt,
-      selectBelongsTo: gt,
-      selectHasMany: it,
-      checkbox: rt,
-      object: ft
+      number: it,
+      date: rt,
+      selectString: gt,
+      selectBelongsTo: ht,
+      selectHasMany: ut,
+      checkbox: st,
+      object: mt
     }[t];
   }
   getAllField(t, l) {
@@ -1004,7 +1006,7 @@ class K {
     return t.form.sections.forEach((a) => {
       const o = [];
       a.fields.forEach((s) => {
-        const b = K.getFieldComponentByFormFieldType(
+        const b = A.getFieldComponentByFormFieldType(
           s.field_type
         ), d = {
           type: s.field_type,
@@ -1037,13 +1039,13 @@ class K {
     };
   }
 }
-function ht(n) {
+function bt(n) {
   return Symbol(n);
 }
-const bt = {
+const _t = {
   key: 0,
   class: "flex column"
-}, yt = /* @__PURE__ */ y({
+}, Ft = /* @__PURE__ */ y({
   __name: "Submit64Form",
   props: {
     resourceName: {},
@@ -1057,11 +1059,11 @@ const bt = {
     const l = n;
     let e = null;
     const r = Object.freeze(
-      new K(
+      new A(
         l.resourceName,
         l.globalFormSettings
       )
-    ), a = ht(he()), o = v({}), i = v(), s = v(!1), b = v(!1);
+    ), a = bt(he()), o = v({}), i = v(), s = v(!1), b = v(!1);
     async function d() {
       e = await l.getMetadataAndData({
         resourceName: l.resourceName,
@@ -1078,9 +1080,9 @@ const bt = {
         f[T[0]] = T[1].getValue();
       });
       const F = await l.submitForm({ formData: f });
-      e && (e.resource_data = F), V(), b.value = !1;
+      e && (e.resource_data = F), p(), b.value = !1;
     }
-    function V() {
+    function p() {
       Object.values(o.value).forEach((f) => {
         f.reset();
       });
@@ -1109,31 +1111,31 @@ const bt = {
       getDefaultDataByFieldName: E,
       getFieldDataByFieldName: L,
       getFormFactory: j
-    }), t({}), M(async () => {
+    }), t({}), Z(async () => {
       await d();
-    }), (f, F) => s.value && i.value ? (u(), B("div", bt, [
-      x("div", {
-        class: Z(i.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
+    }), (f, F) => s.value && i.value ? (u(), k("div", _t, [
+      O("div", {
+        class: X(i.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (u(!0), B(Y, null, J(i.value.sections, (T, H) => (u(), h(G(m(r).sectionComponent), {
+        (u(!0), k(Y, null, K(i.value.sections, (T, H) => (u(), h(G(m(r).sectionComponent), {
           key: H,
           section: T
         }, {
           default: _(() => [
-            (u(!0), B(Y, null, J(T.fields, (N) => (u(), B(Y, {
-              key: N.metadata.field_name
+            (u(!0), k(Y, null, K(T.fields, (B) => (u(), k(Y, {
+              key: B.metadata.field_name
             }, [
-              f.$slots[N.metadata.field_name] ? (u(), h(D, {
+              f.$slots[B.metadata.field_name] ? (u(), h(D, {
                 key: 1,
-                field: N
+                field: B
               }, {
                 default: _(({ propsWrapper: P }) => [
                   R(f.$slots, "default", { propsWrapper: P })
                 ]),
                 _: 2
-              }, 1032, ["field"])) : (u(), h(G(N.component), {
+              }, 1032, ["field"])) : (u(), h(G(B.component), {
                 key: 0,
-                field: N
+                field: B
               }, null, 8, ["field"]))
             ], 64))), 128))
           ]),
@@ -1144,16 +1146,16 @@ const bt = {
         isLoadingSubmit: b.value,
         submit: g,
         clear: i.value.clearable ? $ : void 0,
-        reset: i.value.resetable ? V : void 0
+        reset: i.value.resetable ? p : void 0
       }, null, 8, ["isLoadingSubmit", "clear", "reset"])),
       f.$slots.more_actions ? R(f.$slots, "more_actions", {
         key: 0,
         propsForm: { generatedForm: i.value }
-      }) : O("", !0)
-    ])) : O("", !0);
+      }) : x("", !0)
+    ])) : x("", !0);
   }
 });
 export {
   q as Submit64,
-  yt as Submit64Form
+  Ft as Submit64Form
 };
