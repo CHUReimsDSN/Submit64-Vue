@@ -335,7 +335,7 @@ function greaterThanDate(greaterThan, format) {
     return (val) => (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
         date.extractDate(String(val), format) >
             date.extractDate(greaterThanValue, format)) ||
-        `Sup. à ${date.formatDate(greaterThanValue, format)}`;
+        `Sup. à ${date.formatDate(greaterThanValue, format)}, current is ${date.formatDate(String(val), format)}`;
 }
 function equalToDate(equalTo, format, source) {
     const equalToValue = equalTo();

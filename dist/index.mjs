@@ -1,7 +1,7 @@
 var re = Object.defineProperty;
 var se = (n, e, l) => e in n ? re(n, e, { enumerable: !0, configurable: !0, writable: !0, value: l }) : n[e] = l;
 var C = (n, e, l) => se(n, typeof e != "symbol" ? e + "" : e, l);
-import { defineComponent as y, createElementBlock as B, openBlock as c, createVNode as S, createBlock as h, createCommentVNode as x, unref as f, normalizeClass as X, createElementVNode as O, toDisplayString as ie, renderSlot as R, resolveComponent as ue, inject as ce, ref as V, onMounted as Z, getCurrentInstance as de, resolveDynamicComponent as G, withCtx as _, normalizeProps as p, guardReactiveProps as q, mergeProps as M, provide as fe, Fragment as Q, renderList as J } from "vue";
+import { defineComponent as y, createElementBlock as v, openBlock as c, createVNode as S, createBlock as h, createCommentVNode as x, unref as f, normalizeClass as X, createElementVNode as O, toDisplayString as ie, renderSlot as R, resolveComponent as ue, inject as ce, ref as V, onMounted as Z, getCurrentInstance as de, resolveDynamicComponent as G, withCtx as _, normalizeProps as p, guardReactiveProps as q, mergeProps as M, provide as fe, Fragment as Q, renderList as J } from "vue";
 import { QBtn as z, QIcon as W, date as i, QInput as H, QPopupProxy as me, QDate as ge, QCheckbox as he, QSelect as A, uid as be } from "quasar";
 const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__ */ y({
   __name: "DefaultActionComponent",
@@ -13,7 +13,7 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
   },
   setup(n) {
     const e = n;
-    return (l, t) => (c(), B("div", _e, [
+    return (l, t) => (c(), v("div", _e, [
       S(f(z), {
         label: "Enregistrer",
         loading: e.isLoadingSubmit,
@@ -40,7 +40,7 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
   },
   setup(n) {
     const e = n;
-    return (l, t) => (c(), B("div", {
+    return (l, t) => (c(), v("div", {
       class: X(["flex column", e.section.cssClass])
     }, [
       O("div", Se, [
@@ -136,7 +136,7 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
   }
 };
 C(U, "_instance", new U());
-let v = U;
+let B = U;
 function ke(n, e, l, t) {
   const r = (s) => String(
     i.formatDate(
@@ -157,7 +157,7 @@ function ke(n, e, l, t) {
         a.push(Ne());
         break;
       case "acceptance":
-        a.push(ve());
+        a.push(Be());
         break;
       case "inclusion":
         const u = s;
@@ -369,7 +369,7 @@ function ke(n, e, l, t) {
       case "allowBlank":
         return Ve(a);
       case "allowNull":
-        return Be(a);
+        return ve(a);
     }
   }) : a;
 }
@@ -387,10 +387,10 @@ function qe(n) {
 function Ne() {
   return (n) => !n || "Ce champ doit être vide";
 }
-function ve() {
+function Be() {
   return (n) => !!n || "Doit être accepté";
 }
-function Be(n) {
+function ve(n) {
   return (e) => (e === null || n.forEach((l) => {
     const t = l(e);
     if (t !== !0)
@@ -497,7 +497,7 @@ function Me(n, e) {
 }
 function We(n, e) {
   const l = n();
-  return (t) => !Number.isNaN(i.extractDate(String(t), e).getTime()) && i.extractDate(String(t), e) > i.extractDate(l, e) || `Sup. à ${i.formatDate(l, e)}`;
+  return (t) => !Number.isNaN(i.extractDate(String(t), e).getTime()) && i.extractDate(String(t), e) > i.extractDate(l, e) || `Sup. à ${i.formatDate(l, e)}, current is ${i.formatDate(String(t), e)}`;
 }
 function et(n, e, l) {
   const t = n();
@@ -596,7 +596,7 @@ const lt = {
         l.field.metadata.field_name,
         g
       );
-    }), (g, T) => (c(), B("div", null, [
+    }), (g, T) => (c(), v("div", null, [
       l.field.resetable ? R(g.$slots, "reset", {
         key: 0,
         actionProps: { reset: o }
@@ -1020,12 +1020,12 @@ class K {
     C(this, "sectionComponent");
     C(this, "wrapperResetComponent");
     this.resourceName = e, this.formSettings = {
-      ...v.getGlobalFormSetting(),
+      ...B.getGlobalFormSetting(),
       ...l
     }, this.formStyleConfig = {
-      ...v.getGlobalFormStyleConfig(),
+      ...B.getGlobalFormStyleConfig(),
       ...t
-    }, this.actionComponent = r ?? v.getGlobalActionComponent(), this.sectionComponent = a ?? v.getGlobalSectionComponent(), this.wrapperResetComponent = o ?? v.getGlobalWrapperResetComponent();
+    }, this.actionComponent = r ?? B.getGlobalActionComponent(), this.sectionComponent = a ?? B.getGlobalSectionComponent(), this.wrapperResetComponent = o ?? B.getGlobalWrapperResetComponent();
   }
   static getFieldComponentByFormFieldType(e) {
     return {
@@ -1158,16 +1158,16 @@ const Ct = {
       getForm: j
     }), e({}), Z(async () => {
       await m();
-    }), (d, F) => u.value && s.value ? (c(), B("div", Ct, [
+    }), (d, F) => u.value && s.value ? (c(), v("div", Ct, [
       O("div", {
         class: X(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (c(!0), B(Q, null, J(s.value.sections, (D, P) => (c(), h(G(f(r).sectionComponent), {
+        (c(!0), v(Q, null, J(s.value.sections, (D, P) => (c(), h(G(f(r).sectionComponent), {
           key: P,
           section: D
         }, {
           default: _(() => [
-            (c(!0), B(Q, null, J(D.fields, (N) => (c(), B(Q, {
+            (c(!0), v(Q, null, J(D.fields, (N) => (c(), v(Q, {
               key: N.metadata.field_name
             }, [
               d.$slots[N.metadata.field_name] ? (c(), h(k, {
@@ -1201,6 +1201,6 @@ const Ct = {
   }
 });
 export {
-  v as Submit64,
+  B as Submit64,
   Dt as Submit64Form
 };
