@@ -99,6 +99,10 @@ function computeServerRules(
     ruleDate: string
   ): string => {
     console.log(ruleDate)
+    console.log(form.backendDateFormat)
+    console.log(formFactorySettings.dateFormat)
+    console.log(date.extractDate(ruleDate, form.backendDateFormat))
+    
     return String(
       date.formatDate(
         date.extractDate(ruleDate, form.backendDateFormat),
@@ -552,8 +556,6 @@ function greaterThanOrEqualDate(greaterThan: () => string, format: string) {
 }
 function greaterThanDate(greaterThan: () => string, format: string) {
   const greaterThanValue = greaterThan();
-  console.log(greaterThan())
-  console.log(format)
   return (val: unknown) =>
     (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
       date.extractDate(String(val), format) >

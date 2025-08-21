@@ -1,9 +1,9 @@
 var re = Object.defineProperty;
 var se = (n, e, l) => e in n ? re(n, e, { enumerable: !0, configurable: !0, writable: !0, value: l }) : n[e] = l;
 var C = (n, e, l) => se(n, typeof e != "symbol" ? e + "" : e, l);
-import { defineComponent as y, createElementBlock as v, openBlock as c, createVNode as S, createBlock as h, createCommentVNode as x, unref as f, normalizeClass as X, createElementVNode as O, toDisplayString as ie, renderSlot as R, resolveComponent as ue, inject as ce, ref as V, onMounted as Z, getCurrentInstance as de, resolveDynamicComponent as G, withCtx as _, normalizeProps as p, guardReactiveProps as q, mergeProps as M, provide as fe, Fragment as Q, renderList as J } from "vue";
+import { defineComponent as F, createElementBlock as v, openBlock as c, createVNode as S, createBlock as h, createCommentVNode as x, unref as f, normalizeClass as X, createElementVNode as O, toDisplayString as ie, renderSlot as R, resolveComponent as ue, inject as ce, ref as V, onMounted as Z, getCurrentInstance as de, resolveDynamicComponent as G, withCtx as _, normalizeProps as p, guardReactiveProps as q, mergeProps as M, provide as fe, Fragment as Q, renderList as J } from "vue";
 import { QBtn as z, QIcon as W, date as i, QInput as H, QPopupProxy as me, QDate as ge, QCheckbox as he, QSelect as A, uid as be } from "quasar";
-const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__ */ y({
+const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__ */ F({
   __name: "DefaultActionComponent",
   props: {
     isLoadingSubmit: { type: Boolean },
@@ -33,7 +33,7 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
       }, null, 8, ["loading", "onClick"])) : x("", !0)
     ]));
   }
-}), Se = { class: "flex row items-center" }, ye = { class: "text-body1 text-weight-medium" }, Fe = { class: "flex column q-gutter-sm" }, De = /* @__PURE__ */ y({
+}), Se = { class: "flex row items-center" }, Fe = { class: "text-body1 text-weight-medium" }, ye = { class: "flex column q-gutter-sm" }, De = /* @__PURE__ */ F({
   __name: "DefaultSectionComponent",
   props: {
     section: {}
@@ -49,14 +49,14 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
           name: e.section.icon,
           size: "sm"
         }, null, 8, ["name"])) : x("", !0),
-        O("div", ye, ie(e.section.label), 1)
+        O("div", Fe, ie(e.section.label), 1)
       ]),
-      O("div", Fe, [
+      O("div", ye, [
         R(l.$slots, "default")
       ])
     ], 2));
   }
-}), Te = /* @__PURE__ */ y({
+}), Te = /* @__PURE__ */ F({
   __name: "DefaultWrapperResetComponent",
   props: {
     reset: { type: Function }
@@ -138,7 +138,7 @@ const _e = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
 C(U, "_instance", new U());
 let B = U;
 function ke(n, e, l, t) {
-  const r = (s) => (console.log(s), String(
+  const r = (s) => (console.log(s), console.log(l.backendDateFormat), console.log(e.dateFormat), console.log(i.extractDate(s, l.backendDateFormat)), String(
     i.formatDate(
       i.extractDate(s, l.backendDateFormat),
       e.dateFormat
@@ -275,9 +275,9 @@ function ke(n, e, l, t) {
           break;
         }
       case "equalToString":
-        const F = s;
-        if (F.equal_to) {
-          a.push(Ae(() => F.equal_to));
+        const y = s;
+        if (y.equal_to) {
+          a.push(Ae(() => y.equal_to));
           break;
         }
       case "betweenStringLength":
@@ -497,7 +497,7 @@ function Me(n, e) {
 }
 function We(n, e) {
   const l = n();
-  return console.log(n()), console.log(e), (t) => !Number.isNaN(i.extractDate(String(t), e).getTime()) && i.extractDate(String(t), e) > i.extractDate(l, e) || `Sup. à ${i.formatDate(l, e)}, current is ${i.formatDate(String(t), e)}`;
+  return (t) => !Number.isNaN(i.extractDate(String(t), e).getTime()) && i.extractDate(String(t), e) > i.extractDate(l, e) || `Sup. à ${i.formatDate(l, e)}, current is ${i.formatDate(String(t), e)}`;
 }
 function et(n, e, l) {
   const t = n();
@@ -512,7 +512,7 @@ function nt(n) {
 }
 const lt = {
   computeServerRules: ke
-}, k = /* @__PURE__ */ y({
+}, k = /* @__PURE__ */ F({
   __name: "FieldWrapper",
   props: {
     field: {}
@@ -608,7 +608,7 @@ const lt = {
       })
     ]));
   }
-}), ot = /* @__PURE__ */ y({
+}), ot = /* @__PURE__ */ F({
   __name: "StringField",
   props: {
     field: {}
@@ -651,7 +651,7 @@ const lt = {
       _: 1
     }, 8, ["field"]));
   }
-}), at = /* @__PURE__ */ y({
+}), at = /* @__PURE__ */ F({
   __name: "TextField",
   props: {
     field: {}
@@ -694,7 +694,7 @@ const lt = {
       _: 1
     }, 8, ["field"]));
   }
-}), rt = { class: "row items-center justify-end" }, st = /* @__PURE__ */ y({
+}), rt = { class: "row items-center justify-end" }, st = /* @__PURE__ */ F({
   __name: "DateField",
   props: {
     field: {}
@@ -789,7 +789,7 @@ const lt = {
       _: 1
     }, 8, ["field"]));
   }
-}), it = /* @__PURE__ */ y({
+}), it = /* @__PURE__ */ F({
   __name: "CheckboxField",
   props: {
     field: {}
@@ -818,7 +818,7 @@ const lt = {
       _: 1
     }, 8, ["field"]));
   }
-}), ut = /* @__PURE__ */ y({
+}), ut = /* @__PURE__ */ F({
   __name: "NumberField",
   props: {
     field: {}
@@ -861,7 +861,7 @@ const lt = {
       _: 1
     }, 8, ["field"]));
   }
-}), ct = /* @__PURE__ */ y({
+}), ct = /* @__PURE__ */ F({
   __name: "SelectHasManyField",
   props: {
     field: {}
@@ -918,7 +918,7 @@ const lt = {
 function mt(n, e) {
   return " TODO json edit ? ";
 }
-const gt = /* @__PURE__ */ dt(ft, [["render", mt]]), ht = /* @__PURE__ */ y({
+const gt = /* @__PURE__ */ dt(ft, [["render", mt]]), ht = /* @__PURE__ */ F({
   __name: "SelectField",
   props: {
     field: {}
@@ -964,7 +964,7 @@ const gt = /* @__PURE__ */ dt(ft, [["render", mt]]), ht = /* @__PURE__ */ y({
       _: 1
     }, 8, ["field"]));
   }
-}), bt = /* @__PURE__ */ y({
+}), bt = /* @__PURE__ */ F({
   __name: "SelectBelongsToField",
   props: {
     field: {}
@@ -1086,7 +1086,7 @@ function _t(n) {
 const Ct = {
   key: 0,
   class: "flex column"
-}, Dt = /* @__PURE__ */ y({
+}, Dt = /* @__PURE__ */ F({
   __name: "Submit64Form",
   props: {
     resourceName: {},
@@ -1120,8 +1120,8 @@ const Ct = {
       Object.entries(o.value).forEach((D) => {
         d[D[0]] = D[1].getValue();
       });
-      const F = await l.submitForm({ formData: d });
-      t && (t.resource_data = F), T(), b.value = !1;
+      const y = await l.submitForm({ formData: d });
+      t && (t.resource_data = y), T(), b.value = !1;
     }
     function T() {
       Object.values(o.value).forEach((d) => {
@@ -1133,16 +1133,16 @@ const Ct = {
         d.clear();
       });
     }
-    function w(d, F) {
-      o.value[d] = F;
+    function w(d, y) {
+      o.value[d] = y;
     }
     function E(d) {
       if (t)
         return t.resource_data[d];
     }
     function I(d) {
-      const F = Object.entries(o.value).find((D) => D[0] === d);
-      return F ? F[1].getValue() : null;
+      const y = Object.entries(o.value).find((D) => D[0] === d);
+      return y ? y[1].getValue() : null;
     }
     function L() {
       return r;
@@ -1158,7 +1158,7 @@ const Ct = {
       getForm: j
     }), e({}), Z(async () => {
       await m();
-    }), (d, F) => u.value && s.value ? (c(), v("div", Ct, [
+    }), (d, y) => u.value && s.value ? (c(), v("div", Ct, [
       O("div", {
         class: X(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [

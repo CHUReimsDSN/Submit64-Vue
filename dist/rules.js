@@ -2,6 +2,9 @@ import { date } from "quasar";
 function computeServerRules(metadataRules, formFactorySettings, form, fieldType) {
     const computedRuleDateFormatToFormFactoryFormat = (ruleDate) => {
         console.log(ruleDate);
+        console.log(form.backendDateFormat);
+        console.log(formFactorySettings.dateFormat);
+        console.log(date.extractDate(ruleDate, form.backendDateFormat));
         return String(date.formatDate(date.extractDate(ruleDate, form.backendDateFormat), formFactorySettings.dateFormat));
     };
     const rules = [];
@@ -333,8 +336,6 @@ function greaterThanOrEqualDate(greaterThan, format) {
 }
 function greaterThanDate(greaterThan, format) {
     const greaterThanValue = greaterThan();
-    console.log(greaterThan());
-    console.log(format);
     return (val) => (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
         date.extractDate(String(val), format) >
             date.extractDate(greaterThanValue, format)) ||
