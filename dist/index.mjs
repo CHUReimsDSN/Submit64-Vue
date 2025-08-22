@@ -557,7 +557,7 @@ const Me = {
     }), H(() => {
       var v;
       o();
-      const h = (v = re()) == null ? void 0 : v.proxy;
+      const h = (v = re()) == null ? void 0 : v.exposed;
       h && e && e.registerRef(
         l.field.metadata.field_name,
         h

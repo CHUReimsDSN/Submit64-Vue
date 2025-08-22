@@ -102,7 +102,7 @@ defineExpose({
 // lifeCycle
 onMounted(() => {
   reset();
-  const proxyInstanceRef = getCurrentInstance()?.proxy;
+  const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef && injectForm) {
     injectForm.registerRef(
       propsComponent.field.metadata.field_name,
