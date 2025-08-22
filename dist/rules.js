@@ -216,14 +216,18 @@ function greaterThanNumber(greaterThan) {
     };
 }
 function equalToNumber(equalTo, source) {
-    const equalToVal = equalTo();
-    return (val) => Number(val) === equalToVal ||
-        `Égale à ${source ? "source (" + equalTo + ")" : equalToVal}`;
+    return (val) => {
+        const equalToVal = equalTo();
+        return (Number(val) === equalToVal ||
+            `Égale à ${source ? "source (" + equalTo + ")" : equalToVal}`);
+    };
 }
 function otherThanNumber(otherThan, source) {
-    const otherThanVal = otherThan();
-    return (val) => Number(val) !== otherThanVal ||
-        `Doit être différent de ${source ? "source (" + otherThan + ")" : otherThan}`;
+    return (val) => {
+        const otherThanVal = otherThan();
+        return (Number(val) !== otherThanVal ||
+            `Doit être différent de ${source ? "source (" + otherThan + ")" : otherThan}`);
+    };
 }
 function numberIntegerOnly() {
     return (val) => /^-?\d+$/.test(String(val).trim()) || "Nombre entier uniquement";
@@ -242,87 +246,114 @@ function numberOdd() {
 }
 // string
 function lessThanOrEqualStringLength(lessThan) {
-    const lessThanVal = lessThan();
-    return (val) => String(val).length <= lessThanVal || `Inf. ou égal à ${lessThanVal}`;
+    return (val) => {
+        const lessThanVal = lessThan();
+        return String(val).length <= lessThanVal || `Inf. ou égal à ${lessThanVal}`;
+    };
 }
 function lessThanStringLength(lessThan) {
-    const lessThanValue = lessThan();
-    return (val) => String(val).length < lessThanValue || `Inf. à ${lessThanValue}`;
+    return (val) => {
+        const lessThanValue = lessThan();
+        return String(val).length < lessThanValue || `Inf. à ${lessThanValue}`;
+    };
 }
 function greaterThanOrEqualStringLength(greaterThan) {
-    const greaterThanValue = greaterThan();
-    return (val) => String(val).length >= greaterThanValue ||
-        `Sup. ou égal à ${greaterThanValue}`;
+    return (val) => {
+        const greaterThanValue = greaterThan();
+        return (String(val).length >= greaterThanValue ||
+            `Sup. ou égal à ${greaterThanValue}`);
+    };
 }
 function greaterThanStringLength(greaterThan) {
-    const greaterThanValue = greaterThan();
-    return (val) => String(val).length > greaterThanValue || `Sup. à ${greaterThanValue}`;
+    return (val) => {
+        const greaterThanValue = greaterThan();
+        return (String(val).length > greaterThanValue || `Sup. à ${greaterThanValue}`);
+    };
 }
 function betweenStringLength(min, max) {
-    const minValue = min();
-    const maxValue = max();
-    return (val) => (String(val).length >= minValue && String(val).length <= maxValue) ||
-        `Entre ${minValue} et ${maxValue}`;
+    return (val) => {
+        const minValue = min();
+        const maxValue = max();
+        return ((String(val).length >= minValue && String(val).length <= maxValue) ||
+            `Entre ${minValue} et ${maxValue}`);
+    };
 }
 function equalToString(equalTo, source) {
-    const equalToValue = equalTo();
-    return (val) => String(val) === equalToValue ||
-        `Égale à ${source ? "source (" + equalToValue + ")" : equalToValue}`;
+    return (val) => {
+        const equalToValue = equalTo();
+        return (String(val) === equalToValue ||
+            `Égale à ${source ? "source (" + equalToValue + ")" : equalToValue}`);
+    };
 }
 function equalToStringLength(equalTo) {
-    const equalToVal = equalTo();
-    return (val) => String(val).length === equalToVal ||
-        `Doit contenir ${equalToVal} caractères`;
+    return (val) => {
+        const equalToVal = equalTo();
+        return (String(val).length === equalToVal ||
+            `Doit contenir ${equalToVal} caractères`);
+    };
 }
-function otherThanString(otherThan, source) {
-    const otherThanVal = otherThan();
-    return (val) => String(val) !== otherThanVal ||
-        `Doit être différent de ${source ? "source (" + otherThanVal + ")" : otherThanVal}`;
+function otherThanString(otherThan) {
+    return (val) => {
+        const otherThanVal = otherThan();
+        return (String(val) !== otherThanVal || `Doit être différent de ${otherThanVal}`);
+    };
 }
 // date
 function lessThanOrEqualDate(lessThan, format) {
-    const lessThanValue = lessThan();
-    return (val) => (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-        date.extractDate(String(val), format) <=
-            date.extractDate(lessThanValue, format)) ||
-        `Inf. ou égal à ${date.formatDate(lessThanValue, format)}`;
+    return (val) => {
+        const lessThanValue = lessThan();
+        const valExtracted = date.extractDate(String(val), format);
+        const lessThanExtracted = date.extractDate(lessThanValue, format);
+        return ((!Number.isNaN(valExtracted.getTime()) &&
+            valExtracted <= lessThanExtracted) ||
+            `Inf. ou égal à ${lessThanValue}`);
+    };
 }
 function lessThanDate(lessThan, format) {
-    const lessThanValue = lessThan();
-    return (val) => (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-        date.extractDate(String(val), format) <
-            date.extractDate(lessThanValue, format)) ||
-        `Inf. à ${date.formatDate(lessThanValue, format)}`;
+    return (val) => {
+        const lessThanValue = lessThan();
+        const valExtracted = date.extractDate(String(val), format);
+        const lessThanExtracted = date.extractDate(lessThanValue, format);
+        return ((!Number.isNaN(valExtracted.getTime()) &&
+            valExtracted < lessThanExtracted) ||
+            `Inf. à ${lessThanValue}`);
+    };
 }
 function greaterThanOrEqualDate(greaterThan, format) {
-    const greaterThanValue = greaterThan();
-    return (val) => (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-        date.extractDate(String(val), format) >=
-            date.extractDate(greaterThanValue, format)) ||
-        `Sup. ou égal à ${date.formatDate(greaterThanValue, format)}`;
+    return (val) => {
+        const greaterThanValue = greaterThan();
+        const valExtracted = date.extractDate(String(val), format);
+        const greaterThanExtracted = date.extractDate(greaterThanValue, format);
+        return ((!Number.isNaN(valExtracted.getTime()) &&
+            valExtracted >= greaterThanExtracted) ||
+            `Sup. ou égal à ${greaterThanValue}`);
+    };
 }
 function greaterThanDate(greaterThan, format) {
     return (val) => {
         const greaterThanValue = greaterThan();
         const valExtracted = date.extractDate(String(val), format);
         const greaterThanExtracted = date.extractDate(greaterThanValue, format);
-        console.log(greaterThanValue);
         return ((!Number.isNaN(valExtracted.getTime()) &&
             valExtracted > greaterThanExtracted) ||
             `Sup. à ${greaterThanValue}`);
     };
 }
 function equalToDate(equalTo, format) {
-    const equalToValue = equalTo();
-    return (val) => date.extractDate(String(val), format) ===
-        date.extractDate(equalToValue, format) ||
-        `Égale à ${date.extractDate(equalToValue, format)}`;
+    return (val) => {
+        const equalToValue = equalTo();
+        const valExtracted = date.extractDate(String(val), format);
+        const equalToExtracted = date.extractDate(equalToValue, format);
+        return valExtracted === equalToExtracted || `Égale à ${valExtracted}`;
+    };
 }
-function otherThanDate(otherThan, format, source) {
-    const otherThanValue = otherThan();
-    return (val) => date.extractDate(String(val), format) !==
-        date.extractDate(otherThanValue, format) ||
-        `Doit être différent de ${source ? "source (" + otherThanValue + ")" : otherThanValue}`;
+function otherThanDate(otherThan, format) {
+    return (val) => {
+        const otherThanValue = otherThan();
+        return (date.extractDate(String(val), format) !==
+            date.extractDate(otherThanValue, format) ||
+            `Doit être différent de ${otherThanValue}`);
+    };
 }
 function validDate(format) {
     return (val) => !Number.isNaN(date.extractDate(String(val), format).getTime()) ||

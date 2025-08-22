@@ -392,18 +392,24 @@ function greaterThanNumber(greaterThan: () => number) {
   };
 }
 function equalToNumber(equalTo: () => number, source?: string) {
-  const equalToVal = equalTo();
-  return (val: unknown) =>
-    Number(val) === equalToVal ||
-    `Égale à ${source ? "source (" + equalTo + ")" : equalToVal}`;
+  return (val: unknown) => {
+    const equalToVal = equalTo();
+    return (
+      Number(val) === equalToVal ||
+      `Égale à ${source ? "source (" + equalTo + ")" : equalToVal}`
+    );
+  };
 }
 function otherThanNumber(otherThan: () => number, source?: string) {
-  const otherThanVal = otherThan();
-  return (val: unknown) =>
-    Number(val) !== otherThanVal ||
-    `Doit être différent de ${
-      source ? "source (" + otherThan + ")" : otherThan
-    }`;
+  return (val: unknown) => {
+    const otherThanVal = otherThan();
+    return (
+      Number(val) !== otherThanVal ||
+      `Doit être différent de ${
+        source ? "source (" + otherThan + ")" : otherThan
+      }`
+    );
+  };
 }
 function numberIntegerOnly() {
   return (val: unknown) =>
@@ -427,85 +433,113 @@ function numberOdd() {
 
 // string
 function lessThanOrEqualStringLength(lessThan: () => number) {
-  const lessThanVal = lessThan();
-  return (val: unknown) =>
-    String(val).length <= lessThanVal || `Inf. ou égal à ${lessThanVal}`;
+  return (val: unknown) => {
+    const lessThanVal = lessThan();
+    return String(val).length <= lessThanVal || `Inf. ou égal à ${lessThanVal}`;
+  };
 }
 function lessThanStringLength(lessThan: () => number) {
-  const lessThanValue = lessThan();
-  return (val: unknown) =>
-    String(val).length < lessThanValue || `Inf. à ${lessThanValue}`;
+  return (val: unknown) => {
+    const lessThanValue = lessThan();
+    return String(val).length < lessThanValue || `Inf. à ${lessThanValue}`;
+  };
 }
 function greaterThanOrEqualStringLength(greaterThan: () => number) {
-  const greaterThanValue = greaterThan();
-  return (val: unknown) =>
-    String(val).length >= greaterThanValue ||
-    `Sup. ou égal à ${greaterThanValue}`;
+  return (val: unknown) => {
+    const greaterThanValue = greaterThan();
+    return (
+      String(val).length >= greaterThanValue ||
+      `Sup. ou égal à ${greaterThanValue}`
+    );
+  };
 }
 function greaterThanStringLength(greaterThan: () => number) {
-  const greaterThanValue = greaterThan();
-  return (val: unknown) =>
-    String(val).length > greaterThanValue || `Sup. à ${greaterThanValue}`;
+  return (val: unknown) => {
+    const greaterThanValue = greaterThan();
+    return (
+      String(val).length > greaterThanValue || `Sup. à ${greaterThanValue}`
+    );
+  };
 }
 function betweenStringLength(min: () => number, max: () => number) {
-  const minValue = min();
-  const maxValue = max();
-  return (val: unknown) =>
-    (String(val).length >= minValue && String(val).length <= maxValue) ||
-    `Entre ${minValue} et ${maxValue}`;
+  return (val: unknown) => {
+    const minValue = min();
+    const maxValue = max();
+    return (
+      (String(val).length >= minValue && String(val).length <= maxValue) ||
+      `Entre ${minValue} et ${maxValue}`
+    );
+  };
 }
 function equalToString(equalTo: () => string, source?: string) {
-  const equalToValue = equalTo();
-  return (val: unknown) =>
-    String(val) === equalToValue ||
-    `Égale à ${source ? "source (" + equalToValue + ")" : equalToValue}`;
+  return (val: unknown) => {
+    const equalToValue = equalTo();
+    return (
+      String(val) === equalToValue ||
+      `Égale à ${source ? "source (" + equalToValue + ")" : equalToValue}`
+    );
+  };
 }
 function equalToStringLength(equalTo: () => number) {
-  const equalToVal = equalTo();
-  return (val: unknown) =>
-    String(val).length === equalToVal ||
-    `Doit contenir ${equalToVal} caractères`;
+  return (val: unknown) => {
+    const equalToVal = equalTo();
+    return (
+      String(val).length === equalToVal ||
+      `Doit contenir ${equalToVal} caractères`
+    );
+  };
 }
-function otherThanString(otherThan: () => string, source?: string) {
-  const otherThanVal = otherThan();
-  return (val: unknown) =>
-    String(val) !== otherThanVal ||
-    `Doit être différent de ${
-      source ? "source (" + otherThanVal + ")" : otherThanVal
-    }`;
+function otherThanString(otherThan: () => string) {
+  return (val: unknown) => {
+    const otherThanVal = otherThan();
+    return (
+      String(val) !== otherThanVal || `Doit être différent de ${otherThanVal}`
+    );
+  };
 }
 
 // date
 function lessThanOrEqualDate(lessThan: () => string, format: string) {
-  const lessThanValue = lessThan();
-  return (val: unknown) =>
-    (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-      date.extractDate(String(val), format) <=
-        date.extractDate(lessThanValue, format)) ||
-    `Inf. ou égal à ${date.formatDate(lessThanValue, format)}`;
+  return (val: unknown) => {
+    const lessThanValue = lessThan();
+    const valExtracted = date.extractDate(String(val), format);
+    const lessThanExtracted = date.extractDate(lessThanValue, format);
+    return (
+      (!Number.isNaN(valExtracted.getTime()) &&
+        valExtracted <= lessThanExtracted) ||
+      `Inf. ou égal à ${lessThanValue}`
+    );
+  };
 }
 function lessThanDate(lessThan: () => string, format: string) {
-  const lessThanValue = lessThan();
-  return (val: unknown) =>
-    (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-      date.extractDate(String(val), format) <
-        date.extractDate(lessThanValue, format)) ||
-    `Inf. à ${date.formatDate(lessThanValue, format)}`;
+  return (val: unknown) => {
+    const lessThanValue = lessThan();
+    const valExtracted = date.extractDate(String(val), format);
+    const lessThanExtracted = date.extractDate(lessThanValue, format);
+    return (
+      (!Number.isNaN(valExtracted.getTime()) &&
+        valExtracted < lessThanExtracted) ||
+      `Inf. à ${lessThanValue}`
+    );
+  };
 }
 function greaterThanOrEqualDate(greaterThan: () => string, format: string) {
-  const greaterThanValue = greaterThan();
-  return (val: unknown) =>
-    (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-      date.extractDate(String(val), format) >=
-        date.extractDate(greaterThanValue, format)) ||
-    `Sup. ou égal à ${date.formatDate(greaterThanValue, format)}`;
+  return (val: unknown) => {
+    const greaterThanValue = greaterThan();
+    const valExtracted = date.extractDate(String(val), format);
+    const greaterThanExtracted = date.extractDate(greaterThanValue, format);
+    return (
+      (!Number.isNaN(valExtracted.getTime()) &&
+        valExtracted >= greaterThanExtracted) ||
+      `Sup. ou égal à ${greaterThanValue}`
+    );
+  };
 }
 function greaterThanDate(greaterThan: () => string, format: string) {
   return (val: unknown) => {
     const greaterThanValue = greaterThan();
     const valExtracted = date.extractDate(String(val), format);
     const greaterThanExtracted = date.extractDate(greaterThanValue, format);
-    console.log(greaterThanValue);
     return (
       (!Number.isNaN(valExtracted.getTime()) &&
         valExtracted > greaterThanExtracted) ||
@@ -514,24 +548,22 @@ function greaterThanDate(greaterThan: () => string, format: string) {
   };
 }
 function equalToDate(equalTo: () => string, format: string) {
-  const equalToValue = equalTo();
-  return (val: unknown) =>
-    date.extractDate(String(val), format) ===
-      date.extractDate(equalToValue, format) ||
-    `Égale à ${date.extractDate(equalToValue, format)}`;
+  return (val: unknown) => {
+    const equalToValue = equalTo();
+    const valExtracted = date.extractDate(String(val), format);
+    const equalToExtracted = date.extractDate(equalToValue, format);
+    return valExtracted === equalToExtracted || `Égale à ${valExtracted}`;
+  };
 }
-function otherThanDate(
-  otherThan: () => string,
-  format: string,
-  source?: string
-) {
-  const otherThanValue = otherThan();
-  return (val: unknown) =>
-    date.extractDate(String(val), format) !==
-      date.extractDate(otherThanValue, format) ||
-    `Doit être différent de ${
-      source ? "source (" + otherThanValue + ")" : otherThanValue
-    }`;
+function otherThanDate(otherThan: () => string, format: string) {
+  return (val: unknown) => {
+    const otherThanValue = otherThan();
+    return (
+      date.extractDate(String(val), format) !==
+        date.extractDate(otherThanValue, format) ||
+      `Doit être différent de ${otherThanValue}`
+    );
+  };
 }
 function validDate(format: string) {
   return (val: unknown) =>
