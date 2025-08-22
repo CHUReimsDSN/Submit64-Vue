@@ -82,6 +82,7 @@ function getFieldDataByFieldName(fieldName: string) {
   if (!fieldRef) {
     return null;
   }
+  console.log(fieldRef[1])
   return fieldRef[1].getValue();
 }
 function getFormFactoryInstance() {
