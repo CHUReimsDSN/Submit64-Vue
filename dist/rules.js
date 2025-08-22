@@ -1,5 +1,19 @@
 import { date } from "quasar";
-function computeServerRules(metadataRules, formFactorySettings, form, fieldType) {
+function computeServerRules(metadataRules, fieldType, formProvider) {
+    const formFactorySettings = formProvider.getFormFactoryInstance().formSettings;
+    const form = formProvider.getForm();
+    const getCompareToValueRule = (rule, operateTo, date) => {
+        if (rule[operateTo]) {
+            if (!date) {
+                return () => rule[operateTo];
+            }
+            return () => computedRuleDateFormatToFormFactoryFormat(rule[operateTo]);
+        }
+        if (rule.compare_to) {
+            return () => formProvider.getFieldDataByFieldName(rule.compare_to);
+        }
+        return () => "";
+    };
     const computedRuleDateFormatToFormFactoryFormat = (ruleDate) => {
         return String(date.formatDate(date.extractDate(ruleDate, form.backendDateFormat), formFactorySettings.dateFormat));
     };
@@ -9,7 +23,8 @@ function computeServerRules(metadataRules, formFactorySettings, form, fieldType)
         case "date":
             rules.push(validDate(formFactorySettings.dateFormat));
     }
-    metadataRules.forEach((rule) => {
+    metadataRules.forEach((metadataRule) => {
+        const rule = metadataRule;
         switch (rule.type) {
             // general
             case "required":
@@ -22,12 +37,10 @@ function computeServerRules(metadataRules, formFactorySettings, form, fieldType)
                 rules.push(acceptance());
                 break;
             case "inclusion":
-                const ruleCastInclusion = rule;
-                rules.push(including(ruleCastInclusion.including));
+                rules.push(including(rule.including));
                 break;
             case "exclusion":
-                const ruleCastExclusion = rule;
-                rules.push(excluding(ruleCastExclusion.excluding));
+                rules.push(excluding(rule.excluding));
                 break;
             case "backend":
                 break;
@@ -42,41 +55,23 @@ function computeServerRules(metadataRules, formFactorySettings, form, fieldType)
                 rules.push(positiveNumber());
                 break;
             case "lessThanOrEqualNumber":
-                const ruleCastLessthanOrEqualNumber = rule;
-                if (ruleCastLessthanOrEqualNumber.less_than) {
-                    rules.push(lessThanOrEqualNumber(() => ruleCastLessthanOrEqualNumber.less_than));
-                    break;
-                }
+                rules.push(lessThanOrEqualNumber(getCompareToValueRule(rule, "less_than")));
+                break;
             case "lessThanNumber":
-                const ruleCastLessThanNumber = rule;
-                if (ruleCastLessThanNumber.less_than) {
-                    rules.push(lessThanNumber(() => ruleCastLessThanNumber.less_than));
-                    break;
-                }
+                rules.push(lessThanNumber(getCompareToValueRule(rule, "less_than")));
+                break;
             case "greaterThanOrEqualNumber":
-                const ruleCastGreaterThanOrEqualNumber = rule;
-                if (ruleCastGreaterThanOrEqualNumber.greater_than) {
-                    rules.push(greaterThanOrEqualNumber(() => ruleCastGreaterThanOrEqualNumber.greater_than));
-                    break;
-                }
+                rules.push(greaterThanOrEqualNumber(getCompareToValueRule(rule, "greater_than")));
+                break;
             case "greaterThanNumber":
-                const ruleCastGreaterThanNumber = rule;
-                if (ruleCastGreaterThanNumber.greater_than) {
-                    rules.push(greaterThanNumber(() => ruleCastGreaterThanNumber.greater_than));
-                    break;
-                }
+                rules.push(greaterThanNumber(getCompareToValueRule(rule, "greater_than")));
+                break;
             case "equalToNumber":
-                const ruleCastEqualToNumber = rule;
-                if (ruleCastEqualToNumber.equal_to) {
-                    rules.push(equalToNumber(() => ruleCastEqualToNumber.equal_to));
-                    break;
-                }
+                rules.push(equalToNumber(getCompareToValueRule(rule, "equal_to")));
+                break;
             case "otherThanNumber":
-                const ruleCastOtherThanNumber = rule;
-                if (ruleCastOtherThanNumber.other_than) {
-                    rules.push(otherThanNumber(() => ruleCastOtherThanNumber.other_than));
-                    break;
-                }
+                rules.push(otherThanNumber(getCompareToValueRule(rule, "other_than")));
+                break;
             case "numberIntegerOnly":
                 rules.push(numberIntegerOnly());
                 break;
@@ -91,71 +86,47 @@ function computeServerRules(metadataRules, formFactorySettings, form, fieldType)
                 break;
             // string
             case "lessThanOrEqualStringLength":
-                const ruleCastLessThanOrEqualStringLength = rule;
-                if (ruleCastLessThanOrEqualStringLength.less_than) {
-                    rules.push(lessThanOrEqualStringLength(() => ruleCastLessThanOrEqualStringLength.less_than));
-                    break;
-                }
+                rules.push(lessThanOrEqualStringLength(getCompareToValueRule(rule, "less_than")));
+                break;
             case "lessThanStringLength":
-                const ruleCastLessthanStringLength = rule;
-                if (ruleCastLessthanStringLength.less_than) {
-                    rules.push(lessThanStringLength(() => ruleCastLessthanStringLength.less_than));
-                    break;
-                }
+                rules.push(lessThanStringLength(getCompareToValueRule(rule, "less_than")));
+                break;
             case "greaterThanOrEqualStringLength":
-                const ruleCastGreaterThanOrEqualStringLength = rule;
-                if (ruleCastGreaterThanOrEqualStringLength.greater_than) {
-                    rules.push(greaterThanOrEqualStringLength(() => ruleCastGreaterThanOrEqualStringLength.greater_than));
-                    break;
-                }
+                rules.push(greaterThanOrEqualStringLength(getCompareToValueRule(rule, "greater_than")));
+                break;
             case "greaterThanStringLength":
-                const ruleCastGreaterThanStringLength = rule;
-                if (ruleCastGreaterThanStringLength.greater_than) {
-                    rules.push(greaterThanStringLength(() => ruleCastGreaterThanStringLength.greater_than));
-                    break;
-                }
-            case "equalToString":
-                const ruleCastEqualToString = rule;
-                if (ruleCastEqualToString.equal_to) {
-                    rules.push(equalToString(() => ruleCastEqualToString.equal_to));
-                    break;
-                }
-            case "betweenStringLength":
-                const ruleBetweenStringLength = rule;
-                rules.push(betweenStringLength(() => ruleBetweenStringLength.min, () => ruleBetweenStringLength.max));
+                rules.push(greaterThanStringLength(getCompareToValueRule(rule, "greater_than")));
                 break;
             case "equalToStringLength":
-                const ruleEqualToStringLength = rule;
-                rules.push(equalToStringLength(() => ruleEqualToStringLength.equal_to));
+                rules.push(equalToStringLength(getCompareToValueRule(rule, "equal_to")));
+                break;
+            case "equalToString":
+                rules.push(equalToString(getCompareToValueRule(rule, "equal_to")));
+                break;
+            case "betweenStringLength":
+                rules.push(betweenStringLength(() => rule.min, () => rule.max));
                 break;
             case "otherThanString":
-                const ruleOtherThanString = rule;
-                rules.push(otherThanString(() => ruleOtherThanString.other_than));
+                rules.push(otherThanString(getCompareToValueRule(rule, "other_than")));
                 break;
             // date
             case "lessThanOrEqualDate":
-                const ruleLessthanOrEqualDate = rule;
-                rules.push(lessThanOrEqualDate(() => computedRuleDateFormatToFormFactoryFormat(ruleLessthanOrEqualDate.less_than), formFactorySettings.dateFormat));
+                rules.push(lessThanOrEqualDate(getCompareToValueRule(rule, "less_than"), formFactorySettings.dateFormat));
                 break;
             case "lessThanDate":
-                const ruleLessThanDate = rule;
-                rules.push(lessThanDate(() => computedRuleDateFormatToFormFactoryFormat(ruleLessThanDate.less_than), formFactorySettings.dateFormat));
+                rules.push(lessThanDate(getCompareToValueRule(rule, "less_than"), formFactorySettings.dateFormat));
                 break;
             case "greaterThanOrEqualDate":
-                const ruleGreaterThanOrEqualDate = rule;
-                rules.push(greaterThanOrEqualDate(() => computedRuleDateFormatToFormFactoryFormat(ruleGreaterThanOrEqualDate.greater_than), formFactorySettings.dateFormat));
+                rules.push(greaterThanOrEqualDate(getCompareToValueRule(rule, "greater_than"), formFactorySettings.dateFormat));
                 break;
             case "greaterThanDate":
-                const ruleGreaterThanDate = rule;
-                rules.push(greaterThanDate(() => computedRuleDateFormatToFormFactoryFormat(ruleGreaterThanDate.greater_than), formFactorySettings.dateFormat));
+                rules.push(greaterThanDate(getCompareToValueRule(rule, "greater_than"), formFactorySettings.dateFormat));
                 break;
             case "equalToDate":
-                const ruleEqualToDate = rule;
-                rules.push(equalToDate(() => computedRuleDateFormatToFormFactoryFormat(ruleEqualToDate.equal_to), formFactorySettings.dateFormat));
+                rules.push(equalToDate(getCompareToValueRule(rule, "equal_to"), formFactorySettings.dateFormat));
                 break;
             case "otherThanDate":
-                const ruleOtherThanDate = rule;
-                rules.push(otherThanDate(() => computedRuleDateFormatToFormFactoryFormat(ruleOtherThanDate.other_than), formFactorySettings.dateFormat));
+                rules.push(otherThanDate(getCompareToValueRule(rule, "other_than"), formFactorySettings.dateFormat));
                 break;
         }
     });
@@ -335,7 +306,7 @@ function greaterThanDate(greaterThan, format) {
     return (val) => (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
         date.extractDate(String(val), format) >
             date.extractDate(greaterThanValue, format)) ||
-        `Sup. à ${date.formatDate(greaterThanValue, format)}, current is ${date.formatDate(String(val), format)}`;
+        `Sup. à ${date.formatDate(greaterThanValue, format)}`;
 }
 function equalToDate(equalTo, format, source) {
     const equalToValue = equalTo();

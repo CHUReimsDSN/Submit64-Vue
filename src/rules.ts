@@ -1,5 +1,5 @@
 import { date, ValidationRule } from "quasar";
-import { TFormDef, TFormFieldDef, TFormSettings } from "./models";
+import { TFormFieldDef, TSubmit64FormProvider } from "./models";
 
 export type TSubmit64Rule = {
   type: // general
@@ -46,55 +46,47 @@ export type TSubmit64Rule = {
 
   backend_hint?: string;
 };
-type TSubmit64RuleLessThan = TSubmit64Rule & {
-  less_than?: number;
+type TSubmit64RuleOperateTo = TSubmit64Rule & {
+  less_than?: number | string;
+  greater_than?: number | string;
+  format?: string;
+  including?: string[];
+  excluding?: string[];
+  equal_to?: number;
+  other_than?: string;
+  min?: number;
+  max?: number;
   compare_to?: string;
-};
-type TSubmit64RuleGreaterThan = TSubmit64Rule & {
-  greater_than?: number;
-  compare_to?: string;
-};
-type TSubmit64RuleLessThanDate = TSubmit64Rule & {
-  less_than?: string;
-  compare_to?: string;
-  format: string;
-};
-type TSubmit64RuleGreaterThanDate = TSubmit64Rule & {
-  greater_than?: string;
-  compare_to?: string;
-  format: string;
-};
-type TSubmit64RuleInclusion = TSubmit64Rule & {
-  including: string[];
-};
-type TSubmit64RuleExclusion = TSubmit64Rule & {
-  excluding: string[];
-};
-type TSubmit64RuleEqualNumber = TSubmit64Rule & {
-  equal_to: number;
-};
-type TSubmit64RuleEqualString = TSubmit64Rule & {
-  equal_to: string;
-};
-type TSubmit64RuleOtherThanString = TSubmit64Rule & {
-  other_than: string;
-};
-type TSubmit64RuleOtherThanNumber = TSubmit64Rule & {
-  other_than: number;
-};
-type TSubmit64RuleBetween = TSubmit64Rule & {
-  min: number;
-  max: number;
 };
 type TUpperRule = "allowNull" | "allowBlank";
 type TSubmit64ValidationRule = (val: unknown) => boolean | string;
 
 function computeServerRules(
   metadataRules: TSubmit64Rule[],
-  formFactorySettings: TFormSettings,
-  form: TFormDef,
-  fieldType: TFormFieldDef["type"]
+  fieldType: TFormFieldDef["type"],
+  formProvider: TSubmit64FormProvider
 ): ValidationRule[] {
+  const formFactorySettings =
+    formProvider.getFormFactoryInstance().formSettings;
+  const form = formProvider.getForm();
+  const getCompareToValueRule = (
+    rule: TSubmit64RuleOperateTo,
+    operateTo: keyof TSubmit64RuleOperateTo,
+    date?: boolean
+  ) => {
+    if (rule[operateTo]) {
+      if (!date) {
+        return () => rule[operateTo];
+      }
+      return () =>
+        computedRuleDateFormatToFormFactoryFormat(rule[operateTo] as string);
+    }
+    if (rule.compare_to) {
+      return () =>
+        formProvider.getFieldDataByFieldName(rule.compare_to as string);
+    }
+    return () => "";
+  };
   const computedRuleDateFormatToFormFactoryFormat = (
     ruleDate: string
   ): string => {
@@ -111,7 +103,8 @@ function computeServerRules(
     case "date":
       rules.push(validDate(formFactorySettings.dateFormat));
   }
-  metadataRules.forEach((rule) => {
+  metadataRules.forEach((metadataRule) => {
+    const rule = metadataRule as TSubmit64RuleOperateTo;
     switch (rule.type) {
       // general
       case "required":
@@ -124,12 +117,10 @@ function computeServerRules(
         rules.push(acceptance());
         break;
       case "inclusion":
-        const ruleCastInclusion = rule as TSubmit64RuleInclusion;
-        rules.push(including(ruleCastInclusion.including));
+        rules.push(including(rule.including!));
         break;
       case "exclusion":
-        const ruleCastExclusion = rule as TSubmit64RuleExclusion;
-        rules.push(excluding(ruleCastExclusion.excluding));
+        rules.push(excluding(rule.excluding!));
         break;
       case "backend":
         break;
@@ -145,52 +136,45 @@ function computeServerRules(
         rules.push(positiveNumber());
         break;
       case "lessThanOrEqualNumber":
-        const ruleCastLessthanOrEqualNumber = rule as TSubmit64RuleLessThan;
-        if (ruleCastLessthanOrEqualNumber.less_than) {
-          rules.push(
-            lessThanOrEqualNumber(
-              () => ruleCastLessthanOrEqualNumber.less_than!
-            )
-          );
-          break;
-        }
+        rules.push(
+          lessThanOrEqualNumber(
+            getCompareToValueRule(rule, "less_than") as () => number
+          )
+        );
+        break;
       case "lessThanNumber":
-        const ruleCastLessThanNumber = rule as TSubmit64RuleLessThan;
-        if (ruleCastLessThanNumber.less_than) {
-          rules.push(lessThanNumber(() => ruleCastLessThanNumber.less_than!));
-          break;
-        }
+        rules.push(
+          lessThanNumber(
+            getCompareToValueRule(rule, "less_than") as () => number
+          )
+        );
+        break;
       case "greaterThanOrEqualNumber":
-        const ruleCastGreaterThanOrEqualNumber =
-          rule as TSubmit64RuleGreaterThan;
-        if (ruleCastGreaterThanOrEqualNumber.greater_than) {
-          rules.push(
-            greaterThanOrEqualNumber(
-              () => ruleCastGreaterThanOrEqualNumber.greater_than!
-            )
-          );
-          break;
-        }
+        rules.push(
+          greaterThanOrEqualNumber(
+            getCompareToValueRule(rule, "greater_than") as () => number
+          )
+        );
+        break;
       case "greaterThanNumber":
-        const ruleCastGreaterThanNumber = rule as TSubmit64RuleGreaterThan;
-        if (ruleCastGreaterThanNumber.greater_than) {
-          rules.push(
-            greaterThanNumber(() => ruleCastGreaterThanNumber.greater_than!)
-          );
-          break;
-        }
+        rules.push(
+          greaterThanNumber(
+            getCompareToValueRule(rule, "greater_than") as () => number
+          )
+        );
+        break;
       case "equalToNumber":
-        const ruleCastEqualToNumber = rule as TSubmit64RuleEqualNumber;
-        if (ruleCastEqualToNumber.equal_to) {
-          rules.push(equalToNumber(() => ruleCastEqualToNumber.equal_to!));
-          break;
-        }
+        rules.push(
+          equalToNumber(getCompareToValueRule(rule, "equal_to") as () => number)
+        );
+        break;
       case "otherThanNumber":
-        const ruleCastOtherThanNumber = rule as TSubmit64RuleOtherThanNumber;
-        if (ruleCastOtherThanNumber.other_than) {
-          rules.push(otherThanNumber(() => ruleCastOtherThanNumber.other_than));
-          break;
-        }
+        rules.push(
+          otherThanNumber(
+            getCompareToValueRule(rule, "other_than") as () => number
+          )
+        );
+        break;
       case "numberIntegerOnly":
         rules.push(numberIntegerOnly());
         break;
@@ -206,139 +190,106 @@ function computeServerRules(
 
       // string
       case "lessThanOrEqualStringLength":
-        const ruleCastLessThanOrEqualStringLength =
-          rule as TSubmit64RuleLessThan;
-        if (ruleCastLessThanOrEqualStringLength.less_than) {
-          rules.push(
-            lessThanOrEqualStringLength(
-              () => ruleCastLessThanOrEqualStringLength.less_than!
-            )
-          );
-          break;
-        }
-      case "lessThanStringLength":
-        const ruleCastLessthanStringLength = rule as TSubmit64RuleLessThan;
-        if (ruleCastLessthanStringLength.less_than) {
-          rules.push(
-            lessThanStringLength(() => ruleCastLessthanStringLength.less_than!)
-          );
-          break;
-        }
-      case "greaterThanOrEqualStringLength":
-        const ruleCastGreaterThanOrEqualStringLength =
-          rule as TSubmit64RuleGreaterThan;
-        if (ruleCastGreaterThanOrEqualStringLength.greater_than) {
-          rules.push(
-            greaterThanOrEqualStringLength(
-              () => ruleCastGreaterThanOrEqualStringLength.greater_than!
-            )
-          );
-          break;
-        }
-      case "greaterThanStringLength":
-        const ruleCastGreaterThanStringLength =
-          rule as TSubmit64RuleGreaterThan;
-        if (ruleCastGreaterThanStringLength.greater_than) {
-          rules.push(
-            greaterThanStringLength(
-              () => ruleCastGreaterThanStringLength.greater_than!
-            )
-          );
-          break;
-        }
-      case "equalToString":
-        const ruleCastEqualToString = rule as TSubmit64RuleEqualString;
-        if (ruleCastEqualToString.equal_to) {
-          rules.push(equalToString(() => ruleCastEqualToString.equal_to!));
-          break;
-        }
-      case "betweenStringLength":
-        const ruleBetweenStringLength = rule as TSubmit64RuleBetween;
         rules.push(
-          betweenStringLength(
-            () => ruleBetweenStringLength.min,
-            () => ruleBetweenStringLength.max
+          lessThanOrEqualStringLength(
+            getCompareToValueRule(rule, "less_than") as () => number
+          )
+        );
+        break;
+      case "lessThanStringLength":
+        rules.push(
+          lessThanStringLength(
+            getCompareToValueRule(rule, "less_than") as () => number
+          )
+        );
+        break;
+      case "greaterThanOrEqualStringLength":
+        rules.push(
+          greaterThanOrEqualStringLength(
+            getCompareToValueRule(rule, "greater_than") as () => number
+          )
+        );
+        break;
+      case "greaterThanStringLength":
+        rules.push(
+          greaterThanStringLength(
+            getCompareToValueRule(rule, "greater_than") as () => number
           )
         );
         break;
       case "equalToStringLength":
-        const ruleEqualToStringLength = rule as TSubmit64RuleEqualNumber;
-        rules.push(equalToStringLength(() => ruleEqualToStringLength.equal_to));
+        rules.push(
+          equalToStringLength(
+            getCompareToValueRule(rule, "equal_to") as () => number
+          )
+        );
+        break;
+      case "equalToString":
+        rules.push(
+          equalToString(getCompareToValueRule(rule, "equal_to") as () => string)
+        );
+        break;
+      case "betweenStringLength":
+        rules.push(
+          betweenStringLength(
+            () => rule.min!,
+            () => rule.max!
+          )
+        );
         break;
       case "otherThanString":
-        const ruleOtherThanString = rule as TSubmit64RuleOtherThanString;
-        rules.push(otherThanString(() => ruleOtherThanString.other_than));
+        rules.push(
+          otherThanString(
+            getCompareToValueRule(rule, "other_than") as () => string
+          )
+        );
         break;
 
       // date
       case "lessThanOrEqualDate":
-        const ruleLessthanOrEqualDate = rule as TSubmit64RuleLessThanDate;
         rules.push(
           lessThanOrEqualDate(
-            () =>
-              computedRuleDateFormatToFormFactoryFormat(
-                ruleLessthanOrEqualDate.less_than!
-              ),
+            getCompareToValueRule(rule, "less_than") as () => string,
             formFactorySettings.dateFormat
           )
         );
         break;
       case "lessThanDate":
-        const ruleLessThanDate = rule as TSubmit64RuleLessThanDate;
         rules.push(
           lessThanDate(
-            () =>
-              computedRuleDateFormatToFormFactoryFormat(
-                ruleLessThanDate.less_than!
-              ),
+            getCompareToValueRule(rule, "less_than") as () => string,
             formFactorySettings.dateFormat
           )
         );
         break;
       case "greaterThanOrEqualDate":
-        const ruleGreaterThanOrEqualDate = rule as TSubmit64RuleGreaterThanDate;
         rules.push(
           greaterThanOrEqualDate(
-            () =>
-              computedRuleDateFormatToFormFactoryFormat(
-                ruleGreaterThanOrEqualDate.greater_than!
-              ),
+            getCompareToValueRule(rule, "greater_than") as () => string,
             formFactorySettings.dateFormat
           )
         );
         break;
       case "greaterThanDate":
-        const ruleGreaterThanDate = rule as TSubmit64RuleGreaterThanDate;
         rules.push(
           greaterThanDate(
-            () =>
-              computedRuleDateFormatToFormFactoryFormat(
-                ruleGreaterThanDate.greater_than!
-              ),
+            getCompareToValueRule(rule, "greater_than") as () => string,
             formFactorySettings.dateFormat
           )
         );
         break;
       case "equalToDate":
-        const ruleEqualToDate = rule as TSubmit64RuleEqualString;
         rules.push(
           equalToDate(
-            () =>
-              computedRuleDateFormatToFormFactoryFormat(
-                ruleEqualToDate.equal_to!
-              ),
+            getCompareToValueRule(rule, "equal_to") as () => string,
             formFactorySettings.dateFormat
           )
         );
         break;
       case "otherThanDate":
-        const ruleOtherThanDate = rule as TSubmit64RuleOtherThanString;
         rules.push(
           otherThanDate(
-            () =>
-              computedRuleDateFormatToFormFactoryFormat(
-                ruleOtherThanDate.other_than!
-              ),
+            getCompareToValueRule(rule, "other_than") as () => string,
             formFactorySettings.dateFormat
           )
         );
@@ -555,7 +506,7 @@ function greaterThanDate(greaterThan: () => string, format: string) {
     (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
       date.extractDate(String(val), format) >
         date.extractDate(greaterThanValue, format)) ||
-    `Sup. à ${date.formatDate(greaterThanValue, format)}, current is ${date.formatDate(String(val), format)}`;
+    `Sup. à ${date.formatDate(greaterThanValue, format)}`;
 }
 function equalToDate(equalTo: () => string, format: string, source?: string) {
   const equalToValue = equalTo();
