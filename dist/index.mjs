@@ -136,7 +136,7 @@ const fe = { class: "flex row items-center no-wrap q-pt-sm" }, me = /* @__PURE__
   }
 };
 S(I, "_instance", new I());
-let V = I;
+let B = I;
 function Ce(n, t, l) {
   const e = l.getFormFactoryInstance().formSettings;
   l.getForm();
@@ -172,7 +172,7 @@ function Ce(n, t, l) {
         o.push("allowBlank");
         break;
       case "positiveNumber":
-        r.push(Ve());
+        r.push(Be());
         break;
       case "lessThanOrEqualNumber":
         r.push(
@@ -333,7 +333,7 @@ function Ce(n, t, l) {
   }), o.length > 0 ? o.map((s) => {
     switch (s) {
       case "allowBlank":
-        return Be(r);
+        return Ve(r);
       case "allowNull":
         return pe(r);
     }
@@ -363,14 +363,14 @@ function pe(n) {
       return e;
   }), !0);
 }
-function Be(n) {
+function Ve(n) {
   return (t) => (t === "" || n.forEach((l) => {
     const e = l(t);
     if (e !== !0)
       return e;
   }), !0);
 }
-function Ve() {
+function Be() {
   return (n) => Number(n) > 0 || "Val. positive uniquement";
 }
 function Te(n) {
@@ -986,12 +986,12 @@ class L {
     S(this, "sectionComponent");
     S(this, "wrapperResetComponent");
     this.resourceName = t, this.formSettings = {
-      ...V.getGlobalFormSetting(),
+      ...B.getGlobalFormSetting(),
       ...l
     }, this.formStyleConfig = {
-      ...V.getGlobalFormStyleConfig(),
+      ...B.getGlobalFormStyleConfig(),
       ...e
-    }, this.actionComponent = a ?? V.getGlobalActionComponent(), this.sectionComponent = r ?? V.getGlobalSectionComponent(), this.wrapperResetComponent = o ?? V.getGlobalWrapperResetComponent();
+    }, this.actionComponent = a ?? B.getGlobalActionComponent(), this.sectionComponent = r ?? B.getGlobalSectionComponent(), this.wrapperResetComponent = o ?? B.getGlobalWrapperResetComponent();
   }
   static getFieldComponentByFormFieldType(t) {
     return {
@@ -1083,8 +1083,8 @@ const mt = {
     async function h() {
       _.value = !0;
       const f = {};
-      Object.entries(o.value).forEach((B) => {
-        f[B[0]] = B[1].getValue();
+      Object.entries(o.value).forEach((V) => {
+        f[V[0]] = V[1].getValue();
       });
       const k = await l.submitForm({ formData: f });
       e && (e.resource_data = k), v(), _.value = !1;
@@ -1107,8 +1107,8 @@ const mt = {
         return e.resource_data[f];
     }
     function X(f) {
-      const k = Object.entries(o.value).find((B) => B[0] === f);
-      return k ? (console.log(k[1]), k[1].getValue()) : null;
+      const k = Object.entries(o.value).find((V) => V[0] === f);
+      return k ? (console.log(k[1].getValue()), k[1].getValue()) : null;
     }
     function Z() {
       return a;
@@ -1128,12 +1128,12 @@ const mt = {
       R("div", {
         class: G(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (c(!0), T(j, null, U(s.value.sections, (B, W) => (c(), m($(d(a).sectionComponent), {
+        (c(!0), T(j, null, U(s.value.sections, (V, W) => (c(), m($(d(a).sectionComponent), {
           key: W,
-          section: B
+          section: V
         }, {
           default: b(() => [
-            (c(!0), T(j, null, U(B.fields, (x) => (c(), T(j, {
+            (c(!0), T(j, null, U(V.fields, (x) => (c(), T(j, {
               key: x.metadata.field_name
             }, [
               f.$slots[x.metadata.field_name] ? (c(), m(F, {
@@ -1167,6 +1167,6 @@ const mt = {
   }
 });
 export {
-  V as Submit64,
+  B as Submit64,
   _t as Submit64Form
 };
