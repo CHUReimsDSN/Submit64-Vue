@@ -111,22 +111,22 @@ function computeServerRules(metadataRules, fieldType, formProvider) {
                 break;
             // date
             case "lessThanOrEqualDate":
-                rules.push(lessThanOrEqualDate(getCompareToValueRule(rule, "less_than"), formFactorySettings.dateFormat));
+                rules.push(lessThanOrEqualDate(getCompareToValueRule(rule, "less_than", true), formFactorySettings.dateFormat));
                 break;
             case "lessThanDate":
-                rules.push(lessThanDate(getCompareToValueRule(rule, "less_than"), formFactorySettings.dateFormat));
+                rules.push(lessThanDate(getCompareToValueRule(rule, "less_than", true), formFactorySettings.dateFormat));
                 break;
             case "greaterThanOrEqualDate":
-                rules.push(greaterThanOrEqualDate(getCompareToValueRule(rule, "greater_than"), formFactorySettings.dateFormat));
+                rules.push(greaterThanOrEqualDate(getCompareToValueRule(rule, "greater_than", true), formFactorySettings.dateFormat));
                 break;
             case "greaterThanDate":
-                rules.push(greaterThanDate(getCompareToValueRule(rule, "greater_than"), formFactorySettings.dateFormat));
+                rules.push(greaterThanDate(getCompareToValueRule(rule, "greater_than", true), formFactorySettings.dateFormat));
                 break;
             case "equalToDate":
-                rules.push(equalToDate(getCompareToValueRule(rule, "equal_to"), formFactorySettings.dateFormat));
+                rules.push(equalToDate(getCompareToValueRule(rule, "equal_to", true), formFactorySettings.dateFormat));
                 break;
             case "otherThanDate":
-                rules.push(otherThanDate(getCompareToValueRule(rule, "other_than"), formFactorySettings.dateFormat));
+                rules.push(otherThanDate(getCompareToValueRule(rule, "other_than", true), formFactorySettings.dateFormat));
                 break;
         }
     });
@@ -304,20 +304,19 @@ function greaterThanOrEqualDate(greaterThan, format) {
 function greaterThanDate(greaterThan, format) {
     return (val) => {
         const greaterThanValue = greaterThan();
+        const valExtracted = date.extractDate(String(val), format);
+        const greaterThanExtracted = date.extractDate(greaterThanValue, format);
         console.log(greaterThanValue);
-        return (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-            date.extractDate(String(val), format) >
-                date.extractDate(greaterThanValue, format)) ||
-            `Sup. à ${date.formatDate(greaterThanValue, format)}`;
+        return ((!Number.isNaN(valExtracted.getTime()) &&
+            valExtracted > greaterThanExtracted) ||
+            `Sup. à ${greaterThanValue}`);
     };
 }
-function equalToDate(equalTo, format, source) {
+function equalToDate(equalTo, format) {
     const equalToValue = equalTo();
     return (val) => date.extractDate(String(val), format) ===
         date.extractDate(equalToValue, format) ||
-        `Égale à ${source
-            ? "source (" + date.extractDate(equalToValue, format) + ")"
-            : date.extractDate(equalToValue, format)}`;
+        `Égale à ${date.extractDate(equalToValue, format)}`;
 }
 function otherThanDate(otherThan, format, source) {
     const otherThanValue = otherThan();
