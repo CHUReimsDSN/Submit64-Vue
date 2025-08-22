@@ -302,11 +302,14 @@ function greaterThanOrEqualDate(greaterThan, format) {
         `Sup. ou égal à ${date.formatDate(greaterThanValue, format)}`;
 }
 function greaterThanDate(greaterThan, format) {
-    const greaterThanValue = greaterThan();
-    return (val) => (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-        date.extractDate(String(val), format) >
-            date.extractDate(greaterThanValue, format)) ||
-        `Sup. à ${date.formatDate(greaterThanValue, format)}`;
+    return (val) => {
+        const greaterThanValue = greaterThan();
+        console.log(greaterThanValue);
+        return (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
+            date.extractDate(String(val), format) >
+                date.extractDate(greaterThanValue, format)) ||
+            `Sup. à ${date.formatDate(greaterThanValue, format)}`;
+    };
 }
 function equalToDate(equalTo, format, source) {
     const equalToValue = equalTo();

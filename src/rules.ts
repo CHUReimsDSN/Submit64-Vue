@@ -501,12 +501,14 @@ function greaterThanOrEqualDate(greaterThan: () => string, format: string) {
     `Sup. ou égal à ${date.formatDate(greaterThanValue, format)}`;
 }
 function greaterThanDate(greaterThan: () => string, format: string) {
-  const greaterThanValue = greaterThan();
-  return (val: unknown) =>
-    (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
-      date.extractDate(String(val), format) >
-        date.extractDate(greaterThanValue, format)) ||
+  return (val: unknown) => {
+    const greaterThanValue = greaterThan();
+    console.log(greaterThanValue)
+    return (!Number.isNaN(date.extractDate(String(val), format).getTime()) &&
+    date.extractDate(String(val), format) >
+    date.extractDate(greaterThanValue, format)) ||
     `Sup. à ${date.formatDate(greaterThanValue, format)}`;
+  }
 }
 function equalToDate(equalTo: () => string, format: string, source?: string) {
   const equalToValue = equalTo();
