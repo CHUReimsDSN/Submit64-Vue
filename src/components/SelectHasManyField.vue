@@ -43,6 +43,7 @@ function getBindings(
     useChips: true,
     mapOptions: true,
     emitValue: true,
+    useInput: true,
     options: selectOptionsFiltered.value,
 
     // events

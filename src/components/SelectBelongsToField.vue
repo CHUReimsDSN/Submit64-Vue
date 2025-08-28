@@ -41,6 +41,7 @@ function getBindings(
     rules: propsWrapper.getComputedRules(),
     mapOptions: true,
     emitValue: true,
+    useInput: true,
     options: selectOptionsFiltered.value,
 
     // events

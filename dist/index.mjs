@@ -1,8 +1,8 @@
 var ie = Object.defineProperty;
 var re = (l, e, n) => e in l ? ie(l, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : l[e] = n;
 var C = (l, e, n) => re(l, typeof e != "symbol" ? e + "" : e, n);
-import { defineComponent as S, createElementBlock as x, openBlock as d, createVNode as y, createBlock as h, createCommentVNode as R, unref as f, normalizeClass as Q, createElementVNode as w, toDisplayString as H, renderSlot as E, resolveComponent as V, inject as se, ref as D, onMounted as K, getCurrentInstance as ce, resolveDynamicComponent as O, withCtx as g, normalizeProps as k, guardReactiveProps as T, mergeProps as z, createTextVNode as J, provide as ue, Fragment as U, renderList as Y } from "vue";
-import { QBtn as I, QIcon as X, date as b, QInput as G, QPopupProxy as de, QDate as me, QCheckbox as fe, QSelect as P, uid as ge } from "quasar";
+import { defineComponent as S, createElementBlock as x, openBlock as d, createVNode as y, createBlock as h, createCommentVNode as R, unref as f, normalizeClass as Q, createElementVNode as w, toDisplayString as H, renderSlot as I, resolveComponent as V, inject as se, ref as D, onMounted as K, getCurrentInstance as ce, resolveDynamicComponent as O, withCtx as g, normalizeProps as k, guardReactiveProps as T, mergeProps as z, createTextVNode as J, provide as ue, Fragment as U, renderList as Y } from "vue";
+import { QBtn as E, QIcon as X, date as b, QInput as G, QPopupProxy as de, QDate as me, QCheckbox as fe, QSelect as P, uid as ge } from "quasar";
 const he = { class: "flex row items-center no-wrap q-pt-sm" }, be = /* @__PURE__ */ S({
   __name: "DefaultActionComponent",
   props: {
@@ -14,18 +14,18 @@ const he = { class: "flex row items-center no-wrap q-pt-sm" }, be = /* @__PURE__
   setup(l) {
     const e = l;
     return (n, t) => (d(), x("div", he, [
-      y(f(I), {
+      y(f(E), {
         label: "Enregistrer",
         loading: e.isLoadingSubmit,
         onClick: e.submit
       }, null, 8, ["loading", "onClick"]),
-      e.reset ? (d(), h(f(I), {
+      e.reset ? (d(), h(f(E), {
         key: 0,
         loading: e.isLoadingSubmit,
         label: "Réinitialiser",
         onClick: e.reset
       }, null, 8, ["loading", "onClick"])) : R("", !0),
-      e.clear ? (d(), h(f(I), {
+      e.clear ? (d(), h(f(E), {
         key: 1,
         loading: e.isLoadingSubmit,
         label: "Vider",
@@ -52,7 +52,7 @@ const he = { class: "flex row items-center no-wrap q-pt-sm" }, be = /* @__PURE__
         w("div", ye, H(e.section.label), 1)
       ]),
       w("div", Ce, [
-        E(n.$slots, "default")
+        I(n.$slots, "default")
       ])
     ], 2));
   }
@@ -225,10 +225,10 @@ function De(l, e, n) {
         );
         break;
       case "numberIntegerOnly":
-        o.push(Ee());
+        o.push(Ie());
         break;
       case "numberNumericOnly":
-        o.push(Ie());
+        o.push(Ee());
         break;
       case "numberEvenOnly":
         o.push(je());
@@ -419,10 +419,10 @@ function we(l, e) {
     return Number(n) !== t || `Doit être différent de ${l}`;
   };
 }
-function Ee() {
+function Ie() {
   return (l) => /^-?\d+$/.test(String(l).trim()) || "Nombre entier uniquement";
 }
-function Ie() {
+function Ee() {
   return (l) => /^-?\d+(\.\d+)?$/.test(String(l).trim()) || "Caractère numérique uniquement";
 }
 function je() {
@@ -605,13 +605,13 @@ const tt = {
         m
       );
     }), (m, F) => (d(), x("div", null, [
-      n.field.resetable ? E(m.$slots, "reset", {
+      n.field.resetable ? I(m.$slots, "reset", {
         key: 0,
         actionProps: { reset: r }
       }, () => [
         (d(), h(O(f(t).getFormFactoryInstance().wrapperResetComponent), { reset: r }))
       ]) : R("", !0),
-      E(m.$slots, "default", {
+      I(m.$slots, "default", {
         propsWrapper: { modelValue: i.value, modelValueOnUpdate: a, field: m.field, injectForm: f(t), reset: r, clear: u, getComputedRules: c }
       })
     ]));
@@ -773,7 +773,7 @@ const tt = {
                     y(f(me), k(T(s(c))), {
                       default: g(() => [
                         w("div", lt, [
-                          y(f(I), {
+                          y(f(E), {
                             onClick: r,
                             label: "Fermer",
                             color: "secondary",
@@ -898,6 +898,7 @@ const ct = /* @__PURE__ */ S({
         useChips: !0,
         mapOptions: !0,
         emitValue: !0,
+        useInput: !0,
         options: t.value,
         // events
         onClear: o.clear,
@@ -1062,6 +1063,7 @@ const ft = /* @__PURE__ */ ut(dt, [["render", mt]]), gt = /* @__PURE__ */ S({
         rules: o.getComputedRules(),
         mapOptions: !0,
         emitValue: !0,
+        useInput: !0,
         options: t.value,
         // events
         onClear: o.clear,
@@ -1320,7 +1322,7 @@ const bt = {
                 field: $
               }, {
                 default: g(({ propsWrapper: ae }) => [
-                  E(_.$slots, "default", { propsWrapper: ae })
+                  I(_.$slots, "default", { propsWrapper: ae })
                 ]),
                 _: 2
               }, 1032, ["field"])) : (d(), h(O($.component), {
@@ -1338,7 +1340,7 @@ const bt = {
         clear: o.value.clearable ? v : void 0,
         reset: o.value.resetable ? F : void 0
       }, null, 8, ["isLoadingSubmit", "clear", "reset"])),
-      _.$slots.more_actions ? E(_.$slots, "more_actions", {
+      _.$slots.more_actions ? I(_.$slots, "more_actions", {
         key: 0,
         propsForm: { generatedForm: o.value }
       }) : R("", !0)
