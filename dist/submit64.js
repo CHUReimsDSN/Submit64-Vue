@@ -8,6 +8,7 @@ export class Submit64 {
     _actionComponent;
     _sectionComponent;
     _wrapperResetComponent;
+    _associationDisplayDictonary;
     constructor() {
         this._formSettings = {
             rulesBehaviour: "ondemand",
@@ -31,6 +32,7 @@ export class Submit64 {
         this._actionComponent = DefaultActionComponent;
         this._sectionComponent = DefaultSectionComponent;
         this._wrapperResetComponent = DefaultWrapperResetComponent;
+        this._associationDisplayDictonary = {};
     }
     static registerGlobalFormSetting(formSetting) {
         this._instance._formSettings = {
@@ -53,6 +55,9 @@ export class Submit64 {
     static registerGlobalWrapperResetComponent(wrapperResetComponent) {
         this._instance._wrapperResetComponent = wrapperResetComponent;
     }
+    static registerGlobalAssociationDisplayDictonary(dictionary) {
+        this._instance._associationDisplayDictonary = dictionary;
+    }
     static getGlobalFormSetting() {
         return this._instance._formSettings;
     }
@@ -67,5 +72,8 @@ export class Submit64 {
     }
     static getGlobalWrapperResetComponent() {
         return this._instance._wrapperResetComponent;
+    }
+    static getGlobalAssociationDisplayDictonary() {
+        return this._instance._associationDisplayDictonary;
     }
 }

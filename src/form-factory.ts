@@ -11,6 +11,7 @@ import type {
   TFormSection,
   TResourceFormMetadataAndData,
   TSubmit64FormProvider,
+  TContext,
 } from "./models";
 import { Submit64 } from "./submit64";
 import NumberField from "./components/NumberField.vue";
@@ -42,6 +43,7 @@ export class FormFactory {
   actionComponent: Component;
   sectionComponent: Component;
   wrapperResetComponent: Component;
+  associationDisplayDictionary: Record<string, Component>;
 
   constructor(
     resourceName: string,
@@ -49,7 +51,8 @@ export class FormFactory {
     globalFormStyleConfig?: Partial<TFormStyleConfig>,
     actionComponent?: Component,
     sectionComponent?: Component,
-    wrapperResetComponent?: Component
+    wrapperResetComponent?: Component,
+    associationDisplayDictionary?: Record<string, Component>
   ) {
     this.resourceName = resourceName;
     this.formSettings = {
@@ -61,17 +64,21 @@ export class FormFactory {
       ...globalFormStyleConfig,
     };
     this.actionComponent =
-      actionComponent ??
-      Submit64.getGlobalActionComponent()
+      actionComponent ?? Submit64.getGlobalActionComponent();
     this.sectionComponent =
-      sectionComponent ??
-      Submit64.getGlobalSectionComponent()
+      sectionComponent ?? Submit64.getGlobalSectionComponent();
     this.wrapperResetComponent =
-      wrapperResetComponent ??
-      Submit64.getGlobalWrapperResetComponent()
+      wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
+    this.associationDisplayDictionary =
+      associationDisplayDictionary ??
+      Submit64.getGlobalAssociationDisplayDictonary();
   }
 
-  getAllField(formMetadataAndData: TResourceFormMetadataAndData, providingUniqKey: InjectionKey<TSubmit64FormProvider>): TFormDef {
+  getForm(
+    formMetadataAndData: TResourceFormMetadataAndData,
+    providingUniqKey: InjectionKey<TSubmit64FormProvider>,
+    context?: TContext
+  ): TFormDef {
     const sections: TFormSection[] = [];
     formMetadataAndData.form.sections.forEach((sectionMetadata) => {
       const fields: TFormFieldDef[] = [];
@@ -79,6 +86,9 @@ export class FormFactory {
         const component = FormFactory.getFieldComponentByFormFieldType(
           columnMetadata.field_type
         );
+        const componentOptions = {
+          associationDisplayComponent: this.getAssociationDisplayComponentByResourceName(formMetadataAndData.form.resource_name)
+        }
         const field: TFormFieldDef = {
           type: columnMetadata.field_type,
           metadata: columnMetadata,
@@ -91,6 +101,7 @@ export class FormFactory {
           resetable: columnMetadata.resetable,
           provideUniqKey: providingUniqKey,
           component,
+          componentOptions
         };
         fields.push(field);
       });
@@ -104,6 +115,7 @@ export class FormFactory {
     });
     const form: TFormDef = {
       sections,
+      resourceName: formMetadataAndData.form.resource_name,
       cssClass: formMetadataAndData.form.css_class,
       resetable: formMetadataAndData.form.resetable,
       clearable: formMetadataAndData.form.clearable,
@@ -111,7 +123,12 @@ export class FormFactory {
       backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
       hasGlobalCustomValidation:
         formMetadataAndData.form.has_global_custom_validation ?? false,
+      context
     };
     return form;
+  }
+
+  private getAssociationDisplayComponentByResourceName(resourceName: string) {
+    return this.associationDisplayDictionary[resourceName]
   }
 }

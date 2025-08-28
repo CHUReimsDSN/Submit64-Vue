@@ -12,6 +12,7 @@ export type TResourceFormMetadataAndData = {
 };
 export type TResourceFormMetadata = {
     sections: TResourceFormSectionMetadata[];
+    resource_name: string;
     backend_date_format: string;
     backend_datetime_format: string;
     has_global_custom_validation?: boolean;
@@ -29,6 +30,8 @@ export type TResourceFieldMetadata = {
     field_name: string;
     field_type: TFormFieldDef["type"];
     label: string;
+    field_association_name?: string;
+    field_association_class?: string;
     hint?: string;
     rules?: TSubmit64Rule[];
     select_options?: {
@@ -39,6 +42,15 @@ export type TResourceFieldMetadata = {
     css_class?: string;
     resetable?: boolean;
     clearable?: boolean;
+};
+export type TSubmit64AssociationData = {
+    rows: TSubmit64AssociationRowEntry[];
+    row_count: number;
+};
+export type TSubmit64AssociationRowEntry = {
+    label: string;
+    value: unknown;
+    disabled?: boolean;
 };
 export type TFormSettings = {
     rulesBehaviour: "lazy" | "ondemand";
@@ -61,12 +73,14 @@ export type TFormStyleConfig = {
 };
 export type TFormDef = {
     sections: TFormSection[];
+    resourceName: string;
     hasGlobalCustomValidation: boolean;
     backendDateFormat: string;
     backendDatetimeFormat: string;
     resetable?: boolean;
     clearable?: boolean;
     cssClass?: string;
+    context?: TContext;
 };
 export type TFormSection = {
     fields: TFormFieldDef[];
@@ -84,12 +98,11 @@ export type TFormFieldDef = {
     cssClass?: string;
     resetable?: boolean;
     clearable?: boolean;
-    selectOptions?: {
-        label: string;
-        value: unknown;
-        disabled?: boolean;
-    }[];
+    selectOptions?: TSubmit64AssociationRowEntry[];
     component: Component;
+    componentOptions: {
+        associationDisplayComponent?: Component;
+    };
 };
 export type TSubmit64Field = ComponentPublicInstance & {
     getValue: () => unknown;
@@ -115,8 +128,9 @@ export type TSubmit64FormProvider = {
     registerRef: (resourceDataKey: string, fieldRef: TSubmit64Field) => void;
     getDefaultDataByFieldName: (fieldName: string) => void | unknown;
     getFieldDataByFieldName: (fieldName: string) => unknown;
-    getFormFactoryInstance: () => FormFactory;
+    getFormFactoryInstance: () => Readonly<FormFactory>;
     getForm: () => TFormDef;
+    getAssociationDataCallback(): ((submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>);
 };
 export type TSubmit64FormProps = {
     resourceName: string;
@@ -125,8 +139,9 @@ export type TSubmit64FormProps = {
     submitForm: (submit64Params: {
         formData: Record<string, unknown>;
     }) => Promise<TResourceData>;
+    getAssociationData?: (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
     globalFormSettings?: TFormSettings;
-    context?: Record<string, unknown>;
+    context?: TContext;
 };
 export type TSubmit64SectionFormProps = {
     section: TFormSection;
@@ -140,9 +155,22 @@ export type TSubmit64ActionFormProps = {
 export type TSubmit64GetMetadataAndData = {
     resourceName: string;
     resourceId: TRecord["id"];
-    context?: Record<string, unknown>;
+    context?: TContext;
+};
+export type TSubmit64GetAssociationData = {
+    resourceName: string;
+    associationName: string;
+    limit: number;
+    offset: number;
+    labelFilter?: string;
+    context?: TContext;
 };
 export type TSubmit64Expose = {};
+export type TContext = Record<string, unknown>;
+export type TSelectOptionPagination = {
+    limit: number;
+    offset: number;
+};
 export type TPropsWithClass = {
     class?: string;
 };

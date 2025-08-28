@@ -1,21 +1,36 @@
 <script setup lang="ts">
 import type { QSelectProps } from "quasar";
-import { QSelect } from 'quasar'
+import { QSelect } from "quasar";
 import {
   TPropsWithClass,
+  TSelectOptionPagination,
+  TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
   TSubmit64FieldWrapperPropsSlot,
 } from "../models";
 import FieldWrapper from "./FieldWrapper.vue";
+import { ref } from "vue";
+import { getSubmit64AssociationDataDefaultLimit } from "../utils";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
+
+// consts
+const displayComponent =
+  propsComponent.field.componentOptions.associationDisplayComponent;
+  
+// refs
+const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
+const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
+  limit: getSubmit64AssociationDataDefaultLimit(),
+  offset: 0,
+});
 
 // functions
 function getBindings(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
 ): QSelectProps & TPropsWithClass {
-  const formFactory = propsWrapper.injectForm.getFormFactoryInstance()
+  const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
   return {
@@ -26,10 +41,11 @@ function getBindings(
     rules: propsWrapper.getComputedRules(),
     mapOptions: true,
     emitValue: true,
-    options: [], // TODO request to backend for paginated association ?
+    options: selectOptionsFiltered.value,
 
     // events
     onClear: propsWrapper.clear,
+    onFilter: onFilter(propsWrapper),
 
     // display
     label: propsWrapper.field.label,
@@ -47,13 +63,51 @@ function getBindings(
     class: propsWrapper.field.cssClass,
   };
 }
+function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
+  return (val: string, update: (callbackGetData: () => void) => void) => {
+    const callback = propsWrapper.injectForm.getAssociationDataCallback();
+    if (!callback) {
+      return;
+    }
+    if (val === "") {
+      selectOptionsScrollPagination.value = {
+        limit: getSubmit64AssociationDataDefaultLimit(),
+        offset: 0,
+      };
+    }
+    update(() => {
+      callback({
+        resourceName: propsWrapper.injectForm.getForm().resourceName,
+        associationName: propsWrapper.field.metadata.field_association_name!,
+        limit: selectOptionsScrollPagination.value.limit,
+        offset: selectOptionsScrollPagination.value.offset,
+        labelFilter: val,
+        context: propsWrapper.injectForm.getForm().context,
+      }).then((response) => {
+        selectOptionsFiltered.value = response.rows;
+      });
+    });
+  };
+}
 </script>
 
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-select v-bind="getBindings(propsWrapper)" />
+      <q-select v-bind="getBindings(propsWrapper)">
+        <template v-slot:options="scope">
+          <template v-if="displayComponent">
+            <q-item v-bind="scope.itemProps">
+              <q-item-section>
+                <q-item-label>{{ scope.opt.label }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
+          <template v-else>
+            <component :is="displayComponent" :scope="scope" />
+          </template>
+        </template>
+      </q-select>
     </template>
   </FieldWrapper>
 </template>
-

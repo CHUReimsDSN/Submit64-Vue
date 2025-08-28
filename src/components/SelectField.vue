@@ -3,13 +3,19 @@ import type { QSelectProps } from "quasar";
 import { QSelect } from 'quasar';
 import {
   TPropsWithClass,
+  TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
   TSubmit64FieldWrapperPropsSlot,
 } from "../models";
 import FieldWrapper from "./FieldWrapper.vue";
+import { ref } from "vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
+
+// refs
+const selectOptions = ref<Readonly<TSubmit64AssociationRowEntry[]>>([])
+const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([])
 
 // functions
 function getBindings(
@@ -18,6 +24,8 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance()
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
+  selectOptions.value = Object.freeze(propsWrapper.field.selectOptions ?? []);
+  selectOptionsFiltered.value = propsWrapper.field.selectOptions ?? [];
   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
@@ -27,10 +35,12 @@ function getBindings(
     rules: propsWrapper.getComputedRules(),
     mapOptions: true,
     emitValue: true,
+    useInput: true,
     options: propsWrapper.field.selectOptions || [],
 
     // events
     onClear: propsWrapper.clear,
+    onFilter: inputFilter,
 
     // display
     label: propsWrapper.field.label,
@@ -47,6 +57,21 @@ function getBindings(
     bgColor: styleConfig.fieldBgColor,
     class: propsWrapper.field.cssClass,
   };
+}
+function inputFilter(val: string, update: (callback: () => void) => void) {
+  if (val === '') {
+    update(() => {
+      selectOptionsFiltered.value = [...selectOptions.value]
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    selectOptionsFiltered.value = selectOptions.value.filter((option) => {
+      return option.label.toLowerCase().includes(needle)
+    })
+  })
 }
 </script>
 

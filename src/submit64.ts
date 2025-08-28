@@ -11,6 +11,7 @@ export class Submit64 {
   private _actionComponent: Component;
   private _sectionComponent: Component;
   private _wrapperResetComponent: Component;
+  private _associationDisplayDictonary: Record<string, Component>;
 
   private constructor() {
     this._formSettings = {
@@ -35,6 +36,7 @@ export class Submit64 {
     this._actionComponent = DefaultActionComponent;
     this._sectionComponent = DefaultSectionComponent;
     this._wrapperResetComponent = DefaultWrapperResetComponent;
+    this._associationDisplayDictonary = {};
   }
 
   static registerGlobalFormSetting(formSetting: Partial<TFormSettings>) {
@@ -63,6 +65,12 @@ export class Submit64 {
     this._instance._wrapperResetComponent = wrapperResetComponent;
   }
 
+  static registerGlobalAssociationDisplayDictonary(
+    dictionary: Record<string, Component>
+  ) {
+    this._instance._associationDisplayDictonary = dictionary;
+  }
+
   static getGlobalFormSetting() {
     return this._instance._formSettings;
   }
@@ -81,5 +89,9 @@ export class Submit64 {
 
   static getGlobalWrapperResetComponent() {
     return this._instance._wrapperResetComponent;
+  }
+
+  static getGlobalAssociationDisplayDictonary() {
+    return this._instance._associationDisplayDictonary;
   }
 }

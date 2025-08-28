@@ -6,11 +6,12 @@ import {
   type TSubmit64Field,
   type TSubmit64FormProps,
   TResourceFormMetadataAndData,
+  TSubmit64AssociationData,
 } from "./models";
 import { FormFactory } from "./form-factory";
 import FieldWrapper from "./components/FieldWrapper.vue";
 import { uid } from "quasar";
-import { getSubmit64FormProviderSymbol } from "./inject-provider-symbol";
+import { getSubmit64FormProviderSymbol } from "./utils";
 
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
@@ -39,7 +40,11 @@ async function setupMetadatasAndForm() {
     context: propsComponent.context,
   });
   generatedForm.value = Object.freeze(
-    formFactoryInstance.getAllField(formMetadataAndData, providingUniqKey)
+    formFactoryInstance.getForm(
+      formMetadataAndData,
+      providingUniqKey,
+      propsComponent.context
+    )
   );
   setupIsDone.value = true;
 }
@@ -90,6 +95,17 @@ function getFormFactoryInstance() {
 function getForm() {
   return generatedForm.value!;
 }
+function getAssociationDataCallback() {
+  return (
+    propsComponent.getAssociationData ??
+    (async (): Promise<TSubmit64AssociationData> => {
+      return {
+        rows: [],
+        row_count: 0,
+      };
+    })
+  );
+}
 
 // provides
 provide(providingUniqKey, {
@@ -97,7 +113,8 @@ provide(providingUniqKey, {
   getDefaultDataByFieldName,
   getFieldDataByFieldName,
   getFormFactoryInstance,
-  getForm
+  getForm,
+  getAssociationDataCallback,
 });
 
 // exposes

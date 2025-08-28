@@ -28,7 +28,8 @@ export class FormFactory {
     actionComponent;
     sectionComponent;
     wrapperResetComponent;
-    constructor(resourceName, globalFormSettings, globalFormStyleConfig, actionComponent, sectionComponent, wrapperResetComponent) {
+    associationDisplayDictionary;
+    constructor(resourceName, globalFormSettings, globalFormStyleConfig, actionComponent, sectionComponent, wrapperResetComponent, associationDisplayDictionary) {
         this.resourceName = resourceName;
         this.formSettings = {
             ...Submit64.getGlobalFormSetting(),
@@ -39,21 +40,24 @@ export class FormFactory {
             ...globalFormStyleConfig,
         };
         this.actionComponent =
-            actionComponent ??
-                Submit64.getGlobalActionComponent();
+            actionComponent ?? Submit64.getGlobalActionComponent();
         this.sectionComponent =
-            sectionComponent ??
-                Submit64.getGlobalSectionComponent();
+            sectionComponent ?? Submit64.getGlobalSectionComponent();
         this.wrapperResetComponent =
-            wrapperResetComponent ??
-                Submit64.getGlobalWrapperResetComponent();
+            wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
+        this.associationDisplayDictionary =
+            associationDisplayDictionary ??
+                Submit64.getGlobalAssociationDisplayDictonary();
     }
-    getAllField(formMetadataAndData, providingUniqKey) {
+    getForm(formMetadataAndData, providingUniqKey, context) {
         const sections = [];
         formMetadataAndData.form.sections.forEach((sectionMetadata) => {
             const fields = [];
             sectionMetadata.fields.forEach((columnMetadata) => {
                 const component = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
+                const componentOptions = {
+                    associationDisplayComponent: this.getAssociationDisplayComponentByResourceName(formMetadataAndData.form.resource_name)
+                };
                 const field = {
                     type: columnMetadata.field_type,
                     metadata: columnMetadata,
@@ -66,6 +70,7 @@ export class FormFactory {
                     resetable: columnMetadata.resetable,
                     provideUniqKey: providingUniqKey,
                     component,
+                    componentOptions
                 };
                 fields.push(field);
             });
@@ -79,13 +84,18 @@ export class FormFactory {
         });
         const form = {
             sections,
+            resourceName: formMetadataAndData.form.resource_name,
             cssClass: formMetadataAndData.form.css_class,
             resetable: formMetadataAndData.form.resetable,
             clearable: formMetadataAndData.form.clearable,
             backendDateFormat: formMetadataAndData.form.backend_date_format,
             backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
             hasGlobalCustomValidation: formMetadataAndData.form.has_global_custom_validation ?? false,
+            context
         };
         return form;
+    }
+    getAssociationDisplayComponentByResourceName(resourceName) {
+        return this.associationDisplayDictionary[resourceName];
     }
 }
