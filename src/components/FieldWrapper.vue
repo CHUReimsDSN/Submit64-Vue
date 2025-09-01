@@ -90,9 +90,6 @@ function getComputedRules() {
 function modelValueOnUpdate(value: unknown) {
   modelValue.value = value as T;
 }
-function getModelValueValue() {
-  return unref(modelValue)
-}
 
 // exposes
 defineExpose({
@@ -128,7 +125,7 @@ onMounted(() => {
       </slot>
     </template>
     <slot
-      :propsWrapper="({ modelValue, modelValueOnUpdate, field, injectForm, reset, clear, getComputedRules, getModelValueValue } as TSubmit64FieldWrapperPropsSlot)"
+      :propsWrapper="({ modelValue, modelValueOnUpdate, field, injectForm, reset, clear, getComputedRules } as TSubmit64FieldWrapperPropsSlot)"
     ></slot>
   </div>
 </template>

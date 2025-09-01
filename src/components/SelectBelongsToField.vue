@@ -46,7 +46,7 @@ function getBindings(
     mapOptions: true,
     emitValue: true,
     useInput: true,
-    options: selectOptionsFiltered.value,
+    //options: selectOptionsFiltered.value,
 
     // events
     onClear: propsWrapper.clear,
@@ -95,7 +95,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   selectOptionsFiltered.value = [
     {
       label: propsWrapper.field.defaultDisplayValue ?? "",
-      value: propsWrapper.getModelValueValue(),
+      value: 1,
     },
   ];
   console.log('mounted : ')
@@ -111,6 +111,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
       <q-select
         v-bind="getBindings(propsWrapper)"
         @vue:mounted="setupDefaultSelectValue(propsWrapper)"
+        :options="selectOptionsFiltered"
       >
         <template v-slot:options="scope">
           <template v-if="displayComponent">
