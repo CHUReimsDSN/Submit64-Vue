@@ -33,16 +33,18 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
+    console.log(propsWrapper.modelValue)
   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
-    modelValue: propsWrapper.modelValue as string,
+    modelValue: propsWrapper.modelValue as number,
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,
     rules: propsWrapper.getComputedRules(),
     mapOptions: true,
     emitValue: true,
     useInput: true,
+    options: selectOptionsFiltered.value,
 
     // events
     onClear: propsWrapper.clear,
@@ -103,6 +105,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
       label: propsWrapper.field.defaultDisplayValue ?? "",
       value: propsWrapper.modelValue,
     })
+    console.log(propsWrapper.modelValue)
 }
 </script>
 
@@ -112,7 +115,6 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
       <q-select
         v-bind="getBindings(propsWrapper)"
         @vue:mounted="setupDefaultSelectValue(propsWrapper)"
-        :options="selectOptionsFiltered"
       >
         <template v-slot:options="scope">
           <template v-if="displayComponent">
@@ -126,6 +128,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
             <component :is="displayComponent" :scope="scope" />
           </template>
         </template>
+
       </q-select>
     </template>
   </FieldWrapper>

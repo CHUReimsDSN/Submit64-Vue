@@ -1,8 +1,8 @@
 var re = Object.defineProperty;
 var ue = (l, e, n) => e in l ? re(l, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : l[e] = n;
 var S = (l, e, n) => ue(l, typeof e != "symbol" ? e + "" : e, n);
-import { defineComponent as F, createElementBlock as B, openBlock as f, createVNode as y, createBlock as b, createCommentVNode as q, unref as m, normalizeClass as A, createElementVNode as p, toDisplayString as z, renderSlot as w, resolveComponent as ce, inject as de, ref as D, onMounted as Q, getCurrentInstance as me, resolveDynamicComponent as x, withCtx as g, normalizeProps as V, guardReactiveProps as O, mergeProps as R, createTextVNode as Y, provide as fe, Fragment as U, renderList as P } from "vue";
-import { QBtn as I, QIcon as K, date as h, QInput as L, QPopupProxy as ge, QDate as be, QCheckbox as he, QSelect as G, QItem as J, QItemSection as X, QItemLabel as Z, uid as _e } from "quasar";
+import { defineComponent as F, createElementBlock as B, openBlock as f, createVNode as y, createBlock as b, createCommentVNode as q, unref as m, normalizeClass as A, createElementVNode as w, toDisplayString as z, renderSlot as I, resolveComponent as ce, inject as de, ref as D, onMounted as Q, getCurrentInstance as me, resolveDynamicComponent as x, withCtx as g, normalizeProps as k, guardReactiveProps as O, mergeProps as R, createTextVNode as Y, provide as fe, Fragment as U, renderList as P } from "vue";
+import { QBtn as p, QIcon as K, date as h, QInput as L, QPopupProxy as ge, QDate as be, QCheckbox as he, QSelect as G, QItem as J, QItemSection as X, QItemLabel as Z, uid as _e } from "quasar";
 const ye = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__ */ F({
   __name: "DefaultActionComponent",
   props: {
@@ -14,18 +14,18 @@ const ye = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
   setup(l) {
     const e = l;
     return (n, t) => (f(), B("div", ye, [
-      y(m(I), {
+      y(m(p), {
         label: "Enregistrer",
         loading: e.isLoadingSubmit,
         onClick: e.submit
       }, null, 8, ["loading", "onClick"]),
-      e.reset ? (f(), b(m(I), {
+      e.reset ? (f(), b(m(p), {
         key: 0,
         loading: e.isLoadingSubmit,
         label: "Réinitialiser",
         onClick: e.reset
       }, null, 8, ["loading", "onClick"])) : q("", !0),
-      e.clear ? (f(), b(m(I), {
+      e.clear ? (f(), b(m(p), {
         key: 1,
         loading: e.isLoadingSubmit,
         label: "Vider",
@@ -43,20 +43,20 @@ const ye = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
     return (n, t) => (f(), B("div", {
       class: A(["flex column", e.section.cssClass])
     }, [
-      p("div", Se, [
+      w("div", Se, [
         e.section.icon ? (f(), b(m(K), {
           key: 0,
           name: e.section.icon,
           size: "sm"
         }, null, 8, ["name"])) : q("", !0),
-        p("div", Fe, z(e.section.label), 1)
+        w("div", Fe, z(e.section.label), 1)
       ]),
-      p("div", De, [
-        w(n.$slots, "default")
+      w("div", De, [
+        I(n.$slots, "default")
       ])
     ], 2));
   }
-}), ke = /* @__PURE__ */ F({
+}), Ve = /* @__PURE__ */ F({
   __name: "DefaultWrapperResetComponent",
   props: {
     reset: { type: Function }
@@ -97,7 +97,7 @@ const ye = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
       fieldClass: "",
       fieldColor: "primary",
       fieldBgColor: "white"
-    }, this._actionComponent = Ce, this._sectionComponent = ve, this._wrapperResetComponent = ke, this._associationDisplayDictonary = {};
+    }, this._actionComponent = Ce, this._sectionComponent = ve, this._wrapperResetComponent = Ve, this._associationDisplayDictonary = {};
   }
   static registerGlobalFormSetting(e) {
     this._instance._formSettings = {
@@ -143,8 +143,8 @@ const ye = { class: "flex row items-center no-wrap q-pt-sm" }, Ce = /* @__PURE__
   }
 };
 S(j, "_instance", new j());
-let k = j;
-function Ve(l, e, n) {
+let V = j;
+function ke(l, e, n) {
   const t = n.getFormFactoryInstance().formSettings, a = n.getForm(), r = (u, c, d) => u[c] ? d ? () => i(u[c]) : () => u[c] : u.compare_to ? () => n.getFieldDataByFieldName(u.compare_to) : () => "", i = (u) => String(
     h.formatDate(
       h.extractDate(u, a.backendDateFormat),
@@ -193,21 +193,21 @@ function Ve(l, e, n) {
         break;
       case "lessThanNumber":
         o.push(
-          pe(
+          we(
             r(c, "less_than")
           )
         );
         break;
       case "greaterThanOrEqualNumber":
         o.push(
-          we(
+          Ie(
             r(c, "greater_than")
           )
         );
         break;
       case "greaterThanNumber":
         o.push(
-          Ie(
+          pe(
             r(c, "greater_than")
           )
         );
@@ -389,19 +389,19 @@ function $e(l) {
     return Number(e) <= n || `Inf. ou égal à ${n}`;
   };
 }
-function pe(l) {
+function we(l) {
   return (e) => {
     const n = l();
     return Number(e) < n || `Inf. ${n}`;
   };
 }
-function we(l) {
+function Ie(l) {
   return (e) => {
     const n = l();
     return Number(e) >= n || `Sup. ou égal à ${n}`;
   };
 }
-function Ie(l) {
+function pe(l) {
   return (e) => {
     const n = l();
     return Number(e) > n || `Sup. à ${n}`;
@@ -519,7 +519,7 @@ function lt(l) {
   return (e) => !Number.isNaN(h.extractDate(String(e), l).getTime()) || "Date invalide";
 }
 const ot = {
-  computeServerRules: Ve
+  computeServerRules: ke
 }, v = /* @__PURE__ */ F({
   __name: "FieldWrapper",
   props: {
@@ -605,13 +605,13 @@ const ot = {
         d
       );
     }), (d, C) => (f(), B("div", null, [
-      n.field.resetable ? w(d.$slots, "reset", {
+      n.field.resetable ? I(d.$slots, "reset", {
         key: 0,
         actionProps: { reset: i }
       }, () => [
         (f(), b(x(m(t).getFormFactoryInstance().wrapperResetComponent), { reset: i }))
       ]) : q("", !0),
-      w(d.$slots, "default", {
+      I(d.$slots, "default", {
         propsWrapper: { modelValue: a.value, modelValueOnUpdate: c, field: d.field, injectForm: m(t), reset: i, clear: s, getComputedRules: u }
       })
     ]));
@@ -654,7 +654,7 @@ const ot = {
       field: e.field
     }, {
       default: g(({ propsWrapper: r }) => [
-        y(m(L), V(O(n(r))), null, 16)
+        y(m(L), k(O(n(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -758,9 +758,9 @@ const ot = {
       field: e.field
     }, {
       default: g(({ propsWrapper: u }) => [
-        y(m(L), V(O(t(u))), {
+        y(m(L), k(O(t(u))), {
           append: g(() => [
-            y(m(K), V(O(a())), {
+            y(m(K), k(O(a())), {
               default: g(() => [
                 y(m(ge), {
                   ref_key: "popupProxyRef",
@@ -770,10 +770,10 @@ const ot = {
                   "transition-hide": "scale"
                 }, {
                   default: g(() => [
-                    y(m(be), V(O(r(u))), {
+                    y(m(be), k(O(r(u))), {
                       default: g(() => [
-                        p("div", st, [
-                          y(m(I), {
+                        w("div", st, [
+                          y(m(p), {
                             onClick: i,
                             label: "Fermer",
                             color: "secondary",
@@ -821,7 +821,7 @@ const ot = {
       field: e.field
     }, {
       default: g(({ propsWrapper: r }) => [
-        y(m(he), V(O(n(r))), null, 16)
+        y(m(he), k(O(n(r))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -956,7 +956,7 @@ const mt = /* @__PURE__ */ F({
           onVnodeMounted: (d) => o(c)
         }), {
           options: g((d) => [
-            m(n) ? (f(), b(m(J), V(R({ key: 0 }, d.itemProps)), {
+            m(n) ? (f(), b(m(J), k(R({ key: 0 }, d.itemProps)), {
               default: g(() => [
                 y(m(X), null, {
                   default: g(() => [
@@ -1046,7 +1046,7 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
       field: e.field
     }, {
       default: g(({ propsWrapper: s }) => [
-        y(m(G), V(O(a(s))), null, 16)
+        y(m(G), k(O(a(s))), null, 16)
       ]),
       _: 1
     }, 8, ["field"]));
@@ -1063,7 +1063,7 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
     });
     function r(s) {
       const u = s.injectForm.getFormFactoryInstance(), c = u.formSettings, d = u.formStyleConfig;
-      return {
+      return console.log(s.modelValue), {
         // behaviour
         "onUpdate:modelValue": (C) => s.modelValueOnUpdate(C),
         modelValue: s.modelValue,
@@ -1073,6 +1073,7 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
         mapOptions: !0,
         emitValue: !0,
         useInput: !0,
+        options: t.value,
         // events
         onClear: s.clear,
         onFilter: i(s),
@@ -1124,18 +1125,17 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
       }, s.modelValueOnUpdate({
         label: s.field.defaultDisplayValue ?? "",
         value: s.modelValue
-      });
+      }), console.log(s.modelValue);
     }
     return (s, u) => (f(), b(v, {
       field: e.field
     }, {
       default: g(({ propsWrapper: c }) => [
         y(m(G), R(r(c), {
-          onVnodeMounted: (d) => o(c),
-          options: t.value
+          onVnodeMounted: (d) => o(c)
         }), {
           options: g((d) => [
-            m(n) ? (f(), b(m(J), V(R({ key: 0 }, d.itemProps)), {
+            m(n) ? (f(), b(m(J), k(R({ key: 0 }, d.itemProps)), {
               default: g(() => [
                 y(m(X), null, {
                   default: g(() => [
@@ -1156,7 +1156,7 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
             }, null, 8, ["scope"]))
           ]),
           _: 2
-        }, 1040, ["onVnodeMounted", "options"])
+        }, 1040, ["onVnodeMounted"])
       ]),
       _: 1
     }, 8, ["field"]));
@@ -1172,12 +1172,12 @@ class H {
     S(this, "wrapperResetComponent");
     S(this, "associationDisplayDictionary");
     this.resourceName = e, this.formSettings = {
-      ...k.getGlobalFormSetting(),
+      ...V.getGlobalFormSetting(),
       ...n
     }, this.formStyleConfig = {
-      ...k.getGlobalFormStyleConfig(),
+      ...V.getGlobalFormStyleConfig(),
       ...t
-    }, this.actionComponent = a ?? k.getGlobalActionComponent(), this.sectionComponent = r ?? k.getGlobalSectionComponent(), this.wrapperResetComponent = i ?? k.getGlobalWrapperResetComponent(), this.associationDisplayDictionary = o ?? k.getGlobalAssociationDisplayDictonary();
+    }, this.actionComponent = a ?? V.getGlobalActionComponent(), this.sectionComponent = r ?? V.getGlobalSectionComponent(), this.wrapperResetComponent = i ?? V.getGlobalWrapperResetComponent(), this.associationDisplayDictionary = o ?? V.getGlobalAssociationDisplayDictonary();
   }
   static getFieldComponentByFormFieldType(e) {
     return {
@@ -1329,7 +1329,7 @@ const Ct = {
     }), e({}), Q(async () => {
       await c();
     }), (_, N) => s.value && o.value ? (f(), B("div", Ct, [
-      p("div", {
+      w("div", {
         class: A(o.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
         (f(!0), B(U, null, P(o.value.sections, (T, ie) => (f(), b(x(m(a).sectionComponent), {
@@ -1345,7 +1345,7 @@ const Ct = {
                 field: $
               }, {
                 default: g(({ propsWrapper: se }) => [
-                  w(_.$slots, "default", { propsWrapper: se })
+                  I(_.$slots, "default", { propsWrapper: se })
                 ]),
                 _: 2
               }, 1032, ["field"])) : (f(), b(x($.component), {
@@ -1363,7 +1363,7 @@ const Ct = {
         clear: o.value.clearable ? W : void 0,
         reset: o.value.resetable ? C : void 0
       }, null, 8, ["isLoadingSubmit", "clear", "reset"])),
-      _.$slots.more_actions ? w(_.$slots, "more_actions", {
+      _.$slots.more_actions ? I(_.$slots, "more_actions", {
         key: 0,
         propsForm: { generatedForm: o.value }
       }) : q("", !0)
@@ -1371,6 +1371,6 @@ const Ct = {
   }
 });
 export {
-  k as Submit64,
+  V as Submit64,
   vt as Submit64Form
 };
