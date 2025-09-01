@@ -96,7 +96,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
       value: propsWrapper.modelValue,
     },
   ];
-    propsWrapper.modelValueOnUpdate(propsWrapper.modelValue);
+    propsWrapper.modelValue = propsWrapper.modelValue
   }, 100);
 }
 </script>

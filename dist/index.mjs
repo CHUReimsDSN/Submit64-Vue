@@ -1120,7 +1120,7 @@ const bt = /* @__PURE__ */ ft(gt, [["render", ht]]), _t = /* @__PURE__ */ F({
             label: r.field.defaultDisplayValue ?? "",
             value: r.modelValue
           }
-        ], r.modelValueOnUpdate(r.modelValue);
+        ], r.modelValue = r.modelValue;
       }, 100);
     }
     return (r, u) => (f(), h(v, {
