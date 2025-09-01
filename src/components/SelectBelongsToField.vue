@@ -33,8 +33,10 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
+  console.log('bind : ')
   console.log(selectOptionsFiltered.value.at(0)?.value === propsWrapper.modelValue)
-  return {
+  console.log(selectOptionsFiltered.value.at(0)?.value, propsWrapper.modelValue) 
+   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue as number,
@@ -96,7 +98,9 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
       value: propsWrapper.modelValue,
     },
   ];
+  console.log('mounted : ')
   console.log(selectOptionsFiltered.value.at(0)?.value === propsWrapper.modelValue)
+  console.log(selectOptionsFiltered.value.at(0)?.value, propsWrapper.modelValue)
 }
 </script>
 
