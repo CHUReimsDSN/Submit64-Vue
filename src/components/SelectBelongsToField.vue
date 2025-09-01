@@ -95,7 +95,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   selectOptionsFiltered.value = [
     {
       label: propsWrapper.field.defaultDisplayValue ?? "",
-      value: propsWrapper.modelValue,
+      value: 1,
     },
   ];
   console.log('mounted : ')
