@@ -33,7 +33,6 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
-  console.log('dak')
   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
@@ -44,7 +43,6 @@ function getBindings(
     mapOptions: true,
     emitValue: true,
     useInput: true,
-    options: selectOptionsFiltered.value,
 
     // events
     onClear: propsWrapper.clear,
@@ -114,6 +112,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
       <q-select
         v-bind="getBindings(propsWrapper)"
         @vue:mounted="setupDefaultSelectValue(propsWrapper)"
+        :options="selectOptionsFiltered"
       >
         <template v-slot:options="scope">
           <template v-if="displayComponent">

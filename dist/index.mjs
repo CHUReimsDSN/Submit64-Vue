@@ -1063,7 +1063,7 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
     });
     function r(s) {
       const u = s.injectForm.getFormFactoryInstance(), c = u.formSettings, d = u.formStyleConfig;
-      return console.log("dak"), {
+      return {
         // behaviour
         "onUpdate:modelValue": (C) => s.modelValueOnUpdate(C),
         modelValue: s.modelValue,
@@ -1073,7 +1073,6 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
         mapOptions: !0,
         emitValue: !0,
         useInput: !0,
-        options: t.value,
         // events
         onClear: s.clear,
         onFilter: i(s),
@@ -1132,7 +1131,8 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
     }, {
       default: g(({ propsWrapper: c }) => [
         y(m(G), R(r(c), {
-          onVnodeMounted: (d) => o(c)
+          onVnodeMounted: (d) => o(c),
+          options: t.value
         }), {
           options: g((d) => [
             m(n) ? (f(), b(m(J), V(R({ key: 0 }, d.itemProps)), {
@@ -1156,7 +1156,7 @@ const ht = /* @__PURE__ */ ft(gt, [["render", bt]]), _t = /* @__PURE__ */ F({
             }, null, 8, ["scope"]))
           ]),
           _: 2
-        }, 1040, ["onVnodeMounted"])
+        }, 1040, ["onVnodeMounted", "options"])
       ]),
       _: 1
     }, 8, ["field"]));
