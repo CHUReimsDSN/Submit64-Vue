@@ -91,7 +91,7 @@ function modelValueOnUpdate(value: unknown) {
   modelValue.value = value as T;
 }
 function getModelValueValue() {
-  return unref(modelValue.value)
+  return unref(modelValue)
 }
 
 // exposes
