@@ -33,6 +33,7 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
+  console.log('dak')
   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
@@ -89,15 +90,21 @@ function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   };
 }
 function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  setTimeout(() => {
+    console.log('okok')
   selectOptionsFiltered.value = [
     {
       label: propsWrapper.field.defaultDisplayValue ?? "",
       value: propsWrapper.modelValue,
     },
   ];
-    propsWrapper.modelValue = propsWrapper.modelValue
-  }, 100);
+    propsWrapper.modelValue = {
+      label: propsWrapper.field.defaultDisplayValue ?? "",
+      value: propsWrapper.modelValue,
+    }
+    propsWrapper.modelValueOnUpdate({
+      label: propsWrapper.field.defaultDisplayValue ?? "",
+      value: propsWrapper.modelValue,
+    })
 }
 </script>
 
