@@ -1119,7 +1119,9 @@ const bt = /* @__PURE__ */ ft(gt, [["render", ht]]), _t = /* @__PURE__ */ F({
           label: r.field.defaultDisplayValue ?? "",
           value: r.modelValue
         }
-      ], r.modelValueOnUpdate(t.value[0].value);
+      ], setTimeout(() => {
+        r.modelValueOnUpdate(t.value[0].value);
+      }, 100);
     }
     return (r, u) => (f(), h(v, {
       field: e.field
