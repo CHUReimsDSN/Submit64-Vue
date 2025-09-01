@@ -1121,7 +1121,7 @@ const bt = /* @__PURE__ */ ft(gt, [["render", ht]]), _t = /* @__PURE__ */ F({
           label: s.field.defaultDisplayValue ?? "",
           value: s.modelValue
         }
-      ], console.log("mounted : "), console.log(((r = t.value.at(0)) == null ? void 0 : r.value) === s.modelValue), console.log((u = t.value.at(0)) == null ? void 0 : u.value, s.modelValue);
+      ], console.log("mounted : "), console.log(((r = t.value.at(0)) == null ? void 0 : r.value) === s.modelValue), console.log(t.value), console.log((u = t.value.at(0)) == null ? void 0 : u.value, s.modelValue);
     }
     return (s, r) => (f(), h(v, {
       field: e.field

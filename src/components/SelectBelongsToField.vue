@@ -100,6 +100,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   ];
   console.log('mounted : ')
   console.log(selectOptionsFiltered.value.at(0)?.value === propsWrapper.modelValue)
+  console.log(selectOptionsFiltered.value)
   console.log(selectOptionsFiltered.value.at(0)?.value, propsWrapper.modelValue)
 }
 </script>
