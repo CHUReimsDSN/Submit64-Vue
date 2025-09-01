@@ -144,6 +144,7 @@ export type TSubmit64FieldWrapperPropsSlot = {
   reset: () => void;
   clear: () => void;
   getComputedRules: () => ValidationRule[];
+  getModelValueValue: () => unknown | undefined;
 };
 export type TSubmit64FieldWrapperResetPropsSlot = {
   reset: () => void;
