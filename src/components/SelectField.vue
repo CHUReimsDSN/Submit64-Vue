@@ -24,8 +24,6 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance()
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
-  selectOptions.value = Object.freeze(propsWrapper.field.selectOptions ?? []);
-  selectOptionsFiltered.value = propsWrapper.field.selectOptions ?? [];
   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
@@ -36,7 +34,6 @@ function getBindings(
     mapOptions: true,
     emitValue: true,
     useInput: true,
-    options: propsWrapper.field.selectOptions || [],
 
     // events
     onClear: propsWrapper.clear,
@@ -73,12 +70,16 @@ function inputFilter(val: string, update: (callback: () => void) => void) {
     })
   })
 }
+function setupSelectOptions(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
+  selectOptions.value = Object.freeze(propsWrapper.field.selectOptions ?? []);
+  selectOptionsFiltered.value = propsWrapper.field.selectOptions ?? [];
+}
 </script>
 
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-select v-bind="getBindings(propsWrapper)" />
+      <q-select v-bind="getBindings(propsWrapper)" @vue:mounted="setupSelectOptions" :options="selectOptionsFiltered" />
     </template>
   </FieldWrapper>
 </template>

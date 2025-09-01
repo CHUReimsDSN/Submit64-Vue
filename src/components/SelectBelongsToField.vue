@@ -33,7 +33,6 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
-      console.log('bind')
    return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
@@ -96,7 +95,6 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
         value: propsWrapper.getModelValueValue(),
       },
     ];
-    console.log('ldfgldf')
   }, 0)
 }
 </script>
