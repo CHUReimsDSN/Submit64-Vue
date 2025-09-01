@@ -18,7 +18,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // consts
 const displayComponent =
   propsComponent.field.componentOptions.associationDisplayComponent;
-  
+
 // refs
 const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
 const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
@@ -33,12 +33,6 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
-  selectOptionsFiltered.value = [
-    {
-      label: propsWrapper.field.defaultDisplayValue ?? '',
-      value: propsWrapper.modelValue
-    }
-  ]
   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
@@ -94,12 +88,24 @@ function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
     });
   };
 }
+function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
+  console.log("hellow world");
+  selectOptionsFiltered.value = [
+    {
+      label: propsWrapper.field.defaultDisplayValue ?? "",
+      value: propsWrapper.modelValue,
+    },
+  ];
+}
 </script>
 
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-select v-bind="getBindings(propsWrapper)">
+      <q-select
+        v-bind="getBindings(propsWrapper)"
+        @vue:mounted="setupDefaultSelectValue(propsWrapper)"
+      >
         <template v-slot:options="scope">
           <template v-if="displayComponent">
             <q-item v-bind="scope.itemProps">
