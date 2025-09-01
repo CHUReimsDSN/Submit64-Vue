@@ -33,7 +33,7 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
-    console.log(propsWrapper.modelValue)
+  console.log(selectOptionsFiltered.value[0].value === propsWrapper.modelValue)
   return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
@@ -90,22 +90,13 @@ function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   };
 }
 function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-    console.log('okok')
   selectOptionsFiltered.value = [
     {
       label: propsWrapper.field.defaultDisplayValue ?? "",
       value: propsWrapper.modelValue,
     },
   ];
-    propsWrapper.modelValue = {
-      label: propsWrapper.field.defaultDisplayValue ?? "",
-      value: propsWrapper.modelValue,
-    }
-    propsWrapper.modelValueOnUpdate({
-      label: propsWrapper.field.defaultDisplayValue ?? "",
-      value: propsWrapper.modelValue,
-    })
-    console.log(propsWrapper.modelValue)
+  console.log(selectOptionsFiltered.value[0].value === propsWrapper.modelValue)
 }
 </script>
 
