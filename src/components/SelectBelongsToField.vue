@@ -33,6 +33,7 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
+      console.log('bind')
    return {
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
@@ -43,7 +44,6 @@ function getBindings(
     mapOptions: true,
     emitValue: true,
     useInput: true,
-    //options: selectOptionsFiltered.value,
 
     // events
     onClear: propsWrapper.clear,
@@ -89,12 +89,15 @@ function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   };
 }
 function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  selectOptionsFiltered.value = [
-    {
-      label: propsWrapper.field.defaultDisplayValue ?? "",
-      value: propsWrapper.modelValue,
-    },
-  ];
+  setTimeout(() => {
+    selectOptionsFiltered.value = [
+      {
+        label: propsWrapper.field.defaultDisplayValue ?? String(propsWrapper.getModelValueValue()),
+        value: propsWrapper.getModelValueValue(),
+      },
+    ];
+    console.log('ldfgldf')
+  }, 0)
 }
 </script>
 

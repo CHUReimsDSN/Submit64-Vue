@@ -90,12 +90,14 @@ function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   };
 }
 function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  selectOptionsFiltered.value = [
-    {
-      label: propsWrapper.field.defaultDisplayValue ?? "",
-      value: propsWrapper.modelValue,
-    },
-  ];
+  setTimeout(() => {
+    selectOptionsFiltered.value = [
+      {
+        label: propsWrapper.field.defaultDisplayValue ?? String(propsWrapper.getModelValueValue()),
+        value: propsWrapper.getModelValueValue(),
+      },
+    ];
+  }, 0)
 }
 </script>
 
