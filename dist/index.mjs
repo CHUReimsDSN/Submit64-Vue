@@ -1114,12 +1114,12 @@ const bt = /* @__PURE__ */ ft(gt, [["render", ht]]), _t = /* @__PURE__ */ F({
       };
     }
     function l(r) {
-      console.log(r.field), t.value = [
+      t.value = [
         {
           label: r.field.defaultDisplayValue ?? "",
           value: r.modelValue
         }
-      ];
+      ], r.modelValueOnUpdate(t.value[0].value);
     }
     return (r, u) => (f(), h(v, {
       field: e.field
