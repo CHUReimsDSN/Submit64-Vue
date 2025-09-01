@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { QSelectProps } from "quasar";
-import { QSelect } from 'quasar'
+import { QSelect, QItemLabel, QItem, QItemSection  } from 'quasar'
 import {
   TPropsWithClass,
   TSelectOptionPagination,
@@ -35,6 +35,7 @@ function getBindings(
   const styleConfig = formFactory.formStyleConfig;
   return {
     // behaviour
+    "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue as string,
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,

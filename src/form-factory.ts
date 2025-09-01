@@ -100,6 +100,7 @@ export class FormFactory {
           clearable: columnMetadata.clearable,
           resetable: columnMetadata.resetable,
           provideUniqKey: providingUniqKey,
+          defaultDisplayValue: columnMetadata.default_display_value,
           component,
           componentOptions
         };

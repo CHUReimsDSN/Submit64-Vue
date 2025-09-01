@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { QSelectProps } from "quasar";
-import { QSelect } from "quasar";
+import { QSelect, QItemLabel, QItem, QItemSection } from "quasar";
 import {
   TPropsWithClass,
   TSelectOptionPagination,
@@ -33,8 +33,15 @@ function getBindings(
   const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
+  selectOptionsFiltered.value = [
+    {
+      label: propsWrapper.field.defaultDisplayValue ?? '',
+      value: propsWrapper.modelValue
+    }
+  ]
   return {
     // behaviour
+    "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue as string,
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,
@@ -67,9 +74,6 @@ function getBindings(
 function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   return (val: string, update: (callbackGetData: () => void) => void) => {
     const callback = propsWrapper.injectForm.getAssociationDataCallback();
-    if (!callback) {
-      return;
-    }
     if (val === "") {
       selectOptionsScrollPagination.value = {
         limit: getSubmit64AssociationDataDefaultLimit(),

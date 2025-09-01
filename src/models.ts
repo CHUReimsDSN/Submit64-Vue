@@ -49,6 +49,7 @@ export type TResourceFieldMetadata = {
   css_class?: string;
   resetable?: boolean;
   clearable?: boolean;
+  default_display_value?: string;
 };
 export type TSubmit64AssociationData = {
   rows: TSubmit64AssociationRowEntry[];
@@ -118,6 +119,7 @@ export type TFormFieldDef = {
   cssClass?: string;
   resetable?: boolean;
   clearable?: boolean;
+  defaultDisplayValue?: string;
   selectOptions?: TSubmit64AssociationRowEntry[];
   component: Component;
   componentOptions: {
