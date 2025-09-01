@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T">
-import { getCurrentInstance, inject, onMounted, ref } from "vue";
+import { getCurrentInstance, inject, onMounted, ref, unref } from "vue";
 import type {
   TFormFieldDef,
   TSubmit64Field,
@@ -91,7 +91,7 @@ function modelValueOnUpdate(value: unknown) {
   modelValue.value = value as T;
 }
 function getModelValueValue() {
-  return modelValue.value
+  return unref(modelValue.value)
 }
 
 // exposes

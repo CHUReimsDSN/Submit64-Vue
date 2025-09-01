@@ -593,7 +593,7 @@ const ot = {
       a.value = g;
     }
     function d() {
-      return a.value;
+      return m(a.value);
     }
     return e({
       reset: i,
