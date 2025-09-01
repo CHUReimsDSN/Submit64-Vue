@@ -89,7 +89,7 @@ function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   };
 }
 function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  console.log("hellow world");
+  console.log(propsWrapper.field)
   selectOptionsFiltered.value = [
     {
       label: propsWrapper.field.defaultDisplayValue ?? "",

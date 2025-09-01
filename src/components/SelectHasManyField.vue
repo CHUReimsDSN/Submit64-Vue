@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { QSelectProps } from "quasar";
-import { QSelect, QItemLabel, QItem, QItemSection  } from 'quasar'
+import { QSelect, QItemLabel, QItem, QItemSection } from "quasar";
 import {
   TPropsWithClass,
   TSelectOptionPagination,
@@ -18,7 +18,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // consts
 const displayComponent =
   propsComponent.field.componentOptions.associationDisplayComponent;
-  
+
 // refs
 const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
 const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
@@ -30,7 +30,7 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
 function getBindings(
   propsWrapper: TSubmit64FieldWrapperPropsSlot
 ): QSelectProps & TPropsWithClass {
-  const formFactory = propsWrapper.injectForm.getFormFactoryInstance()
+  const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
   const formSetting = formFactory.formSettings;
   const styleConfig = formFactory.formStyleConfig;
   return {
@@ -90,12 +90,23 @@ function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
     });
   };
 }
+function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
+  selectOptionsFiltered.value = [
+    {
+      label: propsWrapper.field.defaultDisplayValue ?? "",
+      value: propsWrapper.modelValue,
+    },
+  ];
+}
 </script>
 
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-select v-bind="getBindings(propsWrapper)">
+      <q-select
+        v-bind="getBindings(propsWrapper)"
+        @vue:mounted="setupDefaultSelectValue(propsWrapper)"
+      >
         <template v-slot:options="scope">
           <template v-if="displayComponent">
             <q-item v-bind="scope.itemProps">
