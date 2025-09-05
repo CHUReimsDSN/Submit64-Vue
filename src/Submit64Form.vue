@@ -21,7 +21,7 @@ let formMetadataAndData: TResourceFormMetadataAndData | null = null;
 const formFactoryInstance = Object.freeze(
   new FormFactory(
     propsComponent.resourceName,
-    propsComponent.globalFormSettings
+    propsComponent.formSettings
   )
 );
 const providingUniqKey = getSubmit64FormProviderSymbol(uid());
@@ -31,6 +31,7 @@ const fieldRefs = ref<Record<string, TSubmit64Field>>({});
 const generatedForm = ref<TFormDef>();
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
+const mode = ref<'edit' | 'create'>('create')
 
 // functions
 async function setupMetadatasAndForm() {
@@ -46,19 +47,39 @@ async function setupMetadatasAndForm() {
       propsComponent.context
     )
   );
+  if (propsComponent.resourceId)
   setupIsDone.value = true;
 }
 async function submitForm(): Promise<void> {
   isLoadingSubmit.value = true;
-  const formData: Record<string, unknown> = {};
+  const resourceData: Record<string, unknown> = {};
   Object.entries(fieldRefs.value).forEach((entry) => {
-    formData[entry[0]] = entry[1].getValue();
+    resourceData[entry[0]] = entry[1].getValue();
   });
-  const newData = await propsComponent.submitForm({ formData });
-  if (formMetadataAndData) {
-    formMetadataAndData.resource_data = newData;
+  const newData = await propsComponent.submitForm({
+    resourceName: propsComponent.resourceName,
+    resourceId: propsComponent.resourceId,
+    resourceData,
+    context: propsComponent.context,
+  });
+  if (!newData.success) {
+    Object.entries(fieldRefs.value).forEach((entry) => {
+      const entryErrors = newData.errors[entry[0]];
+      if (entryErrors) {
+        entry[1].setupErrors(entryErrors);
+      }
+    });
+    propsComponent.onSubmitFail?.()
+  } else {
+    if (mode.value === 'create') {
+      mode.value = 'edit'
+    }
+    if (formMetadataAndData && newData.resource_data) {
+      formMetadataAndData.resource_data = newData.resource_data
+    }
+    resetForm();
+    propsComponent.onSubmitSuccess?.()
   }
-  resetForm();
   isLoadingSubmit.value = false;
 }
 function resetForm() {

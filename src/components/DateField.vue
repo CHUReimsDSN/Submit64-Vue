@@ -26,10 +26,10 @@ function getBindings(
     // behaviour
     "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
     modelValue: propsWrapper.modelValue as string,
-
     lazyRules: formSetting.rulesBehaviour === "lazy",
     clearable: propsWrapper.field.clearable,
     rules: propsWrapper.getComputedRules(),
+    readonly: propsWrapper.field.readonly,
 
     // events
     onClear: propsWrapper.clear,

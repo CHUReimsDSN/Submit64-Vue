@@ -19,6 +19,7 @@ const injectForm = inject(propsComponent.field.provideUniqKey)!;
 
 // refs
 const modelValue = ref<T>();
+const errors = ref<string[]>([]);
 
 // functions
 function getValue() {
@@ -91,7 +92,10 @@ function modelValueOnUpdate(value: unknown) {
   modelValue.value = value as T;
 }
 function getModelValueValue() {
-  return unref(modelValue)
+  return unref(modelValue);
+}
+function setupErrors(errorsArg: string[]) {
+  errors.value = errorsArg;
 }
 
 // exposes
@@ -99,6 +103,7 @@ defineExpose({
   reset,
   clear,
   getValue,
+  setupErrors,
 });
 
 // lifeCycle
@@ -128,7 +133,7 @@ onMounted(() => {
       </slot>
     </template>
     <slot
-      :propsWrapper="({ modelValue, modelValueOnUpdate, field, injectForm, reset, clear, getComputedRules, getModelValueValue } as TSubmit64FieldWrapperPropsSlot)"
+      :propsWrapper="({ modelValue, errors, modelValueOnUpdate, field, injectForm, reset, clear, getComputedRules, getModelValueValue } as TSubmit64FieldWrapperPropsSlot)"
     ></slot>
   </div>
 </template>
