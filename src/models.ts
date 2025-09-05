@@ -177,11 +177,11 @@ export type TSubmit64FormProps = {
   getMetadataAndData: (
     submit64Params: TSubmit64GetMetadataAndData
   ) => Promise<TResourceFormMetadataAndData>;
-  submitForm: (submit64Params: TSubmit64GetSubmitData) => Promise<TSubmit64SubmitSubmitData>;
-  resourceId?: TRecord["id"];
+  getSubmitFormData: (submit64Params: TSubmit64GetSubmitData) => Promise<TSubmit64SubmitSubmitData>;
   getAssociationData?: (
     submit64Params: TSubmit64GetAssociationData
   ) => Promise<TSubmit64AssociationData>;
+  resourceId?: TRecord["id"];
   formSettings?: TFormSettings;
   onSubmitFail?: () => void;
   onSubmitSuccess?: () => void;

@@ -58,7 +58,7 @@ async function submitForm(): Promise<void> {
   Object.entries(fieldRefs.value).forEach((entry) => {
     resourceData[entry[0]] = entry[1].getValue();
   });
-  const newData = await propsComponent.submitForm({
+  const newData = await propsComponent.getSubmitFormData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
     resourceData,

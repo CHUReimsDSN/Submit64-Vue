@@ -52,7 +52,7 @@ function getBindings(
     <template v-slot:default="{ propsWrapper }">
       <q-input v-bind="getBindings(propsWrapper)" type="textarea">
         <template v-slot:error="sfsdf">
-          {{ sfsdf }}
+          {{ sfsdf ?? 'nope' }}
         </template>
       </q-input>
     </template>
