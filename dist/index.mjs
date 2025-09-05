@@ -1293,7 +1293,7 @@ const Ct = {
           s,
           n.context
         )
-      ), n.resourceId && (r.value = !0);
+      ), n.resourceId && (i.value = "edit"), r.value = !0;
     }
     async function D() {
       var B, L;

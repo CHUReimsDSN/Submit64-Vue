@@ -47,7 +47,9 @@ async function setupMetadatasAndForm() {
       propsComponent.context
     )
   );
-  if (propsComponent.resourceId)
+  if (propsComponent.resourceId) {
+    mode.value = 'edit'
+  }
   setupIsDone.value = true;
 }
 async function submitForm(): Promise<void> {
