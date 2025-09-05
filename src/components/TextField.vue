@@ -50,7 +50,11 @@ function getBindings(
 <template>
   <FieldWrapper :field="propsComponent.field">
     <template v-slot:default="{ propsWrapper }">
-      <q-input v-bind="getBindings(propsWrapper)" type="textarea" />
+      <q-input v-bind="getBindings(propsWrapper)" type="textarea">
+        <template v-slot:error="sfsdf">
+          {{ sfsdf }}
+        </template>
+      </q-input>
     </template>
   </FieldWrapper>
 </template>

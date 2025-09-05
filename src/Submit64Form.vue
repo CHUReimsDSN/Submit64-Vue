@@ -64,9 +64,9 @@ async function submitForm(): Promise<void> {
   });
   if (!newData.success) {
     Object.entries(fieldRefs.value).forEach((entry) => {
-      const entryErrors = newData.errors[entry[0]];
-      if (entryErrors) {
-        entry[1].setupErrors(entryErrors);
+      const entryBackendErrors = newData.errors[entry[0]];
+      if (entryBackendErrors) {
+        entry[1].setupBackendErrors(entryBackendErrors);
       }
     });
     propsComponent.onSubmitFail?.()

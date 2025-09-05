@@ -118,14 +118,14 @@ export type TSubmit64Field = ComponentPublicInstance & {
     getValue: () => unknown;
     reset: () => void;
     clear: () => void;
-    setupErrors: (errors: string[]) => void;
+    setupBackendErrors: (errors: string[]) => void;
 };
 export type TSubmit64FieldProps = {
     field: TFormFieldDef;
 };
 export type TSubmit64FieldWrapperPropsSlot = {
     modelValue: unknown;
-    errors: string[];
+    backendErrors: string[];
     modelValueOnUpdate: (value: unknown) => void;
     field: TFormFieldDef;
     injectForm: TSubmit64FormProvider;
