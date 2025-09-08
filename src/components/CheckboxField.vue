@@ -36,5 +36,5 @@ watch(() => propsComponent.wrapper.modelValue, () => {
   <div v-if="propsComponent.wrapper.field.hint" class="q-field__bottom">
     {{ propsComponent.wrapper.field.hint }}
   </div>
-  <div v-if="ruleResult !== true" class="q-field--error q-field__bottom">{{ ruleResult }}</div>
+  <div v-if="ruleResult !== true" class="q-field--error q-field__bottom text-negative">{{ ruleResult }}</div>
 </template>
