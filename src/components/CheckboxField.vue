@@ -32,5 +32,5 @@ function updateModel(value: unknown) {
   <div v-if="propsComponent.wrapper.field.hint" class="q-field__bottom">
     {{ propsComponent.wrapper.field.hint }}
   </div>
-  <div v-if="ruleResult !== true" class="text-negative">ici !{{ ruleResult }}</div>
+  <div v-if="ruleResult !== true" class="q-field__error q-field__bottom">{{ ruleResult }}</div>
 </template>
