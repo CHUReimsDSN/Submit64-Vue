@@ -54,10 +54,7 @@ function clear() {
       modelValue.value = false as T;
       break;
     case "date":
-      modelValue.value = date.formatDate(
-        new Date(),
-        injectForm.getFormFactoryInstance().formSettings.dateFormat
-      ) as T;
+      modelValue.value = "" as T;
       break;
     case "number":
       modelValue.value = 0 as T;

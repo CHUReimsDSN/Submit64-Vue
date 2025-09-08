@@ -35,6 +35,7 @@ const lazyRules = formSetting.rulesBehaviour === "lazy";
     :lazy-rules="lazyRules"
     :clearable="propsComponent.wrapper.field.clearable"
     :readonly="propsComponent.wrapper.field.readonly"
+    :autogrow="true"
     :rules="propsComponent.wrapper.rules"
     @clear="propsComponent.wrapper.clear"
   />

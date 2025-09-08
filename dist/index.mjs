@@ -174,6 +174,7 @@ const Q = /* @__PURE__ */ v({
       "lazy-rules": a,
       clearable: e.wrapper.field.clearable,
       readonly: e.wrapper.field.readonly,
+      autogrow: !0,
       rules: e.wrapper.rules,
       onClear: e.wrapper.clear
     }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "onClear"]));
@@ -1060,10 +1061,7 @@ const yt = {
           a.value = !1;
           break;
         case "date":
-          a.value = _.formatDate(
-            /* @__PURE__ */ new Date(),
-            n.getFormFactoryInstance().formSettings.dateFormat
-          );
+          a.value = "";
           break;
         case "number":
           a.value = 0;
