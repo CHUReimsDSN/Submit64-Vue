@@ -1,7 +1,7 @@
 var pe = Object.defineProperty;
 var me = (r, e, t) => e in r ? pe(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
 var F = (r, e, t) => me(r, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as v, createElementBlock as D, openBlock as f, createVNode as k, createBlock as S, createCommentVNode as B, unref as o, normalizeClass as x, createElementVNode as R, toDisplayString as E, renderSlot as A, resolveComponent as fe, ref as C, withCtx as w, watch as ge, Fragment as G, onMounted as j, normalizeProps as Z, mergeProps as M, createTextVNode as W, resolveDynamicComponent as I, inject as be, getCurrentInstance as he, provide as ye, renderList as J } from "vue";
+import { defineComponent as v, createElementBlock as D, openBlock as f, createVNode as k, createBlock as S, createCommentVNode as B, unref as o, normalizeClass as x, createElementVNode as $, toDisplayString as R, renderSlot as A, resolveComponent as fe, ref as C, withCtx as w, watch as ge, Fragment as G, onMounted as I, normalizeProps as Z, mergeProps as M, createTextVNode as W, resolveDynamicComponent as E, inject as be, getCurrentInstance as he, provide as ye, renderList as J } from "vue";
 import { QBtn as U, QIcon as ee, QInput as te, QPopupProxy as Se, QDate as _e, QCheckbox as Fe, QSelect as Y, QItem as re, QItemSection as ne, QItemLabel as ae, date as _, uid as Ce } from "quasar";
 const we = { class: "flex row items-center no-wrap q-pt-sm" }, ve = /* @__PURE__ */ v({
   __name: "DefaultActionComponent",
@@ -43,15 +43,15 @@ const we = { class: "flex row items-center no-wrap q-pt-sm" }, ve = /* @__PURE__
     return (t, n) => (f(), D("div", {
       class: x(["flex column", e.section.cssClass])
     }, [
-      R("div", De, [
+      $("div", De, [
         e.section.icon ? (f(), S(o(ee), {
           key: 0,
           name: e.section.icon,
           size: "sm"
         }, null, 8, ["name"])) : B("", !0),
-        R("div", ke, E(e.section.label), 1)
+        $("div", ke, R(e.section.label), 1)
       ]),
-      R("div", Ve, [
+      $("div", Ve, [
         A(t.$slots, "default")
       ])
     ], 2));
@@ -239,7 +239,7 @@ const Q = /* @__PURE__ */ v({
                   mask: o(t).formSettings.dateFormat
                 }, {
                   default: w(() => [
-                    R("div", xe, [
+                    $("div", xe, [
                       k(o(U), {
                         onClick: l,
                         label: "Fermer",
@@ -266,7 +266,7 @@ const Q = /* @__PURE__ */ v({
   class: "q-field__bottom"
 }, Be = {
   key: 1,
-  class: "q-field__error q-field__bottom"
+  class: "q-field--error q-field__bottom"
 }, $e = /* @__PURE__ */ v({
   __name: "CheckboxField",
   props: {
@@ -291,8 +291,8 @@ const Q = /* @__PURE__ */ v({
         color: o(s).fieldColor,
         class: x(e.wrapper.field.cssClass)
       }, null, 8, ["modelValue", "label", "dense", "color", "class"]),
-      e.wrapper.field.hint ? (f(), D("div", qe, E(e.wrapper.field.hint), 1)) : B("", !0),
-      t.value !== !0 ? (f(), D("div", Be, E(t.value), 1)) : B("", !0)
+      e.wrapper.field.hint ? (f(), D("div", qe, R(e.wrapper.field.hint), 1)) : B("", !0),
+      t.value !== !0 ? (f(), D("div", Be, R(t.value), 1)) : B("", !0)
     ], 64));
   }
 }), Re = /* @__PURE__ */ v({
@@ -326,7 +326,7 @@ const Q = /* @__PURE__ */ v({
     function u(i) {
       t.value = Object.freeze(i.field.selectOptions ?? []), n.value = i.field.selectOptions ?? [];
     }
-    return j(() => {
+    return I(() => {
       u(e.wrapper);
     }), (i, d) => (f(), S(o(Y), {
       modelValue: e.wrapper.modelValue,
@@ -407,7 +407,7 @@ const je = /* @__PURE__ */ v({
         ];
       }, 0);
     }
-    return j(() => {
+    return I(() => {
       i(e.wrapper);
     }), (d, m) => (f(), S(o(Y), {
       modelValue: e.wrapper.modelValue,
@@ -447,7 +447,7 @@ const je = /* @__PURE__ */ v({
               default: w(() => [
                 k(o(ae), null, {
                   default: w(() => [
-                    W(E(g.opt.label), 1)
+                    W(R(g.opt.label), 1)
                   ]),
                   _: 2
                 }, 1024)
@@ -456,7 +456,7 @@ const je = /* @__PURE__ */ v({
             }, 1024)
           ]),
           _: 2
-        }, 1040)) : (f(), S(I(o(t)), {
+        }, 1040)) : (f(), S(E(o(t)), {
           key: 1,
           scope: g
         }, null, 8, ["scope"]))
@@ -504,7 +504,7 @@ const je = /* @__PURE__ */ v({
         ];
       }, 0);
     }
-    return j(() => {
+    return I(() => {
       i(e.wrapper);
     }), (d, m) => (f(), S(o(Y), {
       modelValue: e.wrapper.modelValue,
@@ -546,7 +546,7 @@ const je = /* @__PURE__ */ v({
               default: w(() => [
                 k(o(ae), null, {
                   default: w(() => [
-                    W(E(g.opt.label), 1)
+                    W(R(g.opt.label), 1)
                   ]),
                   _: 2
                 }, 1024)
@@ -555,7 +555,7 @@ const je = /* @__PURE__ */ v({
             }, 1024)
           ]),
           _: 2
-        }, 1040)) : (f(), S(I(o(t)), {
+        }, 1040)) : (f(), S(E(o(t)), {
           key: 1,
           scope: g
         }, null, 8, ["scope"]))
@@ -1104,9 +1104,9 @@ const St = {
     function V() {
       let b = !0;
       return s.forEach((O) => {
-        const $ = O(m());
-        if (console.log("wrapper" + $), $ !== !0) {
-          b = $;
+        const j = O(m());
+        if (j !== !0) {
+          b = j;
           return;
         }
       }), b;
@@ -1117,7 +1117,7 @@ const St = {
       validate: V,
       getValue: m,
       setupBackendErrors: g
-    }), j(() => {
+    }), I(() => {
       var O;
       l();
       const b = (O = he()) == null ? void 0 : O.exposed;
@@ -1129,7 +1129,7 @@ const St = {
       A(b.$slots, "default", {
         propsWrapper: { modelValue: a.value, modelValueOnUpdate: d, backendErrors: c.value, field: b.field, injectForm: o(n), rules: o(s), reset: l, clear: u, getValue: m, validate: V }
       }, () => [
-        (f(), S(I(t.field.component), {
+        (f(), S(E(t.field.component), {
           wrapper: { modelValue: a.value, modelValueOnUpdate: d, backendErrors: c.value, field: b.field, injectForm: o(n), rules: o(s), reset: l, clear: u, getValue: m, validate: V }
         }, null, 8, ["wrapper"]))
       ])
@@ -1211,7 +1211,7 @@ const St = {
         h.clear();
       });
     }
-    function $(h, y) {
+    function j(h, y) {
       c.value[h] = y;
     }
     function le(h) {
@@ -1244,19 +1244,19 @@ const St = {
       });
     }
     return ye(a, {
-      registerRef: $,
+      registerRef: j,
       getDefaultDataByFieldName: le,
       getFieldDataByFieldName: se,
       getFormFactoryInstance: ie,
       getForm: ue,
       getAssociationDataCallback: ce
-    }), e({}), j(async () => {
+    }), e({}), I(async () => {
       de(), await d();
     }), (h, y) => p.value && l.value ? (f(), D("div", _t, [
-      R("div", {
+      $("div", {
         class: x(l.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (f(!0), D(G, null, J(l.value.sections, (q, L) => (f(), S(I(o(s).sectionComponent), {
+        (f(!0), D(G, null, J(l.value.sections, (q, L) => (f(), S(E(o(s).sectionComponent), {
           key: L,
           section: q
         }, {
@@ -1281,7 +1281,7 @@ const St = {
           _: 2
         }, 1032, ["section"]))), 128))
       ], 2),
-      (f(), S(I(o(s).actionComponent), {
+      (f(), S(E(o(s).actionComponent), {
         isLoadingSubmit: u.value,
         submit: m,
         clear: l.value.clearable ? O : void 0,

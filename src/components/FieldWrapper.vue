@@ -96,7 +96,6 @@ function validate(): boolean | string {
   let isValid: boolean | string = true;
   rules.forEach((rule) => {
     const resultRule = rule(getValue());
-    console.log('wrapper' + resultRule)
     if (resultRule !== true) {
       isValid = resultRule;
       return;
