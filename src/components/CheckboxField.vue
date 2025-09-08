@@ -11,18 +11,12 @@ const ruleResult = ref<boolean | string>(true);
 
 // consts
 const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
-const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyleConfig;
-const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // functions
 function updateModel(value: unknown) {
   propsComponent.wrapper.modelValueOnUpdate(value);
-  if (!lazyRules) {
-    return;
-  }
   ruleResult.value = propsComponent.wrapper.validate();
-  console.log('checkbox' + ruleResult)
 }
 </script>
 
@@ -35,7 +29,6 @@ function updateModel(value: unknown) {
     :color="styleConfig.fieldColor"
     :class="propsComponent.wrapper.field.cssClass"
   />
-  <!-- TODO test rules -->
   <div v-if="propsComponent.wrapper.field.hint" class="q-field__bottom">
     {{ propsComponent.wrapper.field.hint }}
   </div>
