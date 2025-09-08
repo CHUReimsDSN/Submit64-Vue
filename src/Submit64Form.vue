@@ -44,7 +44,6 @@ async function setupMetadatasAndForm() {
       propsComponent.context
     )
   );
-  console.log(generatedForm.value)
   if (propsComponent.resourceId) {
     mode.value = "edit";
   }

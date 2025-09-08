@@ -16,7 +16,7 @@ const propsComponent = defineProps<{
 
 // consts
 const injectForm = inject(propsComponent.field.provideUniqKey)!;
-const rules = getComputedRules()
+const rules = getComputedRules();
 
 // refs
 const modelValue = ref<T>();
@@ -96,15 +96,15 @@ function setupBackendErrors(errorsArg: string[]) {
   backendErrors.value = errorsArg;
 }
 function validate(): boolean | string {
-  let isValid: boolean | string = true
+  let isValid: boolean | string = true;
   rules.forEach((rule) => {
-    const resultRule = rule(getValue())
+    const resultRule = rule(getValue());
     if (resultRule !== true) {
-      isValid = resultRule
-      return
+      isValid = resultRule;
+      return;
     }
-  })
-  return isValid
+  });
+  return isValid;
 }
 
 // exposes
@@ -133,6 +133,11 @@ onMounted(() => {
   <div>
     <slot
       :propsWrapper="({ modelValue, modelValueOnUpdate, backendErrors, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
-    ></slot>
+    >
+      <Component
+        :is="propsComponent.field.component"
+        :wrapper="({ modelValue, modelValueOnUpdate, backendErrors, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
+      />
+    </slot>
   </div>
 </template>
