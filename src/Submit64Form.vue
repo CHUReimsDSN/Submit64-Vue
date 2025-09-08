@@ -50,10 +50,10 @@ async function setupMetadatasAndForm() {
   setupIsDone.value = true;
 }
 async function submitForm(): Promise<void> {
-  isLoadingSubmit.value = true;
   if (!validateForm()) {
     return;
   }
+  isLoadingSubmit.value = true;
   const resourceData = getValuesForm();
   const newData = await propsComponent.getSubmitFormData({
     resourceName: propsComponent.resourceName,

@@ -22,6 +22,7 @@ function updateModel(value: unknown) {
     return;
   }
   ruleResult.value = propsComponent.wrapper.validate();
+  console.log(ruleResult)
 }
 </script>
 
@@ -34,9 +35,9 @@ function updateModel(value: unknown) {
     :color="styleConfig.fieldColor"
     :class="propsComponent.wrapper.field.cssClass"
   />
-  <!-- TODO test hint + rules -->
-  <div v-if="propsComponent.wrapper.field.hint" class="caption">
+  <!-- TODO test rules -->
+  <div v-if="propsComponent.wrapper.field.hint" class="q-field__bottom">
     {{ propsComponent.wrapper.field.hint }}
   </div>
-  <div v-if="ruleResult !== true" class="text-negative">{{ ruleResult }}</div>
+  <div v-if="ruleResult !== true" class="text-negative">ici !{{ ruleResult }}</div>
 </template>
