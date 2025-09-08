@@ -144,7 +144,41 @@ const Ce = { class: "flex row items-center no-wrap q-pt-sm" }, we = /* @__PURE__
 };
 F(P, "_instance", new P());
 let N = P;
-const Ne = { class: "row items-center justify-end" }, xe = /* @__PURE__ */ v({
+const Q = /* @__PURE__ */ v({
+  __name: "RegularField",
+  props: {
+    wrapper: {}
+  },
+  setup(r) {
+    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), n = t.formSettings, s = t.formStyleConfig, a = n.rulesBehaviour === "lazy";
+    return (c, l) => (f(), _(o(te), {
+      modelValue: e.wrapper.modelValue,
+      "onUpdate:modelValue": [
+        l[0] || (l[0] = (p) => e.wrapper.modelValue = p),
+        l[1] || (l[1] = (p) => e.wrapper.modelValueOnUpdate(p))
+      ],
+      type: e.wrapper.field.componentOptions.regularFieldType,
+      label: e.wrapper.field.label,
+      hint: e.wrapper.field.hint,
+      outlined: o(s).fieldOutlined,
+      filled: o(s).fieldFilled,
+      standout: o(s).fieldStandout,
+      borderless: o(s).fieldBorderless,
+      rounded: o(s).fieldRounded,
+      square: o(s).fieldSquare,
+      dense: o(s).fieldDense,
+      hideBottomSpace: o(s).fieldHideBottomSpace,
+      color: o(s).fieldColor,
+      bgColor: o(s).fieldBgColor,
+      class: x(e.wrapper.field.cssClass),
+      "lazy-rules": a,
+      clearable: e.wrapper.field.clearable,
+      readonly: e.wrapper.field.readonly,
+      rules: e.wrapper.rules,
+      onClear: e.wrapper.clear
+    }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "onClear"]));
+  }
+}), Ne = { class: "row items-center justify-end" }, xe = /* @__PURE__ */ v({
   __name: "DateField",
   props: {
     wrapper: {}
@@ -258,14 +292,176 @@ const Ne = { class: "row items-center justify-end" }, xe = /* @__PURE__ */ v({
       t.value !== !0 ? (f(), D("div", Be, R(t.value), 1)) : q("", !0)
     ], 64));
   }
+}), $e = /* @__PURE__ */ v({
+  __name: "ObjectField",
+  props: {
+    wrapper: {}
+  },
+  setup(r) {
+    const t = r.wrapper.injectForm.getFormFactoryInstance(), n = t.formSettings;
+    return t.formStyleConfig, n.rulesBehaviour, (s, a) => " TODO json edit ? ";
+  }
+}), Re = /* @__PURE__ */ v({
+  __name: "SelectField",
+  props: {
+    wrapper: {}
+  },
+  setup(r) {
+    const e = r, t = C([]), n = C([]), s = e.wrapper.injectForm.getFormFactoryInstance(), a = s.formSettings, c = s.formStyleConfig, l = a.rulesBehaviour === "lazy";
+    function p(i, d) {
+      if (i === "") {
+        d(() => {
+          n.value = [...t.value];
+        });
+        return;
+      }
+      d(() => {
+        const m = i.toLowerCase();
+        n.value = t.value.filter((g) => g.label.toLowerCase().includes(m));
+      });
+    }
+    function u(i) {
+      t.value = Object.freeze(i.field.selectOptions ?? []), n.value = i.field.selectOptions ?? [];
+    }
+    return E(() => {
+      u(e.wrapper);
+    }), (i, d) => (f(), _(o(Y), {
+      modelValue: e.wrapper.modelValue,
+      "onUpdate:modelValue": [
+        d[0] || (d[0] = (m) => e.wrapper.modelValue = m),
+        d[1] || (d[1] = (m) => e.wrapper.modelValueOnUpdate(m))
+      ],
+      type: e.wrapper.field.componentOptions.regularFieldType,
+      label: e.wrapper.field.label,
+      hint: e.wrapper.field.hint,
+      outlined: o(c).fieldOutlined,
+      filled: o(c).fieldFilled,
+      standout: o(c).fieldStandout,
+      borderless: o(c).fieldBorderless,
+      rounded: o(c).fieldRounded,
+      square: o(c).fieldSquare,
+      dense: o(c).fieldDense,
+      hideBottomSpace: o(c).fieldHideBottomSpace,
+      color: o(c).fieldColor,
+      bgColor: o(c).fieldBgColor,
+      class: x(e.wrapper.field.cssClass),
+      "lazy-rules": l,
+      clearable: e.wrapper.field.clearable,
+      readonly: e.wrapper.field.readonly,
+      rules: e.wrapper.rules,
+      options: n.value,
+      mapOptions: !0,
+      emitValue: !0,
+      useInput: !0,
+      onClear: e.wrapper.clear,
+      onFilter: p
+    }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options", "onClear"]));
+  }
 });
-function $e(r) {
+function Ee(r) {
   return Symbol(r);
 }
 function H() {
   return 20;
 }
-const Re = /* @__PURE__ */ v({
+const Ie = /* @__PURE__ */ v({
+  __name: "SelectBelongsToField",
+  props: {
+    wrapper: {}
+  },
+  setup(r) {
+    const e = r, t = e.wrapper.field.componentOptions.associationDisplayComponent, n = e.wrapper.injectForm.getFormFactoryInstance(), s = n.formSettings, a = n.formStyleConfig, c = s.rulesBehaviour === "lazy", l = C([]), p = C({
+      limit: H(),
+      offset: 0
+    });
+    function u(d) {
+      return (m, g) => {
+        const V = d.injectForm.getAssociationDataCallback();
+        m === "" && (p.value = {
+          limit: H(),
+          offset: 0
+        }), g(() => {
+          V({
+            resourceName: d.injectForm.getForm().resourceName,
+            associationName: d.field.metadata.field_association_name,
+            limit: p.value.limit,
+            offset: p.value.offset,
+            labelFilter: m,
+            context: d.injectForm.getForm().context
+          }).then((h) => {
+            l.value = h.rows;
+          });
+        });
+      };
+    }
+    function i(d) {
+      setTimeout(() => {
+        l.value = [
+          {
+            label: d.field.defaultDisplayValue ?? String(d.getValue()),
+            value: d.getValue()
+          }
+        ];
+      }, 0);
+    }
+    return E(() => {
+      i(e.wrapper);
+    }), (d, m) => (f(), _(o(Y), {
+      modelValue: e.wrapper.modelValue,
+      "onUpdate:modelValue": [
+        m[0] || (m[0] = (g) => e.wrapper.modelValue = g),
+        m[1] || (m[1] = (g) => e.wrapper.modelValueOnUpdate(g))
+      ],
+      type: e.wrapper.field.componentOptions.regularFieldType,
+      label: e.wrapper.field.label,
+      hint: e.wrapper.field.hint,
+      outlined: o(a).fieldOutlined,
+      filled: o(a).fieldFilled,
+      standout: o(a).fieldStandout,
+      borderless: o(a).fieldBorderless,
+      rounded: o(a).fieldRounded,
+      square: o(a).fieldSquare,
+      dense: o(a).fieldDense,
+      hideBottomSpace: o(a).fieldHideBottomSpace,
+      color: o(a).fieldColor,
+      bgColor: o(a).fieldBgColor,
+      class: x(e.wrapper.field.cssClass),
+      "lazy-rules": c,
+      clearable: e.wrapper.field.clearable,
+      readonly: e.wrapper.field.readonly,
+      rules: e.wrapper.rules,
+      options: l.value,
+      mapOptions: !0,
+      emitValue: !0,
+      useInput: !0,
+      onClear: e.wrapper.clear,
+      onFilter: u
+    }, {
+      options: w((g) => [
+        o(t) ? (f(), _(o(re), Z(M({ key: 0 }, g.itemProps)), {
+          default: w(() => [
+            k(o(ne), null, {
+              default: w(() => [
+                k(o(ae), null, {
+                  default: w(() => [
+                    W(R(g.opt.label), 1)
+                  ]),
+                  _: 2
+                }, 1024)
+              ]),
+              _: 2
+            }, 1024)
+          ]),
+          _: 2
+        }, 1040)) : (f(), _(A(o(t)), {
+          key: 1,
+          scope: g
+        }, null, 8, ["scope"]))
+      ]),
+      _: 1
+    }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options", "onClear"]));
+  }
+}), je = /* @__PURE__ */ v({
   __name: "SelectHasManyField",
   props: {
     wrapper: {}
@@ -364,202 +560,6 @@ const Re = /* @__PURE__ */ v({
       _: 1
     }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options", "onClear"]));
   }
-}), Ee = /* @__PURE__ */ v({
-  __name: "ObjectField",
-  props: {
-    wrapper: {}
-  },
-  setup(r) {
-    const t = r.wrapper.injectForm.getFormFactoryInstance(), n = t.formSettings;
-    return t.formStyleConfig, n.rulesBehaviour, (s, a) => " TODO json edit ? ";
-  }
-}), Ie = /* @__PURE__ */ v({
-  __name: "SelectField",
-  props: {
-    wrapper: {}
-  },
-  setup(r) {
-    const e = r, t = C([]), n = C([]), s = e.wrapper.injectForm.getFormFactoryInstance(), a = s.formSettings, c = s.formStyleConfig, l = a.rulesBehaviour === "lazy";
-    function p(i, d) {
-      if (i === "") {
-        d(() => {
-          n.value = [...t.value];
-        });
-        return;
-      }
-      d(() => {
-        const m = i.toLowerCase();
-        n.value = t.value.filter((g) => g.label.toLowerCase().includes(m));
-      });
-    }
-    function u(i) {
-      t.value = Object.freeze(i.field.selectOptions ?? []), n.value = i.field.selectOptions ?? [];
-    }
-    return E(() => {
-      u(e.wrapper);
-    }), (i, d) => (f(), _(o(Y), {
-      modelValue: e.wrapper.modelValue,
-      "onUpdate:modelValue": [
-        d[0] || (d[0] = (m) => e.wrapper.modelValue = m),
-        d[1] || (d[1] = (m) => e.wrapper.modelValueOnUpdate(m))
-      ],
-      type: e.wrapper.field.componentOptions.regularFieldType,
-      label: e.wrapper.field.label,
-      hint: e.wrapper.field.hint,
-      outlined: o(c).fieldOutlined,
-      filled: o(c).fieldFilled,
-      standout: o(c).fieldStandout,
-      borderless: o(c).fieldBorderless,
-      rounded: o(c).fieldRounded,
-      square: o(c).fieldSquare,
-      dense: o(c).fieldDense,
-      hideBottomSpace: o(c).fieldHideBottomSpace,
-      color: o(c).fieldColor,
-      bgColor: o(c).fieldBgColor,
-      class: x(e.wrapper.field.cssClass),
-      "lazy-rules": l,
-      clearable: e.wrapper.field.clearable,
-      readonly: e.wrapper.field.readonly,
-      rules: e.wrapper.rules,
-      options: n.value,
-      mapOptions: !0,
-      emitValue: !0,
-      useInput: !0,
-      onClear: e.wrapper.clear,
-      onFilter: p
-    }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options", "onClear"]));
-  }
-}), je = /* @__PURE__ */ v({
-  __name: "SelectBelongsToField",
-  props: {
-    wrapper: {}
-  },
-  setup(r) {
-    const e = r, t = e.wrapper.field.componentOptions.associationDisplayComponent, n = e.wrapper.injectForm.getFormFactoryInstance(), s = n.formSettings, a = n.formStyleConfig, c = s.rulesBehaviour === "lazy", l = C([]), p = C({
-      limit: H(),
-      offset: 0
-    });
-    function u(d) {
-      return (m, g) => {
-        const V = d.injectForm.getAssociationDataCallback();
-        m === "" && (p.value = {
-          limit: H(),
-          offset: 0
-        }), g(() => {
-          V({
-            resourceName: d.injectForm.getForm().resourceName,
-            associationName: d.field.metadata.field_association_name,
-            limit: p.value.limit,
-            offset: p.value.offset,
-            labelFilter: m,
-            context: d.injectForm.getForm().context
-          }).then((h) => {
-            l.value = h.rows;
-          });
-        });
-      };
-    }
-    function i(d) {
-      setTimeout(() => {
-        l.value = [
-          {
-            label: d.field.defaultDisplayValue ?? String(d.getValue()),
-            value: d.getValue()
-          }
-        ];
-      }, 0);
-    }
-    return E(() => {
-      i(e.wrapper);
-    }), (d, m) => (f(), _(o(Y), {
-      modelValue: e.wrapper.modelValue,
-      "onUpdate:modelValue": [
-        m[0] || (m[0] = (g) => e.wrapper.modelValue = g),
-        m[1] || (m[1] = (g) => e.wrapper.modelValueOnUpdate(g))
-      ],
-      type: e.wrapper.field.componentOptions.regularFieldType,
-      label: e.wrapper.field.label,
-      hint: e.wrapper.field.hint,
-      outlined: o(a).fieldOutlined,
-      filled: o(a).fieldFilled,
-      standout: o(a).fieldStandout,
-      borderless: o(a).fieldBorderless,
-      rounded: o(a).fieldRounded,
-      square: o(a).fieldSquare,
-      dense: o(a).fieldDense,
-      hideBottomSpace: o(a).fieldHideBottomSpace,
-      color: o(a).fieldColor,
-      bgColor: o(a).fieldBgColor,
-      class: x(e.wrapper.field.cssClass),
-      "lazy-rules": c,
-      clearable: e.wrapper.field.clearable,
-      readonly: e.wrapper.field.readonly,
-      rules: e.wrapper.rules,
-      options: l.value,
-      mapOptions: !0,
-      emitValue: !0,
-      useInput: !0,
-      onClear: e.wrapper.clear,
-      onFilter: u
-    }, {
-      options: w((g) => [
-        o(t) ? (f(), _(o(re), Z(M({ key: 0 }, g.itemProps)), {
-          default: w(() => [
-            k(o(ne), null, {
-              default: w(() => [
-                k(o(ae), null, {
-                  default: w(() => [
-                    W(R(g.opt.label), 1)
-                  ]),
-                  _: 2
-                }, 1024)
-              ]),
-              _: 2
-            }, 1024)
-          ]),
-          _: 2
-        }, 1040)) : (f(), _(A(o(t)), {
-          key: 1,
-          scope: g
-        }, null, 8, ["scope"]))
-      ]),
-      _: 1
-    }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options", "onClear"]));
-  }
-}), Q = /* @__PURE__ */ v({
-  __name: "RegularField",
-  props: {
-    wrapper: {}
-  },
-  setup(r) {
-    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), n = t.formSettings, s = t.formStyleConfig, a = n.rulesBehaviour === "lazy";
-    return (c, l) => (f(), _(o(te), {
-      modelValue: e.wrapper.modelValue,
-      "onUpdate:modelValue": [
-        l[0] || (l[0] = (p) => e.wrapper.modelValue = p),
-        l[1] || (l[1] = (p) => e.wrapper.modelValueOnUpdate(p))
-      ],
-      type: e.wrapper.field.componentOptions.regularFieldType,
-      label: e.wrapper.field.label,
-      hint: e.wrapper.field.hint,
-      outlined: o(s).fieldOutlined,
-      filled: o(s).fieldFilled,
-      standout: o(s).fieldStandout,
-      borderless: o(s).fieldBorderless,
-      rounded: o(s).fieldRounded,
-      square: o(s).fieldSquare,
-      dense: o(s).fieldDense,
-      hideBottomSpace: o(s).fieldHideBottomSpace,
-      color: o(s).fieldColor,
-      bgColor: o(s).fieldBgColor,
-      class: x(e.wrapper.field.cssClass),
-      "lazy-rules": a,
-      clearable: e.wrapper.field.clearable,
-      readonly: e.wrapper.field.readonly,
-      rules: e.wrapper.rules,
-      onClear: e.wrapper.clear
-    }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "onClear"]));
-  }
 });
 class K {
   constructor(e, t, n, s, a, c, l) {
@@ -584,11 +584,11 @@ class K {
       text: Q,
       number: Q,
       date: xe,
-      selectString: Ie,
-      selectBelongsTo: je,
-      selectHasMany: Re,
+      selectString: Re,
+      selectBelongsTo: Ie,
+      selectHasMany: je,
       checkbox: qe,
-      object: Ee
+      object: $e
     }[e];
   }
   getForm(e, t, n) {
@@ -1152,7 +1152,7 @@ const yt = {
     let n = null;
     const s = Object.freeze(
       new K(t.resourceName, t.formSettings)
-    ), a = $e(Fe()), c = C({}), l = C(), p = C(!1), u = C(!1), i = C("create");
+    ), a = Ee(Fe()), c = C({}), l = C(), p = C(!1), u = C(!1), i = C("create");
     async function d() {
       n = await t.getMetadataAndData({
         resourceName: t.resourceName,
@@ -1164,7 +1164,7 @@ const yt = {
           a,
           t.context
         )
-      ), t.resourceId && (i.value = "edit"), p.value = !0;
+      ), console.log(l.value), t.resourceId && (i.value = "edit"), p.value = !0;
     }
     async function m() {
       var B, j;

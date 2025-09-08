@@ -1,5 +1,3 @@
-import DateField from "./components/DateField.vue";
-import CheckboxField from "./components/CheckboxField.vue";
 import type { Component, InjectionKey } from "vue";
 import type {
   TFormDef,
@@ -13,11 +11,13 @@ import type {
   TResourceFieldMetadata,
 } from "./models";
 import { Submit64 } from "./submit64";
-import SelectHasManyField from "./components/SelectHasManyField.vue";
+import RegularField from "./components/RegularField.vue";
+import DateField from "./components/DateField.vue";
+import CheckboxField from "./components/CheckboxField.vue";
 import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
-import RegularField from "./components/RegularField.vue";
+import SelectHasManyField from "./components/SelectHasManyField.vue";
 
 export class FormFactory {
   private static getFieldComponentByFormFieldType(

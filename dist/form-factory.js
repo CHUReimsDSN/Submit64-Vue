@@ -1,11 +1,11 @@
+import { Submit64 } from "./submit64";
+import RegularField from "./components/RegularField.vue";
 import DateField from "./components/DateField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
-import { Submit64 } from "./submit64";
-import SelectHasManyField from "./components/SelectHasManyField.vue";
 import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
-import RegularField from "./components/RegularField.vue";
+import SelectHasManyField from "./components/SelectHasManyField.vue";
 export class FormFactory {
     static getFieldComponentByFormFieldType(fieldType) {
         return {
