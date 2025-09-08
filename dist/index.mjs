@@ -275,7 +275,7 @@ const Q = /* @__PURE__ */ v({
   setup(r) {
     const e = r, t = C(!0), n = e.wrapper.injectForm.getFormFactoryInstance(), s = n.formSettings, o = n.formStyleConfig, c = s.rulesBehaviour === "lazy";
     function l(m) {
-      e.wrapper.modelValueOnUpdate(m), c && (t.value = e.wrapper.validate(), console.log(t));
+      e.wrapper.modelValueOnUpdate(m), c && (t.value = e.wrapper.validate(), console.log("checkbox" + t));
     }
     return (m, u) => (f(), D(G, null, [
       k(a(_e), {
@@ -1103,7 +1103,7 @@ const yt = {
       let b = !0;
       return s.forEach((O) => {
         const $ = O(p());
-        if (console.log($), $ !== !0) {
+        if (console.log("wrapper" + $), $ !== !0) {
           b = $;
           return;
         }

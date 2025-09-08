@@ -22,7 +22,7 @@ function updateModel(value: unknown) {
     return;
   }
   ruleResult.value = propsComponent.wrapper.validate();
-  console.log(ruleResult)
+  console.log('checkbox' + ruleResult)
 }
 </script>
 
