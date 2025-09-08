@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { TSubmit64FieldProps } from "../models";
 import { QCheckbox } from "quasar";
 
@@ -16,8 +16,12 @@ const styleConfig = formFactory.formStyleConfig;
 // functions
 function updateModel(value: unknown) {
   propsComponent.wrapper.modelValueOnUpdate(value);
-  ruleResult.value = propsComponent.wrapper.validate();
 }
+
+// watchs
+watch(() => propsComponent.wrapper.modelValue, () => {
+  ruleResult.value = propsComponent.wrapper.validate();
+})
 </script>
 
 <template>
