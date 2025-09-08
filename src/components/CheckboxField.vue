@@ -1,39 +1,42 @@
 <script setup lang="ts">
-import {
-  TPropsWithClass,
-  TSubmit64FieldProps,
-  TSubmit64FieldWrapperPropsSlot,
-} from "../models";
-import type { QCheckboxProps } from "quasar";
+import { ref } from "vue";
+import { TSubmit64FieldProps } from "../models";
 import { QCheckbox } from "quasar";
-import FieldWrapper from "./FieldWrapper.vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
-// functions
-function getBindings(
-  propsWrapper: TSubmit64FieldWrapperPropsSlot
-): QCheckboxProps & TPropsWithClass {
-  const styleConfig = propsWrapper.injectForm.getFormFactoryInstance().formStyleConfig;
-  return {
-    // behaviour
-    "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
-    modelValue: propsWrapper.modelValue as boolean,
+// refs
+const ruleResult = ref<boolean | string>(true);
 
-    // display
-    label: propsWrapper.field.label,
-    dense: styleConfig.fieldDense,
-    color: styleConfig.fieldColor,
-    class: propsWrapper.field.cssClass,
-  };
+// consts
+const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
+const formSetting = formFactory.formSettings;
+const styleConfig = formFactory.formStyleConfig;
+const lazyRules = formSetting.rulesBehaviour === "lazy";
+
+// functions
+function updateModel(value: unknown) {
+  propsComponent.wrapper.modelValueOnUpdate(value);
+  if (!lazyRules) {
+    return;
+  }
+  ruleResult.value = propsComponent.wrapper.validate();
 }
 </script>
 
 <template>
-  <FieldWrapper :field="propsComponent.field">
-    <template v-slot:default="{ propsWrapper }">
-      <q-checkbox v-bind="getBindings(propsWrapper)" />
-    </template>
-  </FieldWrapper>
+  <q-checkbox
+    v-model="(propsComponent.wrapper.modelValue as string)"
+    v-on:update:model-value="(value) => updateModel(value)"
+    :label="propsComponent.wrapper.field.label"
+    :dense="styleConfig.fieldDense"
+    :color="styleConfig.fieldColor"
+    :class="propsComponent.wrapper.field.cssClass"
+  />
+  <!-- TODO test hint + rules -->
+  <div v-if="propsComponent.wrapper.field.hint" class="caption">
+    {{ propsComponent.wrapper.field.hint }}
+  </div>
+  <div v-if="ruleResult !== true" class="text-negative">{{ ruleResult }}</div>
 </template>

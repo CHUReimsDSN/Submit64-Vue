@@ -47,8 +47,6 @@ export type TResourceFieldMetadata = {
     disabled?: boolean;
   }[];
   css_class?: string;
-  resetable?: boolean;
-  clearable?: boolean;
   readonly?: boolean;
   default_display_value?: string;
 };
@@ -124,7 +122,6 @@ export type TFormFieldDef = {
   hint?: string;
   rules?: TSubmit64Rule[];
   cssClass?: string;
-  resetable?: boolean;
   clearable?: boolean;
   readonly?: boolean;
   defaultDisplayValue?: string;
@@ -132,29 +129,32 @@ export type TFormFieldDef = {
   component: Component;
   componentOptions: {
     associationDisplayComponent?: Component;
+    regularFieldType?: 'textarea' | 'number'
   };
 };
 export type TSubmit64Field = ComponentPublicInstance & {
   getValue: () => unknown;
   reset: () => void;
   clear: () => void;
+  validate: () => boolean | string;
   setupBackendErrors: (errors: string[]) => void
 };
 export type TSubmit64FieldProps = {
-  field: TFormFieldDef;
+  wrapper: TSubmit64FieldWrapperPropsSlot;
 };
 
 // slots
 export type TSubmit64FieldWrapperPropsSlot = {
   modelValue: unknown;
   backendErrors: string[];
-  modelValueOnUpdate: (value: unknown) => void;
   field: TFormFieldDef;
   injectForm: TSubmit64FormProvider;
+  rules: ValidationRule[];
+  modelValueOnUpdate: (value: unknown) => void;
   reset: () => void;
   clear: () => void;
-  getComputedRules: () => ValidationRule[];
-  getModelValueValue: () => unknown | undefined;
+  validate: () => boolean | string;
+  getValue: () => unknown | undefined;
 };
 export type TSubmit64FieldWrapperResetPropsSlot = {
   reset: () => void;

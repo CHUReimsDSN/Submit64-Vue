@@ -1,54 +1,19 @@
 <script setup lang="ts">
-import { QSelect } from "quasar";
-import {
-  TSubmit64AssociationRowEntry,
-  TSubmit64FieldProps,
-  TSubmit64FieldWrapperPropsSlot,
-} from "../models";
-import { onMounted, ref } from "vue";
+import { TSubmit64FieldProps } from "../models";
+import { QInput } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
-
-// refs
-const selectOptions = ref<Readonly<TSubmit64AssociationRowEntry[]>>([]);
-const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
 
 // consts
 const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyleConfig;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
-
-// functions
-function inputFilter(val: string, update: (callback: () => void) => void) {
-  if (val === "") {
-    update(() => {
-      selectOptionsFiltered.value = [...selectOptions.value];
-    });
-    return;
-  }
-
-  update(() => {
-    const needle = val.toLowerCase();
-    selectOptionsFiltered.value = selectOptions.value.filter((option) => {
-      return option.label.toLowerCase().includes(needle);
-    });
-  });
-}
-function setupSelectOptions(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  selectOptions.value = Object.freeze(propsWrapper.field.selectOptions ?? []);
-  selectOptionsFiltered.value = propsWrapper.field.selectOptions ?? [];
-}
-
-// lifeCycle
-onMounted(() => {
-  setupSelectOptions(propsComponent.wrapper);
-});
 </script>
 
 <template>
-  <q-select
+  <q-input
     v-model="(propsComponent.wrapper.modelValue as string)"
     v-on:update:model-value="
       (value) => propsComponent.wrapper.modelValueOnUpdate(value)
@@ -71,11 +36,6 @@ onMounted(() => {
     :clearable="propsComponent.wrapper.field.clearable"
     :readonly="propsComponent.wrapper.field.readonly"
     :rules="propsComponent.wrapper.rules"
-    :options="selectOptionsFiltered"
-    :mapOptions="true"
-    :emitValue="true"
-    :useInput="true"
     @clear="propsComponent.wrapper.clear"
-    @filter="inputFilter"
   />
 </template>

@@ -1,5 +1,3 @@
-import StringField from "./components/StringField.vue";
-import TextField from "./components/TextField.vue";
 import DateField from "./components/DateField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
 import type { Component, InjectionKey } from "vue";
@@ -12,22 +10,23 @@ import type {
   TResourceFormMetadataAndData,
   TSubmit64FormProvider,
   TContext,
+  TResourceFieldMetadata,
 } from "./models";
 import { Submit64 } from "./submit64";
-import NumberField from "./components/NumberField.vue";
 import SelectHasManyField from "./components/SelectHasManyField.vue";
 import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
+import RegularField from "./components/RegularField.vue";
 
 export class FormFactory {
   private static getFieldComponentByFormFieldType(
     fieldType: TFormFieldDef["type"]
   ): Component {
     return {
-      string: StringField,
-      text: TextField,
-      number: NumberField,
+      string: RegularField,
+      text: RegularField,
+      number: RegularField,
       date: DateField,
       selectString: SelectField,
       selectBelongsTo: SelectBelongsToField,
@@ -87,8 +86,14 @@ export class FormFactory {
           columnMetadata.field_type
         );
         const componentOptions = {
-          associationDisplayComponent: this.getAssociationDisplayComponentByResourceName(formMetadataAndData.form.resource_name)
-        }
+          associationDisplayComponent:
+            this.getAssociationDisplayComponentByResourceName(
+              formMetadataAndData.form.resource_name
+            ),
+          regularFieldType: this.getRegularFieldTypeByFieldType(
+            columnMetadata.field_type
+          ),
+        };
         const field: TFormFieldDef = {
           type: columnMetadata.field_type,
           metadata: columnMetadata,
@@ -97,12 +102,11 @@ export class FormFactory {
           cssClass: columnMetadata.css_class,
           selectOptions: columnMetadata.select_options,
           rules: columnMetadata.rules,
-          clearable: columnMetadata.clearable,
-          resetable: columnMetadata.resetable,
+          clearable: formMetadataAndData.form.clearable,
           provideUniqKey: providingUniqKey,
           defaultDisplayValue: columnMetadata.default_display_value,
           component,
-          componentOptions
+          componentOptions,
         };
         fields.push(field);
       });
@@ -124,12 +128,25 @@ export class FormFactory {
       backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
       hasGlobalCustomValidation:
         formMetadataAndData.form.has_global_custom_validation ?? false,
-      context
+      context,
     };
     return form;
   }
 
   private getAssociationDisplayComponentByResourceName(resourceName: string) {
-    return this.associationDisplayDictionary[resourceName]
+    return this.associationDisplayDictionary[resourceName];
+  }
+
+  private getRegularFieldTypeByFieldType(
+    fieldType: TResourceFieldMetadata["field_type"]
+  ): TFormFieldDef["componentOptions"]["regularFieldType"] | undefined {
+    const mapping: Record<
+      TResourceFieldMetadata["field_type"][number],
+      TFormFieldDef["componentOptions"]["regularFieldType"]
+    > = {
+      number: "number",
+      text: "textarea",
+    };
+    return mapping[fieldType] || undefined;
   }
 }

@@ -19,10 +19,7 @@ const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
 // consts
 let formMetadataAndData: TResourceFormMetadataAndData | null = null;
 const formFactoryInstance = Object.freeze(
-  new FormFactory(
-    propsComponent.resourceName,
-    propsComponent.formSettings
-  )
+  new FormFactory(propsComponent.resourceName, propsComponent.formSettings)
 );
 const providingUniqKey = getSubmit64FormProviderSymbol(uid());
 
@@ -31,7 +28,7 @@ const fieldRefs = ref<Record<string, TSubmit64Field>>({});
 const generatedForm = ref<TFormDef>();
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
-const mode = ref<'edit' | 'create'>('create')
+const mode = ref<"edit" | "create">("create");
 
 // functions
 async function setupMetadatasAndForm() {
@@ -48,16 +45,16 @@ async function setupMetadatasAndForm() {
     )
   );
   if (propsComponent.resourceId) {
-    mode.value = 'edit'
+    mode.value = "edit";
   }
   setupIsDone.value = true;
 }
 async function submitForm(): Promise<void> {
   isLoadingSubmit.value = true;
-  const resourceData: Record<string, unknown> = {};
-  Object.entries(fieldRefs.value).forEach((entry) => {
-    resourceData[entry[0]] = entry[1].getValue();
-  });
+  if (!validateForm()) {
+    return;
+  }
+  const resourceData = getValuesForm();
   const newData = await propsComponent.getSubmitFormData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
@@ -71,18 +68,35 @@ async function submitForm(): Promise<void> {
         entry[1].setupBackendErrors(entryBackendErrors);
       }
     });
-    propsComponent.onSubmitFail?.()
+    propsComponent.onSubmitFail?.();
   } else {
-    if (mode.value === 'create') {
-      mode.value = 'edit'
+    if (mode.value === "create") {
+      mode.value = "edit";
     }
     if (formMetadataAndData && newData.resource_data) {
-      formMetadataAndData.resource_data = newData.resource_data
+      formMetadataAndData.resource_data = newData.resource_data;
     }
     resetForm();
-    propsComponent.onSubmitSuccess?.()
+    propsComponent.onSubmitSuccess?.();
   }
   isLoadingSubmit.value = false;
+}
+function getValuesForm(): Record<string, unknown> {
+  const resourceData: Record<string, unknown> = {};
+  Object.entries(fieldRefs.value).forEach((entry) => {
+    resourceData[entry[0]] = entry[1].getValue();
+  });
+  return resourceData;
+}
+function validateForm() {
+  let formValid = true;
+  Object.values(fieldRefs.value).forEach((fieldRef) => {
+    if (fieldRef.validate() !== true) {
+      formValid = false;
+      return;
+    }
+  });
+  return formValid;
 }
 function resetForm() {
   Object.values(fieldRefs.value).forEach((fieldRef) => {
@@ -129,6 +143,21 @@ function getAssociationDataCallback() {
     })
   );
 }
+function ensurePropsAreOk() {
+  const propsToCheck: (keyof TSubmit64FormProps)[] = [
+    "getMetadataAndData",
+    "getMetadataAndData",
+    "resourceName",
+  ];
+  propsToCheck.forEach((propsName) => {
+    if (
+      propsComponent[propsName] === null ||
+      propsComponent[propsName] === undefined
+    ) {
+      console.warn(`Missing props for <Submit64> -> ${propsName}`);
+    }
+  });
+}
 
 // provides
 provide(providingUniqKey, {
@@ -145,6 +174,7 @@ defineExpose<TSubmit64Expose>({});
 
 // lifeCycle
 onMounted(async () => {
+  ensurePropsAreOk();
   await setupMetadatasAndForm();
 });
 </script>
@@ -162,16 +192,19 @@ onMounted(async () => {
           v-for="field in section.fields"
           :key="field.metadata.field_name"
         >
-          <Component
+          <FieldWrapper
             v-if="!$slots[field.metadata.field_name]"
-            :is="field.component"
             :field="field"
           />
 
           <template v-else>
             <FieldWrapper :field="field">
               <template v-slot:default="{ propsWrapper }">
-                <slot :propsWrapper="propsWrapper"> </slot>
+                <slot
+                  :name="field.metadata.field_name"
+                  :propsWrapper="propsWrapper"
+                >
+                </slot>
               </template>
             </FieldWrapper>
           </template>

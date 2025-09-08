@@ -1,4 +1,4 @@
-import { date, ValidationRule } from "quasar";
+import { date } from "quasar";
 import { TFormFieldDef, TSubmit64FormProvider } from "./models";
 
 export type TSubmit64Rule = {
@@ -65,17 +65,17 @@ function computeServerRules(
   metadataRules: TSubmit64Rule[],
   fieldType: TFormFieldDef["type"],
   formProvider: TSubmit64FormProvider
-): ValidationRule[] {
+): TSubmit64ValidationRule[] {
   const formFactorySettings =
     formProvider.getFormFactoryInstance().formSettings;
   const form = formProvider.getForm();
   const getCompareToValueRule = (
     rule: TSubmit64RuleOperateTo,
     operateTo: keyof TSubmit64RuleOperateTo,
-    date?: boolean
+    dateMode?: boolean
   ) => {
     if (rule[operateTo]) {
-      if (!date) {
+      if (!dateMode) {
         return () => rule[operateTo];
       }
       return () =>
@@ -83,7 +83,7 @@ function computeServerRules(
     }
     if (rule.compare_to) {
       return () =>
-        formProvider.getFieldDataByFieldName(rule.compare_to as string);
+        formProvider.getFieldDataByFieldName(rule.compare_to as string) ?? 'Submit64 error : missing comparator definition';
     }
     return () => "";
   };

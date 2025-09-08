@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import type { QSelectProps } from "quasar";
 import { QSelect, QItemLabel, QItem, QItemSection } from "quasar";
 import {
-  TPropsWithClass,
   TSelectOptionPagination,
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
   TSubmit64FieldWrapperPropsSlot,
 } from "../models";
-import FieldWrapper from "./FieldWrapper.vue";
 import { getSubmit64AssociationDataDefaultLimit } from "../utils";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // consts
 const displayComponent =
-  propsComponent.field.componentOptions.associationDisplayComponent;
+  propsComponent.wrapper.field.componentOptions.associationDisplayComponent;
+const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
+const formSetting = formFactory.formSettings;
+const styleConfig = formFactory.formStyleConfig;
+const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs
 const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
@@ -27,45 +28,6 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
 });
 
 // functions
-function getBindings(
-  propsWrapper: TSubmit64FieldWrapperPropsSlot
-): QSelectProps & TPropsWithClass {
-  const formFactory = propsWrapper.injectForm.getFormFactoryInstance();
-  const formSetting = formFactory.formSettings;
-  const styleConfig = formFactory.formStyleConfig;
-  return {
-    // behaviour
-    "onUpdate:modelValue": (value) => propsWrapper.modelValueOnUpdate(value),
-    modelValue: propsWrapper.modelValue as string,
-    lazyRules: formSetting.rulesBehaviour === "lazy",
-    clearable: propsWrapper.field.clearable,
-    rules: propsWrapper.getComputedRules(),
-    multiple: true,
-    useChips: true,
-    mapOptions: true,
-    emitValue: true,
-    useInput: true,
-
-    // events
-    onClear: propsWrapper.clear,
-    onFilter: onFilter(propsWrapper),
-
-    // display
-    label: propsWrapper.field.label,
-    hint: propsWrapper.field.hint,
-    outlined: styleConfig.fieldOutlined,
-    filled: styleConfig.fieldFilled,
-    standout: styleConfig.fieldStandout,
-    borderless: styleConfig.fieldBorderless,
-    rounded: styleConfig.fieldRounded,
-    square: styleConfig.fieldSquare,
-    dense: styleConfig.fieldDense,
-    hideBottomSpace: styleConfig.fieldHideBottomSpace,
-    color: styleConfig.fieldColor,
-    bgColor: styleConfig.fieldBgColor,
-    class: propsWrapper.field.cssClass,
-  };
-}
 function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   return (val: string, update: (callbackGetData: () => void) => void) => {
     const callback = propsWrapper.injectForm.getAssociationDataCallback();
@@ -93,35 +55,65 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   setTimeout(() => {
     selectOptionsFiltered.value = [
       {
-        label: propsWrapper.field.defaultDisplayValue ?? String(propsWrapper.getModelValueValue()),
-        value: propsWrapper.getModelValueValue(),
+        label:
+          propsWrapper.field.defaultDisplayValue ??
+          String(propsWrapper.getValue()),
+        value: propsWrapper.getValue(),
       },
     ];
-  }, 0)
+  }, 0);
 }
+
+// lifeCycle
+onMounted(() => {
+  setupDefaultSelectValue(propsComponent.wrapper);
+});
 </script>
 
 <template>
-  <FieldWrapper :field="propsComponent.field">
-    <template v-slot:default="{ propsWrapper }">
-      <q-select
-        v-bind="getBindings(propsWrapper)"
-        @vue:mounted="setupDefaultSelectValue(propsWrapper)"
-        :options="selectOptionsFiltered"
-      >
-        <template v-slot:options="scope">
-          <template v-if="displayComponent">
-            <q-item v-bind="scope.itemProps">
-              <q-item-section>
-                <q-item-label>{{ scope.opt.label }}</q-item-label>
-              </q-item-section>
-            </q-item>
-          </template>
-          <template v-else>
-            <component :is="displayComponent" :scope="scope" />
-          </template>
-        </template>
-      </q-select>
+  <q-select
+    v-model="(propsComponent.wrapper.modelValue as string)"
+    v-on:update:model-value="
+      (value) => propsComponent.wrapper.modelValueOnUpdate(value)
+    "
+    :type="propsComponent.wrapper.field.componentOptions.regularFieldType"
+    :label="propsComponent.wrapper.field.label"
+    :hint="propsComponent.wrapper.field.hint"
+    :outlined="styleConfig.fieldOutlined"
+    :filled="styleConfig.fieldFilled"
+    :standout="styleConfig.fieldStandout"
+    :borderless="styleConfig.fieldBorderless"
+    :rounded="styleConfig.fieldRounded"
+    :square="styleConfig.fieldSquare"
+    :dense="styleConfig.fieldDense"
+    :hideBottomSpace="styleConfig.fieldHideBottomSpace"
+    :color="styleConfig.fieldColor"
+    :bgColor="styleConfig.fieldBgColor"
+    :class="propsComponent.wrapper.field.cssClass"
+    :lazy-rules="lazyRules"
+    :clearable="propsComponent.wrapper.field.clearable"
+    :readonly="propsComponent.wrapper.field.readonly"
+    :rules="propsComponent.wrapper.rules"
+    :options="selectOptionsFiltered"
+    :mapOptions="true"
+    :emitValue="true"
+    :useInput="true"
+    :multiple="true"
+    :use-chips="true"
+    @clear="propsComponent.wrapper.clear"
+    @filter="onFilter"
+  >
+    <template v-slot:options="scope">
+      <template v-if="displayComponent">
+        <q-item v-bind="scope.itemProps">
+          <q-item-section>
+            <q-item-label>{{ scope.opt.label }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </template>
+      <template v-else>
+        <component :is="displayComponent" :scope="scope" />
+      </template>
     </template>
-  </FieldWrapper>
+  </q-select>
 </template>

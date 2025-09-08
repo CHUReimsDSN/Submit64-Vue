@@ -2,15 +2,15 @@ import { date } from "quasar";
 function computeServerRules(metadataRules, fieldType, formProvider) {
     const formFactorySettings = formProvider.getFormFactoryInstance().formSettings;
     const form = formProvider.getForm();
-    const getCompareToValueRule = (rule, operateTo, date) => {
+    const getCompareToValueRule = (rule, operateTo, dateMode) => {
         if (rule[operateTo]) {
-            if (!date) {
+            if (!dateMode) {
                 return () => rule[operateTo];
             }
             return () => computedRuleDateFormatToFormFactoryFormat(rule[operateTo]);
         }
         if (rule.compare_to) {
-            return () => formProvider.getFieldDataByFieldName(rule.compare_to);
+            return () => formProvider.getFieldDataByFieldName(rule.compare_to) ?? 'Submit64 error : missing comparator definition';
         }
         return () => "";
     };

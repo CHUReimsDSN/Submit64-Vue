@@ -1,19 +1,17 @@
-import StringField from "./components/StringField.vue";
-import TextField from "./components/TextField.vue";
 import DateField from "./components/DateField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
 import { Submit64 } from "./submit64";
-import NumberField from "./components/NumberField.vue";
 import SelectHasManyField from "./components/SelectHasManyField.vue";
 import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
+import RegularField from "./components/RegularField.vue";
 export class FormFactory {
     static getFieldComponentByFormFieldType(fieldType) {
         return {
-            string: StringField,
-            text: TextField,
-            number: NumberField,
+            string: RegularField,
+            text: RegularField,
+            number: RegularField,
             date: DateField,
             selectString: SelectField,
             selectBelongsTo: SelectBelongsToField,
@@ -56,7 +54,8 @@ export class FormFactory {
             sectionMetadata.fields.forEach((columnMetadata) => {
                 const component = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
                 const componentOptions = {
-                    associationDisplayComponent: this.getAssociationDisplayComponentByResourceName(formMetadataAndData.form.resource_name)
+                    associationDisplayComponent: this.getAssociationDisplayComponentByResourceName(formMetadataAndData.form.resource_name),
+                    regularFieldType: this.getRegularFieldTypeByFieldType(columnMetadata.field_type),
                 };
                 const field = {
                     type: columnMetadata.field_type,
@@ -66,12 +65,11 @@ export class FormFactory {
                     cssClass: columnMetadata.css_class,
                     selectOptions: columnMetadata.select_options,
                     rules: columnMetadata.rules,
-                    clearable: columnMetadata.clearable,
-                    resetable: columnMetadata.resetable,
+                    clearable: formMetadataAndData.form.clearable,
                     provideUniqKey: providingUniqKey,
                     defaultDisplayValue: columnMetadata.default_display_value,
                     component,
-                    componentOptions
+                    componentOptions,
                 };
                 fields.push(field);
             });
@@ -92,11 +90,18 @@ export class FormFactory {
             backendDateFormat: formMetadataAndData.form.backend_date_format,
             backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
             hasGlobalCustomValidation: formMetadataAndData.form.has_global_custom_validation ?? false,
-            context
+            context,
         };
         return form;
     }
     getAssociationDisplayComponentByResourceName(resourceName) {
         return this.associationDisplayDictionary[resourceName];
+    }
+    getRegularFieldTypeByFieldType(fieldType) {
+        const mapping = {
+            number: "number",
+            text: "textarea",
+        };
+        return mapping[fieldType] || undefined;
     }
 }

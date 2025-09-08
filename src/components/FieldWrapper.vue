@@ -16,15 +16,13 @@ const propsComponent = defineProps<{
 
 // consts
 const injectForm = inject(propsComponent.field.provideUniqKey)!;
+const rules = getComputedRules()
 
 // refs
 const modelValue = ref<T>();
 const backendErrors = ref<string[]>([]);
 
 // functions
-function getValue() {
-  return modelValue.value;
-}
 function reset() {
   if (!injectForm) {
     return;
@@ -91,17 +89,29 @@ function getComputedRules() {
 function modelValueOnUpdate(value: unknown) {
   modelValue.value = value as T;
 }
-function getModelValueValue() {
+function getValue() {
   return unref(modelValue);
 }
 function setupBackendErrors(errorsArg: string[]) {
   backendErrors.value = errorsArg;
+}
+function validate(): boolean | string {
+  let isValid: boolean | string = true
+  rules.forEach((rule) => {
+    const resultRule = rule(getValue())
+    if (resultRule !== true) {
+      isValid = resultRule
+      return
+    }
+  })
+  return isValid
 }
 
 // exposes
 defineExpose({
   reset,
   clear,
+  validate,
   getValue,
   setupBackendErrors,
 });
@@ -121,19 +131,8 @@ onMounted(() => {
 
 <template>
   <div>
-    <template v-if="propsComponent.field.resetable">
-      <slot
-        name="reset"
-        :actionProps="({ reset } as TSubmit64FieldWrapperResetPropsSlot)"
-      >
-        <component
-          :is="injectForm.getFormFactoryInstance().wrapperResetComponent"
-          :reset="reset"
-        />
-      </slot>
-    </template>
     <slot
-      :propsWrapper="({ modelValue, backendErrors, modelValueOnUpdate, field, injectForm, reset, clear, getComputedRules, getModelValueValue } as TSubmit64FieldWrapperPropsSlot)"
+      :propsWrapper="({ modelValue, modelValueOnUpdate, backendErrors, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
     ></slot>
   </div>
 </template>
