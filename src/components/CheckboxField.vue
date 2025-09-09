@@ -27,7 +27,7 @@ watch(() => propsComponent.wrapper.modelValue, () => {
 <template>
   <q-checkbox
     v-model="(propsComponent.wrapper.modelValue as string)"
-    v-on:update:model-value="(value) => updateModel(value)"
+    v-on:update:model-value="(value: unknown) => updateModel(value)"
     :label="propsComponent.wrapper.field.label"
     :dense="styleConfig.fieldDense"
     :color="styleConfig.fieldColor"
