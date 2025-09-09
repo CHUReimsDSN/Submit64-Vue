@@ -4,7 +4,6 @@ import {
   TSelectOptionPagination,
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
-  TSubmit64FieldWrapperPropsSlot,
 } from "../models";
 import { getSubmit64AssociationDataDefaultLimit } from "../utils";
 import { onMounted, ref } from "vue";
@@ -28,37 +27,37 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
 });
 
 // functions
-function onFilter(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  return (val: string, update: (callbackGetData: () => void) => void) => {
-    const callback = propsWrapper.injectForm.getAssociationDataCallback();
-    if (val === "") {
-      selectOptionsScrollPagination.value = {
-        limit: getSubmit64AssociationDataDefaultLimit(),
-        offset: 0,
-      };
-    }
-    update(() => {
-      callback({
-        resourceName: propsWrapper.injectForm.getForm().resourceName,
-        associationName: propsWrapper.field.metadata.field_association_name!,
-        limit: selectOptionsScrollPagination.value.limit,
-        offset: selectOptionsScrollPagination.value.offset,
-        labelFilter: val,
-        context: propsWrapper.injectForm.getForm().context,
-      }).then((response) => {
-        selectOptionsFiltered.value = response.rows;
-      });
+function onFilter(val: string, update: (callbackGetData: () => void) => void) {
+  const callback =
+    propsComponent.wrapper.injectForm.getAssociationDataCallback();
+  if (val === "") {
+    selectOptionsScrollPagination.value = {
+      limit: getSubmit64AssociationDataDefaultLimit(),
+      offset: 0,
+    };
+  }
+  update(() => {
+    callback({
+      resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
+      associationName:
+        propsComponent.wrapper.field.metadata.field_association_name!,
+      limit: selectOptionsScrollPagination.value.limit,
+      offset: selectOptionsScrollPagination.value.offset,
+      labelFilter: val,
+      context: propsComponent.wrapper.injectForm.getForm().context,
+    }).then((response) => {
+      selectOptionsFiltered.value = response.rows;
     });
-  };
+  });
 }
-function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
+function setupDefaultSelectValue() {
   setTimeout(() => {
     selectOptionsFiltered.value = [
       {
         label:
-          propsWrapper.field.defaultDisplayValue ??
-          String(propsWrapper.getValue()),
-        value: propsWrapper.getValue(),
+          propsComponent.wrapper.field.defaultDisplayValue ??
+          String(propsComponent.wrapper.getValue()),
+        value: propsComponent.wrapper.getValue(),
       },
     ];
   }, 0);
@@ -66,7 +65,7 @@ function setupDefaultSelectValue(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
 
 // lifeCycle
 onMounted(() => {
-  setupDefaultSelectValue(propsComponent.wrapper);
+  setupDefaultSelectValue();
 });
 </script>
 
