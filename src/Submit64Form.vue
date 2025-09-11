@@ -54,6 +54,7 @@ async function submitForm(): Promise<void> {
     return;
   }
   isLoadingSubmit.value = true;
+  clearBackendErrors();
   const resourceData = getValuesForm();
   const newData = await propsComponent.getSubmitFormData({
     resourceName: propsComponent.resourceName,
@@ -107,6 +108,11 @@ function clearForm() {
   Object.values(fieldRefs.value).forEach((fieldRef) => {
     fieldRef.clear();
   });
+}
+function clearBackendErrors() {
+  Object.values(fieldRefs.value).forEach((fieldRef) => {
+    fieldRef.setupBackendErrors([])
+  })
 }
 function registerRef(resourceDataKey: string, fieldComponent: TSubmit64Field) {
   fieldRefs.value[resourceDataKey] = fieldComponent;

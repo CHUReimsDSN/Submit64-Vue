@@ -28,7 +28,7 @@ function closePopUp() {
   <q-input
     v-model="(propsComponent.wrapper.modelValue as string)"
     v-on:update:model-value="
-      (value) => propsComponent.wrapper.modelValueOnUpdate(value)
+      (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
     "
     :label="propsComponent.wrapper.field.label"
     :hint="propsComponent.wrapper.field.hint"
@@ -60,7 +60,7 @@ function closePopUp() {
           <q-date
             v-model="(propsComponent.wrapper.modelValue as string)"
             v-on:update:model-value="
-              (value) => propsComponent.wrapper.modelValueOnUpdate(value)
+              (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
             "
             :mask="formFactory.formSettings.dateFormat"
           >

@@ -51,7 +51,7 @@ onMounted(() => {
   <q-select
     v-model="(propsComponent.wrapper.modelValue as string)"
     v-on:update:model-value="
-      (value) => propsComponent.wrapper.modelValueOnUpdate(value)
+      (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
     "
     :type="propsComponent.wrapper.field.componentOptions.regularFieldType"
     :label="propsComponent.wrapper.field.label"

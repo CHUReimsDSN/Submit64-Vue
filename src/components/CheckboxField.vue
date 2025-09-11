@@ -31,6 +31,7 @@ watch(() => propsComponent.wrapper.modelValue, () => {
     :label="propsComponent.wrapper.field.label"
     :dense="styleConfig.fieldDense"
     :color="styleConfig.fieldColor"
+    :aria-readonly="propsComponent.wrapper.field.readonly"
     :class="propsComponent.wrapper.field.cssClass"
   />
   <div v-if="propsComponent.wrapper.field.hint" class="q-field__bottom">

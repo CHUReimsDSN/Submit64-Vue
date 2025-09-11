@@ -4,7 +4,6 @@ import type {
   TFormFieldDef,
   TSubmit64Field,
   TSubmit64FieldWrapperPropsSlot,
-  TSubmit64FieldWrapperResetPropsSlot,
 } from "../models";
 import { Submit64Rules } from "../rules";
 import { date } from "quasar";
@@ -129,12 +128,24 @@ onMounted(() => {
 <template>
   <div>
     <slot
-      :propsWrapper="({ modelValue, modelValueOnUpdate, backendErrors, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
+      :propsWrapper="({ modelValue, modelValueOnUpdate, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
     >
       <Component
         :is="propsComponent.field.component"
-        :wrapper="({ modelValue, modelValueOnUpdate, backendErrors, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
+        :wrapper="({ modelValue, modelValueOnUpdate, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
       />
+      <div
+        v-if="backendErrors.length > 0"
+        class="q-field--error q-field__bottom text-warning"
+      >
+        <div
+          v-for="(backendError, index) in backendErrors"
+          :index="index"
+          class="flex column"
+        >
+          {{ backendError }}
+        </div>
+      </div>
     </slot>
   </div>
 </template>
