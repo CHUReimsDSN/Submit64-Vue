@@ -29,9 +29,9 @@ function reset() {
   modelValue.value = injectForm.getDefaultDataByFieldName(
     propsComponent.field.metadata.field_name
   ) as T;
-  modelValue.value = formModelValueByType(modelValue.value);
+  modelValue.value = formModelDeserializeByType(modelValue.value);
 }
-function formModelValueByType(value: T) {
+function formModelDeserializeByType(value: T) {
   switch (propsComponent.field.type) {
     case "date":
       return date.formatDate(
@@ -40,6 +40,19 @@ function formModelValueByType(value: T) {
           injectForm.getForm().backendDateFormat!
         ),
         injectForm.getFormFactoryInstance().formSettings.dateFormat
+      ) as T;
+  }
+  return value;
+}
+function formModelSerializeByType(value: T) {
+  switch (propsComponent.field.type) {
+    case "date":
+      return date.formatDate(
+        date.extractDate(
+          String(value),
+          injectForm.getFormFactoryInstance().formSettings.dateFormat
+        ),
+        injectForm.getForm().backendDateFormat!
       ) as T;
   }
   return value;
@@ -86,7 +99,7 @@ function modelValueOnUpdate(value: unknown) {
   modelValue.value = value as T;
 }
 function getValue() {
-  return unref(modelValue);
+  return formModelSerializeByType(unref(modelValue) as T);
 }
 function setupBackendErrors(errorsArg: string[]) {
   backendErrors.value = errorsArg;
