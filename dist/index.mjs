@@ -1028,7 +1028,7 @@ const _t = {
   computeServerRules: Ge
 }, Ft = {
   key: 0,
-  class: "q-field--error q-field__bottom text-warning"
+  class: "q-field__bottom text-negative q-pt-none"
 }, wt = ["index"], Z = /* @__PURE__ */ D({
   __name: "FieldWrapper",
   props: {

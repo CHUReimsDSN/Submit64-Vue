@@ -149,7 +149,7 @@ onMounted(() => {
       />
       <div
         v-if="backendErrors.length > 0"
-        class="q-field--error q-field__bottom text-warning"
+        class="q-field__bottom text-negative q-pt-none"
       >
         <div
           v-for="(backendError, index) in backendErrors"
