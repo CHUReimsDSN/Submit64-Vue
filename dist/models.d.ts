@@ -124,7 +124,6 @@ export type TSubmit64FieldProps = {
 };
 export type TSubmit64FieldWrapperPropsSlot = {
     modelValue: unknown;
-    backendErrors: string[];
     field: TFormFieldDef;
     injectForm: TSubmit64FormProvider;
     rules: ValidationRule[];
