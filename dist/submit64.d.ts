@@ -1,0 +1,24 @@
+import { Component } from "vue";
+import { TFormStyleConfig, TFormSettings } from "./models";
+export declare class Submit64 {
+    private static _instance;
+    private _formSettings;
+    private _formStyleConfig;
+    private _actionComponent;
+    private _sectionComponent;
+    private _wrapperResetComponent;
+    private _associationDisplayDictonary;
+    private constructor();
+    static registerGlobalFormSetting(formSetting: Partial<TFormSettings>): void;
+    static registerGlobalFormStyleSetting(formStyle: Partial<TFormStyleConfig>): void;
+    static registerGlobalActionComponent(actionComponent: Component): void;
+    static registerGlobalSectionComponent(sectionComponent: Component): void;
+    static registerGlobalWrapperResetComponent(wrapperResetComponent: Component): void;
+    static registerGlobalAssociationDisplayDictonary(dictionary: Record<string, Component>): void;
+    static getGlobalFormSetting(): TFormSettings;
+    static getGlobalFormStyleConfig(): TFormStyleConfig;
+    static getGlobalActionComponent(): Component;
+    static getGlobalSectionComponent(): Component;
+    static getGlobalWrapperResetComponent(): Component;
+    static getGlobalAssociationDisplayDictonary(): Record<string, Component>;
+}
