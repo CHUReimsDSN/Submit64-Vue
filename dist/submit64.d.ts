@@ -17,8 +17,8 @@ export declare class Submit64 {
     static registerGlobalAssociationDisplayDictonary(dictionary: Record<string, Component>): void;
     static getGlobalFormSetting(): TFormSettings;
     static getGlobalFormStyleConfig(): TFormStyleConfig;
-    static getGlobalActionComponent(): Component<any, any, any, import("vue").ComputedOptions, import("vue").MethodOptions, {}, any>;
-    static getGlobalSectionComponent(): Component<any, any, any, import("vue").ComputedOptions, import("vue").MethodOptions, {}, any>;
-    static getGlobalWrapperResetComponent(): Component<any, any, any, import("vue").ComputedOptions, import("vue").MethodOptions, {}, any>;
-    static getGlobalAssociationDisplayDictonary(): Record<string, Component<any, any, any, import("vue").ComputedOptions, import("vue").MethodOptions, {}, any>>;
+    static getGlobalActionComponent(): Component;
+    static getGlobalSectionComponent(): Component;
+    static getGlobalWrapperResetComponent(): Component;
+    static getGlobalAssociationDisplayDictonary(): Record<string, Component>;
 }
