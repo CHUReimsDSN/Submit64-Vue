@@ -1,41 +1,19 @@
 ---
-title: Démarage rapide
+title: Interopérabilité
 layout: default
-nav_order: 40
 ---
-# Démarrage rapide
+# Interopérabilité
 
+Submit64 repose sur la communication entre un client et un serveur.
+Dans cette version Vue, on suppose que le client communique via des appels HTTP,
+et que ces appels sont envoyés dans des fonctions asynchrones.
 
-Utiliser le composant `Submit64Form` pour afficher le formulaire :
+Submit64 doit définir trois appels pour communiquer avec le serveur : 
+- Récupération des metadata et de la ressource si en mode édition
+- Récupération des données pour les champs d'association (facultatif)
+- Récupération des données pour la soumission du formulaire
 
 ```ts
-<script setup lang="ts">
-import { Submit64Form } from 'submit64-vue';
-</script>
-
-<template>
-  <Submit64Form
-    resourceName="MaRessource"
-    :resourceId="12"
-    :getMetadataAndData="getMetadataAndResourceDataSubmit64"
-    :getAssociationData="getAssociationDataSubmit64"
-    :getSubmitFormData="getSubmitFormDataSubmit64"
-  />
-</template>
-```
-
-Obtenir les informations via HTTP (ici avec Axios) :
-```ts
-import type {
-  TResourceFormMetadataAndData,
-  TSubmit64GetMetadataAndData,
-  TSubmit64AssociationData,
-  TSubmit64GetAssociationData,
-  TSubmit64SubmitSubmitData,
-  TSubmit64GetSubmitData,
-} from 'submit64-vue';
-import { api } from 'boot/axios';
-
 export async function getMetadataAndResourceDataSubmit64(
   submit64Params: TSubmit64GetMetadataAndData,
 ): Promise<TResourceFormMetadataAndData> {
@@ -66,3 +44,6 @@ export async function getSubmitFormDataSubmit64(
   ).data;
 }
 ```
+
+{: .important }
+Les appels doivent utiliser les méthodes POST / PUT / PATCH pour pouvoir envoyer les données au serveur.

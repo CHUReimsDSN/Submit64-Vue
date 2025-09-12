@@ -1,7 +1,6 @@
 ---
 title: Installation
 layout: default
-nav_order: 30
 ---
 # Installation
 

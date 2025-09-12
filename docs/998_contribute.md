@@ -1,7 +1,6 @@
 ---
 title: Contribution
 layout: default
-nav_order: 9998
 ---
 
 # Contribuer
