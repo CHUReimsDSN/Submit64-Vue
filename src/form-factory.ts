@@ -46,8 +46,8 @@ export class FormFactory {
 
   constructor(
     resourceName: string,
-    globalFormSettings?: Partial<TFormSettings>,
-    globalFormStyleConfig?: Partial<TFormStyleConfig>,
+    formSettings?: Partial<TFormSettings>,
+    formStyleConfig?: Partial<TFormStyleConfig>,
     actionComponent?: Component,
     sectionComponent?: Component,
     wrapperResetComponent?: Component,
@@ -56,11 +56,11 @@ export class FormFactory {
     this.resourceName = resourceName;
     this.formSettings = {
       ...Submit64.getGlobalFormSetting(),
-      ...globalFormSettings,
+      ...formSettings,
     };
     this.formStyleConfig = {
       ...Submit64.getGlobalFormStyleConfig(),
-      ...globalFormStyleConfig,
+      ...formStyleConfig,
     };
     this.actionComponent =
       actionComponent ?? Submit64.getGlobalActionComponent();
