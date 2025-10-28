@@ -8,7 +8,7 @@ title: Installation
 // package.json
 {
   "dependencies": {
-    "submit64-vue": "git+ssh://git@github.com:CHUReimsDSN/Submit64-Vue.git"
+    "submit64-vue": "https://github.com/CHUReimsDSN/Submit64-Vue.git"
   }
 }
 ```
@@ -24,7 +24,7 @@ npm install
 // package.json
 {
   "dependencies": {
-    "submit64-vue": "git+ssh://git@github.com:CHUReimsDSN/Submit64-Vue.git#nom_de_la_branche"
+    "submit64-vue": "https://github.com/CHUReimsDSN/Submit64-Vue.git#nom_de_la_branche"
   }
 }
 ```
