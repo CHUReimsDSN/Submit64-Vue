@@ -198,8 +198,11 @@ function allowBlank(subRules) {
 // number
 function validNumber() {
     return (val) => {
+        if (val === null || val === undefined) {
+            return true;
+        }
         const valString = String(val);
-        if (valString === '') {
+        if (valString === "") {
             return true;
         }
         const regex = /^[0-9,b]+$/;

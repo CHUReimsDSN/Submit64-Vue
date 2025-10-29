@@ -374,9 +374,12 @@ function allowBlank(
 // number
 function validNumber() {
   return (val: unknown) => {
-    const valString = String(val)
-    if (valString === '') {
-      return true
+    if (val === null || val === undefined) {
+      return true;
+    }
+    const valString = String(val);
+    if (valString === "") {
+      return true;
     }
     const regex = /^[0-9,b]+$/;
     return regex.test(String(val)) || "Nombre incorrect";
