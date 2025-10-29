@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TSubmit64FieldProps } from "../models";
-import { QInput, QIcon, QPopupProxy, QDate, QBtn } from "quasar";
+import { QInput, QIcon, QPopupProxy, QDate, QTime, QBtn } from "quasar";
 import { ref } from "vue";
 
 // props
