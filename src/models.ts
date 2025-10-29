@@ -130,7 +130,7 @@ export type TFormFieldDef = {
   component: Component;
   componentOptions: {
     associationDisplayComponent?: Component;
-    regularFieldType?: 'textarea' | 'number'
+    regularFieldType?: 'textarea'
   };
 };
 export type TSubmit64Field = ComponentPublicInstance & {

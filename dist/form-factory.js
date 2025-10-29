@@ -1,5 +1,4 @@
 import { Submit64 } from "./submit64";
-import RegularField from "./components/RegularField.vue";
 import DateField from "./components/DateField.vue";
 import DateTimeField from "./components/DateTimeField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
@@ -7,12 +6,14 @@ import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
 import SelectHasManyField from "./components/SelectHasManyField.vue";
+import StringField from "./components/StringField.vue";
+import NumberField from "./components/NumberField.vue";
 export class FormFactory {
     static getFieldComponentByFormFieldType(fieldType) {
         return {
-            string: RegularField,
-            text: RegularField,
-            number: RegularField,
+            string: StringField,
+            text: StringField,
+            number: NumberField,
             date: DateField,
             datetime: DateTimeField,
             selectString: SelectField,
@@ -101,7 +102,6 @@ export class FormFactory {
     }
     getRegularFieldTypeByFieldType(fieldType) {
         const mapping = {
-            number: "number",
             text: "textarea",
         };
         return mapping[fieldType] || undefined;

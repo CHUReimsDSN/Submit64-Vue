@@ -14,7 +14,7 @@ const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 <template>
   <q-input
-    v-model="(propsComponent.wrapper.modelValue as string)"
+    v-model.number="(propsComponent.wrapper.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
     "

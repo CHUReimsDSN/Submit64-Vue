@@ -10,7 +10,8 @@ function computeServerRules(metadataRules, fieldType, formProvider) {
             return () => computedRuleDateFormatToFormFactoryFormat(rule[operateTo]);
         }
         if (rule.compare_to) {
-            return () => formProvider.getFieldDataByFieldName(rule.compare_to) ?? 'Submit64 error : missing comparator definition';
+            return () => formProvider.getFieldDataByFieldName(rule.compare_to) ??
+                "Submit64 error : missing comparator definition";
         }
         return () => "";
     };
@@ -22,6 +23,10 @@ function computeServerRules(metadataRules, fieldType, formProvider) {
     switch (fieldType) {
         case "date":
             rules.push(validDate(formFactorySettings.dateFormat));
+        case "datetime":
+            rules.push(validDate(formFactorySettings.datetimeFormat));
+        case "number":
+            rules.push(validNumber());
     }
     metadataRules.forEach((metadataRule) => {
         const rule = metadataRule;
@@ -188,6 +193,12 @@ function allowBlank(subRules) {
     };
 }
 // number
+function validNumber() {
+    return (val) => {
+        const regex = /^[0-9,b]+$/;
+        return regex.test(String(val)) || "Nombre incorrect";
+    };
+}
 function positiveNumber() {
     return (val) => Number(val) > 0 || "Val. positive uniquement";
 }

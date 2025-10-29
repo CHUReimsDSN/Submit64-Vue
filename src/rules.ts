@@ -83,7 +83,8 @@ function computeServerRules(
     }
     if (rule.compare_to) {
       return () =>
-        formProvider.getFieldDataByFieldName(rule.compare_to as string) ?? 'Submit64 error : missing comparator definition';
+        formProvider.getFieldDataByFieldName(rule.compare_to as string) ??
+        "Submit64 error : missing comparator definition";
     }
     return () => "";
   };
@@ -102,6 +103,10 @@ function computeServerRules(
   switch (fieldType) {
     case "date":
       rules.push(validDate(formFactorySettings.dateFormat));
+    case "datetime":
+      rules.push(validDate(formFactorySettings.datetimeFormat));
+    case "number":
+      rules.push(validNumber());
   }
   metadataRules.forEach((metadataRule) => {
     const rule = metadataRule as TSubmit64RuleOperateTo;
@@ -364,6 +369,12 @@ function allowBlank(
 }
 
 // number
+function validNumber() {
+  return (val: unknown) => {
+    const regex = /^[0-9,b]+$/;
+    return regex.test(String(val)) || "Nombre incorrect";
+  };
+}
 function positiveNumber() {
   return (val: unknown) => Number(val) > 0 || "Val. positive uniquement";
 }
