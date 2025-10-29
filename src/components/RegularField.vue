@@ -10,8 +10,6 @@ const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyleConfig;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
-
-console.log(propsComponent.wrapper.field.componentOptions.regularFieldType)
 </script>
 
 <template>
@@ -20,7 +18,7 @@ console.log(propsComponent.wrapper.field.componentOptions.regularFieldType)
     v-on:update:model-value="
       (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
     "
-    :type="propsComponent.wrapper.field.componentOptions.regularFieldType"
+    type="number"
     :label="propsComponent.wrapper.field.label"
     :hint="propsComponent.wrapper.field.hint"
     :outlined="styleConfig.fieldOutlined"
