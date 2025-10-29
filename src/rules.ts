@@ -381,7 +381,7 @@ function validNumber() {
     if (valString === "") {
       return true;
     }
-    const regex = /^[0-9,b]+$/;
+    const regex = /^[0-9.,\b]+$/;
     return regex.test(String(val)) || "Nombre incorrect";
   };
 }

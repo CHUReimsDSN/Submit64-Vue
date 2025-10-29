@@ -1058,7 +1058,7 @@ function Me(a) {
   }), !0);
 }
 function et() {
-  return (a) => a == null || String(a) === "" ? !0 : /^[0-9,b]+$/.test(String(a)) || "Nombre incorrect";
+  return (a) => a == null || String(a) === "" ? !0 : /^[0-9.,\b]+$/.test(String(a)) || "Nombre incorrect";
 }
 function tt() {
   return (a) => Number(a) > 0 || "Val. positive uniquement";
