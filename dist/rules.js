@@ -23,10 +23,13 @@ function computeServerRules(metadataRules, fieldType, formProvider) {
     switch (fieldType) {
         case "date":
             rules.push(validDate(formFactorySettings.dateFormat));
+            break;
         case "datetime":
             rules.push(validDate(formFactorySettings.datetimeFormat));
+            break;
         case "number":
             rules.push(validNumber());
+            break;
     }
     metadataRules.forEach((metadataRule) => {
         const rule = metadataRule;
@@ -195,6 +198,10 @@ function allowBlank(subRules) {
 // number
 function validNumber() {
     return (val) => {
+        const valString = String(val);
+        if (valString === '') {
+            return true;
+        }
         const regex = /^[0-9,b]+$/;
         return regex.test(String(val)) || "Nombre incorrect";
     };

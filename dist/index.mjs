@@ -824,10 +824,13 @@ function Ye(a, e, t) {
   switch (e) {
     case "date":
       s.push(te(o.dateFormat));
+      break;
     case "datetime":
       s.push(te(o.datetimeFormat));
+      break;
     case "number":
       s.push(et());
+      break;
   }
   return a.forEach((c) => {
     const i = c;
@@ -1055,7 +1058,7 @@ function Me(a) {
   }), !0);
 }
 function et() {
-  return (a) => /^[0-9,b]+$/.test(String(a)) || "Nombre incorrect";
+  return (a) => String(a) === "" ? !0 : /^[0-9,b]+$/.test(String(a)) || "Nombre incorrect";
 }
 function tt() {
   return (a) => Number(a) > 0 || "Val. positive uniquement";
