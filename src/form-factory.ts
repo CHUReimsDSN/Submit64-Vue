@@ -13,6 +13,7 @@ import type {
 import { Submit64 } from "./submit64";
 import RegularField from "./components/RegularField.vue";
 import DateField from "./components/DateField.vue";
+import DateTimeField from "./components/DateTimeField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
 import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
@@ -28,6 +29,7 @@ export class FormFactory {
       text: RegularField,
       number: RegularField,
       date: DateField,
+      datetime: DateTimeField,
       selectString: SelectField,
       selectBelongsTo: SelectBelongsToField,
       selectHasMany: SelectHasManyField,
