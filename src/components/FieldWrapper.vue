@@ -37,9 +37,17 @@ function formModelDeserializeByType(value: T) {
       return date.formatDate(
         date.extractDate(
           String(value),
-          injectForm.getForm().backendDateFormat!
+          injectForm.getForm().backendDateFormat
         ),
         injectForm.getFormFactoryInstance().formSettings.dateFormat
+      ) as T;
+    case "datetime":
+      return date.formatDate(
+        date.extractDate(
+          String(value),
+          injectForm.getForm().backendDatetimeFormat
+        ),
+        injectForm.getFormFactoryInstance().formSettings.datetimeFormat
       ) as T;
   }
   return value;
@@ -52,7 +60,15 @@ function formModelSerializeByType(value: T) {
           String(value),
           injectForm.getFormFactoryInstance().formSettings.dateFormat
         ),
-        injectForm.getForm().backendDateFormat!
+        injectForm.getForm().backendDateFormat
+      ) as T;
+    case "datetime":
+      return date.formatDate(
+        date.extractDate(
+          String(value),
+          injectForm.getFormFactoryInstance().formSettings.datetimeFormat
+        ),
+        injectForm.getForm().backendDatetimeFormat
       ) as T;
   }
   return value;
@@ -66,6 +82,9 @@ function clear() {
       modelValue.value = false as T;
       break;
     case "date":
+      modelValue.value = "" as T;
+      break;
+    case "datetime":
       modelValue.value = "" as T;
       break;
     case "number":

@@ -95,7 +95,7 @@ export type TFormSection = {
     cssClass?: string;
 };
 export type TFormFieldDef = {
-    type: "string" | "text" | "date" | "selectString" | "selectBelongsTo" | "selectHasMany" | "checkbox" | "number" | "object";
+    type: "string" | "text" | "date" | "datetime" | "selectString" | "selectBelongsTo" | "selectHasMany" | "checkbox" | "number" | "object";
     metadata: TResourceFieldMetadata;
     provideUniqKey: InjectionKey<TSubmit64FormProvider>;
     label?: string;

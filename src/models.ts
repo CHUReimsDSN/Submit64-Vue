@@ -110,6 +110,7 @@ export type TFormFieldDef = {
     | "string"
     | "text"
     | "date"
+    | "datetime"
     | "selectString"
     | "selectBelongsTo"
     | "selectHasMany"

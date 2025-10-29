@@ -10,6 +10,8 @@ const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyleConfig;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
+
+console.log(propsComponent.wrapper.field.componentOptions.regularFieldType)
 </script>
 
 <template>
