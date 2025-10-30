@@ -309,8 +309,7 @@ function lessThanOrEqualDate(lessThan, format) {
         const lessThanValue = lessThan();
         const valExtracted = date.extractDate(String(val), format);
         const lessThanExtracted = date.extractDate(lessThanValue, format);
-        return ((!isNaN(valExtracted.getTime()) && valExtracted <= lessThanExtracted) ||
-            `Inf. ou égal à ${lessThanValue}`);
+        return (valExtracted <= lessThanExtracted || `Inf. ou égal à ${lessThanValue}`);
     };
 }
 function lessThanDate(lessThan, format) {
@@ -318,8 +317,7 @@ function lessThanDate(lessThan, format) {
         const lessThanValue = lessThan();
         const valExtracted = date.extractDate(String(val), format);
         const lessThanExtracted = date.extractDate(lessThanValue, format);
-        return ((!isNaN(valExtracted.getTime()) && valExtracted < lessThanExtracted) ||
-            `Inf. à ${lessThanValue}`);
+        return valExtracted < lessThanExtracted || `Inf. à ${lessThanValue}`;
     };
 }
 function greaterThanOrEqualDate(greaterThan, format) {
@@ -327,8 +325,7 @@ function greaterThanOrEqualDate(greaterThan, format) {
         const greaterThanValue = greaterThan();
         const valExtracted = date.extractDate(String(val), format);
         const greaterThanExtracted = date.extractDate(greaterThanValue, format);
-        return ((!isNaN(valExtracted.getTime()) &&
-            valExtracted >= greaterThanExtracted) ||
+        return (valExtracted >= greaterThanExtracted ||
             `Sup. ou égal à ${greaterThanValue}`);
     };
 }
@@ -337,8 +334,7 @@ function greaterThanDate(greaterThan, format) {
         const greaterThanValue = greaterThan();
         const valExtracted = date.extractDate(String(val), format);
         const greaterThanExtracted = date.extractDate(greaterThanValue, format);
-        return ((!isNaN(valExtracted.getTime()) && valExtracted > greaterThanExtracted) ||
-            `Sup. à ${greaterThanValue}`);
+        return valExtracted > greaterThanExtracted || `Sup. à ${greaterThanValue}`;
     };
 }
 function equalToDate(equalTo, format) {
@@ -362,18 +358,18 @@ function validDate(format) {
         if (val === null || val === undefined || val === "") {
             return true;
         }
-        console.log(isStrictDate(val, format));
-        return (!isNaN(date.extractDate(String(val), format).getTime()) || "Date invalide");
+        return isStrictDate(val, format) || "Date invalide";
     };
 }
 function isStrictDate(val, format) {
-    if (typeof val !== 'string' || !val.trim())
+    if (typeof val !== "string" || !val.trim()) {
         return false;
-    const d = date.extractDate(val, format);
-    if (!(d instanceof Date) || isNaN(d.getTime()))
+    }
+    const extractedDate = date.extractDate(val, format);
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
         return false;
-    // reformatte selon le format fourni et compare à l'original
-    const reformatted = date.formatDate(d, format);
+    }
+    const reformatted = date.formatDate(extractedDate, format);
     return reformatted === val;
 }
 export const Submit64Rules = {
