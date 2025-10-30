@@ -1,7 +1,7 @@
 var ge = Object.defineProperty;
 var be = (r, e, t) => e in r ? ge(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
 var V = (r, e, t) => be(r, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as k, createElementBlock as x, openBlock as f, createVNode as v, createBlock as C, createCommentVNode as R, unref as a, normalizeClass as T, createElementVNode as $, toDisplayString as I, renderSlot as Q, resolveComponent as ye, normalizeProps as le, guardReactiveProps as he, withCtx as w, createTextVNode as se, ref as _, onMounted as B, watch as Se, Fragment as L, resolveDynamicComponent as G, nextTick as _e, mergeProps as we, inject as Ce, getCurrentInstance as Fe, renderList as Z, provide as ve } from "vue";
+import { defineComponent as k, createElementBlock as x, openBlock as f, createVNode as v, createBlock as F, createCommentVNode as R, unref as a, normalizeClass as T, createElementVNode as $, toDisplayString as I, renderSlot as Q, resolveComponent as ye, normalizeProps as le, guardReactiveProps as he, withCtx as w, createTextVNode as se, ref as _, onMounted as B, watch as Se, Fragment as L, resolveDynamicComponent as G, nextTick as _e, mergeProps as we, inject as Ce, getCurrentInstance as Fe, renderList as Z, provide as ve } from "vue";
 import { QBtn as E, QIcon as Y, QItem as ie, QItemSection as ue, QItemLabel as ce, QInput as M, QPopupProxy as ee, QDate as de, QTime as De, QCheckbox as Ve, QSelect as te, date as S, uid as ke } from "quasar";
 const xe = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__ */ k({
   __name: "DefaultActionComponent",
@@ -19,13 +19,13 @@ const xe = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
         loading: e.isLoadingSubmit,
         onClick: o[0] || (o[0] = (n) => e.submit())
       }, null, 8, ["loading"]),
-      e.reset ? (f(), C(a(E), {
+      e.reset ? (f(), F(a(E), {
         key: 0,
         loading: e.isLoadingSubmit,
         label: "Réinitialiser",
         onClick: o[1] || (o[1] = (n) => e.reset())
       }, null, 8, ["loading"])) : R("", !0),
-      e.clear ? (f(), C(a(E), {
+      e.clear ? (f(), F(a(E), {
         key: 1,
         loading: e.isLoadingSubmit,
         label: "Vider",
@@ -44,7 +44,7 @@ const xe = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
       class: T(["flex column", e.section.cssClass])
     }, [
       $("div", Be, [
-        e.section.icon ? (f(), C(a(Y), {
+        e.section.icon ? (f(), F(a(Y), {
           key: 0,
           name: e.section.icon,
           size: "sm"
@@ -65,7 +65,7 @@ const xe = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
     const e = r;
     return (t, o) => {
       const n = ye("q-icon");
-      return f(), C(n, {
+      return f(), F(n, {
         name: "reset",
         class: "cursor-pointer",
         onClick: o[0] || (o[0] = (s) => e.reset())
@@ -84,7 +84,7 @@ const xe = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
   },
   setup(r) {
     const e = r;
-    return (t, o) => (f(), C(a(ie), le(he(e.itemProps)), {
+    return (t, o) => (f(), F(a(ie), le(he(e.itemProps)), {
       default: w(() => [
         v(a(ue), null, {
           default: w(() => [
@@ -198,7 +198,7 @@ const Ee = { class: "row items-center justify-end" }, Ie = /* @__PURE__ */ k({
     }
     return B(() => {
       e.wrapper.registerValidationCallback(c);
-    }), (u, y) => (f(), C(a(M), {
+    }), (u, y) => (f(), F(a(M), {
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
         y[2] || (y[2] = (b) => e.wrapper.modelValue = b),
@@ -288,7 +288,7 @@ const Ee = { class: "row items-center justify-end" }, Ie = /* @__PURE__ */ k({
     }
     return B(() => {
       e.wrapper.registerValidationCallback(y);
-    }), (b, d) => (f(), C(a(M), {
+    }), (b, d) => (f(), F(a(M), {
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
         d[4] || (d[4] = (g) => e.wrapper.modelValue = g),
@@ -483,7 +483,7 @@ const Ee = { class: "row items-center justify-end" }, Ie = /* @__PURE__ */ k({
     }
     return B(() => {
       u(e.wrapper), e.wrapper.registerValidationCallback(y);
-    }), (b, d) => (f(), C(a(te), {
+    }), (b, d) => (f(), F(a(te), {
       ref_key: "fieldRef",
       ref: n,
       modelValue: e.wrapper.modelValue,
@@ -567,7 +567,7 @@ const Ye = /* @__PURE__ */ k({
     }
     return B(() => {
       y(), e.wrapper.registerValidationCallback(b);
-    }), (d, g) => (f(), C(a(te), {
+    }), (d, g) => (f(), F(a(te), {
       ref_key: "fieldRef",
       ref: c,
       modelValue: e.wrapper.modelValue,
@@ -601,7 +601,7 @@ const Ye = /* @__PURE__ */ k({
       onFilter: u
     }, {
       options: w((D) => [
-        (f(), C(G(a(t)), { scope: D }, null, 8, ["scope"]))
+        (f(), F(G(a(t)), { scope: D }, null, 8, ["scope"]))
       ]),
       _: 1
     }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options", "onClear"]));
@@ -646,7 +646,7 @@ const Ye = /* @__PURE__ */ k({
     }
     return B(() => {
       u();
-    }), (y, b) => (f(), C(a(te), {
+    }), (y, b) => (f(), F(a(te), {
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
         b[0] || (b[0] = (d) => e.wrapper.modelValue = d),
@@ -680,7 +680,7 @@ const Ye = /* @__PURE__ */ k({
       onFilter: c
     }, {
       options: w((d) => [
-        a(t) ? (f(), C(a(ie), le(we({ key: 0 }, d.itemProps)), {
+        a(t) ? (f(), F(a(ie), le(we({ key: 0 }, d.itemProps)), {
           default: w(() => [
             v(a(ue), null, {
               default: w(() => [
@@ -695,7 +695,7 @@ const Ye = /* @__PURE__ */ k({
             }, 1024)
           ]),
           _: 2
-        }, 1040)) : (f(), C(G(a(t)), {
+        }, 1040)) : (f(), F(G(a(t)), {
           key: 1,
           scope: d
         }, null, 8, ["scope"]))
@@ -715,7 +715,7 @@ const Ye = /* @__PURE__ */ k({
     }
     return B(() => {
       e.wrapper.registerValidationCallback(l);
-    }), (p, c) => (f(), C(a(M), {
+    }), (p, c) => (f(), F(a(M), {
       ref_key: "fieldRef",
       ref: i,
       modelValue: e.wrapper.modelValue,
@@ -757,7 +757,7 @@ const Ye = /* @__PURE__ */ k({
     }
     return B(() => {
       e.wrapper.registerValidationCallback(l);
-    }), (p, c) => (f(), C(a(M), {
+    }), (p, c) => (f(), F(a(M), {
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
         c[0] || (c[0] = (u) => e.wrapper.modelValue = u),
@@ -1390,7 +1390,7 @@ const Tt = {
       Q(m.$slots, "default", {
         propsWrapper: { modelValue: i.value, modelValueOnUpdate: d, field: t.field, injectForm: a(n), rules: a(s), reset: p, clear: y, getValueDeserialized: D, getValueSerialized: g, validate: j, registerValidationCallback: P }
       }, () => [
-        (f(), C(G(t.field.component), {
+        (f(), F(G(t.field.component), {
           wrapper: { modelValue: i.value, modelValueOnUpdate: d, field: t.field, injectForm: a(n), rules: a(s), reset: p, clear: y, getValueDeserialized: D, getValueSerialized: g, validate: j, registerValidationCallback: P }
         }, null, 8, ["wrapper"])),
         l.value.length > 0 ? (f(), x("div", Bt, [
@@ -1455,28 +1455,28 @@ const Tt = {
       if (!g())
         return;
       c.value = !0, j();
-      const h = d(), F = await t.getSubmitFormData({
+      const h = d(), C = await t.getSubmitFormData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
         resourceData: h,
         context: t.context
       });
-      F.success ? (u.value === "create" && (u.value = "edit"), o && F.resource_data && (o.resource_data = F.resource_data), D(), (A = t.onSubmitSuccess) == null || A.call(t)) : ([...i.value].forEach((O) => {
-        const H = F.errors[O[0]];
+      C.success ? (u.value === "create" && (u.value = "edit"), o && C.resource_data && (o.resource_data = C.resource_data), D(), (A = t.onSubmitSuccess) == null || A.call(t)) : ([...i.value].forEach((O) => {
+        const H = C.errors[O[0]];
         H && O[1].setupBackendErrors(H);
       }), (N = t.onSubmitFail) == null || N.call(t)), c.value = !1;
     }
     function d() {
       const h = {};
-      return [...i.value].forEach((F) => {
-        h[F[0]] = F[1].getValueDeserialized();
+      return [...i.value].forEach((C) => {
+        h[C[0]] = C[1].getValueDeserialized();
       }), h;
     }
     function g() {
       let h = !0;
-      return i.value.forEach((F) => {
-        if (F.validate() !== !0) {
-          h = !1;
+      return i.value.forEach((C) => {
+        if (C.validate() !== !0) {
+          console.log(C), h = !1;
           return;
         }
       }), h;
@@ -1496,16 +1496,16 @@ const Tt = {
         h.setupBackendErrors([]);
       });
     }
-    function P(h, F) {
-      i.value.set(h, F);
+    function P(h, C) {
+      i.value.set(h, C);
     }
     function m(h) {
       if (o)
         return o.resource_data[h];
     }
     function U(h) {
-      const F = [...i.value].find((N) => N[0] === h);
-      return F ? F[1].getValue() : null;
+      const C = [...i.value].find((N) => N[0] === h);
+      return C ? C[1].getValue() : null;
     }
     function J() {
       return n;
@@ -1524,8 +1524,8 @@ const Tt = {
         "getMetadataAndData",
         "getMetadataAndData",
         "resourceName"
-      ].forEach((F) => {
-        (t[F] === null || t[F] === void 0) && console.warn(`Missing props for <Submit64> -> ${F}`);
+      ].forEach((C) => {
+        (t[C] === null || t[C] === void 0) && console.warn(`Missing props for <Submit64> -> ${C}`);
       });
     }
     return ve(s, {
@@ -1537,11 +1537,11 @@ const Tt = {
       getAssociationDataCallback: me
     }), e({}), B(async () => {
       fe(), await y();
-    }), (h, F) => p.value && l.value ? (f(), x("div", Ot, [
+    }), (h, C) => p.value && l.value ? (f(), x("div", Ot, [
       $("div", {
         class: T(l.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (f(!0), x(L, null, Z(l.value.sections, (N, A) => (f(), C(G(a(n).sectionComponent), {
+        (f(!0), x(L, null, Z(l.value.sections, (N, A) => (f(), F(G(a(n).sectionComponent), {
           key: A,
           section: N
         }, {
@@ -1549,7 +1549,7 @@ const Tt = {
             (f(!0), x(L, null, Z(N.fields, (O) => (f(), x(L, {
               key: O.metadata.field_name
             }, [
-              h.$slots[O.metadata.field_name] ? (f(), C(oe, {
+              h.$slots[O.metadata.field_name] ? (f(), F(oe, {
                 key: 1,
                 field: O
               }, {
@@ -1557,7 +1557,7 @@ const Tt = {
                   Q(h.$slots, O.metadata.field_name, { propsWrapper: H })
                 ]),
                 _: 2
-              }, 1032, ["field"])) : (f(), C(oe, {
+              }, 1032, ["field"])) : (f(), F(oe, {
                 key: 0,
                 field: O
               }, null, 8, ["field"]))
@@ -1566,7 +1566,7 @@ const Tt = {
           _: 2
         }, 1032, ["section"]))), 128))
       ], 2),
-      (f(), C(G(a(n).actionComponent), {
+      (f(), F(G(a(n).actionComponent), {
         isLoadingSubmit: c.value,
         submit: b,
         clear: l.value.clearable ? z : void 0,

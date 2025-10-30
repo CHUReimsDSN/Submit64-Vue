@@ -101,6 +101,7 @@ function validateForm() {
   let formValid = true;
   fieldRefs.value.forEach((fieldRef) => {
     if (fieldRef.validate() !== true) {
+      console.log(fieldRef)
       formValid = false;
       return;
     }

@@ -140,7 +140,7 @@ function getValueDeserialized() {
 function setupBackendErrors(errorsArg: string[]) {
   backendErrors.value = errorsArg;
 }
-function validate(): boolean | string {
+function validate() {
   return validationCallback();
 }
 function registerValidationCallback(validationCallbackArg: () => boolean) {
