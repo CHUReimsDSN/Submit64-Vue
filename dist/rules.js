@@ -367,7 +367,7 @@ function isStrictDate(val, format) {
         return false;
     }
     const extractedDate = date.extractDate(val, format);
-    if (!(date instanceof Date) || isNaN(date.getTime())) {
+    if (!(extractedDate instanceof Date) || isNaN(extractedDate.getTime())) {
         console.log('aya 2');
         return false;
     }
