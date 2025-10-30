@@ -1,7 +1,7 @@
 var be = Object.defineProperty;
 var ye = (a, e, t) => e in a ? be(a, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : a[e] = t;
 var v = (a, e, t) => ye(a, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as D, createElementBlock as V, openBlock as f, createVNode as _, createBlock as w, createCommentVNode as N, unref as r, normalizeClass as k, createElementVNode as $, toDisplayString as j, renderSlot as H, resolveComponent as he, ref as C, withCtx as S, watch as Se, Fragment as z, onMounted as L, normalizeProps as ae, mergeProps as oe, createTextVNode as ne, resolveDynamicComponent as U, inject as we, getCurrentInstance as Fe, renderList as J, provide as _e } from "vue";
+import { defineComponent as D, createElementBlock as V, openBlock as f, createVNode as _, createBlock as w, createCommentVNode as B, unref as r, normalizeClass as k, createElementVNode as $, toDisplayString as j, renderSlot as H, resolveComponent as he, ref as C, withCtx as S, watch as Se, Fragment as z, onMounted as L, normalizeProps as ae, mergeProps as oe, createTextVNode as ne, resolveDynamicComponent as U, inject as we, getCurrentInstance as Fe, renderList as J, provide as _e } from "vue";
 import { QBtn as I, QIcon as A, QInput as W, QPopupProxy as X, QDate as le, QTime as Ce, QCheckbox as ve, QSelect as Z, QItem as se, QItemSection as ie, QItemLabel as ue, date as h, uid as De } from "quasar";
 const Ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__ */ D({
   __name: "DefaultActionComponent",
@@ -24,16 +24,16 @@ const Ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
         loading: e.isLoadingSubmit,
         label: "Réinitialiser",
         onClick: o[1] || (o[1] = (n) => e.reset())
-      }, null, 8, ["loading"])) : N("", !0),
+      }, null, 8, ["loading"])) : B("", !0),
       e.clear ? (f(), w(r(I), {
         key: 1,
         loading: e.isLoadingSubmit,
         label: "Vider",
         onClick: o[2] || (o[2] = (n) => e.clear())
-      }, null, 8, ["loading"])) : N("", !0)
+      }, null, 8, ["loading"])) : B("", !0)
     ]));
   }
-}), Te = { class: "flex row items-center" }, xe = { class: "text-body1 text-weight-medium" }, Ne = { class: "flex column q-gutter-sm" }, Be = /* @__PURE__ */ D({
+}), Te = { class: "flex row items-center" }, xe = { class: "text-body1 text-weight-medium" }, Be = { class: "flex column q-gutter-sm" }, Ne = /* @__PURE__ */ D({
   __name: "DefaultSectionComponent",
   props: {
     section: {}
@@ -48,10 +48,10 @@ const Ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
           key: 0,
           name: e.section.icon,
           size: "sm"
-        }, null, 8, ["name"])) : N("", !0),
+        }, null, 8, ["name"])) : B("", !0),
         $("div", xe, j(e.section.label), 1)
       ]),
-      $("div", Ne, [
+      $("div", Be, [
         H(t.$slots, "default")
       ])
     ], 2));
@@ -97,7 +97,7 @@ const Ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
       fieldClass: "",
       fieldColor: "primary",
       fieldBgColor: "white"
-    }, this._actionComponent = ke, this._sectionComponent = Be, this._wrapperResetComponent = qe, this._associationDisplayDictonary = {};
+    }, this._actionComponent = ke, this._sectionComponent = Ne, this._wrapperResetComponent = qe, this._associationDisplayDictonary = {};
   }
   static registerGlobalFormSetting(e) {
     this._instance._formSettings = {
@@ -385,8 +385,8 @@ const Oe = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ D({
         "aria-readonly": e.wrapper.field.readonly,
         class: k(e.wrapper.field.cssClass)
       }, null, 8, ["modelValue", "label", "dense", "color", "aria-readonly", "class"]),
-      e.wrapper.field.hint ? (f(), V("div", je, j(e.wrapper.field.hint), 1)) : N("", !0),
-      t.value !== !0 ? (f(), V("div", ze, j(t.value), 1)) : N("", !0)
+      e.wrapper.field.hint ? (f(), V("div", je, j(e.wrapper.field.hint), 1)) : B("", !0),
+      t.value !== !0 ? (f(), V("div", ze, j(t.value), 1)) : B("", !0)
     ], 64));
   }
 }), Le = /* @__PURE__ */ D({
@@ -484,8 +484,8 @@ const He = /* @__PURE__ */ D({
           offset: p.value.offset,
           labelFilter: m,
           context: e.wrapper.injectForm.getForm().context
-        }).then((B) => {
-          s.value = B.rows;
+        }).then((N) => {
+          s.value = N.rows;
         });
       });
     }
@@ -579,8 +579,8 @@ const He = /* @__PURE__ */ D({
           offset: p.value.offset,
           labelFilter: m,
           context: e.wrapper.injectForm.getForm().context
-        }).then((B) => {
-          s.value = B.rows;
+        }).then((N) => {
+          s.value = N.rows;
         });
       });
     }
@@ -719,7 +719,6 @@ const He = /* @__PURE__ */ D({
       "lazy-rules": l,
       clearable: e.wrapper.field.clearable,
       readonly: e.wrapper.field.readonly,
-      autogrow: !0,
       rules: e.wrapper.rules,
       onClear: e.wrapper.clear
     }, null, 8, ["modelValue", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "onClear"]));
@@ -828,9 +827,6 @@ function Ye(a, e, t) {
     case "datetime":
       s.push(te(o.datetimeFormat));
       break;
-    case "number":
-      s.push(et());
-      break;
   }
   return a.forEach((c) => {
     const i = c;
@@ -859,103 +855,103 @@ function Ye(a, e, t) {
         p.push("allowBlank");
         break;
       case "positiveNumber":
-        s.push(tt());
+        s.push(et());
         break;
       case "lessThanOrEqualNumber":
         s.push(
-          rt(
+          tt(
             l(i, "less_than")
           )
         );
         break;
       case "lessThanNumber":
         s.push(
-          at(
+          rt(
             l(i, "less_than")
           )
         );
         break;
       case "greaterThanOrEqualNumber":
         s.push(
-          ot(
+          at(
             l(i, "greater_than")
           )
         );
         break;
       case "greaterThanNumber":
         s.push(
-          nt(
+          ot(
             l(i, "greater_than")
           )
         );
         break;
       case "equalToNumber":
         s.push(
-          lt(l(i, "equal_to"))
+          nt(l(i, "equal_to"))
         );
         break;
       case "otherThanNumber":
         s.push(
-          st(
+          lt(
             l(i, "other_than")
           )
         );
         break;
       case "numberIntegerOnly":
-        s.push(it());
+        s.push(st());
         break;
       case "numberNumericOnly":
-        s.push(ut());
+        s.push(it());
         break;
       case "numberEvenOnly":
-        s.push(ct());
+        s.push(ut());
         break;
       case "numberOddOnly":
-        s.push(dt());
+        s.push(ct());
         break;
       case "lessThanOrEqualStringLength":
         s.push(
-          pt(
+          dt(
             l(i, "less_than")
           )
         );
         break;
       case "lessThanStringLength":
         s.push(
-          mt(
+          pt(
             l(i, "less_than")
           )
         );
         break;
       case "greaterThanOrEqualStringLength":
         s.push(
-          ft(
+          mt(
             l(i, "greater_than")
           )
         );
         break;
       case "greaterThanStringLength":
         s.push(
-          gt(
+          ft(
             l(i, "greater_than")
           )
         );
         break;
       case "equalToStringLength":
         s.push(
-          ht(
+          yt(
             l(i, "equal_to")
           )
         );
         break;
       case "equalToString":
         s.push(
-          yt(l(i, "equal_to"))
+          bt(l(i, "equal_to"))
         );
         break;
       case "betweenStringLength":
         s.push(
-          bt(
+          gt(
             () => i.min,
             () => i.max
           )
@@ -963,14 +959,14 @@ function Ye(a, e, t) {
         break;
       case "otherThanString":
         s.push(
-          St(
+          ht(
             l(i, "other_than")
           )
         );
         break;
       case "lessThanOrEqualDate":
         s.push(
-          wt(
+          St(
             l(i, "less_than", !0),
             o.dateFormat
           )
@@ -978,7 +974,7 @@ function Ye(a, e, t) {
         break;
       case "lessThanDate":
         s.push(
-          Ft(
+          wt(
             l(i, "less_than", !0),
             o.dateFormat
           )
@@ -986,7 +982,7 @@ function Ye(a, e, t) {
         break;
       case "greaterThanOrEqualDate":
         s.push(
-          _t(
+          Ft(
             l(i, "greater_than", !0),
             o.dateFormat
           )
@@ -994,7 +990,7 @@ function Ye(a, e, t) {
         break;
       case "greaterThanDate":
         s.push(
-          Ct(
+          _t(
             l(i, "greater_than", !0),
             o.dateFormat
           )
@@ -1002,7 +998,7 @@ function Ye(a, e, t) {
         break;
       case "equalToDate":
         s.push(
-          vt(
+          Ct(
             l(i, "equal_to", !0),
             o.dateFormat
           )
@@ -1010,7 +1006,7 @@ function Ye(a, e, t) {
         break;
       case "otherThanDate":
         s.push(
-          Dt(
+          vt(
             l(i, "other_than", !0),
             o.dateFormat
           )
@@ -1058,138 +1054,135 @@ function Me(a) {
   }), !0);
 }
 function et() {
-  return (a) => a == null || String(a) === "" ? !0 : /^[0-9.,\b]+$/.test(String(a)) || "Nombre incorrect";
-}
-function tt() {
   return (a) => Number(a) > 0 || "Val. positive uniquement";
 }
-function rt(a) {
+function tt(a) {
   return (e) => {
     const t = a();
     return Number(e) <= t || `Inf. ou égal à ${t}`;
   };
 }
-function at(a) {
+function rt(a) {
   return (e) => {
     const t = a();
     return Number(e) < t || `Inf. ${t}`;
   };
 }
-function ot(a) {
+function at(a) {
   return (e) => {
     const t = a();
     return Number(e) >= t || `Sup. ou égal à ${t}`;
   };
 }
-function nt(a) {
+function ot(a) {
   return (e) => {
     const t = a();
     return Number(e) > t || `Sup. à ${t}`;
   };
 }
-function lt(a, e) {
+function nt(a, e) {
   return (t) => {
     const o = a();
     return Number(t) === o || `Égale à ${o}`;
   };
 }
-function st(a, e) {
+function lt(a, e) {
   return (t) => {
     const o = a();
     return Number(t) !== o || `Doit être différent de ${a}`;
   };
 }
-function it() {
+function st() {
   return (a) => /^-?\d+$/.test(String(a).trim()) || "Nombre entier uniquement";
 }
-function ut() {
+function it() {
   return (a) => /^-?\d+(\.\d+)?$/.test(String(a).trim()) || "Caractère numérique uniquement";
 }
-function ct() {
+function ut() {
   return (a) => Number.isInteger(Number(a)) && Number(a) % 2 === 0 || "Nombre pair uniquement";
 }
-function dt() {
+function ct() {
   return (a) => Number.isInteger(Number(a)) && Number(a) % 2 === 1 || "Nombre impair uniquement";
 }
-function pt(a) {
+function dt(a) {
   return (e) => {
     const t = a();
     return String(e).length <= t || `Inf. ou égal à ${t}`;
   };
 }
-function mt(a) {
+function pt(a) {
   return (e) => {
     const t = a();
     return String(e).length < t || `Inf. à ${t}`;
   };
 }
-function ft(a) {
+function mt(a) {
   return (e) => {
     const t = a();
     return String(e).length >= t || `Sup. ou égal à ${t}`;
   };
 }
-function gt(a) {
+function ft(a) {
   return (e) => {
     const t = a();
     return String(e).length > t || `Sup. à ${t}`;
   };
 }
-function bt(a, e) {
+function gt(a, e) {
   return (t) => {
     const o = a(), n = e();
     return String(t).length >= o && String(t).length <= n || `Entre ${o} et ${n}`;
   };
 }
-function yt(a, e) {
+function bt(a, e) {
   return (t) => {
     const o = a();
     return String(t) === o || `Égale à ${o}`;
   };
 }
-function ht(a) {
+function yt(a) {
   return (e) => {
     const t = a();
     return String(e).length === t || `Doit contenir ${t} caractères`;
   };
 }
-function St(a) {
+function ht(a) {
   return (e) => {
     const t = a();
     return String(e) !== t || `Doit être différent de ${t}`;
   };
 }
-function wt(a, e) {
+function St(a, e) {
   return (t) => {
     const o = a(), n = h.extractDate(String(t), e), l = h.extractDate(o, e);
     return !Number.isNaN(n.getTime()) && n <= l || `Inf. ou égal à ${o}`;
   };
 }
-function Ft(a, e) {
+function wt(a, e) {
   return (t) => {
     const o = a(), n = h.extractDate(String(t), e), l = h.extractDate(o, e);
     return !Number.isNaN(n.getTime()) && n < l || `Inf. à ${o}`;
   };
 }
-function _t(a, e) {
+function Ft(a, e) {
   return (t) => {
     const o = a(), n = h.extractDate(String(t), e), l = h.extractDate(o, e);
     return !Number.isNaN(n.getTime()) && n >= l || `Sup. ou égal à ${o}`;
   };
 }
-function Ct(a, e) {
+function _t(a, e) {
   return (t) => {
     const o = a(), n = h.extractDate(String(t), e), l = h.extractDate(o, e);
     return !Number.isNaN(n.getTime()) && n > l || `Sup. à ${o}`;
   };
 }
-function vt(a, e) {
+function Ct(a, e) {
   return (t) => {
     const o = a(), n = h.extractDate(String(t), e), l = h.extractDate(o, e);
     return n === l || `Égale à ${n}`;
   };
 }
-function Dt(a, e) {
+function vt(a, e) {
   return (t) => {
     const o = a();
     return h.extractDate(String(t), e) !== h.extractDate(o, e) || `Doit être différent de ${o}`;
@@ -1198,12 +1191,12 @@ function Dt(a, e) {
 function te(a) {
   return (e) => !Number.isNaN(h.extractDate(String(e), a).getTime()) || "Date invalide";
 }
-const Vt = {
+const Dt = {
   computeServerRules: Ye
-}, kt = {
+}, Vt = {
   key: 0,
   class: "q-field__bottom text-negative q-pt-none"
-}, Tt = ["index"], re = /* @__PURE__ */ D({
+}, kt = ["index"], re = /* @__PURE__ */ D({
   __name: "FieldWrapper",
   props: {
     field: {}
@@ -1289,7 +1282,7 @@ const Vt = {
       }
     }
     function m() {
-      return Vt.computeServerRules(
+      return Dt.computeServerRules(
         t.field.rules ?? [],
         t.field.type,
         o
@@ -1301,7 +1294,7 @@ const Vt = {
     function b() {
       return c(r(l));
     }
-    function B(g) {
+    function N(g) {
       u.value = g;
     }
     function R() {
@@ -1319,7 +1312,7 @@ const Vt = {
       clear: i,
       validate: R,
       getValue: b,
-      setupBackendErrors: B
+      setupBackendErrors: N
     }), L(() => {
       var q;
       s();
@@ -1335,19 +1328,19 @@ const Vt = {
         (f(), w(U(t.field.component), {
           wrapper: { modelValue: l.value, modelValueOnUpdate: d, field: g.field, injectForm: r(o), rules: r(n), reset: s, clear: i, getValue: b, validate: R }
         }, null, 8, ["wrapper"])),
-        u.value.length > 0 ? (f(), V("div", kt, [
+        u.value.length > 0 ? (f(), V("div", Vt, [
           (f(!0), V(z, null, J(u.value, (E, K) => (f(), V("div", {
             index: K,
             class: "flex column"
-          }, j(E), 9, Tt))), 256))
-        ])) : N("", !0)
+          }, j(E), 9, kt))), 256))
+        ])) : B("", !0)
       ])
     ]));
   }
-}), xt = {
+}), Tt = {
   key: 0,
   class: "flex column"
-}, Ot = /* @__PURE__ */ D({
+}, qt = /* @__PURE__ */ D({
   __name: "Submit64Form",
   props: {
     resourceName: {},
@@ -1381,7 +1374,7 @@ const Vt = {
     }
     async function d() {
       var O, P;
-      if (!B())
+      if (!N())
         return;
       c.value = !0, q();
       const y = b(), F = await t.getSubmitFormData({
@@ -1401,7 +1394,7 @@ const Vt = {
         y[F[0]] = F[1].getValue();
       }), y;
     }
-    function B() {
+    function N() {
       let y = !0;
       return Object.values(u.value).forEach((F) => {
         if (F.validate() !== !0) {
@@ -1466,7 +1459,7 @@ const Vt = {
       getAssociationDataCallback: fe
     }), e({}), L(async () => {
       ge(), await m();
-    }), (y, F) => p.value && s.value ? (f(), V("div", xt, [
+    }), (y, F) => p.value && s.value ? (f(), V("div", Tt, [
       $("div", {
         class: k(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
@@ -1504,11 +1497,11 @@ const Vt = {
       y.$slots.more_actions ? H(y.$slots, "more_actions", {
         key: 0,
         propsForm: { generatedForm: s.value }
-      }) : N("", !0)
-    ])) : N("", !0);
+      }) : B("", !0)
+    ])) : B("", !0);
   }
 });
 export {
   x as Submit64,
-  Ot as Submit64Form
+  qt as Submit64Form
 };

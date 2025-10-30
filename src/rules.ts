@@ -107,9 +107,6 @@ function computeServerRules(
     case "datetime":
       rules.push(validDate(formFactorySettings.datetimeFormat));
       break;
-    case "number":
-      rules.push(validNumber());
-      break;
   }
   metadataRules.forEach((metadataRule) => {
     const rule = metadataRule as TSubmit64RuleOperateTo;
@@ -372,19 +369,6 @@ function allowBlank(
 }
 
 // number
-function validNumber() {
-  return (val: unknown) => {
-    if (val === null || val === undefined) {
-      return true;
-    }
-    const valString = String(val);
-    if (valString === "") {
-      return true;
-    }
-    const regex = /^[0-9.,\b]+$/;
-    return regex.test(String(val)) || "Nombre incorrect";
-  };
-}
 function positiveNumber() {
   return (val: unknown) => Number(val) > 0 || "Val. positive uniquement";
 }
