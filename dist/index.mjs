@@ -1,9 +1,9 @@
 var be = Object.defineProperty;
 var ye = (o, e, t) => e in o ? be(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var D = (o, e, t) => ye(o, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as V, createElementBlock as v, openBlock as g, createVNode as _, createBlock as w, createCommentVNode as B, unref as r, normalizeClass as k, createElementVNode as $, toDisplayString as j, renderSlot as H, resolveComponent as he, ref as C, withCtx as S, watch as Se, Fragment as z, onMounted as L, normalizeProps as oe, mergeProps as ne, createTextVNode as ae, resolveDynamicComponent as U, inject as we, getCurrentInstance as Fe, renderList as J, provide as _e } from "vue";
+import { defineComponent as V, createElementBlock as k, openBlock as g, createVNode as _, createBlock as w, createCommentVNode as B, unref as r, normalizeClass as v, createElementVNode as $, toDisplayString as j, renderSlot as H, resolveComponent as he, ref as C, withCtx as S, watch as Se, Fragment as z, onMounted as L, normalizeProps as oe, mergeProps as ne, createTextVNode as ae, resolveDynamicComponent as U, inject as we, getCurrentInstance as Fe, renderList as J, provide as _e } from "vue";
 import { QBtn as I, QIcon as A, QInput as W, QPopupProxy as X, QDate as le, QTime as Ce, QCheckbox as De, QSelect as Z, QItem as se, QItemSection as ie, QItemLabel as ue, date as h, uid as Ve } from "quasar";
-const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__ */ V({
+const ke = { class: "flex row items-center no-wrap q-pt-sm" }, ve = /* @__PURE__ */ V({
   __name: "DefaultActionComponent",
   props: {
     isLoadingSubmit: { type: Boolean },
@@ -13,7 +13,7 @@ const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
   },
   setup(o) {
     const e = o;
-    return (t, n) => (g(), v("div", ve, [
+    return (t, n) => (g(), k("div", ke, [
       _(r(I), {
         label: "Enregistrer",
         loading: e.isLoadingSubmit,
@@ -40,8 +40,8 @@ const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
   },
   setup(o) {
     const e = o;
-    return (t, n) => (g(), v("div", {
-      class: k(["flex column", e.section.cssClass])
+    return (t, n) => (g(), k("div", {
+      class: v(["flex column", e.section.cssClass])
     }, [
       $("div", Te, [
         e.section.icon ? (g(), w(r(A), {
@@ -56,7 +56,7 @@ const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
       ])
     ], 2));
   }
-}), Ne = /* @__PURE__ */ V({
+}), Oe = /* @__PURE__ */ V({
   __name: "DefaultWrapperResetComponent",
   props: {
     reset: { type: Function }
@@ -97,7 +97,7 @@ const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
       fieldClass: "",
       fieldColor: "primary",
       fieldBgColor: "white"
-    }, this._actionComponent = ke, this._sectionComponent = qe, this._wrapperResetComponent = Ne, this._associationDisplayDictonary = {};
+    }, this._actionComponent = ve, this._sectionComponent = qe, this._wrapperResetComponent = Oe, this._associationDisplayDictonary = {};
   }
   static registerGlobalFormSetting(e) {
     this._instance._formSettings = {
@@ -144,7 +144,7 @@ const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
 };
 D(Y, "_instance", new Y());
 let x = Y;
-const Oe = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ V({
+const Ne = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ V({
   __name: "DateField",
   props: {
     wrapper: {}
@@ -172,7 +172,7 @@ const Oe = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ V({
       hideBottomSpace: r(a).fieldHideBottomSpace,
       color: r(a).fieldColor,
       bgColor: r(a).fieldBgColor,
-      class: k(e.wrapper.field.cssClass),
+      class: v(e.wrapper.field.cssClass),
       "lazy-rules": l,
       readonly: e.wrapper.field.readonly,
       clearable: e.wrapper.field.clearable,
@@ -204,7 +204,7 @@ const Oe = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ V({
                   mask: r(t).formSettings.dateFormat
                 }, {
                   default: S(() => [
-                    $("div", Oe, [
+                    $("div", Ne, [
                       _(r(I), {
                         onClick: s,
                         label: "Fermer",
@@ -257,7 +257,7 @@ const Oe = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ V({
       hideBottomSpace: r(a).fieldHideBottomSpace,
       color: r(a).fieldColor,
       bgColor: r(a).fieldBgColor,
-      class: k(e.wrapper.field.cssClass),
+      class: v(e.wrapper.field.cssClass),
       "lazy-rules": l,
       readonly: e.wrapper.field.readonly,
       clearable: e.wrapper.field.clearable,
@@ -372,7 +372,7 @@ const Oe = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ V({
     }
     return Se(() => e.wrapper.modelValue, () => {
       t.value = e.wrapper.validate();
-    }), (u, s) => (g(), v(z, null, [
+    }), (u, s) => (g(), k(z, null, [
       _(r(De), {
         modelValue: e.wrapper.modelValue,
         "onUpdate:modelValue": [
@@ -383,10 +383,10 @@ const Oe = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ V({
         dense: r(a).fieldDense,
         color: r(a).fieldColor,
         "aria-readonly": e.wrapper.field.readonly,
-        class: k(e.wrapper.field.cssClass)
+        class: v(e.wrapper.field.cssClass)
       }, null, 8, ["modelValue", "label", "dense", "color", "aria-readonly", "class"]),
-      e.wrapper.field.hint ? (g(), v("div", je, j(e.wrapper.field.hint), 1)) : B("", !0),
-      t.value !== !0 ? (g(), v("div", ze, j(t.value), 1)) : B("", !0)
+      e.wrapper.field.hint ? (g(), k("div", je, j(e.wrapper.field.hint), 1)) : B("", !0),
+      t.value !== !0 ? (g(), k("div", ze, j(t.value), 1)) : B("", !0)
     ], 64));
   }
 }), Le = /* @__PURE__ */ V({
@@ -441,7 +441,7 @@ const Oe = { class: "row items-center justify-end" }, $e = /* @__PURE__ */ V({
       hideBottomSpace: r(u).fieldHideBottomSpace,
       color: r(u).fieldColor,
       bgColor: r(u).fieldBgColor,
-      class: k(e.wrapper.field.cssClass),
+      class: v(e.wrapper.field.cssClass),
       "lazy-rules": s,
       clearable: e.wrapper.field.clearable,
       readonly: e.wrapper.field.readonly,
@@ -520,7 +520,7 @@ const He = /* @__PURE__ */ V({
       hideBottomSpace: r(l).fieldHideBottomSpace,
       color: r(l).fieldColor,
       bgColor: r(l).fieldBgColor,
-      class: k(e.wrapper.field.cssClass),
+      class: v(e.wrapper.field.cssClass),
       "lazy-rules": u,
       clearable: e.wrapper.field.clearable,
       readonly: e.wrapper.field.readonly,
@@ -615,7 +615,7 @@ const He = /* @__PURE__ */ V({
       hideBottomSpace: r(l).fieldHideBottomSpace,
       color: r(l).fieldColor,
       bgColor: r(l).fieldBgColor,
-      class: k(e.wrapper.field.cssClass),
+      class: v(e.wrapper.field.cssClass),
       "lazy-rules": u,
       clearable: e.wrapper.field.clearable,
       readonly: e.wrapper.field.readonly,
@@ -679,7 +679,7 @@ const He = /* @__PURE__ */ V({
       hideBottomSpace: r(a).fieldHideBottomSpace,
       color: r(a).fieldColor,
       bgColor: r(a).fieldBgColor,
-      class: k(e.wrapper.field.cssClass),
+      class: v(e.wrapper.field.cssClass),
       "lazy-rules": l,
       clearable: e.wrapper.field.clearable,
       readonly: e.wrapper.field.readonly,
@@ -715,7 +715,7 @@ const He = /* @__PURE__ */ V({
       hideBottomSpace: r(a).fieldHideBottomSpace,
       color: r(a).fieldColor,
       bgColor: r(a).fieldBgColor,
-      class: k(e.wrapper.field.cssClass),
+      class: v(e.wrapper.field.cssClass),
       "lazy-rules": l,
       clearable: e.wrapper.field.clearable,
       readonly: e.wrapper.field.readonly,
@@ -1189,19 +1189,19 @@ function Dt(o, e) {
   };
 }
 function te(o) {
-  return (e) => {
-    if (e == null || e === "")
-      return !0;
-    const t = h.extractDate(String(e), o), n = t instanceof Date && !isNaN(t.getTime());
-    return console.log(e), console.log(n), !isNaN(h.extractDate(String(e), o).getTime()) || "Date invalide";
-  };
+  return (e) => e == null || e === "" ? !0 : (console.log(Vt(e, o)), !isNaN(h.extractDate(String(e), o).getTime()) || "Date invalide");
 }
-const Vt = {
+function Vt(o, e) {
+  if (typeof o != "string" || !o.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(o)) return !1;
+  const t = h.extractDate(o, e);
+  return h.formatDate(t, e) === o;
+}
+const kt = {
   computeServerRules: Ye
 }, vt = {
   key: 0,
   class: "q-field__bottom text-negative q-pt-none"
-}, kt = ["index"], re = /* @__PURE__ */ V({
+}, Tt = ["index"], re = /* @__PURE__ */ V({
   __name: "FieldWrapper",
   props: {
     field: {}
@@ -1287,7 +1287,7 @@ const Vt = {
       }
     }
     function f() {
-      return Vt.computeServerRules(
+      return kt.computeServerRules(
         t.field.rules ?? [],
         t.field.type,
         n
@@ -1304,8 +1304,8 @@ const Vt = {
     }
     function R() {
       let p = !0;
-      return a.forEach((N) => {
-        const E = N(b());
+      return a.forEach((O) => {
+        const E = O(b());
         if (E !== !0) {
           p = E;
           return;
@@ -1319,30 +1319,30 @@ const Vt = {
       getValue: b,
       setupBackendErrors: q
     }), L(() => {
-      var N;
+      var O;
       s();
-      const p = (N = Fe()) == null ? void 0 : N.exposed;
+      const p = (O = Fe()) == null ? void 0 : O.exposed;
       p && n && n.registerRef(
         t.field.metadata.field_name,
         p
       );
-    }), (p, N) => (g(), v("div", null, [
+    }), (p, O) => (g(), k("div", null, [
       H(p.$slots, "default", {
         propsWrapper: { modelValue: l.value, modelValueOnUpdate: d, field: p.field, injectForm: r(n), rules: r(a), reset: s, clear: i, getValue: b, validate: R }
       }, () => [
         (g(), w(U(t.field.component), {
           wrapper: { modelValue: l.value, modelValueOnUpdate: d, field: p.field, injectForm: r(n), rules: r(a), reset: s, clear: i, getValue: b, validate: R }
         }, null, 8, ["wrapper"])),
-        u.value.length > 0 ? (g(), v("div", vt, [
-          (g(!0), v(z, null, J(u.value, (E, K) => (g(), v("div", {
+        u.value.length > 0 ? (g(), k("div", vt, [
+          (g(!0), k(z, null, J(u.value, (E, K) => (g(), k("div", {
             index: K,
             class: "flex column"
-          }, j(E), 9, kt))), 256))
+          }, j(E), 9, Tt))), 256))
         ])) : B("", !0)
       ])
     ]));
   }
-}), Tt = {
+}), xt = {
   key: 0,
   class: "flex column"
 }, Nt = /* @__PURE__ */ V({
@@ -1378,10 +1378,10 @@ const Vt = {
       ), t.resourceId && (i.value = "edit"), m.value = !0;
     }
     async function d() {
-      var O, P;
+      var N, P;
       if (!q())
         return;
-      c.value = !0, N();
+      c.value = !0, O();
       const y = b(), F = await t.getSubmitFormData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
@@ -1391,7 +1391,7 @@ const Vt = {
       F.success ? (i.value === "create" && (i.value = "edit"), n && F.resource_data && (n.resource_data = F.resource_data), R(), (P = t.onSubmitSuccess) == null || P.call(t)) : (Object.entries(u.value).forEach((T) => {
         const G = F.errors[T[0]];
         G && T[1].setupBackendErrors(G);
-      }), (O = t.onSubmitFail) == null || O.call(t)), c.value = !1;
+      }), (N = t.onSubmitFail) == null || N.call(t)), c.value = !1;
     }
     function b() {
       const y = {};
@@ -1418,7 +1418,7 @@ const Vt = {
         y.clear();
       });
     }
-    function N() {
+    function O() {
       Object.values(u.value).forEach((y) => {
         y.setupBackendErrors([]);
       });
@@ -1431,7 +1431,7 @@ const Vt = {
         return n.resource_data[y];
     }
     function de(y) {
-      const F = Object.entries(u.value).find((O) => O[0] === y);
+      const F = Object.entries(u.value).find((N) => N[0] === y);
       return F ? F[1].getValue() : null;
     }
     function pe() {
@@ -1464,16 +1464,16 @@ const Vt = {
       getAssociationDataCallback: fe
     }), e({}), L(async () => {
       ge(), await f();
-    }), (y, F) => m.value && s.value ? (g(), v("div", Tt, [
+    }), (y, F) => m.value && s.value ? (g(), k("div", xt, [
       $("div", {
-        class: k(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
+        class: v(s.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (g(!0), v(z, null, J(s.value.sections, (O, P) => (g(), w(U(r(a).sectionComponent), {
+        (g(!0), k(z, null, J(s.value.sections, (N, P) => (g(), w(U(r(a).sectionComponent), {
           key: P,
-          section: O
+          section: N
         }, {
           default: S(() => [
-            (g(!0), v(z, null, J(O.fields, (T) => (g(), v(z, {
+            (g(!0), k(z, null, J(N.fields, (T) => (g(), k(z, {
               key: T.metadata.field_name
             }, [
               y.$slots[T.metadata.field_name] ? (g(), w(re, {
