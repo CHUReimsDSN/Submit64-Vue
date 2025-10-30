@@ -207,4 +207,5 @@ export type TSelectOptionPagination = {
 export type TPropsWithClass = {
     class?: string;
 };
+export type TSubmit64ValidationRule = (val: unknown) => boolean | string;
 export {};

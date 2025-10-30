@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { TSubmit64FieldProps } from "../models";
+import { onMounted, ref, watch } from "vue";
+import type { TSubmit64FieldProps, TSubmit64ValidationRule } from "../models";
 import { QCheckbox } from "quasar";
 
 // props
@@ -14,23 +14,35 @@ const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
 const styleConfig = formFactory.formStyleConfig;
 
 // functions
-function updateModel(value: unknown) {
-  propsComponent.wrapper.modelValueOnUpdate(value);
-}
 function validate() {
-  return ruleResult.value === true
+  return ruleResult.value === true;
 }
+
+// watchs
+watch(
+  () => propsComponent.wrapper.modelValue,
+  (newValue) => {
+    (propsComponent.wrapper.rules as TSubmit64ValidationRule[]).forEach(
+      (rule) => {
+        ruleResult.value = rule(newValue);
+        if (ruleResult.value !== true) {
+          return;
+        }
+      }
+    );
+  }
+);
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.wrapper.registerValidationCallback(validate)
-})
+  propsComponent.wrapper.registerValidationCallback(validate);
+});
 </script>
 
 <template>
   <q-checkbox
     v-model="(propsComponent.wrapper.modelValue as string)"
-    v-on:update:model-value="(value: unknown) => updateModel(value)"
+    v-on:update:model-value="(value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)"
     :label="propsComponent.wrapper.field.label"
     :dense="styleConfig.fieldDense"
     :color="styleConfig.fieldColor"
@@ -40,5 +52,10 @@ onMounted(() => {
   <div v-if="propsComponent.wrapper.field.hint" class="q-field__bottom">
     {{ propsComponent.wrapper.field.hint }}
   </div>
-  <div v-if="ruleResult !== true" class="q-field--error q-field__bottom text-negative">{{ ruleResult }}</div>
+  <div
+    v-if="ruleResult !== true"
+    class="q-field--error q-field__bottom text-negative"
+  >
+    {{ ruleResult }}
+  </div>
 </template>

@@ -6,9 +6,8 @@ import type {
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
 } from "../models";
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import { getSubmit64AssociationDataDefaultLimit } from "../utils";
-import { nextTick } from "process";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -54,16 +53,16 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   });
 }
 function setupDefaultSelectValue() {
-  // void nextTick(() => {
-  //   selectOptionsFiltered.value = [
-  //     {
-  //       label:
-  //         propsComponent.wrapper.field.defaultDisplayValue ??
-  //         String(propsComponent.wrapper.getValueSerialized()),
-  //       value: propsComponent.wrapper.getValueSerialized(),
-  //     },
-  //   ];
-  // });
+  void nextTick(() => {
+    selectOptionsFiltered.value = [
+      {
+        label:
+          propsComponent.wrapper.field.defaultDisplayValue ??
+          String(propsComponent.wrapper.getValueSerialized()),
+        value: propsComponent.wrapper.getValueSerialized(),
+      },
+    ];
+  });
 }
 function validate() {
   if (!fieldRef.value) {
