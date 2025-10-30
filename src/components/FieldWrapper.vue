@@ -34,14 +34,17 @@ function reset() {
 function formModelDeserializeByType(value: T) {
   switch (propsComponent.field.type) {
     case "date":
+      if (value === null || value === undefined) {
+        return value;
+      }
       return date.formatDate(
-        date.extractDate(
-          String(value),
-          injectForm.getForm().backendDateFormat
-        ),
+        date.extractDate(String(value), injectForm.getForm().backendDateFormat),
         injectForm.getFormFactoryInstance().formSettings.dateFormat
       ) as T;
     case "datetime":
+      if (value === null || value === undefined) {
+        return value;
+      }
       return date.formatDate(
         date.extractDate(
           String(value),
