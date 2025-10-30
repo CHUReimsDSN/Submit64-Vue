@@ -1262,7 +1262,7 @@ const Dt = {
           l.value = "";
           break;
         case "number":
-          l.value = 0;
+          l.value = null;
           break;
         case "selectString":
           l.value = null;

@@ -91,7 +91,7 @@ function clear() {
       modelValue.value = "" as T;
       break;
     case "number":
-      modelValue.value = 0 as T;
+      modelValue.value = null as T;
       break;
     case "selectString":
       modelValue.value = null as T;
