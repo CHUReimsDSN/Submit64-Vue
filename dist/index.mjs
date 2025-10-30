@@ -1341,7 +1341,7 @@ const Vt = {
       i.value = m;
     }
     function b() {
-      return a(i);
+      return i;
     }
     function B() {
       return c(a(i));
