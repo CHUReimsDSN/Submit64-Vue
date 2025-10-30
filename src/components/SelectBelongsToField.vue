@@ -8,6 +8,7 @@ import type {
 } from "../models";
 import { onMounted, ref } from "vue";
 import { getSubmit64AssociationDataDefaultLimit } from "../utils";
+import { nextTick } from "process";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -26,7 +27,7 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
   limit: getSubmit64AssociationDataDefaultLimit(),
   offset: 0,
 });
-const fieldRef = ref<InstanceType<typeof QSelect>>()
+const fieldRef = ref<InstanceType<typeof QSelect>>();
 
 // functions
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
@@ -53,29 +54,28 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   });
 }
 function setupDefaultSelectValue() {
-  // TODO try with void nexttick
-  setTimeout(() => {
-    selectOptionsFiltered.value = [
-      {
-        label:
-          propsComponent.wrapper.field.defaultDisplayValue ??
-          String(propsComponent.wrapper.getValueSerialized()),
-        value: propsComponent.wrapper.getValueSerialized(),
-      },
-    ];
-  }, 0);
+  // void nextTick(() => {
+  //   selectOptionsFiltered.value = [
+  //     {
+  //       label:
+  //         propsComponent.wrapper.field.defaultDisplayValue ??
+  //         String(propsComponent.wrapper.getValueSerialized()),
+  //       value: propsComponent.wrapper.getValueSerialized(),
+  //     },
+  //   ];
+  // });
 }
 function validate() {
   if (!fieldRef.value) {
-    return false
+    return false;
   }
-  return fieldRef.value.validate() as boolean
+  return fieldRef.value.validate() as boolean;
 }
 
 // lifeCycle
 onMounted(() => {
   setupDefaultSelectValue();
-  propsComponent.wrapper.registerValidationCallback(validate)
+  propsComponent.wrapper.registerValidationCallback(validate);
 });
 </script>
 
