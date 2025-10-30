@@ -117,7 +117,7 @@ export type TSubmit64FieldWrapper = ComponentPublicInstance & {
     getValueDeserialized: () => unknown;
     reset: () => void;
     clear: () => void;
-    validate: () => boolean | string;
+    validate: () => boolean;
     setupBackendErrors: (errors: string[]) => void;
 };
 export type TSubmit64FieldProps = {

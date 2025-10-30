@@ -15,7 +15,7 @@ const lazyRules = formSetting.rulesBehaviour === "lazy";
 // refs
 const datePopupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
 const timePopupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
-  const fieldRef = ref<InstanceType<typeof QInput>>()
+const fieldRef = ref<InstanceType<typeof QInput>>();
 
 // functions
 function closePopUpDate() {
@@ -32,19 +32,20 @@ function closePopUpTime() {
 }
 function validate() {
   if (!fieldRef.value) {
-    return false
+    return false;
   }
-  return fieldRef.value.validate() as boolean
+  return fieldRef.value.validate() as boolean;
 }
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.wrapper.registerValidationCallback(validate)
-})
+  propsComponent.wrapper.registerValidationCallback(validate);
+});
 </script>
 
 <template>
   <q-input
+    ref="fieldRef"
     v-model="(propsComponent.wrapper.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)

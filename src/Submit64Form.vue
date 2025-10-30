@@ -100,8 +100,7 @@ function getValuesFormDeserialized(): Record<string, unknown> {
 function validateForm() {
   let formValid = true;
   fieldRefs.value.forEach((fieldRef) => {
-    if (fieldRef.validate() !== true) {
-      console.log(fieldRef)
+    if (!fieldRef.validate()) {
       formValid = false;
       return;
     }
