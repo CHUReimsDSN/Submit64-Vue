@@ -367,17 +367,14 @@ function validDate(format) {
     };
 }
 function isStrictDate(val, format) {
-    // on bloque les trucs vides ou non-string
     if (typeof val !== 'string' || !val.trim())
         return false;
-    // regex simple basée sur ton format attendu
-    // ex: 'YYYY-MM-DD' → '2025-10-30'
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(val))
-        return false;
-    // on parse
     const d = date.extractDate(val, format);
-    // on vérifie que la date reformatée redonne exactement la même chaîne
-    return date.formatDate(d, format) === val;
+    if (!(d instanceof Date) || isNaN(d.getTime()))
+        return false;
+    // reformatte selon le format fourni et compare à l'original
+    const reformatted = date.formatDate(d, format);
+    return reformatted === val;
 }
 export const Submit64Rules = {
     computeServerRules,
