@@ -2,7 +2,7 @@
 import { getCurrentInstance, inject, onMounted, ref, unref } from "vue";
 import type {
   TFormFieldDef,
-  TSubmit64Field,
+  TSubmit64FieldWrapper,
   TSubmit64FieldWrapperPropsSlot,
 } from "../models";
 import { Submit64Rules } from "../rules";
@@ -12,6 +12,11 @@ import { date } from "quasar";
 const propsComponent = defineProps<{
   field: TFormFieldDef;
 }>();
+
+// var
+var validationCallback: () => boolean = () => {
+  return true;
+};
 
 // consts
 const injectForm = inject(propsComponent.field.provideUniqKey)!;
@@ -29,9 +34,9 @@ function reset() {
   modelValue.value = injectForm.getDefaultDataByFieldName(
     propsComponent.field.metadata.field_name
   ) as T;
-  modelValue.value = formModelDeserializeByType(modelValue.value);
+  modelValue.value = formModelSerializeByType(modelValue.value);
 }
-function formModelDeserializeByType(value: T) {
+function formModelSerializeByType(value: T) {
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined) {
@@ -55,7 +60,7 @@ function formModelDeserializeByType(value: T) {
   }
   return value;
 }
-function formModelSerializeByType(value: T) {
+function formModelDeserializeByType(value: T) {
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined || value === "") {
@@ -91,10 +96,10 @@ function clear() {
       modelValue.value = false as T;
       break;
     case "date":
-      modelValue.value = "" as T;
+      modelValue.value = null as T;
       break;
     case "datetime":
-      modelValue.value = "" as T;
+      modelValue.value = null as T;
       break;
     case "number":
       modelValue.value = null as T;
@@ -126,22 +131,20 @@ function getComputedRules() {
 function modelValueOnUpdate(value: unknown) {
   modelValue.value = value as T;
 }
-function getValue() {
-  return formModelSerializeByType(unref(modelValue) as T);
+function getValueSerialized() {
+  return unref(modelValue);
+}
+function getValueDeserialized() {
+  return formModelDeserializeByType(unref(modelValue) as T);
 }
 function setupBackendErrors(errorsArg: string[]) {
   backendErrors.value = errorsArg;
 }
 function validate(): boolean | string {
-  let isValid: boolean | string = true;
-  rules.forEach((rule) => {
-    const resultRule = rule(getValue());
-    if (resultRule !== true) {
-      isValid = resultRule;
-      return;
-    }
-  });
-  return isValid;
+  return validationCallback();
+}
+function registerValidationCallback(validationCallbackArg: () => boolean) {
+  validationCallback = validationCallbackArg;
 }
 
 // exposes
@@ -149,9 +152,24 @@ defineExpose({
   reset,
   clear,
   validate,
-  getValue,
+  getValueDeserialized,
+  getValueSerialized,
   setupBackendErrors,
 });
+
+const propsWrapper = {
+  modelValue,
+  modelValueOnUpdate,
+  field: propsComponent.field,
+  injectForm,
+  rules,
+  reset,
+  clear,
+  getValueDeserialized,
+  getValueSerialized,
+  validate,
+  registerValidationCallback,
+} as TSubmit64FieldWrapperPropsSlot;
 
 // lifeCycle
 onMounted(() => {
@@ -160,7 +178,7 @@ onMounted(() => {
   if (proxyInstanceRef && injectForm) {
     injectForm.registerRef(
       propsComponent.field.metadata.field_name,
-      proxyInstanceRef as TSubmit64Field
+      proxyInstanceRef as TSubmit64FieldWrapper
     );
   }
 });
@@ -168,12 +186,10 @@ onMounted(() => {
 
 <template>
   <div>
-    <slot
-      :propsWrapper="({ modelValue, modelValueOnUpdate, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
-    >
+    <slot :propsWrapper="propsWrapper">
       <Component
         :is="propsComponent.field.component"
-        :wrapper="({ modelValue, modelValueOnUpdate, field, injectForm, rules, reset, clear, getValue, validate } as TSubmit64FieldWrapperPropsSlot)"
+        :wrapper="propsWrapper"
       />
       <div
         v-if="backendErrors.length > 0"

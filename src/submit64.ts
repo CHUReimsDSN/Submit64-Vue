@@ -1,17 +1,19 @@
 import { Component } from "vue";
-import { TFormStyleConfig, TFormSettings } from "./models";
+import { TFormStyle, TFormSettings } from "./models";
 import DefaultActionComponent from "./components/DefaultActionComponent.vue";
 import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
 import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
+import DefaultAssociationDisplayComponent from "./components/DefaultAssociationDisplayComponent.vue";
 
 export class Submit64 {
   private static _instance: Submit64 = new Submit64();
   private _formSettings: TFormSettings;
-  private _formStyleConfig: TFormStyleConfig;
+  private _formStyle: TFormStyle;
   private _actionComponent: Component;
   private _sectionComponent: Component;
   private _wrapperResetComponent: Component;
-  private _associationDisplayDictonary: Record<string, Component>;
+  private _associationDisplayComponent: Component;
+  private _associationDisplayDictonary: Map<string, Component>;
 
   private constructor() {
     this._formSettings = {
@@ -20,7 +22,7 @@ export class Submit64 {
       datetimeFormat: "DD/MM/YYYY:HHmm",
       renderBackendHint: true,
     };
-    this._formStyleConfig = {
+    this._formStyle = {
       fieldOutlined: true,
       fieldDense: true,
       fieldHideBottomSpace: true,
@@ -36,7 +38,8 @@ export class Submit64 {
     this._actionComponent = DefaultActionComponent;
     this._sectionComponent = DefaultSectionComponent;
     this._wrapperResetComponent = DefaultWrapperResetComponent;
-    this._associationDisplayDictonary = {};
+    this._associationDisplayComponent = DefaultAssociationDisplayComponent;
+    this._associationDisplayDictonary = new Map();
   }
 
   static registerGlobalFormSetting(formSetting: Partial<TFormSettings>) {
@@ -46,9 +49,9 @@ export class Submit64 {
     };
   }
 
-  static registerGlobalFormStyleSetting(formStyle: Partial<TFormStyleConfig>) {
-    this._instance._formStyleConfig = {
-      ...this._instance._formStyleConfig,
+  static registerGlobalFormStyle(formStyle: Partial<TFormStyle>) {
+    this._instance._formStyle = {
+      ...this._instance._formStyle,
       ...formStyle,
     };
   }
@@ -65,8 +68,14 @@ export class Submit64 {
     this._instance._wrapperResetComponent = wrapperResetComponent;
   }
 
-  static registerGlobalAssociationDisplayDictonary(
-    dictionary: Record<string, Component>
+  static registerGlobalAssociationDisplayComponent(
+    displayComponent: Component
+  ) {
+    this._instance._associationDisplayComponent = displayComponent;
+  }
+
+  static registerGlobalAssociationDisplayMap(
+    dictionary: Map<string, Component>
   ) {
     this._instance._associationDisplayDictonary = dictionary;
   }
@@ -75,8 +84,8 @@ export class Submit64 {
     return this._instance._formSettings;
   }
 
-  static getGlobalFormStyleConfig() {
-    return this._instance._formStyleConfig;
+  static getGlobalFormStyle() {
+    return this._instance._formStyle;
   }
 
   static getGlobalActionComponent() {
@@ -91,7 +100,15 @@ export class Submit64 {
     return this._instance._wrapperResetComponent;
   }
 
-  static getGlobalAssociationDisplayDictonary() {
+  static getGlobalAssociationDisplayComponent() {
+    return this._instance._associationDisplayComponent;
+  }
+  
+  static getGlobalAssociationDisplayMap() {
     return this._instance._associationDisplayDictonary;
+  }
+
+  static getGlobalAssociationDisplayByResourceName(resourceName: string) {
+    return this._instance._associationDisplayDictonary.get(resourceName);
   }
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
 import { TSubmit64FieldProps } from "../models";
 import { QInput } from "quasar";
 
@@ -10,6 +11,22 @@ const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyleConfig;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
+
+// refs
+const fieldRef = ref<InstanceType<typeof QInput>>()
+
+// functions
+function validate() {
+  if (!fieldRef.value) {
+    return false
+  }
+  return fieldRef.value.validate() as boolean
+}
+
+// lifeCycle
+onMounted(() => {
+  propsComponent.wrapper.registerValidationCallback(validate)
+})
 </script>
 
 <template>

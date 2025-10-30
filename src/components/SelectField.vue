@@ -13,6 +13,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // refs
 const selectOptions = ref<Readonly<TSubmit64AssociationRowEntry[]>>([]);
 const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
+const fieldRef = ref<InstanceType<typeof QSelect>>()
 
 // consts
 const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
@@ -40,15 +41,23 @@ function setupSelectOptions(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
   selectOptions.value = Object.freeze(propsWrapper.field.selectOptions ?? []);
   selectOptionsFiltered.value = propsWrapper.field.selectOptions ?? [];
 }
+function validate() {
+  if (!fieldRef.value) {
+    return false
+  }
+  return fieldRef.value.validate() as boolean
+}
 
 // lifeCycle
 onMounted(() => {
   setupSelectOptions(propsComponent.wrapper);
+  propsComponent.wrapper.registerValidationCallback(validate)
 });
 </script>
 
 <template>
   <q-select
+    ref="fieldRef"
     v-model="(propsComponent.wrapper.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)

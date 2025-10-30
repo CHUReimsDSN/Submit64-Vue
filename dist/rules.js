@@ -363,12 +363,10 @@ function validDate(format) {
 }
 function isStrictDate(val, format) {
     if (typeof val !== "string" || !val.trim()) {
-        console.log('aya 1');
         return false;
     }
     const extractedDate = date.extractDate(val, format);
     if (!(extractedDate instanceof Date) || isNaN(extractedDate.getTime())) {
-        console.log('aya 2');
         return false;
     }
     const reformatted = date.formatDate(extractedDate, format);

@@ -3,7 +3,7 @@ import { onMounted, provide, ref } from "vue";
 import {
   type TFormDef,
   type TSubmit64Expose,
-  type TSubmit64Field,
+  type TSubmit64FieldWrapper,
   type TSubmit64FormProps,
   TResourceFormMetadataAndData,
   TSubmit64AssociationData,
@@ -19,12 +19,20 @@ const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
 // consts
 let formMetadataAndData: TResourceFormMetadataAndData | null = null;
 const formFactoryInstance = Object.freeze(
-  new FormFactory(propsComponent.resourceName, propsComponent.formSettings)
+  new FormFactory(
+    propsComponent.resourceName,
+    propsComponent.formSettings,
+    propsComponent.formStyle,
+    propsComponent.actionComponent,
+    propsComponent.sectionComponent,
+    propsComponent.wrapperResetComponent,
+    propsComponent.associationDisplayDictionary
+  )
 );
 const providingUniqKey = getSubmit64FormProviderSymbol(uid());
 
 // refs
-const fieldRefs = ref<Record<string, TSubmit64Field>>({});
+const fieldRefs = ref<Map<string, TSubmit64FieldWrapper>>(new Map());
 const generatedForm = ref<TFormDef>();
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
@@ -55,7 +63,7 @@ async function submitForm(): Promise<void> {
   }
   isLoadingSubmit.value = true;
   clearBackendErrors();
-  const resourceData = getValuesForm();
+  const resourceData = getValuesFormDeserialized();
   const newData = await propsComponent.getSubmitFormData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
@@ -63,7 +71,7 @@ async function submitForm(): Promise<void> {
     context: propsComponent.context,
   });
   if (!newData.success) {
-    Object.entries(fieldRefs.value).forEach((entry) => {
+    [...fieldRefs.value].forEach((entry) => {
       const entryBackendErrors = newData.errors[entry[0]];
       if (entryBackendErrors) {
         entry[1].setupBackendErrors(entryBackendErrors);
@@ -82,16 +90,16 @@ async function submitForm(): Promise<void> {
   }
   isLoadingSubmit.value = false;
 }
-function getValuesForm(): Record<string, unknown> {
+function getValuesFormDeserialized(): Record<string, unknown> {
   const resourceData: Record<string, unknown> = {};
-  Object.entries(fieldRefs.value).forEach((entry) => {
-    resourceData[entry[0]] = entry[1].getValue();
+  [...fieldRefs.value].forEach((entry) => {
+    resourceData[entry[0]] = entry[1].getValueDeserialized();
   });
   return resourceData;
 }
 function validateForm() {
   let formValid = true;
-  Object.values(fieldRefs.value).forEach((fieldRef) => {
+  fieldRefs.value.forEach((fieldRef) => {
     if (fieldRef.validate() !== true) {
       formValid = false;
       return;
@@ -100,22 +108,22 @@ function validateForm() {
   return formValid;
 }
 function resetForm() {
-  Object.values(fieldRefs.value).forEach((fieldRef) => {
+  fieldRefs.value.forEach((fieldRef) => {
     fieldRef.reset();
   });
 }
 function clearForm() {
-  Object.values(fieldRefs.value).forEach((fieldRef) => {
+  fieldRefs.value.forEach((fieldRef) => {
     fieldRef.clear();
   });
 }
 function clearBackendErrors() {
-  Object.values(fieldRefs.value).forEach((fieldRef) => {
-    fieldRef.setupBackendErrors([])
-  })
+  fieldRefs.value.forEach((fieldRef) => {
+    fieldRef.setupBackendErrors([]);
+  });
 }
-function registerRef(resourceDataKey: string, fieldComponent: TSubmit64Field) {
-  fieldRefs.value[resourceDataKey] = fieldComponent;
+function registerRef(resourceDataKey: string, fieldComponent: TSubmit64FieldWrapper) {
+  fieldRefs.value.set(resourceDataKey, fieldComponent);
 }
 function getDefaultDataByFieldName(fieldName: string) {
   if (!formMetadataAndData) {
@@ -124,7 +132,7 @@ function getDefaultDataByFieldName(fieldName: string) {
   return formMetadataAndData.resource_data[fieldName];
 }
 function getFieldDataByFieldName(fieldName: string) {
-  const fieldRef = Object.entries(fieldRefs.value).find((entry) => {
+  const fieldRef = [...fieldRefs.value].find((entry) => {
     return entry[0] === fieldName;
   });
   if (!fieldRef) {

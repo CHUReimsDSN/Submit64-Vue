@@ -2,7 +2,7 @@ import type { Component, InjectionKey } from "vue";
 import type {
   TFormDef,
   TFormFieldDef,
-  TFormStyleConfig,
+  TFormStyle,
   TFormSettings,
   TFormSection,
   TResourceFormMetadataAndData,
@@ -41,20 +41,20 @@ export class FormFactory {
 
   resourceName: string;
   formSettings: TFormSettings;
-  formStyleConfig: TFormStyleConfig;
+  formStyleConfig: TFormStyle;
   actionComponent: Component;
   sectionComponent: Component;
   wrapperResetComponent: Component;
-  associationDisplayDictionary: Record<string, Component>;
+  associationDisplayComponent: Component;
 
   constructor(
     resourceName: string,
     formSettings?: Partial<TFormSettings>,
-    formStyleConfig?: Partial<TFormStyleConfig>,
+    formStyleConfig?: Partial<TFormStyle>,
     actionComponent?: Component,
     sectionComponent?: Component,
     wrapperResetComponent?: Component,
-    associationDisplayDictionary?: Record<string, Component>
+    associationDisplayComponent?: Component
   ) {
     this.resourceName = resourceName;
     this.formSettings = {
@@ -62,7 +62,7 @@ export class FormFactory {
       ...formSettings,
     };
     this.formStyleConfig = {
-      ...Submit64.getGlobalFormStyleConfig(),
+      ...Submit64.getGlobalFormStyle(),
       ...formStyleConfig,
     };
     this.actionComponent =
@@ -71,9 +71,10 @@ export class FormFactory {
       sectionComponent ?? Submit64.getGlobalSectionComponent();
     this.wrapperResetComponent =
       wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
-    this.associationDisplayDictionary =
-      associationDisplayDictionary ??
-      Submit64.getGlobalAssociationDisplayDictonary();
+    this.associationDisplayComponent =
+      associationDisplayComponent ??
+      Submit64.getGlobalAssociationDisplayByResourceName(resourceName) ??
+      Submit64.getGlobalAssociationDisplayComponent();
   }
 
   getForm(
@@ -89,10 +90,7 @@ export class FormFactory {
           columnMetadata.field_type
         );
         const componentOptions = {
-          associationDisplayComponent:
-            this.getAssociationDisplayComponentByResourceName(
-              formMetadataAndData.form.resource_name
-            ),
+          associationDisplayComponent: this.associationDisplayComponent,
           regularFieldType: this.getRegularFieldTypeByFieldType(
             columnMetadata.field_type
           ),
@@ -134,10 +132,6 @@ export class FormFactory {
       context,
     };
     return form;
-  }
-
-  private getAssociationDisplayComponentByResourceName(resourceName: string) {
-    return this.associationDisplayDictionary[resourceName];
   }
 
   private getRegularFieldTypeByFieldType(

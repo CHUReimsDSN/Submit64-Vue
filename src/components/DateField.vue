@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TSubmit64FieldProps } from "../models";
 import { QInput, QIcon, QPopupProxy, QDate, QBtn } from "quasar";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -14,6 +14,7 @@ const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs
 const popupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
+const fieldRef = ref<InstanceType<typeof QInput>>()
 
 // functions
 function closePopUp() {
@@ -22,6 +23,17 @@ function closePopUp() {
   }
   popupProxyRef.value.hide();
 }
+function validate() {
+  if (!fieldRef.value) {
+    return false
+  }
+  return fieldRef.value.validate() as boolean
+}
+
+// lifeCycle
+onMounted(() => {
+  propsComponent.wrapper.registerValidationCallback(validate)
+})
 </script>
 
 <template>

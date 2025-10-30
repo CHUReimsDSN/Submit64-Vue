@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { QSelect, QItemLabel, QItem, QItemSection } from "quasar";
-import {
+import { QSelect } from "quasar";
+import type {
   TSelectOptionPagination,
+  TSubmit64AssociationDisplayPropsSlot,
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
 } from "../models";
@@ -25,6 +26,7 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
   limit: getSubmit64AssociationDataDefaultLimit(),
   offset: 0,
 });
+const fieldRef = ref<InstanceType<typeof QSelect>>()
 
 // functions
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
@@ -51,26 +53,35 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   });
 }
 function setupDefaultSelectValue() {
+  // TODO try with void nexttick
   setTimeout(() => {
     selectOptionsFiltered.value = [
       {
         label:
           propsComponent.wrapper.field.defaultDisplayValue ??
-          String(propsComponent.wrapper.getValue()),
-        value: propsComponent.wrapper.getValue(),
+          String(propsComponent.wrapper.getValueSerialized()),
+        value: propsComponent.wrapper.getValueSerialized(),
       },
     ];
   }, 0);
+}
+function validate() {
+  if (!fieldRef.value) {
+    return false
+  }
+  return fieldRef.value.validate() as boolean
 }
 
 // lifeCycle
 onMounted(() => {
   setupDefaultSelectValue();
+  propsComponent.wrapper.registerValidationCallback(validate)
 });
 </script>
 
 <template>
   <q-select
+    ref="fieldRef"
     v-model="(propsComponent.wrapper.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
@@ -100,17 +111,8 @@ onMounted(() => {
     @clear="propsComponent.wrapper.clear"
     @filter="onFilter"
   >
-    <template v-slot:options="scope">
-      <template v-if="displayComponent">
-        <q-item v-bind="scope.itemProps">
-          <q-item-section>
-            <q-item-label>{{ scope.opt.label }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </template>
-      <template v-else>
-        <component :is="displayComponent" :scope="scope" />
-      </template>
+    <template v-slot:options="scope: TSubmit64AssociationDisplayPropsSlot">
+      <component :is="displayComponent" :scope="scope" />
     </template>
   </q-select>
 </template>

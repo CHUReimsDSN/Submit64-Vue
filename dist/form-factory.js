@@ -29,15 +29,15 @@ export class FormFactory {
     actionComponent;
     sectionComponent;
     wrapperResetComponent;
-    associationDisplayDictionary;
-    constructor(resourceName, formSettings, formStyleConfig, actionComponent, sectionComponent, wrapperResetComponent, associationDisplayDictionary) {
+    associationDisplayComponent;
+    constructor(resourceName, formSettings, formStyleConfig, actionComponent, sectionComponent, wrapperResetComponent, associationDisplayComponent) {
         this.resourceName = resourceName;
         this.formSettings = {
             ...Submit64.getGlobalFormSetting(),
             ...formSettings,
         };
         this.formStyleConfig = {
-            ...Submit64.getGlobalFormStyleConfig(),
+            ...Submit64.getGlobalFormStyle(),
             ...formStyleConfig,
         };
         this.actionComponent =
@@ -46,9 +46,10 @@ export class FormFactory {
             sectionComponent ?? Submit64.getGlobalSectionComponent();
         this.wrapperResetComponent =
             wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
-        this.associationDisplayDictionary =
-            associationDisplayDictionary ??
-                Submit64.getGlobalAssociationDisplayDictonary();
+        this.associationDisplayComponent =
+            associationDisplayComponent ??
+                Submit64.getGlobalAssociationDisplayByResourceName(resourceName) ??
+                Submit64.getGlobalAssociationDisplayComponent();
     }
     getForm(formMetadataAndData, providingUniqKey, context) {
         const sections = [];
@@ -57,7 +58,7 @@ export class FormFactory {
             sectionMetadata.fields.forEach((columnMetadata) => {
                 const component = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
                 const componentOptions = {
-                    associationDisplayComponent: this.getAssociationDisplayComponentByResourceName(formMetadataAndData.form.resource_name),
+                    associationDisplayComponent: this.associationDisplayComponent,
                     regularFieldType: this.getRegularFieldTypeByFieldType(columnMetadata.field_type),
                 };
                 const field = {
@@ -96,9 +97,6 @@ export class FormFactory {
             context,
         };
         return form;
-    }
-    getAssociationDisplayComponentByResourceName(resourceName) {
-        return this.associationDisplayDictionary[resourceName];
     }
     getRegularFieldTypeByFieldType(fieldType) {
         const mapping = {

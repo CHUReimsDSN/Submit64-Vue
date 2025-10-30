@@ -56,8 +56,8 @@ function setupDefaultSelectValue() {
       {
         label:
           propsComponent.wrapper.field.defaultDisplayValue ??
-          String(propsComponent.wrapper.getValue()),
-        value: propsComponent.wrapper.getValue(),
+          String(propsComponent.wrapper.getValueSerialized()),
+        value: propsComponent.wrapper.getValueSerialized(),
       },
     ];
   }, 0);
@@ -65,6 +65,7 @@ function setupDefaultSelectValue() {
 
 // lifeCycle
 onMounted(() => {
+  // TODO validate
   setupDefaultSelectValue();
 });
 </script>

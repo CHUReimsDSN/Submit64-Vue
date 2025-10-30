@@ -1,13 +1,15 @@
 import DefaultActionComponent from "./components/DefaultActionComponent.vue";
 import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
 import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
+import DefaultAssociationDisplayComponent from "./components/DefaultAssociationDisplayComponent.vue";
 export class Submit64 {
     static _instance = new Submit64();
     _formSettings;
-    _formStyleConfig;
+    _formStyle;
     _actionComponent;
     _sectionComponent;
     _wrapperResetComponent;
+    _associationDisplayComponent;
     _associationDisplayDictonary;
     constructor() {
         this._formSettings = {
@@ -16,7 +18,7 @@ export class Submit64 {
             datetimeFormat: "DD/MM/YYYY:HHmm",
             renderBackendHint: true,
         };
-        this._formStyleConfig = {
+        this._formStyle = {
             fieldOutlined: true,
             fieldDense: true,
             fieldHideBottomSpace: true,
@@ -32,7 +34,8 @@ export class Submit64 {
         this._actionComponent = DefaultActionComponent;
         this._sectionComponent = DefaultSectionComponent;
         this._wrapperResetComponent = DefaultWrapperResetComponent;
-        this._associationDisplayDictonary = {};
+        this._associationDisplayComponent = DefaultAssociationDisplayComponent;
+        this._associationDisplayDictonary = new Map();
     }
     static registerGlobalFormSetting(formSetting) {
         this._instance._formSettings = {
@@ -40,9 +43,9 @@ export class Submit64 {
             ...formSetting,
         };
     }
-    static registerGlobalFormStyleSetting(formStyle) {
-        this._instance._formStyleConfig = {
-            ...this._instance._formStyleConfig,
+    static registerGlobalFormStyle(formStyle) {
+        this._instance._formStyle = {
+            ...this._instance._formStyle,
             ...formStyle,
         };
     }
@@ -55,14 +58,17 @@ export class Submit64 {
     static registerGlobalWrapperResetComponent(wrapperResetComponent) {
         this._instance._wrapperResetComponent = wrapperResetComponent;
     }
-    static registerGlobalAssociationDisplayDictonary(dictionary) {
+    static registerGlobalAssociationDisplayComponent(displayComponent) {
+        this._instance._associationDisplayComponent = displayComponent;
+    }
+    static registerGlobalAssociationDisplayMap(dictionary) {
         this._instance._associationDisplayDictonary = dictionary;
     }
     static getGlobalFormSetting() {
         return this._instance._formSettings;
     }
-    static getGlobalFormStyleConfig() {
-        return this._instance._formStyleConfig;
+    static getGlobalFormStyle() {
+        return this._instance._formStyle;
     }
     static getGlobalActionComponent() {
         return this._instance._actionComponent;
@@ -73,7 +79,13 @@ export class Submit64 {
     static getGlobalWrapperResetComponent() {
         return this._instance._wrapperResetComponent;
     }
-    static getGlobalAssociationDisplayDictonary() {
+    static getGlobalAssociationDisplayComponent() {
+        return this._instance._associationDisplayComponent;
+    }
+    static getGlobalAssociationDisplayMap() {
         return this._instance._associationDisplayDictonary;
+    }
+    static getGlobalAssociationDisplayByResourceName(resourceName) {
+        return this._instance._associationDisplayDictonary.get(resourceName);
     }
 }
