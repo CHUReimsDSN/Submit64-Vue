@@ -572,8 +572,13 @@ function otherThanDate(otherThan: () => string, format: string) {
 }
 function validDate(format: string) {
   return (val: unknown) =>
-    !Number.isNaN(date.extractDate(String(val), format).getTime()) ||
+  {
+    console.log(val)
+    console.log(date.extractDate(String(val), format))
+    console.log(date.extractDate(String(val), format).getTime())
+    return !Number.isNaN(date.extractDate(String(val), format).getTime()) ||
     "Date invalide";
+  }
 }
 
 export const Submit64Rules = {
