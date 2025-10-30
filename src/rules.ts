@@ -510,8 +510,7 @@ function lessThanOrEqualDate(lessThan: () => string, format: string) {
     const valExtracted = date.extractDate(String(val), format);
     const lessThanExtracted = date.extractDate(lessThanValue, format);
     return (
-      (!Number.isNaN(valExtracted.getTime()) &&
-        valExtracted <= lessThanExtracted) ||
+      (!isNaN(valExtracted.getTime()) && valExtracted <= lessThanExtracted) ||
       `Inf. ou égal à ${lessThanValue}`
     );
   };
@@ -522,8 +521,7 @@ function lessThanDate(lessThan: () => string, format: string) {
     const valExtracted = date.extractDate(String(val), format);
     const lessThanExtracted = date.extractDate(lessThanValue, format);
     return (
-      (!Number.isNaN(valExtracted.getTime()) &&
-        valExtracted < lessThanExtracted) ||
+      (!isNaN(valExtracted.getTime()) && valExtracted < lessThanExtracted) ||
       `Inf. à ${lessThanValue}`
     );
   };
@@ -534,7 +532,7 @@ function greaterThanOrEqualDate(greaterThan: () => string, format: string) {
     const valExtracted = date.extractDate(String(val), format);
     const greaterThanExtracted = date.extractDate(greaterThanValue, format);
     return (
-      (!Number.isNaN(valExtracted.getTime()) &&
+      (!isNaN(valExtracted.getTime()) &&
         valExtracted >= greaterThanExtracted) ||
       `Sup. ou égal à ${greaterThanValue}`
     );
@@ -546,8 +544,7 @@ function greaterThanDate(greaterThan: () => string, format: string) {
     const valExtracted = date.extractDate(String(val), format);
     const greaterThanExtracted = date.extractDate(greaterThanValue, format);
     return (
-      (!Number.isNaN(valExtracted.getTime()) &&
-        valExtracted > greaterThanExtracted) ||
+      (!isNaN(valExtracted.getTime()) && valExtracted > greaterThanExtracted) ||
       `Sup. à ${greaterThanValue}`
     );
   };
@@ -571,14 +568,18 @@ function otherThanDate(otherThan: () => string, format: string) {
   };
 }
 function validDate(format: string) {
-  return (val: unknown) =>
-  {
-    console.log(val)
-    console.log(date.extractDate(String(val), format))
-    console.log(date.extractDate(String(val), format).getTime())
-    return !Number.isNaN(date.extractDate(String(val), format).getTime()) ||
-    "Date invalide";
-  }
+  return (val: unknown) => {
+    if (val === null || val === undefined || val === "") {
+      return true;
+    }
+    const d = date.extractDate(String(val), format);
+    const isValid = d instanceof Date && !isNaN(d.getTime());
+    console.log(val);
+    console.log(isValid);
+    return (
+      !isNaN(date.extractDate(String(val), format).getTime()) || "Date invalide"
+    );
+  };
 }
 
 export const Submit64Rules = {

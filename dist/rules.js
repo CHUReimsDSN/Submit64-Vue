@@ -309,8 +309,7 @@ function lessThanOrEqualDate(lessThan, format) {
         const lessThanValue = lessThan();
         const valExtracted = date.extractDate(String(val), format);
         const lessThanExtracted = date.extractDate(lessThanValue, format);
-        return ((!Number.isNaN(valExtracted.getTime()) &&
-            valExtracted <= lessThanExtracted) ||
+        return ((!isNaN(valExtracted.getTime()) && valExtracted <= lessThanExtracted) ||
             `Inf. ou égal à ${lessThanValue}`);
     };
 }
@@ -319,8 +318,7 @@ function lessThanDate(lessThan, format) {
         const lessThanValue = lessThan();
         const valExtracted = date.extractDate(String(val), format);
         const lessThanExtracted = date.extractDate(lessThanValue, format);
-        return ((!Number.isNaN(valExtracted.getTime()) &&
-            valExtracted < lessThanExtracted) ||
+        return ((!isNaN(valExtracted.getTime()) && valExtracted < lessThanExtracted) ||
             `Inf. à ${lessThanValue}`);
     };
 }
@@ -329,7 +327,7 @@ function greaterThanOrEqualDate(greaterThan, format) {
         const greaterThanValue = greaterThan();
         const valExtracted = date.extractDate(String(val), format);
         const greaterThanExtracted = date.extractDate(greaterThanValue, format);
-        return ((!Number.isNaN(valExtracted.getTime()) &&
+        return ((!isNaN(valExtracted.getTime()) &&
             valExtracted >= greaterThanExtracted) ||
             `Sup. ou égal à ${greaterThanValue}`);
     };
@@ -339,8 +337,7 @@ function greaterThanDate(greaterThan, format) {
         const greaterThanValue = greaterThan();
         const valExtracted = date.extractDate(String(val), format);
         const greaterThanExtracted = date.extractDate(greaterThanValue, format);
-        return ((!Number.isNaN(valExtracted.getTime()) &&
-            valExtracted > greaterThanExtracted) ||
+        return ((!isNaN(valExtracted.getTime()) && valExtracted > greaterThanExtracted) ||
             `Sup. à ${greaterThanValue}`);
     };
 }
@@ -362,11 +359,14 @@ function otherThanDate(otherThan, format) {
 }
 function validDate(format) {
     return (val) => {
+        if (val === null || val === undefined || val === "") {
+            return true;
+        }
+        const d = date.extractDate(String(val), format);
+        const isValid = d instanceof Date && !isNaN(d.getTime());
         console.log(val);
-        console.log(date.extractDate(String(val), format));
-        console.log(date.extractDate(String(val), format).getTime());
-        return !Number.isNaN(date.extractDate(String(val), format).getTime()) ||
-            "Date invalide";
+        console.log(isValid);
+        return (!isNaN(date.extractDate(String(val), format).getTime()) || "Date invalide");
     };
 }
 export const Submit64Rules = {

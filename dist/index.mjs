@@ -33,7 +33,7 @@ const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
       }, null, 8, ["loading"])) : B("", !0)
     ]));
   }
-}), Te = { class: "flex row items-center" }, xe = { class: "text-body1 text-weight-medium" }, Be = { class: "flex column q-gutter-sm" }, Ne = /* @__PURE__ */ V({
+}), Te = { class: "flex row items-center" }, xe = { class: "text-body1 text-weight-medium" }, Be = { class: "flex column q-gutter-sm" }, qe = /* @__PURE__ */ V({
   __name: "DefaultSectionComponent",
   props: {
     section: {}
@@ -56,7 +56,7 @@ const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
       ])
     ], 2));
   }
-}), qe = /* @__PURE__ */ V({
+}), Ne = /* @__PURE__ */ V({
   __name: "DefaultWrapperResetComponent",
   props: {
     reset: { type: Function }
@@ -97,7 +97,7 @@ const ve = { class: "flex row items-center no-wrap q-pt-sm" }, ke = /* @__PURE__
       fieldClass: "",
       fieldColor: "primary",
       fieldBgColor: "white"
-    }, this._actionComponent = ke, this._sectionComponent = Ne, this._wrapperResetComponent = qe, this._associationDisplayDictonary = {};
+    }, this._actionComponent = ke, this._sectionComponent = qe, this._wrapperResetComponent = Ne, this._associationDisplayDictonary = {};
   }
   static registerGlobalFormSetting(e) {
     this._instance._formSettings = {
@@ -484,8 +484,8 @@ const He = /* @__PURE__ */ V({
           offset: m.value.offset,
           labelFilter: f,
           context: e.wrapper.injectForm.getForm().context
-        }).then((N) => {
-          s.value = N.rows;
+        }).then((q) => {
+          s.value = q.rows;
         });
       });
     }
@@ -579,8 +579,8 @@ const He = /* @__PURE__ */ V({
           offset: m.value.offset,
           labelFilter: f,
           context: e.wrapper.injectForm.getForm().context
-        }).then((N) => {
-          s.value = N.rows;
+        }).then((q) => {
+          s.value = q.rows;
         });
       });
     }
@@ -1155,25 +1155,25 @@ function ht(o) {
 function St(o, e) {
   return (t) => {
     const n = o(), a = h.extractDate(String(t), e), l = h.extractDate(n, e);
-    return !Number.isNaN(a.getTime()) && a <= l || `Inf. ou égal à ${n}`;
+    return !isNaN(a.getTime()) && a <= l || `Inf. ou égal à ${n}`;
   };
 }
 function wt(o, e) {
   return (t) => {
     const n = o(), a = h.extractDate(String(t), e), l = h.extractDate(n, e);
-    return !Number.isNaN(a.getTime()) && a < l || `Inf. à ${n}`;
+    return !isNaN(a.getTime()) && a < l || `Inf. à ${n}`;
   };
 }
 function Ft(o, e) {
   return (t) => {
     const n = o(), a = h.extractDate(String(t), e), l = h.extractDate(n, e);
-    return !Number.isNaN(a.getTime()) && a >= l || `Sup. ou égal à ${n}`;
+    return !isNaN(a.getTime()) && a >= l || `Sup. ou égal à ${n}`;
   };
 }
 function _t(o, e) {
   return (t) => {
     const n = o(), a = h.extractDate(String(t), e), l = h.extractDate(n, e);
-    return !Number.isNaN(a.getTime()) && a > l || `Sup. à ${n}`;
+    return !isNaN(a.getTime()) && a > l || `Sup. à ${n}`;
   };
 }
 function Ct(o, e) {
@@ -1189,7 +1189,12 @@ function Dt(o, e) {
   };
 }
 function te(o) {
-  return (e) => (console.log(e), console.log(h.extractDate(String(e), o)), console.log(h.extractDate(String(e), o).getTime()), !Number.isNaN(h.extractDate(String(e), o).getTime()) || "Date invalide");
+  return (e) => {
+    if (e == null || e === "")
+      return !0;
+    const t = h.extractDate(String(e), o), n = t instanceof Date && !isNaN(t.getTime());
+    return console.log(e), console.log(n), !isNaN(h.extractDate(String(e), o).getTime()) || "Date invalide";
+  };
 }
 const Vt = {
   computeServerRules: Ye
@@ -1294,13 +1299,13 @@ const Vt = {
     function b() {
       return c(r(l));
     }
-    function N(p) {
+    function q(p) {
       u.value = p;
     }
     function R() {
       let p = !0;
-      return a.forEach((q) => {
-        const E = q(b());
+      return a.forEach((N) => {
+        const E = N(b());
         if (E !== !0) {
           p = E;
           return;
@@ -1312,16 +1317,16 @@ const Vt = {
       clear: i,
       validate: R,
       getValue: b,
-      setupBackendErrors: N
+      setupBackendErrors: q
     }), L(() => {
-      var q;
+      var N;
       s();
-      const p = (q = Fe()) == null ? void 0 : q.exposed;
+      const p = (N = Fe()) == null ? void 0 : N.exposed;
       p && n && n.registerRef(
         t.field.metadata.field_name,
         p
       );
-    }), (p, q) => (g(), v("div", null, [
+    }), (p, N) => (g(), v("div", null, [
       H(p.$slots, "default", {
         propsWrapper: { modelValue: l.value, modelValueOnUpdate: d, field: p.field, injectForm: r(n), rules: r(a), reset: s, clear: i, getValue: b, validate: R }
       }, () => [
@@ -1340,7 +1345,7 @@ const Vt = {
 }), Tt = {
   key: 0,
   class: "flex column"
-}, qt = /* @__PURE__ */ V({
+}, Nt = /* @__PURE__ */ V({
   __name: "Submit64Form",
   props: {
     resourceName: {},
@@ -1374,9 +1379,9 @@ const Vt = {
     }
     async function d() {
       var O, P;
-      if (!N())
+      if (!q())
         return;
-      c.value = !0, q();
+      c.value = !0, N();
       const y = b(), F = await t.getSubmitFormData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
@@ -1394,7 +1399,7 @@ const Vt = {
         y[F[0]] = F[1].getValue();
       }), y;
     }
-    function N() {
+    function q() {
       let y = !0;
       return Object.values(u.value).forEach((F) => {
         if (F.validate() !== !0) {
@@ -1413,7 +1418,7 @@ const Vt = {
         y.clear();
       });
     }
-    function q() {
+    function N() {
       Object.values(u.value).forEach((y) => {
         y.setupBackendErrors([]);
       });
@@ -1503,5 +1508,5 @@ const Vt = {
 });
 export {
   x as Submit64,
-  qt as Submit64Form
+  Nt as Submit64Form
 };
