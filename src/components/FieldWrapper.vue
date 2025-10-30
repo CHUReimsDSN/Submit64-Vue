@@ -157,20 +157,6 @@ defineExpose({
   setupBackendErrors,
 });
 
-const propsWrapper = {
-  modelValue,
-  modelValueOnUpdate,
-  field: propsComponent.field,
-  injectForm,
-  rules,
-  reset,
-  clear,
-  getValueDeserialized,
-  getValueSerialized,
-  validate,
-  registerValidationCallback,
-} as TSubmit64FieldWrapperPropsSlot;
-
 // lifeCycle
 onMounted(() => {
   reset();
@@ -186,10 +172,12 @@ onMounted(() => {
 
 <template>
   <div>
-    <slot :propsWrapper="propsWrapper">
+    <slot
+      :propsWrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate,  registerValidationCallback } as TSubmit64FieldWrapperPropsSlot)"
+    >
       <Component
         :is="propsComponent.field.component"
-        :wrapper="propsWrapper"
+        :wrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate, registerValidationCallback } as TSubmit64FieldWrapperPropsSlot)"
       />
       <div
         v-if="backendErrors.length > 0"
