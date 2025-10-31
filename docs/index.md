@@ -7,7 +7,7 @@ title: Accueil
 </div>
 
 
-# Submit64 - Rails
+# Submit64 - Vue
 
 Submit64 donne accès à l’exploitation et à la configuration des données des modèles pour 
 générer des formulaires.   

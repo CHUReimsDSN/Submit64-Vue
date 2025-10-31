@@ -303,5 +303,6 @@ type TSubmit64AssociationDisplayPropsSlot = {
 ```
 
 ## Surcharge de composant d'affichage dans la liste des associations par association
+
 {: .warning }
 Feature en développement
