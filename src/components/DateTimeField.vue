@@ -37,8 +37,10 @@ function validate() {
   return fieldRef.value.validate() as boolean;
 }
 function resetValidation() {
+  console.log('ok ok ok')
   if (!fieldRef.value) {
-    return false
+  console.log('aaaah')
+    return
   }
   return fieldRef.value.resetValidation()
 }

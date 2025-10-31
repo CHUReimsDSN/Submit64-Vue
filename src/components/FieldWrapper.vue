@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-  getCurrentInstance,
-  inject,
-  nextTick,
-  onMounted,
-  ref,
-  unref,
-} from "vue";
+import { getCurrentInstance, inject, onMounted, ref, unref } from "vue";
 import type {
   TFormFieldDef,
   TSubmit64FieldWrapper,
@@ -26,7 +19,7 @@ let validationCallback: () => boolean = () => {
 };
 let resetValidationCallback: () => void = () => {
   return;
-};
+}
 
 // consts
 const injectForm = inject(propsComponent.field.provideUniqKey)!;
@@ -43,23 +36,23 @@ function reset() {
   }
   modelValue.value = injectForm.getDataByFieldName(
     propsComponent.field.metadata.field_name
-  );
+  )
   modelValue.value = formModelSerializeByType(modelValue.value);
-  resetValidation();
+  resetValidation()
 }
 function formModelSerializeByType(value: unknown) {
   switch (propsComponent.field.type) {
     case "date":
-      if (value === null || value === undefined || value === "") {
-        return null;
+      if (value === null || value === undefined || value === '') {
+        return null
       }
       return date.formatDate(
         date.extractDate(String(value), injectForm.getForm().backendDateFormat),
         injectForm.getFormFactoryInstance().formSettings.dateFormat
-      );
+      )
     case "datetime":
-      if (value === null || value === undefined || value === "") {
-        return null;
+      if (value === null || value === undefined || value === '') {
+        return null
       }
       return date.formatDate(
         date.extractDate(
@@ -67,7 +60,7 @@ function formModelSerializeByType(value: unknown) {
           injectForm.getForm().backendDatetimeFormat
         ),
         injectForm.getFormFactoryInstance().formSettings.datetimeFormat
-      );
+      )
   }
   return value;
 }
@@ -83,7 +76,7 @@ function formModelDeserializeByType(value: unknown) {
           injectForm.getFormFactoryInstance().formSettings.dateFormat
         ),
         injectForm.getForm().backendDateFormat
-      );
+      )
     case "datetime":
       if (value === null || value === undefined || value === "") {
         return null;
@@ -94,41 +87,41 @@ function formModelDeserializeByType(value: unknown) {
           injectForm.getFormFactoryInstance().formSettings.datetimeFormat
         ),
         injectForm.getForm().backendDatetimeFormat
-      );
+      )
   }
   return value;
 }
 function clear() {
   switch (propsComponent.field.type) {
     case "string":
-      modelValue.value = "";
+      modelValue.value = ""
       break;
     case "checkbox":
-      modelValue.value = false;
+      modelValue.value = false
       break;
     case "date":
-      modelValue.value = null;
+      modelValue.value = null
       break;
     case "datetime":
-      modelValue.value = null;
+      modelValue.value = null
       break;
     case "number":
-      modelValue.value = null;
+      modelValue.value = null
       break;
     case "selectString":
-      modelValue.value = null;
+      modelValue.value = null
       break;
     case "text":
-      modelValue.value = "";
+      modelValue.value = ""
       break;
     case "object":
-      modelValue.value = {};
+      modelValue.value = {}
       break;
     case "selectBelongsTo":
-      modelValue.value = null;
+      modelValue.value = null
       break;
     case "selectHasMany":
-      modelValue.value = null;
+      modelValue.value = null
       break;
   }
 }
@@ -140,7 +133,7 @@ function getComputedRules() {
   );
 }
 function modelValueOnUpdate(value: unknown) {
-  modelValue.value = value;
+  modelValue.value = value
 }
 function getValueSerialized() {
   return modelValue;
@@ -157,10 +150,7 @@ function validate() {
 function resetValidation() {
   return resetValidationCallback();
 }
-function registerBehaviourCallbacks(
-  registerValidationArg: () => boolean,
-  registerResetValidationArg: () => void
-) {
+function registerBehaviourCallbacks(registerValidationArg: () => boolean, registerResetValidationArg: () => void) {
   validationCallback = registerValidationArg;
   resetValidationCallback = registerResetValidationArg;
 }
@@ -178,9 +168,7 @@ defineExpose({
 
 // lifeCycle
 onMounted(() => {
-  void nextTick(() => {
-    reset();
-  });
+  reset();
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef && injectForm) {
     injectForm.registerRef(
