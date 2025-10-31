@@ -25,7 +25,6 @@ let validationCallback: () => boolean = () => {
   return true;
 };
 let resetValidationCallback: () => void = () => {
-  console.log("lsfglsdlf");
   return;
 };
 
