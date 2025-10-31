@@ -40,13 +40,11 @@ function resetValidation() {
   if (!fieldRef.value) {
     return
   }
-  console.log('before reset valid')
-  return fieldRef.value.resetValidation()
+  fieldRef.value.resetValidation()
 }
 
 // lifeCycle
 onMounted(() => {
-    console.log('before register')
   propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
 });
 </script>

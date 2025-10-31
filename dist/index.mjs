@@ -194,8 +194,7 @@ const ze = { class: "row items-center justify-end" }, je = /* @__PURE__ */ x({
       return n.value ? n.value.validate() : !1;
     }
     function i() {
-      if (n.value)
-        return n.value.resetValidation();
+      n.value && n.value.resetValidation();
     }
     return q(() => {
       e.wrapper.registerBehaviourCallbacks(u, i);
@@ -290,11 +289,10 @@ const ze = { class: "row items-center justify-end" }, je = /* @__PURE__ */ x({
       return d.value ? d.value.validate() : !1;
     }
     function y() {
-      if (d.value)
-        return console.log("before reset valid"), d.value.resetValidation();
+      d.value && d.value.resetValidation();
     }
     return q(() => {
-      console.log("before register"), e.wrapper.registerBehaviourCallbacks(S, y);
+      e.wrapper.registerBehaviourCallbacks(S, y);
     }), (b, m) => (p(), C(a(M), {
       ref_key: "fieldRef",
       ref: d,
