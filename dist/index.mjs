@@ -194,7 +194,8 @@ const ze = { class: "row items-center justify-end" }, je = /* @__PURE__ */ x({
       return n.value ? n.value.validate() : !1;
     }
     function i() {
-      return n.value ? n.value.resetValidation() : !1;
+      if (n.value)
+        return n.value.resetValidation();
     }
     return q(() => {
       e.wrapper.registerBehaviourCallbacks(u, i);
@@ -289,14 +290,11 @@ const ze = { class: "row items-center justify-end" }, je = /* @__PURE__ */ x({
       return d.value ? d.value.validate() : !1;
     }
     function y() {
-      if (console.log("ok ok ok"), !d.value) {
-        console.log("aaaah");
-        return;
-      }
-      return d.value.resetValidation();
+      if (d.value)
+        return console.log("before reset valid"), d.value.resetValidation();
     }
     return q(() => {
-      e.wrapper.registerBehaviourCallbacks(S, y);
+      console.log("before register"), e.wrapper.registerBehaviourCallbacks(S, y);
     }), (b, m) => (p(), C(a(M), {
       ref_key: "fieldRef",
       ref: d,
@@ -494,7 +492,8 @@ const ze = { class: "row items-center justify-end" }, je = /* @__PURE__ */ x({
       return l.value ? l.value.validate() : !1;
     }
     function y() {
-      return l.value ? l.value.resetValidation() : !1;
+      if (l.value)
+        return l.value.resetValidation();
     }
     return q(() => {
       i(e.wrapper), e.wrapper.registerBehaviourCallbacks(S, y);
@@ -581,7 +580,8 @@ const Ke = /* @__PURE__ */ x({
       return u.value ? u.value.validate() : !1;
     }
     function b() {
-      return u.value ? u.value.resetValidation() : !1;
+      if (u.value)
+        return u.value.resetValidation();
     }
     return q(() => {
       S(), e.wrapper.registerBehaviourCallbacks(y, b);
@@ -732,7 +732,8 @@ const Ke = /* @__PURE__ */ x({
       return c.value ? c.value.validate() : !1;
     }
     function d() {
-      return c.value ? c.value.resetValidation() : !1;
+      if (c.value)
+        return c.value.resetValidation();
     }
     return q(() => {
       e.wrapper.registerBehaviourCallbacks(n, d);
@@ -777,7 +778,8 @@ const Ke = /* @__PURE__ */ x({
       return c.value ? c.value.validate() : !1;
     }
     function d() {
-      return c.value ? c.value.resetValidation() : !1;
+      if (c.value)
+        return c.value.resetValidation();
     }
     return q(() => {
       e.wrapper.registerBehaviourCallbacks(n, d);
@@ -1297,9 +1299,9 @@ const qt = {
     };
     const s = ve(t.field.provideUniqKey), c = b(), n = w(), d = w([]);
     function u() {
-      s && (n.value = s.getDataByFieldName(
+      console.log("reset"), s && (n.value = s.getDataByFieldName(
         t.field.metadata.field_name
-      ), n.value = i(n.value), A());
+      ), n.value = i(n.value), console.log("reset, before valid"), A());
     }
     function i(g) {
       switch (t.field.type) {

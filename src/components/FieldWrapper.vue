@@ -31,6 +31,7 @@ const backendErrors = ref<string[]>([]);
 
 // functions
 function reset() {
+      console.log('reset')
   if (!injectForm) {
     return;
   }
@@ -38,6 +39,7 @@ function reset() {
     propsComponent.field.metadata.field_name
   )
   modelValue.value = formModelSerializeByType(modelValue.value);
+        console.log('reset, before valid')
   resetValidation()
 }
 function formModelSerializeByType(value: unknown) {

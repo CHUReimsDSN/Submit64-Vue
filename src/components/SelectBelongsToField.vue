@@ -72,7 +72,7 @@ function validate() {
 }
 function resetValidation() {
   if (!fieldRef.value) {
-    return false
+    return
   }
   return fieldRef.value.resetValidation()
 }

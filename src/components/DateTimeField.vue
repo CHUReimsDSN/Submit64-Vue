@@ -37,16 +37,16 @@ function validate() {
   return fieldRef.value.validate() as boolean;
 }
 function resetValidation() {
-  console.log('ok ok ok')
   if (!fieldRef.value) {
-  console.log('aaaah')
     return
   }
+  console.log('before reset valid')
   return fieldRef.value.resetValidation()
 }
 
 // lifeCycle
 onMounted(() => {
+    console.log('before register')
   propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
 });
 </script>
