@@ -1282,12 +1282,12 @@ const Bt = {
     function c(g) {
       switch (t.field.type) {
         case "date":
-          return g == null || g === "" ? "" : S.formatDate(
+          return g == null || g === "" ? null : S.formatDate(
             S.extractDate(String(g), n.getForm().backendDateFormat),
             n.getFormFactoryInstance().formSettings.dateFormat
           );
         case "datetime":
-          return g == null || g === "" ? "" : S.formatDate(
+          return g == null || g === "" ? null : S.formatDate(
             S.extractDate(
               String(g),
               n.getForm().backendDatetimeFormat
@@ -1300,7 +1300,7 @@ const Bt = {
     function u(g) {
       switch (t.field.type) {
         case "date":
-          return g == null || g === "" ? void 0 : S.formatDate(
+          return g == null || g === "" ? null : S.formatDate(
             S.extractDate(
               String(g),
               n.getFormFactoryInstance().formSettings.dateFormat
@@ -1308,7 +1308,7 @@ const Bt = {
             n.getForm().backendDateFormat
           );
         case "datetime":
-          return g == null || g === "" ? void 0 : S.formatDate(
+          return g == null || g === "" ? null : S.formatDate(
             S.extractDate(
               String(g),
               n.getFormFactoryInstance().formSettings.datetimeFormat
@@ -1327,10 +1327,10 @@ const Bt = {
           i.value = !1;
           break;
         case "date":
-          i.value = "";
+          i.value = null;
           break;
         case "datetime":
-          i.value = "";
+          i.value = null;
           break;
         case "number":
           i.value = null;

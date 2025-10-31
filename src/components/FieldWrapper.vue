@@ -40,7 +40,7 @@ function formModelSerializeByType(value: T) {
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined || value === '') {
-        return '' as T
+        return null as T
       }
       return date.formatDate(
         date.extractDate(String(value), injectForm.getForm().backendDateFormat),
@@ -48,7 +48,7 @@ function formModelSerializeByType(value: T) {
       ) as T;
     case "datetime":
       if (value === null || value === undefined || value === '') {
-        return '' as T
+        return null as T
       }
       return date.formatDate(
         date.extractDate(
@@ -64,7 +64,7 @@ function formModelDeserializeByType(value: T) {
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined || value === "") {
-        return undefined;
+        return null;
       }
       return date.formatDate(
         date.extractDate(
@@ -75,7 +75,7 @@ function formModelDeserializeByType(value: T) {
       ) as T;
     case "datetime":
       if (value === null || value === undefined || value === "") {
-        return undefined;
+        return null;
       }
       return date.formatDate(
         date.extractDate(
@@ -96,10 +96,10 @@ function clear() {
       modelValue.value = false as T;
       break;
     case "date":
-      modelValue.value = "" as T;
+      modelValue.value = null as T;
       break;
     case "datetime":
-      modelValue.value = "" as T;
+      modelValue.value = null as T;
       break;
     case "number":
       modelValue.value = null as T;
