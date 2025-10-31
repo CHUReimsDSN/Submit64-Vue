@@ -148,11 +148,13 @@ function validate() {
   return validationCallback();
 }
 function resetValidation() {
+  console.log('calling reset validation')
   return resetValidationCallback();
 }
 function registerBehaviourCallbacks(registerValidationArg: () => boolean, registerResetValidationArg: () => void) {
   validationCallback = registerValidationArg;
-  resetValidationCallback = registerResetValidationArg
+  resetValidationCallback = registerResetValidationArg;
+  console.log('alright registered')
 }
 
 // exposes

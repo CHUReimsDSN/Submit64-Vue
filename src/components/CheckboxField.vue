@@ -18,27 +18,26 @@ function validate() {
   return ruleResult.value === true;
 }
 function resetValidation() {
-  ruleResult.value = true
+  ruleResult.value = true;
 }
 
 // watchs
 watch(
   () => propsComponent.wrapper.modelValue,
   (newValue) => {
-    (propsComponent.wrapper.rules as TSubmit64ValidationRule[]).forEach(
-      (rule) => {
-        ruleResult.value = rule(newValue);
-        if (ruleResult.value !== true) {
-          return;
-        }
+    for (const rule of propsComponent.wrapper
+      .rules as TSubmit64ValidationRule[]) {
+      ruleResult.value = rule(newValue);
+      if (ruleResult.value !== true) {
+        break;
       }
-    );
+    }
   }
 );
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
+  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation);
 });
 </script>
 

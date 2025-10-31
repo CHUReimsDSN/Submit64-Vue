@@ -432,11 +432,9 @@ const ze = { class: "row items-center justify-end" }, je = /* @__PURE__ */ x({
     return Fe(
       () => e.wrapper.modelValue,
       (n) => {
-        e.wrapper.rules.forEach(
-          (d) => {
-            t.value = d(n), t.value;
-          }
-        );
+        for (const d of e.wrapper.rules)
+          if (t.value = d(n), t.value !== !0)
+            break;
       }
     ), q(() => {
       e.wrapper.registerBehaviourCallbacks(s, c);
@@ -1395,10 +1393,10 @@ const qt = {
       return o();
     }
     function A() {
-      return l();
+      return console.log("calling reset validation"), l();
     }
     function H(g, O) {
-      o = g, l = O;
+      o = g, l = O, console.log("alright registered");
     }
     return e({
       reset: u,
