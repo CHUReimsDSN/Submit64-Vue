@@ -172,7 +172,7 @@ export type TSubmit64AssociationDisplayPropsSlot = {
 
 export type TSubmit64FormProvider = {
   registerRef: (resourceDataKey: string, fieldRef: TSubmit64FieldWrapper) => void;
-  getDefaultDataByFieldName: (fieldName: string) => void | unknown;
+  getDataByFieldName: (fieldName: string) => void | unknown;
   getFieldDataByFieldName: (fieldName: string) => unknown;
   getFormFactoryInstance: () => Readonly<FormFactory>;
   getForm: () => TFormDef;
@@ -235,7 +235,15 @@ export type TSubmit64GetSubmitData = {
   context?: TContext;
 };
 
-export type TSubmit64Expose = {};
+export type TSubmit64FormExpose = {
+  getMode: () => TSubmit64FormMode;
+  getFormFactoryInstance: () => Readonly<FormFactory>;
+  getForm: () => TFormDef;
+  validateForm: () => boolean;
+  resetForm: () => void;
+  clearForm: () => void;
+  submitForm: () => Promise<void>;
+};
 
 // utils
 export type TContext = Record<string, unknown>;
@@ -247,3 +255,4 @@ export type TPropsWithClass = {
   class?: string;
 };
 export type TSubmit64ValidationRule = (val: unknown) => boolean | string;
+export type TSubmit64FormMode = 'edit' | 'create'

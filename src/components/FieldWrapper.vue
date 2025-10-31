@@ -31,7 +31,7 @@ function reset() {
   if (!injectForm) {
     return;
   }
-  modelValue.value = injectForm.getDefaultDataByFieldName(
+  modelValue.value = injectForm.getDataByFieldName(
     propsComponent.field.metadata.field_name
   ) as T;
   modelValue.value = formModelSerializeByType(modelValue.value);

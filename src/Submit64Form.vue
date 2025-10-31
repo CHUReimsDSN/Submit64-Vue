@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted, provide, ref } from "vue";
-import {
-  type TFormDef,
-  type TSubmit64Expose,
-  type TSubmit64FieldWrapper,
-  type TSubmit64FormProps,
+import type {
+  TFormDef,
+  TSubmit64FormExpose,
+  TSubmit64FieldWrapper,
+  TSubmit64FormProps,
   TResourceFormMetadataAndData,
   TSubmit64AssociationData,
+  TSubmit64FormMode,
 } from "./models";
 import { FormFactory } from "./form-factory";
 import FieldWrapper from "./components/FieldWrapper.vue";
@@ -36,7 +37,7 @@ const fieldRefs = ref<Map<string, TSubmit64FieldWrapper>>(new Map());
 const generatedForm = ref<TFormDef>();
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
-const mode = ref<"edit" | "create">("create");
+const mode = ref<TSubmit64FormMode>("create");
 
 // functions
 async function setupMetadatasAndForm() {
@@ -125,7 +126,7 @@ function clearBackendErrors() {
 function registerRef(resourceDataKey: string, fieldComponent: TSubmit64FieldWrapper) {
   fieldRefs.value.set(resourceDataKey, fieldComponent);
 }
-function getDefaultDataByFieldName(fieldName: string) {
+function getDataByFieldName(fieldName: string) {
   if (!formMetadataAndData) {
     return;
   }
@@ -172,11 +173,14 @@ function ensurePropsAreOk() {
     }
   });
 }
+function getMode() {
+  return mode.value
+}
 
 // provides
 provide(providingUniqKey, {
   registerRef,
-  getDefaultDataByFieldName,
+  getDataByFieldName,
   getFieldDataByFieldName,
   getFormFactoryInstance,
   getForm,
@@ -184,7 +188,15 @@ provide(providingUniqKey, {
 });
 
 // exposes
-defineExpose<TSubmit64Expose>({});
+defineExpose({
+  getMode,
+  getFormFactoryInstance,
+  getForm,
+  validateForm,
+  resetForm,
+  clearForm,
+  submitForm
+}) as unknown as TSubmit64FormExpose;
 
 // lifeCycle
 onMounted(async () => {
