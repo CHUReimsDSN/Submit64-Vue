@@ -40,30 +40,32 @@ export class FormFactory {
   }
 
   resourceName: string;
-  formSettings: TFormSettings;
-  formStyleConfig: TFormStyle;
+  formSettings: Required<TFormSettings>;
+  formStyle: Required<TFormStyle>;
   actionComponent: Component;
   sectionComponent: Component;
   wrapperResetComponent: Component;
   associationDisplayComponent: Component;
+  associationDisplayRecord: Record<string, Component>;
 
   constructor(
     resourceName: string,
     formSettings?: Partial<TFormSettings>,
-    formStyleConfig?: Partial<TFormStyle>,
+    formStyle?: Partial<TFormStyle>,
     actionComponent?: Component,
     sectionComponent?: Component,
     wrapperResetComponent?: Component,
-    associationDisplayComponent?: Component
+    associationDisplayComponent?: Component,
+    associationDisplayRecord?: Record<string, Component>
   ) {
     this.resourceName = resourceName;
     this.formSettings = {
-      ...Submit64.getGlobalFormSetting(),
       ...formSettings,
+      ...Submit64.getGlobalFormSetting(),
     };
-    this.formStyleConfig = {
+    this.formStyle = {
+      ...formStyle,
       ...Submit64.getGlobalFormStyle(),
-      ...formStyleConfig,
     };
     this.actionComponent =
       actionComponent ?? Submit64.getGlobalActionComponent();
@@ -73,8 +75,9 @@ export class FormFactory {
       wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
     this.associationDisplayComponent =
       associationDisplayComponent ??
-      Submit64.getGlobalAssociationDisplayByResourceName(resourceName) ??
       Submit64.getGlobalAssociationDisplayComponent();
+    this.associationDisplayRecord =
+      associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
   }
 
   getForm(
@@ -90,7 +93,7 @@ export class FormFactory {
           columnMetadata.field_type
         );
         const componentOptions = {
-          associationDisplayComponent: this.associationDisplayComponent,
+          associationDisplayComponent: this.associationDisplayRecord[columnMetadata.field_association_class ?? ''] ?? this.associationDisplayComponent,
           regularFieldType: this.getRegularFieldTypeByFieldType(
             columnMetadata.field_type
           ),

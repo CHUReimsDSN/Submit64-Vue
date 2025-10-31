@@ -25,20 +25,21 @@ export class FormFactory {
     }
     resourceName;
     formSettings;
-    formStyleConfig;
+    formStyle;
     actionComponent;
     sectionComponent;
     wrapperResetComponent;
     associationDisplayComponent;
-    constructor(resourceName, formSettings, formStyleConfig, actionComponent, sectionComponent, wrapperResetComponent, associationDisplayComponent) {
+    associationDisplayRecord;
+    constructor(resourceName, formSettings, formStyle, actionComponent, sectionComponent, wrapperResetComponent, associationDisplayComponent, associationDisplayRecord) {
         this.resourceName = resourceName;
         this.formSettings = {
-            ...Submit64.getGlobalFormSetting(),
             ...formSettings,
+            ...Submit64.getGlobalFormSetting(),
         };
-        this.formStyleConfig = {
+        this.formStyle = {
+            ...formStyle,
             ...Submit64.getGlobalFormStyle(),
-            ...formStyleConfig,
         };
         this.actionComponent =
             actionComponent ?? Submit64.getGlobalActionComponent();
@@ -48,8 +49,9 @@ export class FormFactory {
             wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
         this.associationDisplayComponent =
             associationDisplayComponent ??
-                Submit64.getGlobalAssociationDisplayByResourceName(resourceName) ??
                 Submit64.getGlobalAssociationDisplayComponent();
+        this.associationDisplayRecord =
+            associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
     }
     getForm(formMetadataAndData, providingUniqKey, context) {
         const sections = [];
@@ -58,7 +60,7 @@ export class FormFactory {
             sectionMetadata.fields.forEach((columnMetadata) => {
                 const component = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
                 const componentOptions = {
-                    associationDisplayComponent: this.associationDisplayComponent,
+                    associationDisplayComponent: this.associationDisplayRecord[columnMetadata.field_association_class ?? ''] ?? this.associationDisplayComponent,
                     regularFieldType: this.getRegularFieldTypeByFieldType(columnMetadata.field_type),
                 };
                 const field = {

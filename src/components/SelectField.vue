@@ -18,7 +18,7 @@ const fieldRef = ref<InstanceType<typeof QSelect>>()
 // consts
 const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
-const styleConfig = formFactory.formStyleConfig;
+const styleConfig = formFactory.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // functions

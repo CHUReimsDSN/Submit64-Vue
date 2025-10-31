@@ -16,7 +16,7 @@ const displayComponent =
   propsComponent.wrapper.field.componentOptions.associationDisplayComponent;
 const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
-const styleConfig = formFactory.formStyleConfig;
+const styleConfig = formFactory.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs

@@ -4,7 +4,7 @@ import {
   type ComponentPublicInstance,
 } from "vue";
 import type { TSubmit64Rule } from "./rules";
-import { QField, type QItemProps, ValidationRule } from "quasar";
+import { type QItemProps, ValidationRule } from "quasar";
 import { FormFactory } from "./form-factory";
 
 type TRecord = {
@@ -68,23 +68,23 @@ export type TSubmit64SubmitSubmitData = {
 
 // singleton
 export type TFormSettings = {
-  rulesBehaviour: "lazy" | "ondemand";
-  dateFormat: string;
-  datetimeFormat: string;
-  renderBackendHint: boolean;
+  rulesBehaviour?: "lazy" | "ondemand";
+  dateFormat?: string;
+  datetimeFormat?: string;
+  renderBackendHint?: boolean;
 };
 export type TFormStyle = {
-  fieldFilled: boolean;
-  fieldOutlined: boolean;
-  fieldStandout: boolean;
-  fieldBorderless: boolean;
-  fieldRounded: boolean;
-  fieldSquare: boolean;
-  fieldDense: boolean;
-  fieldHideBottomSpace: boolean;
-  fieldColor: string;
-  fieldBgColor: string;
-  fieldClass: string;
+  fieldFilled?: boolean;
+  fieldOutlined?: boolean;
+  fieldStandout?: boolean;
+  fieldBorderless?: boolean;
+  fieldRounded?: boolean;
+  fieldSquare?: boolean;
+  fieldDense?: boolean;
+  fieldHideBottomSpace?: boolean;
+  fieldColor?: string;
+  fieldBgColor?: string;
+  fieldClass?: string;
 };
 
 // form factory
@@ -196,10 +196,11 @@ export type TSubmit64FormProps = {
   resourceId?: TRecord["id"];
   formSettings?: TFormSettings;
   formStyle?: TFormStyle;
-  actionComponent?: Component;
   sectionComponent?: Component;
+  actionComponent?: Component;
   wrapperResetComponent?: Component;
-  associationDisplayDictionary?: Record<string, Component>;
+  associationDisplayComponent?: Component;
+  associationDisplayRecord?: Record<string, Component>;
   onSubmitFail?: () => void;
   onSubmitSuccess?: () => void;
   context?: TContext;

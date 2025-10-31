@@ -16,7 +16,6 @@ const context = {
 </script>
 
 <template>
-  <Submit64Form :context="context"
-  />
+  <Submit64Form :context="context" />
 </template>
 ```

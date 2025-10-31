@@ -59,23 +59,23 @@ export type TSubmit64SubmitSubmitData = {
     resource_data: TResourceData | null;
 };
 export type TFormSettings = {
-    rulesBehaviour: "lazy" | "ondemand";
-    dateFormat: string;
-    datetimeFormat: string;
-    renderBackendHint: boolean;
+    rulesBehaviour?: "lazy" | "ondemand";
+    dateFormat?: string;
+    datetimeFormat?: string;
+    renderBackendHint?: boolean;
 };
 export type TFormStyle = {
-    fieldFilled: boolean;
-    fieldOutlined: boolean;
-    fieldStandout: boolean;
-    fieldBorderless: boolean;
-    fieldRounded: boolean;
-    fieldSquare: boolean;
-    fieldDense: boolean;
-    fieldHideBottomSpace: boolean;
-    fieldColor: string;
-    fieldBgColor: string;
-    fieldClass: string;
+    fieldFilled?: boolean;
+    fieldOutlined?: boolean;
+    fieldStandout?: boolean;
+    fieldBorderless?: boolean;
+    fieldRounded?: boolean;
+    fieldSquare?: boolean;
+    fieldDense?: boolean;
+    fieldHideBottomSpace?: boolean;
+    fieldColor?: string;
+    fieldBgColor?: string;
+    fieldClass?: string;
 };
 export type TFormDef = {
     sections: TFormSection[];
@@ -162,10 +162,11 @@ export type TSubmit64FormProps = {
     resourceId?: TRecord["id"];
     formSettings?: TFormSettings;
     formStyle?: TFormStyle;
-    actionComponent?: Component;
     sectionComponent?: Component;
+    actionComponent?: Component;
     wrapperResetComponent?: Component;
-    associationDisplayDictionary?: Record<string, Component>;
+    associationDisplayComponent?: Component;
+    associationDisplayRecord?: Record<string, Component>;
     onSubmitFail?: () => void;
     onSubmitSuccess?: () => void;
     context?: TContext;

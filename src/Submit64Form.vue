@@ -27,7 +27,8 @@ const formFactoryInstance = Object.freeze(
     propsComponent.actionComponent,
     propsComponent.sectionComponent,
     propsComponent.wrapperResetComponent,
-    propsComponent.associationDisplayDictionary
+    propsComponent.associationDisplayComponent,
+    propsComponent.associationDisplayRecord
   )
 );
 const providingUniqKey = getSubmit64FormProviderSymbol(uid());

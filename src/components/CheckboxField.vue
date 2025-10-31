@@ -11,7 +11,7 @@ const ruleResult = ref<boolean | string>(true);
 
 // consts
 const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
-const styleConfig = formFactory.formStyleConfig;
+const styleConfig = formFactory.formStyle;
 
 // functions
 function validate() {

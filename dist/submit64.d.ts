@@ -10,19 +10,18 @@ export declare class Submit64 {
     private _associationDisplayComponent;
     private _associationDisplayDictonary;
     private constructor();
-    static registerGlobalFormSetting(formSetting: Partial<TFormSettings>): void;
-    static registerGlobalFormStyle(formStyle: Partial<TFormStyle>): void;
+    static registerGlobalFormSetting(formSetting: TFormSettings): void;
+    static registerGlobalFormStyle(formStyle: TFormStyle): void;
     static registerGlobalActionComponent(actionComponent: Component): void;
     static registerGlobalSectionComponent(sectionComponent: Component): void;
     static registerGlobalWrapperResetComponent(wrapperResetComponent: Component): void;
     static registerGlobalAssociationDisplayComponent(displayComponent: Component): void;
-    static registerGlobalAssociationDisplayMap(dictionary: Map<string, Component>): void;
-    static getGlobalFormSetting(): TFormSettings;
-    static getGlobalFormStyle(): TFormStyle;
+    static registerGlobalAssociationDisplayRecord(dictionary: Record<string, Component>): void;
+    static getGlobalFormSetting(): Required<TFormSettings>;
+    static getGlobalFormStyle(): Required<TFormStyle>;
     static getGlobalActionComponent(): Component;
     static getGlobalSectionComponent(): Component;
     static getGlobalWrapperResetComponent(): Component;
     static getGlobalAssociationDisplayComponent(): Component;
-    static getGlobalAssociationDisplayMap(): Map<string, Component>;
-    static getGlobalAssociationDisplayByResourceName(resourceName: string): Component | undefined;
+    static getGlobalAssociationDisplayRecord(): Record<string, Component>;
 }

@@ -7,13 +7,13 @@ import DefaultAssociationDisplayComponent from "./components/DefaultAssociationD
 
 export class Submit64 {
   private static _instance: Submit64 = new Submit64();
-  private _formSettings: TFormSettings;
-  private _formStyle: TFormStyle;
+  private _formSettings: Required<TFormSettings>;
+  private _formStyle: Required<TFormStyle>;
   private _actionComponent: Component;
   private _sectionComponent: Component;
   private _wrapperResetComponent: Component;
   private _associationDisplayComponent: Component;
-  private _associationDisplayDictonary: Map<string, Component>;
+  private _associationDisplayDictonary: Record<string, Component>;
 
   private constructor() {
     this._formSettings = {
@@ -39,17 +39,17 @@ export class Submit64 {
     this._sectionComponent = DefaultSectionComponent;
     this._wrapperResetComponent = DefaultWrapperResetComponent;
     this._associationDisplayComponent = DefaultAssociationDisplayComponent;
-    this._associationDisplayDictonary = new Map();
+    this._associationDisplayDictonary = {}
   }
 
-  static registerGlobalFormSetting(formSetting: Partial<TFormSettings>) {
+  static registerGlobalFormSetting(formSetting: TFormSettings) {
     this._instance._formSettings = {
       ...this._instance._formSettings,
       ...formSetting,
     };
   }
 
-  static registerGlobalFormStyle(formStyle: Partial<TFormStyle>) {
+  static registerGlobalFormStyle(formStyle: TFormStyle) {
     this._instance._formStyle = {
       ...this._instance._formStyle,
       ...formStyle,
@@ -74,8 +74,8 @@ export class Submit64 {
     this._instance._associationDisplayComponent = displayComponent;
   }
 
-  static registerGlobalAssociationDisplayMap(
-    dictionary: Map<string, Component>
+  static registerGlobalAssociationDisplayRecord(
+    dictionary: Record<string, Component>
   ) {
     this._instance._associationDisplayDictonary = dictionary;
   }
@@ -104,11 +104,7 @@ export class Submit64 {
     return this._instance._associationDisplayComponent;
   }
   
-  static getGlobalAssociationDisplayMap() {
+  static getGlobalAssociationDisplayRecord() {
     return this._instance._associationDisplayDictonary;
-  }
-
-  static getGlobalAssociationDisplayByResourceName(resourceName: string) {
-    return this._instance._associationDisplayDictonary.get(resourceName);
   }
 }

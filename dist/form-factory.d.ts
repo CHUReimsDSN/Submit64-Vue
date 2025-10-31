@@ -3,13 +3,14 @@ import type { TFormDef, TFormStyle, TFormSettings, TResourceFormMetadataAndData,
 export declare class FormFactory {
     private static getFieldComponentByFormFieldType;
     resourceName: string;
-    formSettings: TFormSettings;
-    formStyleConfig: TFormStyle;
+    formSettings: Required<TFormSettings>;
+    formStyle: Required<TFormStyle>;
     actionComponent: Component;
     sectionComponent: Component;
     wrapperResetComponent: Component;
     associationDisplayComponent: Component;
-    constructor(resourceName: string, formSettings?: Partial<TFormSettings>, formStyleConfig?: Partial<TFormStyle>, actionComponent?: Component, sectionComponent?: Component, wrapperResetComponent?: Component, associationDisplayComponent?: Component);
+    associationDisplayRecord: Record<string, Component>;
+    constructor(resourceName: string, formSettings?: Partial<TFormSettings>, formStyle?: Partial<TFormStyle>, actionComponent?: Component, sectionComponent?: Component, wrapperResetComponent?: Component, associationDisplayComponent?: Component, associationDisplayRecord?: Record<string, Component>);
     getForm(formMetadataAndData: TResourceFormMetadataAndData, providingUniqKey: InjectionKey<TSubmit64FormProvider>, context?: TContext): TFormDef;
     private getRegularFieldTypeByFieldType;
 }
