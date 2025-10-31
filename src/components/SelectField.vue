@@ -51,7 +51,7 @@ function resetValidation() {
   if (!fieldRef.value) {
     return
   }
-  return fieldRef.value.resetValidation()
+  fieldRef.value.resetValidation()
 }
 
 // lifeCycle

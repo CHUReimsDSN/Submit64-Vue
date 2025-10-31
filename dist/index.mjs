@@ -1,8 +1,8 @@
 var he = Object.defineProperty;
 var Se = (r, e, t) => e in r ? he(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
 var D = (r, e, t) => Se(r, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as x, createElementBlock as B, openBlock as p, createVNode as V, createBlock as C, createCommentVNode as $, unref as a, normalizeClass as T, createElementVNode as I, toDisplayString as j, renderSlot as K, resolveComponent as _e, normalizeProps as ie, guardReactiveProps as we, withCtx as F, createTextVNode as ue, ref as w, onMounted as q, watch as Fe, Fragment as P, resolveDynamicComponent as G, nextTick as ce, mergeProps as Ce, inject as ve, getCurrentInstance as Ve, renderList as te, provide as De } from "vue";
-import { QBtn as z, QIcon as J, QItem as de, QItemSection as pe, QItemLabel as me, QInput as M, QPopupProxy as re, QDate as fe, QTime as ke, QCheckbox as xe, QSelect as ae, date as _, uid as Be } from "quasar";
+import { defineComponent as x, createElementBlock as B, openBlock as p, createVNode as V, createBlock as C, createCommentVNode as $, unref as a, normalizeClass as T, createElementVNode as I, toDisplayString as j, renderSlot as K, resolveComponent as _e, normalizeProps as ue, guardReactiveProps as we, withCtx as F, createTextVNode as ce, ref as w, onMounted as q, watch as Fe, Fragment as P, resolveDynamicComponent as G, nextTick as ae, mergeProps as Ce, inject as ve, getCurrentInstance as Ve, renderList as te, provide as De } from "vue";
+import { QBtn as z, QIcon as J, QItem as de, QItemSection as pe, QItemLabel as me, QInput as M, QPopupProxy as re, QDate as fe, QTime as ke, QCheckbox as xe, QSelect as ne, date as _, uid as Be } from "quasar";
 const Te = { class: "flex row items-center no-wrap q-pt-sm" }, qe = /* @__PURE__ */ x({
   __name: "DefaultActionComponent",
   props: {
@@ -84,13 +84,13 @@ const Te = { class: "flex row items-center no-wrap q-pt-sm" }, qe = /* @__PURE__
   },
   setup(r) {
     const e = r;
-    return (t, o) => (p(), C(a(de), ie(we(e.itemProps)), {
+    return (t, o) => (p(), C(a(de), ue(we(e.itemProps)), {
       default: F(() => [
         V(a(pe), null, {
           default: F(() => [
             V(a(me), null, {
               default: F(() => [
-                ue(j(e.opt.label), 1)
+                ce(j(e.opt.label), 1)
               ]),
               _: 1
             })
@@ -490,12 +490,11 @@ const ze = { class: "row items-center justify-end" }, je = /* @__PURE__ */ x({
       return l.value ? l.value.validate() : !1;
     }
     function y() {
-      if (l.value)
-        return l.value.resetValidation();
+      l.value && l.value.resetValidation();
     }
     return q(() => {
       i(e.wrapper), e.wrapper.registerBehaviourCallbacks(S, y);
-    }), (b, m) => (p(), C(a(ae), {
+    }), (b, m) => (p(), C(a(ne), {
       ref_key: "fieldRef",
       ref: l,
       modelValue: e.wrapper.modelValue,
@@ -565,7 +564,7 @@ const Ke = /* @__PURE__ */ x({
       });
     }
     function S() {
-      ce(() => {
+      ae(() => {
         n.value = [
           {
             label: e.wrapper.field.defaultDisplayValue ?? String(e.wrapper.getValueSerialized()),
@@ -578,12 +577,11 @@ const Ke = /* @__PURE__ */ x({
       return u.value ? u.value.validate() : !1;
     }
     function b() {
-      if (u.value)
-        return u.value.resetValidation();
+      u.value && u.value.resetValidation();
     }
     return q(() => {
       S(), e.wrapper.registerBehaviourCallbacks(y, b);
-    }), (m, f) => (p(), C(a(ae), {
+    }), (m, f) => (p(), C(a(ne), {
       ref_key: "fieldRef",
       ref: u,
       modelValue: e.wrapper.modelValue,
@@ -651,7 +649,7 @@ const Ke = /* @__PURE__ */ x({
       });
     }
     function i() {
-      ce(() => {
+      ae(() => {
         n.value = [
           {
             label: e.wrapper.field.defaultDisplayValue ?? String(e.wrapper.getValueSerialized()),
@@ -662,7 +660,7 @@ const Ke = /* @__PURE__ */ x({
     }
     return q(() => {
       i();
-    }), (S, y) => (p(), C(a(ae), {
+    }), (S, y) => (p(), C(a(ne), {
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
         y[0] || (y[0] = (b) => e.wrapper.modelValue = b),
@@ -696,13 +694,13 @@ const Ke = /* @__PURE__ */ x({
       onFilter: u
     }, {
       options: F((b) => [
-        a(t) ? (p(), C(a(de), ie(Ce({ key: 0 }, b.itemProps)), {
+        a(t) ? (p(), C(a(de), ue(Ce({ key: 0 }, b.itemProps)), {
           default: F(() => [
             V(a(pe), null, {
               default: F(() => [
                 V(a(me), null, {
                   default: F(() => [
-                    ue(j(b.opt.label), 1)
+                    ce(j(b.opt.label), 1)
                   ]),
                   _: 2
                 }, 1024)
@@ -719,7 +717,7 @@ const Ke = /* @__PURE__ */ x({
       _: 1
     }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options", "onClear"]));
   }
-}), oe = /* @__PURE__ */ x({
+}), le = /* @__PURE__ */ x({
   __name: "StringField",
   props: {
     wrapper: {}
@@ -730,8 +728,7 @@ const Ke = /* @__PURE__ */ x({
       return c.value ? c.value.validate() : !1;
     }
     function d() {
-      if (c.value)
-        return c.value.resetValidation();
+      c.value && c.value.resetValidation();
     }
     return q(() => {
       e.wrapper.registerBehaviourCallbacks(n, d);
@@ -776,8 +773,7 @@ const Ke = /* @__PURE__ */ x({
       return c.value ? c.value.validate() : !1;
     }
     function d() {
-      if (c.value)
-        return c.value.resetValidation();
+      c.value && c.value.resetValidation();
     }
     return q(() => {
       e.wrapper.registerBehaviourCallbacks(n, d);
@@ -812,7 +808,7 @@ const Ke = /* @__PURE__ */ x({
     }, null, 8, ["modelValue", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "onClear"]));
   }
 });
-class ne {
+class oe {
   constructor(e, t, o, l, s, c, n, d) {
     D(this, "resourceName");
     D(this, "formSettings");
@@ -832,8 +828,8 @@ class ne {
   }
   static getFieldComponentByFormFieldType(e) {
     return {
-      string: oe,
-      text: oe,
+      string: le,
+      text: le,
       number: Xe,
       date: je,
       datetime: Pe,
@@ -849,7 +845,7 @@ class ne {
     return e.form.sections.forEach((c) => {
       const n = [];
       c.fields.forEach((u) => {
-        const i = ne.getFieldComponentByFormFieldType(
+        const i = oe.getFieldComponentByFormFieldType(
           u.field_type
         ), S = {
           associationDisplayComponent: this.associationDisplayRecord[u.field_association_class ?? ""] ?? this.associationDisplayComponent,
@@ -906,10 +902,10 @@ function Ze(r, e, t) {
   ), n = [], d = [];
   switch (e) {
     case "date":
-      n.push(le(o.dateFormat));
+      n.push(se(o.dateFormat));
       break;
     case "datetime":
-      n.push(le(o.datetimeFormat));
+      n.push(se(o.datetimeFormat));
       break;
   }
   return r.forEach((u) => {
@@ -1272,7 +1268,7 @@ function Bt(r, e) {
     return _.extractDate(String(t), e) !== _.extractDate(o, e) || `Doit être différent de ${o}`;
   };
 }
-function le(r) {
+function se(r) {
   return (e) => e == null || e === "" ? !0 : Tt(e, r) || `Date invalide. Format : ${r}`;
 }
 function Tt(r, e) {
@@ -1286,7 +1282,7 @@ const qt = {
 }, Rt = {
   key: 0,
   class: "q-field__bottom text-negative q-pt-none"
-}, Ot = ["index"], se = /* @__PURE__ */ x({
+}, Ot = ["index"], ie = /* @__PURE__ */ x({
   __name: "FieldWrapper",
   props: {
     field: {}
@@ -1294,12 +1290,15 @@ const qt = {
   setup(r, { expose: e }) {
     const t = r;
     let o = () => !0, l = () => {
+      console.log("lsfglsdlf");
     };
     const s = ve(t.field.provideUniqKey), c = b(), n = w(), d = w([]);
     function u() {
-      console.log("reset"), s && (n.value = s.getDataByFieldName(
+      s && (n.value = s.getDataByFieldName(
         t.field.metadata.field_name
-      ), n.value = i(n.value), console.log("reset, before valid"), A());
+      ), n.value = i(n.value), ae(() => {
+        A();
+      }));
     }
     function i(g) {
       switch (t.field.type) {
@@ -1460,7 +1459,7 @@ const qt = {
     const t = r;
     let o = null;
     const l = Object.freeze(
-      new ne(
+      new oe(
         t.resourceName,
         t.formSettings,
         t.formStyle,
@@ -1600,7 +1599,7 @@ const qt = {
             (p(!0), B(P, null, te(E.fields, (N) => (p(), B(P, {
               key: N.metadata.field_name
             }, [
-              h.$slots[N.metadata.field_name] ? (p(), C(se, {
+              h.$slots[N.metadata.field_name] ? (p(), C(ie, {
                 key: 1,
                 field: N
               }, {
@@ -1608,7 +1607,7 @@ const qt = {
                   K(h.$slots, N.metadata.field_name, { propsWrapper: W })
                 ]),
                 _: 2
-              }, 1032, ["field"])) : (p(), C(se, {
+              }, 1032, ["field"])) : (p(), C(ie, {
                 key: 0,
                 field: N
               }, null, 8, ["field"]))
