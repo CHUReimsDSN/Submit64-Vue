@@ -6,7 +6,7 @@ import {
   TSubmit64FieldProps,
 } from "../models";
 import { getSubmit64AssociationDataDefaultLimit } from "../utils";
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -51,7 +51,7 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   });
 }
 function setupDefaultSelectValue() {
-  setTimeout(() => {
+  void nextTick(() => {
     selectOptionsFiltered.value = [
       {
         label:
@@ -60,7 +60,7 @@ function setupDefaultSelectValue() {
         value: propsComponent.wrapper.getValueSerialized(),
       },
     ];
-  }, 0);
+  });
 }
 
 // lifeCycle

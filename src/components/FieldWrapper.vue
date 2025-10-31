@@ -14,7 +14,7 @@ const propsComponent = defineProps<{
 }>();
 
 // var
-var validationCallback: () => boolean = () => {
+let validationCallback: () => boolean = () => {
   return true;
 };
 
@@ -39,16 +39,16 @@ function reset() {
 function formModelSerializeByType(value: T) {
   switch (propsComponent.field.type) {
     case "date":
-      if (value === null || value === undefined) {
-        return value;
+      if (value === null || value === undefined || value === '') {
+        return '' as T
       }
       return date.formatDate(
         date.extractDate(String(value), injectForm.getForm().backendDateFormat),
         injectForm.getFormFactoryInstance().formSettings.dateFormat
       ) as T;
     case "datetime":
-      if (value === null || value === undefined) {
-        return value;
+      if (value === null || value === undefined || value === '') {
+        return '' as T
       }
       return date.formatDate(
         date.extractDate(
@@ -64,7 +64,7 @@ function formModelDeserializeByType(value: T) {
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined || value === "") {
-        return value;
+        return undefined;
       }
       return date.formatDate(
         date.extractDate(
@@ -75,7 +75,7 @@ function formModelDeserializeByType(value: T) {
       ) as T;
     case "datetime":
       if (value === null || value === undefined || value === "") {
-        return value;
+        return undefined;
       }
       return date.formatDate(
         date.extractDate(
@@ -96,10 +96,10 @@ function clear() {
       modelValue.value = false as T;
       break;
     case "date":
-      modelValue.value = null as T;
+      modelValue.value = "" as T;
       break;
     case "datetime":
-      modelValue.value = null as T;
+      modelValue.value = "" as T;
       break;
     case "number":
       modelValue.value = null as T;
@@ -173,7 +173,7 @@ onMounted(() => {
 <template>
   <div>
     <slot
-      :propsWrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate,  registerValidationCallback } as TSubmit64FieldWrapperPropsSlot)"
+      :propsWrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate, registerValidationCallback } as TSubmit64FieldWrapperPropsSlot)"
     >
       <Component
         :is="propsComponent.field.component"
