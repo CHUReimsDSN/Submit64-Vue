@@ -119,6 +119,11 @@ function clearForm() {
     fieldRef.clear();
   });
 }
+function resetValidation() {
+  fieldRefs.value.forEach((fieldRef) => {
+    fieldRef.resetValidation();
+  });
+}
 function clearBackendErrors() {
   fieldRefs.value.forEach((fieldRef) => {
     fieldRef.setupBackendErrors([]);
@@ -196,6 +201,7 @@ defineExpose({
   validateForm,
   resetForm,
   clearForm,
+  resetValidation,
   submitForm
 }) as unknown as TSubmit64FormExpose;
 

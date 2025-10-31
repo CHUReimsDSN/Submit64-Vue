@@ -39,6 +39,11 @@ type TSubmit64FormExpose = {
   clearForm: () => void;
 
   /*
+  * Réinitialise les validations
+  */
+  resetValidation: () => void;
+
+  /*
   * Soumet le formulaire
   */
   submitForm: () => Promise<void>;
@@ -58,7 +63,7 @@ function example() {
   if (!submit64Form.value) {
     return
   }
-  submit64Form.value.resetForm()
+  submit64Form.value.clearForm()
 }
 </script>
 

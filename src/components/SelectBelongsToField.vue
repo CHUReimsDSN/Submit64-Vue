@@ -70,11 +70,17 @@ function validate() {
   }
   return fieldRef.value.validate() as boolean;
 }
+function resetValidation() {
+  if (!fieldRef.value) {
+    return false
+  }
+  return fieldRef.value.resetValidation()
+}
 
 // lifeCycle
 onMounted(() => {
   setupDefaultSelectValue();
-  propsComponent.wrapper.registerValidationCallback(validate);
+  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
 });
 </script>
 

@@ -139,6 +139,7 @@ export type TSubmit64FieldWrapper = ComponentPublicInstance & {
   reset: () => void;
   clear: () => void;
   validate: () => boolean;
+  resetValidation: () => void;
   setupBackendErrors: (errors: string[]) => void;
 };
 export type TSubmit64FieldProps = {
@@ -156,7 +157,7 @@ export type TSubmit64FieldWrapperPropsSlot = {
   clear: () => void;
   getValueSerialized: () => unknown;
   getValueDeserialized: () => unknown;
-  registerValidationCallback: (registerValidationArg: () => boolean) => void;
+  registerBehaviourCallbacks: (registerValidationArg: () => boolean, registerResetValidationArg: () => void) => void;
 };
 export type TSubmit64FieldWrapperResetPropsSlot = {
   reset: () => void;
@@ -243,6 +244,7 @@ export type TSubmit64FormExpose = {
   validateForm: () => boolean;
   resetForm: () => void;
   clearForm: () => void;
+  resetValidation: () => void;
   submitForm: () => Promise<void>;
 };
 

@@ -17,6 +17,9 @@ const styleConfig = formFactory.formStyle;
 function validate() {
   return ruleResult.value === true;
 }
+function resetValidation() {
+  ruleResult.value = true
+}
 
 // watchs
 watch(
@@ -35,7 +38,7 @@ watch(
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.wrapper.registerValidationCallback(validate);
+  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
 });
 </script>
 

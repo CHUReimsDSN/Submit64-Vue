@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T">
+<script setup lang="ts">
 import { getCurrentInstance, inject, onMounted, ref, unref } from "vue";
 import type {
   TFormFieldDef,
@@ -17,13 +17,16 @@ const propsComponent = defineProps<{
 let validationCallback: () => boolean = () => {
   return true;
 };
+let resetValidationCallback: () => void = () => {
+  return;
+}
 
 // consts
 const injectForm = inject(propsComponent.field.provideUniqKey)!;
 const rules = getComputedRules();
 
 // refs
-const modelValue = ref<T>();
+const modelValue = ref<unknown>();
 const backendErrors = ref<string[]>([]);
 
 // functions
@@ -33,22 +36,23 @@ function reset() {
   }
   modelValue.value = injectForm.getDataByFieldName(
     propsComponent.field.metadata.field_name
-  ) as T;
+  )
   modelValue.value = formModelSerializeByType(modelValue.value);
+  resetValidation()
 }
-function formModelSerializeByType(value: T) {
+function formModelSerializeByType(value: unknown) {
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined || value === '') {
-        return null as T
+        return null
       }
       return date.formatDate(
         date.extractDate(String(value), injectForm.getForm().backendDateFormat),
         injectForm.getFormFactoryInstance().formSettings.dateFormat
-      ) as T;
+      )
     case "datetime":
       if (value === null || value === undefined || value === '') {
-        return null as T
+        return null
       }
       return date.formatDate(
         date.extractDate(
@@ -56,11 +60,11 @@ function formModelSerializeByType(value: T) {
           injectForm.getForm().backendDatetimeFormat
         ),
         injectForm.getFormFactoryInstance().formSettings.datetimeFormat
-      ) as T;
+      )
   }
   return value;
 }
-function formModelDeserializeByType(value: T) {
+function formModelDeserializeByType(value: unknown) {
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined || value === "") {
@@ -72,7 +76,7 @@ function formModelDeserializeByType(value: T) {
           injectForm.getFormFactoryInstance().formSettings.dateFormat
         ),
         injectForm.getForm().backendDateFormat
-      ) as T;
+      )
     case "datetime":
       if (value === null || value === undefined || value === "") {
         return null;
@@ -83,41 +87,41 @@ function formModelDeserializeByType(value: T) {
           injectForm.getFormFactoryInstance().formSettings.datetimeFormat
         ),
         injectForm.getForm().backendDatetimeFormat
-      ) as T;
+      )
   }
   return value;
 }
 function clear() {
   switch (propsComponent.field.type) {
     case "string":
-      modelValue.value = "" as T;
+      modelValue.value = ""
       break;
     case "checkbox":
-      modelValue.value = false as T;
+      modelValue.value = false
       break;
     case "date":
-      modelValue.value = null as T;
+      modelValue.value = null
       break;
     case "datetime":
-      modelValue.value = null as T;
+      modelValue.value = null
       break;
     case "number":
-      modelValue.value = null as T;
+      modelValue.value = null
       break;
     case "selectString":
-      modelValue.value = null as T;
+      modelValue.value = null
       break;
     case "text":
-      modelValue.value = "" as T;
+      modelValue.value = ""
       break;
     case "object":
-      modelValue.value = {} as T;
+      modelValue.value = {}
       break;
     case "selectBelongsTo":
-      modelValue.value = null as T;
+      modelValue.value = null
       break;
     case "selectHasMany":
-      modelValue.value = null as T;
+      modelValue.value = null
       break;
   }
 }
@@ -129,13 +133,13 @@ function getComputedRules() {
   );
 }
 function modelValueOnUpdate(value: unknown) {
-  modelValue.value = value as T;
+  modelValue.value = value
 }
 function getValueSerialized() {
   return modelValue;
 }
 function getValueDeserialized() {
-  return formModelDeserializeByType(unref(modelValue) as T);
+  return formModelDeserializeByType(unref(modelValue));
 }
 function setupBackendErrors(errorsArg: string[]) {
   backendErrors.value = errorsArg;
@@ -143,8 +147,12 @@ function setupBackendErrors(errorsArg: string[]) {
 function validate() {
   return validationCallback();
 }
-function registerValidationCallback(validationCallbackArg: () => boolean) {
-  validationCallback = validationCallbackArg;
+function resetValidation() {
+  return resetValidationCallback();
+}
+function registerBehaviourCallbacks(registerValidationArg: () => boolean, registerResetValidationArg: () => void) {
+  validationCallback = registerValidationArg;
+  resetValidationCallback = registerResetValidationArg
 }
 
 // exposes
@@ -152,6 +160,7 @@ defineExpose({
   reset,
   clear,
   validate,
+  resetValidation,
   getValueDeserialized,
   getValueSerialized,
   setupBackendErrors,
@@ -173,11 +182,11 @@ onMounted(() => {
 <template>
   <div>
     <slot
-      :propsWrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate, registerValidationCallback } as TSubmit64FieldWrapperPropsSlot)"
+      :propsWrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate, registerBehaviourCallbacks } as TSubmit64FieldWrapperPropsSlot)"
     >
       <Component
         :is="propsComponent.field.component"
-        :wrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate, registerValidationCallback } as TSubmit64FieldWrapperPropsSlot)"
+        :wrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate, registerBehaviourCallbacks } as TSubmit64FieldWrapperPropsSlot)"
       />
       <div
         v-if="backendErrors.length > 0"
