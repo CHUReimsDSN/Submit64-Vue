@@ -19,7 +19,7 @@ export class Submit64 {
     this._formSettings = {
       rulesBehaviour: "ondemand",
       dateFormat: "DD/MM/YYYY",
-      datetimeFormat: "DD/MM/YYYY:HHmm",
+      datetimeFormat: "DD/MM/YYYY HH:mm",
       renderBackendHint: true,
     };
     this._formStyle = {

@@ -113,7 +113,7 @@ const xe = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
     this._formSettings = {
       rulesBehaviour: "ondemand",
       dateFormat: "DD/MM/YYYY",
-      datetimeFormat: "DD/MM/YYYY:HHmm",
+      datetimeFormat: "DD/MM/YYYY HH:mm",
       renderBackendHint: !0
     }, this._formStyle = {
       fieldOutlined: !0,
