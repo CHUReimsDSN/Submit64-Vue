@@ -18,6 +18,7 @@ Il existe deux types possibles de surcharge :
 - Surcharge globale : effective dans toute l'application, concerne tout les formulaires de Submit64  
 - Surcharge locale : effective uniquement sur un formulaire ciblé
 
+<br /><br /> 
 
 ## Surcharge des options du formulaire
 Options disponibles :  
@@ -73,6 +74,8 @@ const formSettings: TFormSettings = {
 </template>
 ```
 
+<br /><br /> 
+
 ## Surcharge du style des champs
 Styles disponibles :  
 ```typescript
@@ -120,6 +123,8 @@ const formStyle: TFormStyle = {
   <Submit64Form :formStyle="formStyle" />
 </template>
 ```
+
+<br /><br /> 
 
 ## Surcharge du composant de section
 Surcharge globale : 
@@ -183,6 +188,8 @@ Slots disponibles :
 ```typescript
 defaultSlot // Slot par défaut, affiche les champs
 ```
+
+<br /><br /> 
 
 ## Surcharge du composant d'action
 Surcharge globale : 
@@ -251,6 +258,8 @@ type TSubmit64ActionFormProps = {
 };
 ```
 
+<br /><br /> 
+
 ## Surcharge du composant d'affichage dans la liste des associations
 Surcharge globale : 
 ```typescript
@@ -301,6 +310,8 @@ type TSubmit64AssociationDisplayPropsSlot = {
   itemProps: QItemProps;
 };
 ```
+
+<br /><br /> 
 
 ## Surcharge de composant d'affichage dans la liste des associations par association
 
