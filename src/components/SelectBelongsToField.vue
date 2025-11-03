@@ -27,6 +27,7 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
   offset: 0,
 });
 const fieldRef = ref<InstanceType<typeof QSelect>>();
+const isLoading = ref(false);
 
 // functions
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
@@ -38,16 +39,16 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       offset: 0,
     };
   }
-  update(() => {
-    callback({
-      resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
-      associationName:
-        propsComponent.wrapper.field.metadata.field_association_name!,
-      limit: selectOptionsScrollPagination.value.limit,
-      offset: selectOptionsScrollPagination.value.offset,
-      labelFilter: val,
-      context: propsComponent.wrapper.injectForm.getForm().context,
-    }).then((response) => {
+  callback({
+    resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
+    associationName:
+      propsComponent.wrapper.field.metadata.field_association_name!,
+    limit: selectOptionsScrollPagination.value.limit,
+    offset: selectOptionsScrollPagination.value.offset,
+    labelFilter: val,
+    context: propsComponent.wrapper.injectForm.getForm().context,
+  }).then((response) => {
+    update(() => {
       selectOptionsFiltered.value = response.rows;
     });
   });
@@ -72,15 +73,15 @@ function validate() {
 }
 function resetValidation() {
   if (!fieldRef.value) {
-    return
+    return;
   }
-  fieldRef.value.resetValidation()
+  fieldRef.value.resetValidation();
 }
 
 // lifeCycle
 onMounted(() => {
   setupDefaultSelectValue();
-  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
+  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation);
 });
 </script>
 
@@ -113,6 +114,7 @@ onMounted(() => {
     :mapOptions="true"
     :emitValue="true"
     :useInput="true"
+    :input-debounce="400"
     @clear="propsComponent.wrapper.clear"
     @filter="onFilter"
   >

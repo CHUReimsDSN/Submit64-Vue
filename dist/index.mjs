@@ -545,20 +545,21 @@ const Ke = /* @__PURE__ */ x({
       limit: X(),
       offset: 0
     }), u = w();
+    w(!1);
     function i(m, f) {
       const k = e.wrapper.injectForm.getAssociationDataCallback();
       m === "" && (d.value = {
         limit: X(),
         offset: 0
-      }), f(() => {
-        k({
-          resourceName: e.wrapper.injectForm.getForm().resourceName,
-          associationName: e.wrapper.field.metadata.field_association_name,
-          limit: d.value.limit,
-          offset: d.value.offset,
-          labelFilter: m,
-          context: e.wrapper.injectForm.getForm().context
-        }).then((U) => {
+      }), k({
+        resourceName: e.wrapper.injectForm.getForm().resourceName,
+        associationName: e.wrapper.field.metadata.field_association_name,
+        limit: d.value.limit,
+        offset: d.value.offset,
+        labelFilter: m,
+        context: e.wrapper.injectForm.getForm().context
+      }).then((U) => {
+        f(() => {
           n.value = U.rows;
         });
       });
@@ -611,6 +612,7 @@ const Ke = /* @__PURE__ */ x({
       mapOptions: !0,
       emitValue: !0,
       useInput: !0,
+      "input-debounce": 400,
       onClear: e.wrapper.clear,
       onFilter: i
     }, {
