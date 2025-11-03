@@ -39,18 +39,26 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       offset: 0,
     };
   }
-  callback({
-    resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
-    associationName:
-      propsComponent.wrapper.field.metadata.field_association_name!,
-    limit: selectOptionsScrollPagination.value.limit,
-    offset: selectOptionsScrollPagination.value.offset,
-    labelFilter: val,
-    context: propsComponent.wrapper.injectForm.getForm().context,
-  }).then((response) => {
-    update(() => {
-      selectOptionsFiltered.value = response.rows;
-    });
+  isLoading.value = true;
+  update(() => {
+    callback({
+      resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
+      associationName:
+        propsComponent.wrapper.field.metadata.field_association_name!,
+      limit: selectOptionsScrollPagination.value.limit,
+      offset: selectOptionsScrollPagination.value.offset,
+      labelFilter: val,
+      context: propsComponent.wrapper.injectForm.getForm().context,
+    })
+      .then((response) => {
+        selectOptionsFiltered.value = response.rows;
+      })
+      .catch(() => {
+        selectOptionsFiltered.value = [];
+      })
+      .finally(() => {
+        isLoading.value = false;
+      });
   });
 }
 function setupDefaultSelectValue() {
@@ -114,7 +122,7 @@ onMounted(() => {
     :mapOptions="true"
     :emitValue="true"
     :useInput="true"
-    :input-debounce="400"
+    :loading="isLoading"
     @clear="propsComponent.wrapper.clear"
     @filter="onFilter"
   >
