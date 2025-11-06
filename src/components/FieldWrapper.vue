@@ -132,10 +132,10 @@ function clear() {
       modelValue.value = {};
       break;
     case "selectBelongsTo":
-      modelValue.value = null;
+      modelValue.value = undefined;
       break;
     case "selectHasMany":
-      modelValue.value = null;
+      modelValue.value = undefined;
       break;
   }
 }

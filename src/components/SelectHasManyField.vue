@@ -27,7 +27,6 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
   offset: 0,
 });
 const fieldRef = ref<InstanceType<typeof QSelect>>();
-const isLoading = ref(false);
 
 // functions
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
@@ -39,7 +38,6 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       offset: 0,
     };
   }
-  isLoading.value = true;
   update(() => {
     callback({
       resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
@@ -56,9 +54,6 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       .catch(() => {
         selectOptionsFiltered.value = [];
       })
-      .finally(() => {
-        isLoading.value = false;
-      });
   });
 }
 function setupDefaultSelectValue() {
