@@ -41,7 +41,6 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   }
   isLoading.value = true;
   update(() => {
-    console.log(propsComponent.wrapper.injectForm.getForm())
     callback({
       resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
       associationName:
@@ -89,6 +88,10 @@ function resetValidation() {
   }
   fieldRef.value.resetValidation();
 }
+function clear() {
+  propsComponent.wrapper.clear()
+  selectOptionsFiltered.value = []
+}
 
 // lifeCycle
 onMounted(() => {
@@ -127,7 +130,7 @@ onMounted(() => {
     :emitValue="true"
     :useInput="true"
     :loading="isLoading"
-    @clear="propsComponent.wrapper.clear"
+    @clear="clear"
     @filter="onFilter"
   >
     <template v-slot:options="scope: TSubmit64AssociationDisplayPropsSlot">
