@@ -41,6 +41,7 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   }
   isLoading.value = true;
   update(() => {
+    console.log(propsComponent.wrapper.injectForm.getForm())
     callback({
       resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
       associationName:

@@ -551,7 +551,7 @@ const Ke = /* @__PURE__ */ x({
         limit: M(),
         offset: 0
       }), i.value = !0, k(() => {
-        T({
+        console.log(e.wrapper.injectForm.getForm()), T({
           resourceName: e.wrapper.injectForm.getForm().resourceName,
           associationName: e.wrapper.field.metadata.field_association_name,
           limit: d.value.limit,
