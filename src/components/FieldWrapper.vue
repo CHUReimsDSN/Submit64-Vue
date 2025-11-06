@@ -51,6 +51,11 @@ function reset() {
 }
 function formModelSerializeByType(value: unknown) {
   switch (propsComponent.field.type) {
+    case "checkbox":
+      if (value === null || value === undefined || value === "") {
+        return false
+      }
+      return value
     case "date":
       if (value === null || value === undefined || value === "") {
         return null;

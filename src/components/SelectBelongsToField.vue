@@ -62,15 +62,17 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   });
 }
 function setupDefaultSelectValue() {
-  const value = propsComponent.wrapper.getValueSerialized()
+  const value = propsComponent.wrapper.getValueSerialized();
   if (!value) {
-    return
+    return;
   }
   void nextTick(() => {
     selectOptionsFiltered.value = [
       {
         label:
-          (propsComponent.wrapper.field.defaultDisplayValue as string | undefined) ?? '???',
+          (propsComponent.wrapper.field.defaultDisplayValue as
+            | string
+            | undefined) ?? "???",
         value,
       },
     ];
@@ -89,8 +91,13 @@ function resetValidation() {
   fieldRef.value.resetValidation();
 }
 function clear() {
-  propsComponent.wrapper.clear()
-  selectOptionsFiltered.value = []
+  propsComponent.wrapper.clear();
+  selectOptionsFiltered.value = [
+    {
+      label: "",
+      value: null,
+    },
+  ];
 }
 
 // lifeCycle

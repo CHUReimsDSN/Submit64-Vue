@@ -585,7 +585,12 @@ const We = /* @__PURE__ */ T({
       u.value && u.value.resetValidation();
     }
     function g() {
-      e.wrapper.clear(), n.value = [];
+      e.wrapper.clear(), n.value = [
+        {
+          label: "",
+          value: null
+        }
+      ];
     }
     return O(() => {
       h(), e.wrapper.registerBehaviourCallbacks(w, m);
@@ -1307,6 +1312,8 @@ const Tt = {
     }
     function i(p) {
       switch (t.field.type) {
+        case "checkbox":
+          return p == null || p === "" ? !1 : p;
         case "date":
           return p == null || p === "" ? null : _.formatDate(
             _.extractDate(String(p), s.getForm().backendDateFormat),
