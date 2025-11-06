@@ -51,6 +51,11 @@ function reset() {
 }
 function formModelSerializeByType(value: unknown) {
   switch (propsComponent.field.type) {
+    case "checkbox":
+      if (value === null || value === undefined || value === "") {
+        return false
+      }
+      return value
     case "date":
       if (value === null || value === undefined || value === "") {
         return null;
@@ -118,7 +123,7 @@ function clear() {
       modelValue.value = null;
       break;
     case "selectString":
-      modelValue.value = null;
+      modelValue.value = undefined;
       break;
     case "text":
       modelValue.value = "";
@@ -127,10 +132,10 @@ function clear() {
       modelValue.value = {};
       break;
     case "selectBelongsTo":
-      modelValue.value = null;
+      modelValue.value = undefined;
       break;
     case "selectHasMany":
-      modelValue.value = null;
+      modelValue.value = undefined;
       break;
   }
 }

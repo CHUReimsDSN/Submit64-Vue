@@ -27,7 +27,6 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
   offset: 0,
 });
 const fieldRef = ref<InstanceType<typeof QSelect>>();
-const isLoading = ref(false);
 
 // functions
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
@@ -39,7 +38,6 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       offset: 0,
     };
   }
-  isLoading.value = true;
   update(() => {
     callback({
       resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
@@ -56,19 +54,21 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       .catch(() => {
         selectOptionsFiltered.value = [];
       })
-      .finally(() => {
-        isLoading.value = false;
-      });
   });
 }
 function setupDefaultSelectValue() {
+  const value = propsComponent.wrapper.getValueSerialized();
+  if (!value) {
+    return;
+  }
   void nextTick(() => {
     selectOptionsFiltered.value = [
       {
         label:
-          propsComponent.wrapper.field.defaultDisplayValue ??
-          String(propsComponent.wrapper.getValueSerialized()),
-        value: propsComponent.wrapper.getValueSerialized(),
+          (propsComponent.wrapper.field.defaultDisplayValue as
+            | string
+            | undefined) ?? "???",
+        value,
       },
     ];
   });
@@ -84,6 +84,10 @@ function resetValidation() {
     return;
   }
   fieldRef.value.resetValidation();
+}
+function clear() {
+  propsComponent.wrapper.clear();
+  selectOptionsFiltered.value = [];
 }
 
 // lifeCycle
@@ -122,8 +126,7 @@ onMounted(() => {
     :mapOptions="true"
     :emitValue="true"
     :useInput="true"
-    :loading="isLoading"
-    @clear="propsComponent.wrapper.clear"
+    @clear="clear"
     @filter="onFilter"
   >
     <template v-slot:options="scope: TSubmit64AssociationDisplayPropsSlot">
