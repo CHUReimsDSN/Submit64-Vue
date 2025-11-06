@@ -62,13 +62,16 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   });
 }
 function setupDefaultSelectValue() {
+  const value = propsComponent.wrapper.getValueSerialized()
+  if (!value) {
+    return
+  }
   void nextTick(() => {
     selectOptionsFiltered.value = [
       {
         label:
-          propsComponent.wrapper.field.defaultDisplayValue ??
-          String(propsComponent.wrapper.getValueSerialized()),
-        value: propsComponent.wrapper.getValueSerialized(),
+          (propsComponent.wrapper.field.defaultDisplayValue as string | undefined) ?? '???',
+        value,
       },
     ];
   });

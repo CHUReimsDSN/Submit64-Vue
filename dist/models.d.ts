@@ -102,7 +102,7 @@ export type TFormFieldDef = {
     cssClass?: string;
     clearable?: boolean;
     readonly?: boolean;
-    defaultDisplayValue?: string;
+    defaultDisplayValue?: string | string[];
     selectOptions?: TSubmit64AssociationRowEntry[];
     component: Component;
     componentOptions: {
