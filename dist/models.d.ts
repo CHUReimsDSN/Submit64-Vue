@@ -15,7 +15,6 @@ export type TResourceFormMetadata = {
     resource_name: string;
     backend_date_format: string;
     backend_datetime_format: string;
-    has_global_custom_validation?: boolean;
     resetable?: boolean;
     clearable?: boolean;
     css_class?: string;
@@ -80,7 +79,6 @@ export type TFormStyle = {
 export type TFormDef = {
     sections: TFormSection[];
     resourceName: string;
-    hasGlobalCustomValidation: boolean;
     backendDateFormat: string;
     backendDatetimeFormat: string;
     resetable?: boolean;
