@@ -55,12 +55,7 @@ function resetValidation() {
 }
 function clear() {
   propsComponent.wrapper.clear();
-  selectOptionsFiltered.value = [
-    {
-      label: "",
-      value: undefined,
-    },
-  ];
+  selectOptionsFiltered.value = [];
 }
 
 // lifeCycle
