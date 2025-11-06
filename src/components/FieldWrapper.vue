@@ -123,7 +123,7 @@ function clear() {
       modelValue.value = null;
       break;
     case "selectString":
-      modelValue.value = null;
+      modelValue.value = undefined;
       break;
     case "text":
       modelValue.value = "";

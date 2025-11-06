@@ -53,6 +53,15 @@ function resetValidation() {
   }
   fieldRef.value.resetValidation()
 }
+function clear() {
+  propsComponent.wrapper.clear();
+  selectOptionsFiltered.value = [
+    {
+      label: "",
+      value: undefined,
+    },
+  ];
+}
 
 // lifeCycle
 onMounted(() => {
@@ -90,7 +99,7 @@ onMounted(() => {
     :mapOptions="true"
     :emitValue="true"
     :useInput="true"
-    @clear="propsComponent.wrapper.clear"
+    @clear="clear"
     @filter="inputFilter"
   />
 </template>
