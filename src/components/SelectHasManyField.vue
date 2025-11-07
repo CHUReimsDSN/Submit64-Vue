@@ -59,11 +59,14 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
 function setupDefaultSelectValue() {
   const value = propsComponent.wrapper.getValueSerialized();
   if (!value) {
+    console.log('early return shit')
     return;
   }
   void nextTick(() => {
+    console.log('in next tick')
     selectOptionsFiltered.value = (value as unknown[]).map(
       (valueMap, valueMapIndex) => {
+        console.log('in map => ', valueMap, valueMapIndex)
         return {
           label:
             (
