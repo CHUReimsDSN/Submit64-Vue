@@ -454,7 +454,7 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
         dense: a(l).fieldDense,
         color: a(l).fieldColor,
         "aria-readonly": e.wrapper.field.readonly,
-        class: R(e.wrapper.field.cssClass)
+        class: R([e.wrapper.field.cssClass, "q-pb-md"])
       }, null, 8, ["modelValue", "label", "dense", "color", "aria-readonly", "class"]),
       e.wrapper.field.hint ? (m(), T("div", Ge, G(e.wrapper.field.hint), 1)) : E("", !0),
       t.value !== !0 ? (m(), T("div", Pe, G(t.value), 1)) : E("", !0)

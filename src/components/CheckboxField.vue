@@ -50,6 +50,7 @@ onMounted(() => {
     :color="styleConfig.fieldColor"
     :aria-readonly="propsComponent.wrapper.field.readonly"
     :class="propsComponent.wrapper.field.cssClass"
+    class="q-pb-md"
   />
   <div v-if="propsComponent.wrapper.field.hint" class="q-field__bottom">
     {{ propsComponent.wrapper.field.hint }}
