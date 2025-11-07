@@ -53,15 +53,15 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       })
       .catch(() => {
         selectOptionsFiltered.value = [];
-      })
+      });
   });
 }
 function setupDefaultSelectValue() {
-  const value = propsComponent.wrapper.getValueSerialized();
-  if (!value) {
-    return;
-  }
   void nextTick(() => {
+    const value = propsComponent.wrapper.getValueSerialized();
+    if (!value) {
+      return;
+    }
     selectOptionsFiltered.value = [
       {
         label:

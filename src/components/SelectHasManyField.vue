@@ -60,13 +60,10 @@ function setupDefaultSelectValue() {
   void nextTick(() => {
     const value = propsComponent.wrapper.getValueSerialized();
     if (!value) {
-      console.log('early return shit')
       return;
     }
-    console.log('in next tick => ', value)
     selectOptionsFiltered.value = (value as unknown[]).map(
       (valueMap, valueMapIndex) => {
-        console.log('in map => ', valueMap, valueMapIndex)
         return {
           label:
             (

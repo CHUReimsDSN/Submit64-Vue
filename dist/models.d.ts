@@ -70,7 +70,7 @@ export type TFormSettings = {
 export type TFormStyle = {
     fieldFilled?: boolean;
     fieldOutlined?: boolean;
-    fieldStandout?: boolean;
+    fieldStandout?: boolean | string;
     fieldBorderless?: boolean;
     fieldRounded?: boolean;
     fieldSquare?: boolean;
