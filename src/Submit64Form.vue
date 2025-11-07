@@ -51,6 +51,7 @@ async function setupMetadatasAndForm() {
     formFactoryInstance.getForm(
       formMetadataAndData,
       providingUniqKey,
+      propsComponent.resourceId,
       propsComponent.context
     )
   );
@@ -248,6 +249,7 @@ onMounted(async () => {
     <component
       :is="formFactoryInstance.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
+      :formDef="generatedForm"
       :submit="submitForm"
       :clear="generatedForm.clearable ? clearForm : undefined"
       :reset="generatedForm.resetable ? resetForm : undefined"
@@ -257,3 +259,4 @@ onMounted(async () => {
     </template>
   </div>
 </template>
+

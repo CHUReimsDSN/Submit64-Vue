@@ -53,7 +53,7 @@ export class FormFactory {
         this.associationDisplayRecord =
             associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
     }
-    getForm(formMetadataAndData, providingUniqKey, context) {
+    getForm(formMetadataAndData, providingUniqKey, resourceId, context) {
         const sections = [];
         formMetadataAndData.form.sections.forEach((sectionMetadata) => {
             const fields = [];
@@ -94,6 +94,7 @@ export class FormFactory {
         const form = {
             sections,
             resourceName: formMetadataAndData.form.resource_name,
+            resourceId: resourceId,
             cssClass: formMetadataAndData.form.css_class,
             resetable: formMetadataAndData.form.resetable,
             clearable: formMetadataAndData.form.clearable,

@@ -83,6 +83,7 @@ export type TFormStyle = {
 export type TFormDef = {
     sections: TFormSection[];
     resourceName: string;
+    resourceId?: TRecord['id'];
     backendDateFormat: string;
     backendDatetimeFormat: string;
     resetable?: boolean;
@@ -184,6 +185,7 @@ export type TSubmit64SectionFormProps = {
 };
 export type TSubmit64ActionFormProps = {
     isLoadingSubmit: boolean;
+    formDef: TFormDef;
     reset?: () => void;
     clear?: () => void;
     submit: () => Promise<void> | void;

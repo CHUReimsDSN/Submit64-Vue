@@ -83,6 +83,7 @@ export class FormFactory {
   getForm(
     formMetadataAndData: TResourceFormMetadataAndData,
     providingUniqKey: InjectionKey<TSubmit64FormProvider>,
+    resourceId?: TFormDef['resourceId'],
     context?: TContext
   ): TFormDef {
     const sections: TFormSection[] = [];
@@ -129,6 +130,7 @@ export class FormFactory {
     const form: TFormDef = {
       sections,
       resourceName: formMetadataAndData.form.resource_name,
+      resourceId: resourceId,
       cssClass: formMetadataAndData.form.css_class,
       resetable: formMetadataAndData.form.resetable,
       clearable: formMetadataAndData.form.clearable,
