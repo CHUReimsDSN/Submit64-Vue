@@ -53,15 +53,15 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       })
       .catch(() => {
         selectOptionsFiltered.value = [];
-      })
+      });
   });
 }
 function setupDefaultSelectValue() {
-  const value = propsComponent.wrapper.getValueSerialized();
-  if (!value) {
-    return;
-  }
   void nextTick(() => {
+    const value = propsComponent.wrapper.getValueSerialized();
+    if (!value) {
+      return;
+    }
     selectOptionsFiltered.value = [
       {
         label:
@@ -120,6 +120,8 @@ onMounted(() => {
     :class="propsComponent.wrapper.field.cssClass"
     :lazy-rules="lazyRules"
     :clearable="propsComponent.wrapper.field.clearable"
+    :prefix="propsComponent.wrapper.field.prefix"
+    :suffix="propsComponent.wrapper.field.suffix"
     :readonly="propsComponent.wrapper.field.readonly"
     :rules="propsComponent.wrapper.rules"
     :options="selectOptionsFiltered"

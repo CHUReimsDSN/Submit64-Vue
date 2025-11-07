@@ -103,6 +103,9 @@ export class FormFactory {
           metadata: columnMetadata,
           label: columnMetadata.label,
           hint: columnMetadata.hint,
+          prefix: columnMetadata.prefix,
+          suffix: columnMetadata.suffix,
+          readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly ?? columnMetadata.readonly,
           cssClass: columnMetadata.css_class,
           selectOptions: columnMetadata.select_options,
           rules: columnMetadata.rules,
@@ -118,6 +121,7 @@ export class FormFactory {
         label: sectionMetadata.label,
         icon: sectionMetadata.icon,
         cssClass: sectionMetadata.css_class,
+        readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly,
         fields,
       };
       sections.push(section);
@@ -128,6 +132,7 @@ export class FormFactory {
       cssClass: formMetadataAndData.form.css_class,
       resetable: formMetadataAndData.form.resetable,
       clearable: formMetadataAndData.form.clearable,
+      readonly: formMetadataAndData.form.readonly,
       backendDateFormat: formMetadataAndData.form.backend_date_format,
       backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
       context,

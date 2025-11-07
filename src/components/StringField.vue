@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { TSubmit64FieldProps } from "../models";
+import type { TSubmit64FieldProps } from "../models";
 import { QInput } from "quasar";
 
 // props
@@ -57,8 +57,10 @@ onMounted(() => {
     :bgColor="styleConfig.fieldBgColor"
     :class="propsComponent.wrapper.field.cssClass"
     :lazy-rules="lazyRules"
-    :clearable="propsComponent.wrapper.field.clearable"
+    :prefix="propsComponent.wrapper.field.prefix"
+    :suffix="propsComponent.wrapper.field.suffix"
     :readonly="propsComponent.wrapper.field.readonly"
+    :clearable="propsComponent.wrapper.field.clearable"
     :autogrow="true"
     :rules="propsComponent.wrapper.rules"
     @clear="propsComponent.wrapper.clear"

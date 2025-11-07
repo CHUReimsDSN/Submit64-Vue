@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { QSelect, QItemLabel, QItem, QItemSection } from "quasar";
+import { QSelect } from "quasar";
 import type {
   TSelectOptionPagination,
   TSubmit64AssociationDisplayPropsSlot,
@@ -53,22 +53,29 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       })
       .catch(() => {
         selectOptionsFiltered.value = [];
-      })
+      });
   });
 }
 function setupDefaultSelectValue() {
-  const value = propsComponent.wrapper.getValueSerialized()
-  if (!value) {
-    return
-  }
   void nextTick(() => {
-    selectOptionsFiltered.value = [
-      {
-        label:
-          (propsComponent.wrapper.field.defaultDisplayValue as string | undefined) ?? '???',
-        value,
-      },
-    ];
+    const value = propsComponent.wrapper.getValueSerialized();
+    if (!value) {
+      return;
+    }
+    selectOptionsFiltered.value = (value as unknown[]).map(
+      (valueMap, valueMapIndex) => {
+        return {
+          label:
+            (
+              propsComponent.wrapper.field.defaultDisplayValue as (
+                | string
+                | undefined
+              )[]
+            )[valueMapIndex] ?? "???",
+          value: valueMap,
+        };
+      }
+    );
   });
 }
 function validate() {
@@ -118,6 +125,8 @@ onMounted(() => {
     :class="propsComponent.wrapper.field.cssClass"
     :lazy-rules="lazyRules"
     :clearable="propsComponent.wrapper.field.clearable"
+    :prefix="propsComponent.wrapper.field.prefix"
+    :suffix="propsComponent.wrapper.field.suffix"
     :readonly="propsComponent.wrapper.field.readonly"
     :rules="propsComponent.wrapper.rules"
     :options="selectOptionsFiltered"

@@ -3,5 +3,3 @@ title: TODO
 ---
 
 # *TODO*
-
-- HasMany

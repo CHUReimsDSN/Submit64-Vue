@@ -8,6 +8,7 @@ import {
   unref,
 } from "vue";
 import type {
+  TContext,
   TFormFieldDef,
   TSubmit64FieldWrapper,
   TSubmit64FieldWrapperPropsSlot,
@@ -18,6 +19,7 @@ import { date } from "quasar";
 // props
 const propsComponent = defineProps<{
   field: TFormFieldDef;
+  context?: TContext;
 }>();
 
 // var
@@ -150,7 +152,7 @@ function modelValueOnUpdate(value: unknown) {
   modelValue.value = value;
 }
 function getValueSerialized() {
-  return modelValue;
+  return unref(modelValue);
 }
 function getValueDeserialized() {
   return formModelDeserializeByType(unref(modelValue));
