@@ -62,23 +62,23 @@ export type TSubmit64SubmitSubmitData = {
     resource_data: TResourceData | null;
 };
 export type TFormSettings = {
-    rulesBehaviour?: "lazy" | "ondemand";
-    dateFormat?: string;
-    datetimeFormat?: string;
-    renderBackendHint?: boolean;
+    rulesBehaviour?: "lazy" | "ondemand" | undefined;
+    dateFormat?: string | undefined;
+    datetimeFormat?: string | undefined;
+    renderBackendHint?: boolean | undefined;
 };
 export type TFormStyle = {
-    fieldFilled?: boolean;
-    fieldOutlined?: boolean;
-    fieldStandout?: boolean | string;
-    fieldBorderless?: boolean;
-    fieldRounded?: boolean;
-    fieldSquare?: boolean;
-    fieldDense?: boolean;
-    fieldHideBottomSpace?: boolean;
-    fieldColor?: string;
-    fieldBgColor?: string;
-    fieldClass?: string;
+    fieldFilled?: boolean | undefined;
+    fieldOutlined?: boolean | undefined;
+    fieldStandout?: boolean | string | undefined;
+    fieldBorderless?: boolean | undefined;
+    fieldRounded?: boolean | undefined;
+    fieldSquare?: boolean | undefined;
+    fieldDense?: boolean | undefined;
+    fieldHideBottomSpace?: boolean | undefined;
+    fieldColor?: string | undefined;
+    fieldBgColor?: string | undefined;
+    fieldClass?: string | undefined;
 };
 export type TFormDef = {
     sections: TFormSection[];
