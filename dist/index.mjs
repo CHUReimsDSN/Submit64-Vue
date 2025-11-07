@@ -675,7 +675,7 @@ const We = /* @__PURE__ */ B({
         return;
       }
       ae(() => {
-        console.log("in next tick"), n.value = d.map(
+        console.log("in next tick => ", d), n.value = d.map(
           (b, S) => (console.log("in map => ", b, S), {
             label: e.wrapper.field.defaultDisplayValue[S] ?? "???",
             value: b
