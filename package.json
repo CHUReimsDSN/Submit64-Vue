@@ -16,7 +16,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build && tsc"
+    "build": "tsc && vite build"
   },
   "devDependencies": {
     "@types/node": "^22.15.17",
