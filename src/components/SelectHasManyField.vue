@@ -53,22 +53,29 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
       })
       .catch(() => {
         selectOptionsFiltered.value = [];
-      })
+      });
   });
 }
 function setupDefaultSelectValue() {
-  const value = propsComponent.wrapper.getValueSerialized()
+  const value = propsComponent.wrapper.getValueSerialized();
   if (!value) {
-    return
+    return;
   }
   void nextTick(() => {
-    selectOptionsFiltered.value = [
-      {
-        label:
-          (propsComponent.wrapper.field.defaultDisplayValue as string | undefined) ?? '???',
-        value,
-      },
-    ];
+    selectOptionsFiltered.value = (value as unknown[]).map(
+      (valueMap, valueMapIndex) => {
+        return {
+          label:
+            (
+              propsComponent.wrapper.field.defaultDisplayValue as (
+                | string
+                | undefined
+              )[]
+            )[valueMapIndex] ?? "???",
+          value: valueMap,
+        };
+      }
+    );
   });
 }
 function validate() {
