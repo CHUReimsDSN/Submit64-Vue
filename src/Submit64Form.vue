@@ -129,7 +129,10 @@ function clearBackendErrors() {
     fieldRef.setupBackendErrors([]);
   });
 }
-function registerRef(resourceDataKey: string, fieldComponent: TSubmit64FieldWrapper) {
+function registerRef(
+  resourceDataKey: string,
+  fieldComponent: TSubmit64FieldWrapper
+) {
   fieldRefs.value.set(resourceDataKey, fieldComponent);
 }
 function getDataByFieldName(fieldName: string) {
@@ -180,7 +183,7 @@ function ensurePropsAreOk() {
   });
 }
 function getMode() {
-  return mode.value
+  return mode.value;
 }
 
 // provides
@@ -202,7 +205,7 @@ defineExpose({
   resetForm,
   clearForm,
   resetValidation,
-  submitForm
+  submitForm,
 }) as unknown as TSubmit64FormExpose;
 
 // lifeCycle
@@ -220,6 +223,7 @@ onMounted(async () => {
         :key="indexSection"
         :is="formFactoryInstance.sectionComponent"
         :section="section"
+        :context="propsComponent.context"
       >
         <template
           v-for="field in section.fields"
@@ -228,16 +232,13 @@ onMounted(async () => {
           <FieldWrapper
             v-if="!$slots[field.metadata.field_name]"
             :field="field"
+            :context="propsComponent.context"
           />
 
           <template v-else>
-            <FieldWrapper :field="field">
+            <FieldWrapper :field="field" :context="propsComponent.context">
               <template v-slot:default="{ propsWrapper }">
-                <slot
-                  :name="field.metadata.field_name"
-                  :propsWrapper="propsWrapper"
-                >
-                </slot>
+                <slot :propsWrapper="propsWrapper"></slot>
               </template>
             </FieldWrapper>
           </template>

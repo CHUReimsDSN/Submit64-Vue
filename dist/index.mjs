@@ -1,8 +1,8 @@
 var fe = Object.defineProperty;
 var me = (r, e, t) => e in r ? fe(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
-var k = (r, e, t) => me(r, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as B, createElementBlock as T, openBlock as m, createVNode as x, createBlock as C, createCommentVNode as I, unref as a, normalizeClass as R, createElementVNode as j, toDisplayString as G, renderSlot as K, resolveComponent as ge, normalizeProps as be, guardReactiveProps as ye, withCtx as V, createTextVNode as he, ref as w, onMounted as q, watch as Se, Fragment as L, resolveDynamicComponent as P, nextTick as ae, inject as _e, getCurrentInstance as we, renderList as te, provide as Fe } from "vue";
-import { QBtn as U, QIcon as J, QItem as ve, QItemSection as Ce, QItemLabel as De, QInput as Z, QPopupProxy as re, QDate as ue, QTime as Ve, QCheckbox as ke, QSelect as ne, date as _, uid as xe } from "quasar";
+var D = (r, e, t) => me(r, typeof e != "symbol" ? e + "" : e, t);
+import { defineComponent as B, createElementBlock as T, openBlock as m, createVNode as k, createBlock as C, createCommentVNode as E, unref as a, normalizeClass as R, createElementVNode as j, toDisplayString as G, renderSlot as K, resolveComponent as ge, normalizeProps as be, guardReactiveProps as ye, withCtx as V, createTextVNode as he, ref as _, onMounted as q, watch as we, Fragment as L, resolveDynamicComponent as P, nextTick as ae, inject as Se, getCurrentInstance as _e, renderList as te, provide as Fe } from "vue";
+import { QBtn as U, QIcon as J, QItem as ve, QItemSection as Ce, QItemLabel as xe, QInput as M, QPopupProxy as re, QDate as ue, QTime as Ve, QCheckbox as De, QSelect as ne, date as S, uid as ke } from "quasar";
 const Be = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__ */ B({
   __name: "DefaultActionComponent",
   props: {
@@ -14,7 +14,7 @@ const Be = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
   setup(r) {
     const e = r;
     return (t, o) => (m(), T("div", Be, [
-      x(a(U), {
+      k(a(U), {
         label: "Enregistrer",
         loading: e.isLoadingSubmit,
         onClick: o[0] || (o[0] = (l) => e.submit())
@@ -24,19 +24,20 @@ const Be = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
         loading: e.isLoadingSubmit,
         label: "Réinitialiser",
         onClick: o[1] || (o[1] = (l) => e.reset())
-      }, null, 8, ["loading"])) : I("", !0),
+      }, null, 8, ["loading"])) : E("", !0),
       e.clear ? (m(), C(a(U), {
         key: 1,
         loading: e.isLoadingSubmit,
         label: "Vider",
         onClick: o[2] || (o[2] = (l) => e.clear())
-      }, null, 8, ["loading"])) : I("", !0)
+      }, null, 8, ["loading"])) : E("", !0)
     ]));
   }
 }), Re = { class: "flex row items-center" }, qe = { class: "text-body1 text-weight-medium" }, Oe = { class: "flex column q-gutter-sm" }, Ne = /* @__PURE__ */ B({
   __name: "DefaultSectionComponent",
   props: {
-    section: {}
+    section: {},
+    context: {}
   },
   setup(r) {
     const e = r;
@@ -48,7 +49,7 @@ const Be = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
           key: 0,
           name: e.section.icon,
           size: "sm"
-        }, null, 8, ["name"])) : I("", !0),
+        }, null, 8, ["name"])) : E("", !0),
         j("div", qe, G(e.section.label), 1)
       ]),
       j("div", Oe, [
@@ -86,9 +87,9 @@ const Be = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
     const e = r;
     return (t, o) => (m(), C(a(ve), be(ye(e.itemProps)), {
       default: V(() => [
-        x(a(Ce), null, {
+        k(a(Ce), null, {
           default: V(() => [
-            x(a(De), null, {
+            k(a(xe), null, {
               default: V(() => [
                 he(G(e.opt.label), 1)
               ]),
@@ -101,15 +102,15 @@ const Be = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
       _: 1
     }, 16));
   }
-}), X = class X {
+}), Z = class Z {
   constructor() {
-    k(this, "_formSettings");
-    k(this, "_formStyle");
-    k(this, "_actionComponent");
-    k(this, "_sectionComponent");
-    k(this, "_wrapperResetComponent");
-    k(this, "_associationDisplayComponent");
-    k(this, "_associationDisplayDictonary");
+    D(this, "_formSettings");
+    D(this, "_formStyle");
+    D(this, "_actionComponent");
+    D(this, "_sectionComponent");
+    D(this, "_wrapperResetComponent");
+    D(this, "_associationDisplayComponent");
+    D(this, "_associationDisplayDictonary");
     this._formSettings = {
       rulesBehaviour: "ondemand",
       dateFormat: "DD/MM/YYYY",
@@ -178,33 +179,33 @@ const Be = { class: "flex row items-center no-wrap q-pt-sm" }, Te = /* @__PURE__
     return this._instance._associationDisplayDictonary;
   }
 };
-k(X, "_instance", new X());
-let N = X;
+D(Z, "_instance", new Z());
+let N = Z;
 const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
   __name: "DateField",
   props: {
     wrapper: {}
   },
   setup(r) {
-    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), o = t.formSettings, l = t.formStyle, s = o.rulesBehaviour === "lazy", c = w(), n = w();
-    function d() {
+    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), o = t.formSettings, l = t.formStyle, s = o.rulesBehaviour === "lazy", c = _(), n = _();
+    function p() {
       c.value && c.value.hide();
     }
-    function u() {
+    function i() {
       return n.value ? n.value.validate() : !1;
     }
-    function i() {
+    function u() {
       n.value && n.value.resetValidation();
     }
     return q(() => {
-      e.wrapper.registerBehaviourCallbacks(u, i);
-    }), (S, h) => (m(), C(a(Z), {
+      e.wrapper.registerBehaviourCallbacks(i, u);
+    }), (w, h) => (m(), C(a(M), {
       ref_key: "fieldRef",
       ref: n,
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
-        h[2] || (h[2] = (D) => e.wrapper.modelValue = D),
-        h[3] || (h[3] = (D) => e.wrapper.modelValueOnUpdate(D))
+        h[2] || (h[2] = (x) => e.wrapper.modelValue = x),
+        h[3] || (h[3] = (x) => e.wrapper.modelValueOnUpdate(x))
       ],
       label: e.wrapper.field.label,
       hint: e.wrapper.field.hint,
@@ -220,20 +221,22 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
       bgColor: a(l).fieldBgColor,
       class: R(e.wrapper.field.cssClass),
       "lazy-rules": s,
+      prefix: e.wrapper.field.prefix,
+      suffix: e.wrapper.field.suffix,
       readonly: e.wrapper.field.readonly,
       clearable: e.wrapper.field.clearable,
       rules: e.wrapper.rules,
       onClear: e.wrapper.clear
     }, {
       append: V(() => [
-        x(a(J), {
+        k(a(J), {
           size: "sm",
           color: "primary",
           name: "event",
           class: "cursor-pointer"
         }, {
           default: V(() => [
-            x(a(re), {
+            k(a(re), {
               ref_key: "popupProxyRef",
               ref: c,
               cover: "",
@@ -241,18 +244,18 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
               "transition-hide": "scale"
             }, {
               default: V(() => [
-                x(a(ue), {
+                k(a(ue), {
                   modelValue: e.wrapper.modelValue,
                   "onUpdate:modelValue": [
-                    h[0] || (h[0] = (D) => e.wrapper.modelValue = D),
-                    h[1] || (h[1] = (D) => e.wrapper.modelValueOnUpdate(D))
+                    h[0] || (h[0] = (x) => e.wrapper.modelValue = x),
+                    h[1] || (h[1] = (x) => e.wrapper.modelValueOnUpdate(x))
                   ],
                   mask: a(t).formSettings.dateFormat
                 }, {
                   default: V(() => [
                     j("div", Ie, [
-                      x(a(U), {
-                        onClick: d,
+                      k(a(U), {
+                        onClick: p,
                         label: "Fermer",
                         color: "secondary",
                         flat: "",
@@ -270,7 +273,7 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
         })
       ]),
       _: 1
-    }, 8, ["modelValue", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "readonly", "clearable", "rules", "onClear"]));
+    }, 8, ["modelValue", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "prefix", "suffix", "readonly", "clearable", "rules", "onClear"]));
   }
 }), je = { class: "row items-center justify-end" }, Ue = { class: "row items-center justify-end" }, Le = /* @__PURE__ */ B({
   __name: "DateTimeField",
@@ -278,28 +281,28 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
     wrapper: {}
   },
   setup(r) {
-    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), o = t.formSettings, l = t.formStyle, s = o.rulesBehaviour === "lazy", c = w(), n = w(), d = w();
-    function u() {
+    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), o = t.formSettings, l = t.formStyle, s = o.rulesBehaviour === "lazy", c = _(), n = _(), p = _();
+    function i() {
       c.value && c.value.hide();
     }
-    function i() {
+    function u() {
       n.value && n.value.hide();
     }
-    function S() {
-      return d.value ? d.value.validate() : !1;
+    function w() {
+      return p.value ? p.value.validate() : !1;
     }
     function h() {
-      d.value && d.value.resetValidation();
+      p.value && p.value.resetValidation();
     }
     return q(() => {
-      e.wrapper.registerBehaviourCallbacks(S, h);
-    }), (D, g) => (m(), C(a(Z), {
+      e.wrapper.registerBehaviourCallbacks(w, h);
+    }), (x, g) => (m(), C(a(M), {
       ref_key: "fieldRef",
-      ref: d,
+      ref: p,
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
-        g[4] || (g[4] = (p) => e.wrapper.modelValue = p),
-        g[5] || (g[5] = (p) => e.wrapper.modelValueOnUpdate(p))
+        g[4] || (g[4] = (d) => e.wrapper.modelValue = d),
+        g[5] || (g[5] = (d) => e.wrapper.modelValueOnUpdate(d))
       ],
       label: e.wrapper.field.label,
       hint: e.wrapper.field.hint,
@@ -315,20 +318,22 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
       bgColor: a(l).fieldBgColor,
       class: R(e.wrapper.field.cssClass),
       "lazy-rules": s,
+      prefix: e.wrapper.field.prefix,
+      suffix: e.wrapper.field.suffix,
       readonly: e.wrapper.field.readonly,
       clearable: e.wrapper.field.clearable,
       rules: e.wrapper.rules,
       onClear: e.wrapper.clear
     }, {
       append: V(() => [
-        x(a(J), {
+        k(a(J), {
           size: "sm",
           color: "primary",
           name: "event",
           class: "cursor-pointer"
         }, {
           default: V(() => [
-            x(a(re), {
+            k(a(re), {
               ref_key: "datePopupProxyRef",
               ref: c,
               cover: "",
@@ -336,60 +341,17 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
               "transition-hide": "scale"
             }, {
               default: V(() => [
-                x(a(ue), {
+                k(a(ue), {
                   modelValue: e.wrapper.modelValue,
                   "onUpdate:modelValue": [
-                    g[0] || (g[0] = (p) => e.wrapper.modelValue = p),
-                    g[1] || (g[1] = (p) => e.wrapper.modelValueOnUpdate(p))
+                    g[0] || (g[0] = (d) => e.wrapper.modelValue = d),
+                    g[1] || (g[1] = (d) => e.wrapper.modelValueOnUpdate(d))
                   ],
                   mask: a(t).formSettings.datetimeFormat
                 }, {
                   default: V(() => [
                     j("div", je, [
-                      x(a(U), {
-                        onClick: u,
-                        label: "Fermer",
-                        color: "secondary",
-                        flat: "",
-                        "no-caps": ""
-                      })
-                    ])
-                  ]),
-                  _: 1
-                }, 8, ["modelValue", "mask"])
-              ]),
-              _: 1
-            }, 512)
-          ]),
-          _: 1
-        }),
-        x(a(J), {
-          size: "sm",
-          color: "primary",
-          name: "access_time",
-          class: "cursor-pointer"
-        }, {
-          default: V(() => [
-            x(a(re), {
-              ref_key: "timePopupProxyRef",
-              ref: n,
-              cover: "",
-              "transition-show": "scale",
-              "transition-hide": "scale"
-            }, {
-              default: V(() => [
-                x(a(Ve), {
-                  modelValue: e.wrapper.modelValue,
-                  "onUpdate:modelValue": [
-                    g[2] || (g[2] = (p) => e.wrapper.modelValue = p),
-                    g[3] || (g[3] = (p) => e.wrapper.modelValueOnUpdate(p))
-                  ],
-                  mask: a(t).formSettings.datetimeFormat,
-                  format24h: ""
-                }, {
-                  default: V(() => [
-                    j("div", Ue, [
-                      x(a(U), {
+                      k(a(U), {
                         onClick: i,
                         label: "Fermer",
                         color: "secondary",
@@ -405,10 +367,53 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
             }, 512)
           ]),
           _: 1
+        }),
+        k(a(J), {
+          size: "sm",
+          color: "primary",
+          name: "access_time",
+          class: "cursor-pointer"
+        }, {
+          default: V(() => [
+            k(a(re), {
+              ref_key: "timePopupProxyRef",
+              ref: n,
+              cover: "",
+              "transition-show": "scale",
+              "transition-hide": "scale"
+            }, {
+              default: V(() => [
+                k(a(Ve), {
+                  modelValue: e.wrapper.modelValue,
+                  "onUpdate:modelValue": [
+                    g[2] || (g[2] = (d) => e.wrapper.modelValue = d),
+                    g[3] || (g[3] = (d) => e.wrapper.modelValueOnUpdate(d))
+                  ],
+                  mask: a(t).formSettings.datetimeFormat,
+                  format24h: ""
+                }, {
+                  default: V(() => [
+                    j("div", Ue, [
+                      k(a(U), {
+                        onClick: u,
+                        label: "Fermer",
+                        color: "secondary",
+                        flat: "",
+                        "no-caps": ""
+                      })
+                    ])
+                  ]),
+                  _: 1
+                }, 8, ["modelValue", "mask"])
+              ]),
+              _: 1
+            }, 512)
+          ]),
+          _: 1
         })
       ]),
       _: 1
-    }, 8, ["modelValue", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "readonly", "clearable", "rules", "onClear"]));
+    }, 8, ["modelValue", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "prefix", "suffix", "readonly", "clearable", "rules", "onClear"]));
   }
 }), Ge = {
   key: 0,
@@ -422,28 +427,28 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
     wrapper: {}
   },
   setup(r) {
-    const e = r, t = w(!0), l = e.wrapper.injectForm.getFormFactoryInstance().formStyle;
+    const e = r, t = _(!0), l = e.wrapper.injectForm.getFormFactoryInstance().formStyle;
     function s() {
       return t.value === !0;
     }
     function c() {
       t.value = !0;
     }
-    return Se(
+    return we(
       () => e.wrapper.modelValue,
       (n) => {
-        for (const d of e.wrapper.rules)
-          if (t.value = d(n), t.value !== !0)
+        for (const p of e.wrapper.rules)
+          if (t.value = p(n), t.value !== !0)
             break;
       }
     ), q(() => {
       e.wrapper.registerBehaviourCallbacks(s, c);
-    }), (n, d) => (m(), T(L, null, [
-      x(a(ke), {
+    }), (n, p) => (m(), T(L, null, [
+      k(a(De), {
         modelValue: e.wrapper.modelValue,
         "onUpdate:modelValue": [
-          d[0] || (d[0] = (u) => e.wrapper.modelValue = u),
-          d[1] || (d[1] = (u) => e.wrapper.modelValueOnUpdate(u))
+          p[0] || (p[0] = (i) => e.wrapper.modelValue = i),
+          p[1] || (p[1] = (i) => e.wrapper.modelValueOnUpdate(i))
         ],
         label: e.wrapper.field.label,
         dense: a(l).fieldDense,
@@ -451,8 +456,8 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
         "aria-readonly": e.wrapper.field.readonly,
         class: R(e.wrapper.field.cssClass)
       }, null, 8, ["modelValue", "label", "dense", "color", "aria-readonly", "class"]),
-      e.wrapper.field.hint ? (m(), T("div", Ge, G(e.wrapper.field.hint), 1)) : I("", !0),
-      t.value !== !0 ? (m(), T("div", Pe, G(t.value), 1)) : I("", !0)
+      e.wrapper.field.hint ? (m(), T("div", Ge, G(e.wrapper.field.hint), 1)) : E("", !0),
+      t.value !== !0 ? (m(), T("div", Pe, G(t.value), 1)) : E("", !0)
     ], 64));
   }
 }), He = /* @__PURE__ */ B({
@@ -470,40 +475,40 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
     wrapper: {}
   },
   setup(r) {
-    const e = r, t = w([]), o = w([]), l = w(), s = e.wrapper.injectForm.getFormFactoryInstance(), c = s.formSettings, n = s.formStyle, d = c.rulesBehaviour === "lazy";
-    function u(g, p) {
+    const e = r, t = _([]), o = _([]), l = _(), s = e.wrapper.injectForm.getFormFactoryInstance(), c = s.formSettings, n = s.formStyle, p = c.rulesBehaviour === "lazy";
+    function i(g, d) {
       if (g === "") {
-        p(() => {
+        d(() => {
           o.value = [...t.value];
         });
         return;
       }
-      p(() => {
+      d(() => {
         const y = g.toLowerCase();
         o.value = t.value.filter((F) => F.label.toLowerCase().includes(y));
       });
     }
-    function i(g) {
+    function u(g) {
       t.value = Object.freeze(g.field.selectOptions ?? []), o.value = g.field.selectOptions ?? [];
     }
-    function S() {
+    function w() {
       return l.value ? l.value.validate() : !1;
     }
     function h() {
       l.value && l.value.resetValidation();
     }
-    function D() {
+    function x() {
       e.wrapper.clear(), o.value = [];
     }
     return q(() => {
-      i(e.wrapper), e.wrapper.registerBehaviourCallbacks(S, h);
-    }), (g, p) => (m(), C(a(ne), {
+      u(e.wrapper), e.wrapper.registerBehaviourCallbacks(w, h);
+    }), (g, d) => (m(), C(a(ne), {
       ref_key: "fieldRef",
       ref: l,
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
-        p[0] || (p[0] = (y) => e.wrapper.modelValue = y),
-        p[1] || (p[1] = (y) => e.wrapper.modelValueOnUpdate(y))
+        d[0] || (d[0] = (y) => e.wrapper.modelValue = y),
+        d[1] || (d[1] = (y) => e.wrapper.modelValueOnUpdate(y))
       ],
       type: e.wrapper.field.componentOptions.regularFieldType,
       label: e.wrapper.field.label,
@@ -519,23 +524,25 @@ const Ie = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ B({
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
       class: R(e.wrapper.field.cssClass),
-      "lazy-rules": d,
+      "lazy-rules": p,
       clearable: e.wrapper.field.clearable,
+      prefix: e.wrapper.field.prefix,
+      suffix: e.wrapper.field.suffix,
       readonly: e.wrapper.field.readonly,
       rules: e.wrapper.rules,
       options: o.value,
       mapOptions: !0,
       emitValue: !0,
       useInput: !0,
-      onClear: D,
-      onFilter: u
-    }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options"]));
+      onClear: x,
+      onFilter: i
+    }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "prefix", "suffix", "readonly", "rules", "options"]));
   }
 });
 function Ye(r) {
   return Symbol(r);
 }
-function M() {
+function X() {
   return 20;
 }
 const We = /* @__PURE__ */ B({
@@ -544,22 +551,22 @@ const We = /* @__PURE__ */ B({
     wrapper: {}
   },
   setup(r) {
-    const e = r, t = e.wrapper.field.componentOptions.associationDisplayComponent, o = e.wrapper.injectForm.getFormFactoryInstance(), l = o.formSettings, s = o.formStyle, c = l.rulesBehaviour === "lazy", n = w([]), d = w({
-      limit: M(),
+    const e = r, t = e.wrapper.field.componentOptions.associationDisplayComponent, o = e.wrapper.injectForm.getFormFactoryInstance(), l = o.formSettings, s = o.formStyle, c = l.rulesBehaviour === "lazy", n = _([]), p = _({
+      limit: X(),
       offset: 0
-    }), u = w();
-    function i(p, y) {
+    }), i = _();
+    function u(d, y) {
       const F = e.wrapper.injectForm.getAssociationDataCallback();
-      p === "" && (d.value = {
-        limit: M(),
+      d === "" && (p.value = {
+        limit: X(),
         offset: 0
       }), y(() => {
         F({
           resourceName: e.wrapper.injectForm.getForm().resourceName,
           associationName: e.wrapper.field.metadata.field_association_name,
-          limit: d.value.limit,
-          offset: d.value.offset,
-          labelFilter: p,
+          limit: p.value.limit,
+          offset: p.value.offset,
+          labelFilter: d,
           context: e.wrapper.injectForm.getForm().context
         }).then((O) => {
           n.value = O.rows;
@@ -568,31 +575,31 @@ const We = /* @__PURE__ */ B({
         });
       });
     }
-    function S() {
-      const p = e.wrapper.getValueSerialized();
-      p && ae(() => {
+    function w() {
+      const d = e.wrapper.getValueSerialized();
+      d && ae(() => {
         n.value = [
           {
             label: e.wrapper.field.defaultDisplayValue ?? "???",
-            value: p
+            value: d
           }
         ];
       });
     }
     function h() {
-      return u.value ? u.value.validate() : !1;
+      return i.value ? i.value.validate() : !1;
     }
-    function D() {
-      u.value && u.value.resetValidation();
+    function x() {
+      i.value && i.value.resetValidation();
     }
     function g() {
       e.wrapper.clear(), n.value = [];
     }
     return q(() => {
-      S(), e.wrapper.registerBehaviourCallbacks(h, D);
-    }), (p, y) => (m(), C(a(ne), {
+      w(), e.wrapper.registerBehaviourCallbacks(h, x);
+    }), (d, y) => (m(), C(a(ne), {
       ref_key: "fieldRef",
-      ref: u,
+      ref: i,
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
         y[0] || (y[0] = (F) => e.wrapper.modelValue = F),
@@ -614,6 +621,8 @@ const We = /* @__PURE__ */ B({
       class: R(e.wrapper.field.cssClass),
       "lazy-rules": c,
       clearable: e.wrapper.field.clearable,
+      prefix: e.wrapper.field.prefix,
+      suffix: e.wrapper.field.suffix,
       readonly: e.wrapper.field.readonly,
       rules: e.wrapper.rules,
       options: n.value,
@@ -621,13 +630,13 @@ const We = /* @__PURE__ */ B({
       emitValue: !0,
       useInput: !0,
       onClear: g,
-      onFilter: i
+      onFilter: u
     }, {
       options: V((F) => [
         (m(), C(P(a(t)), { scope: F }, null, 8, ["scope"]))
       ]),
       _: 1
-    }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options"]));
+    }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "prefix", "suffix", "readonly", "rules", "options"]));
   }
 }), Ke = /* @__PURE__ */ B({
   __name: "SelectHasManyField",
@@ -635,22 +644,22 @@ const We = /* @__PURE__ */ B({
     wrapper: {}
   },
   setup(r) {
-    const e = r, t = e.wrapper.field.componentOptions.associationDisplayComponent, o = e.wrapper.injectForm.getFormFactoryInstance(), l = o.formSettings, s = o.formStyle, c = l.rulesBehaviour === "lazy", n = w([]), d = w({
-      limit: M(),
+    const e = r, t = e.wrapper.field.componentOptions.associationDisplayComponent, o = e.wrapper.injectForm.getFormFactoryInstance(), l = o.formSettings, s = o.formStyle, c = l.rulesBehaviour === "lazy", n = _([]), p = _({
+      limit: X(),
       offset: 0
-    }), u = w();
-    function i(p, y) {
+    }), i = _();
+    function u(d, y) {
       const F = e.wrapper.injectForm.getAssociationDataCallback();
-      p === "" && (d.value = {
-        limit: M(),
+      d === "" && (p.value = {
+        limit: X(),
         offset: 0
       }), y(() => {
         F({
           resourceName: e.wrapper.injectForm.getForm().resourceName,
           associationName: e.wrapper.field.metadata.field_association_name,
-          limit: d.value.limit,
-          offset: d.value.offset,
-          labelFilter: p,
+          limit: p.value.limit,
+          offset: p.value.offset,
+          labelFilter: d,
           context: e.wrapper.injectForm.getForm().context
         }).then((O) => {
           n.value = O.rows;
@@ -659,31 +668,31 @@ const We = /* @__PURE__ */ B({
         });
       });
     }
-    function S() {
-      const p = e.wrapper.getValueSerialized();
-      p && ae(() => {
+    function w() {
+      const d = e.wrapper.getValueSerialized();
+      d && ae(() => {
         n.value = [
           {
             label: e.wrapper.field.defaultDisplayValue ?? "???",
-            value: p
+            value: d
           }
         ];
       });
     }
     function h() {
-      return u.value ? u.value.validate() : !1;
+      return i.value ? i.value.validate() : !1;
     }
-    function D() {
-      u.value && u.value.resetValidation();
+    function x() {
+      i.value && i.value.resetValidation();
     }
     function g() {
       e.wrapper.clear(), n.value = [];
     }
     return q(() => {
-      S(), e.wrapper.registerBehaviourCallbacks(h, D);
-    }), (p, y) => (m(), C(a(ne), {
+      w(), e.wrapper.registerBehaviourCallbacks(h, x);
+    }), (d, y) => (m(), C(a(ne), {
       ref_key: "fieldRef",
-      ref: u,
+      ref: i,
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
         y[0] || (y[0] = (F) => e.wrapper.modelValue = F),
@@ -705,6 +714,8 @@ const We = /* @__PURE__ */ B({
       class: R(e.wrapper.field.cssClass),
       "lazy-rules": c,
       clearable: e.wrapper.field.clearable,
+      prefix: e.wrapper.field.prefix,
+      suffix: e.wrapper.field.suffix,
       readonly: e.wrapper.field.readonly,
       rules: e.wrapper.rules,
       options: n.value,
@@ -714,13 +725,13 @@ const We = /* @__PURE__ */ B({
       multiple: !0,
       "use-chips": !0,
       onClear: g,
-      onFilter: i
+      onFilter: u
     }, {
       options: V((F) => [
         (m(), C(P(a(t)), { scope: F }, null, 8, ["scope"]))
       ]),
       _: 1
-    }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "options"]));
+    }, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "prefix", "suffix", "readonly", "rules", "options"]));
   }
 }), le = /* @__PURE__ */ B({
   __name: "StringField",
@@ -728,22 +739,22 @@ const We = /* @__PURE__ */ B({
     wrapper: {}
   },
   setup(r) {
-    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), o = t.formSettings, l = t.formStyle, s = o.rulesBehaviour === "lazy", c = w();
+    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), o = t.formSettings, l = t.formStyle, s = o.rulesBehaviour === "lazy", c = _();
     function n() {
       return c.value ? c.value.validate() : !1;
     }
-    function d() {
+    function p() {
       c.value && c.value.resetValidation();
     }
     return q(() => {
-      e.wrapper.registerBehaviourCallbacks(n, d);
-    }), (u, i) => (m(), C(a(Z), {
+      e.wrapper.registerBehaviourCallbacks(n, p);
+    }), (i, u) => (m(), C(a(M), {
       ref_key: "fieldRef",
       ref: c,
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
-        i[0] || (i[0] = (S) => e.wrapper.modelValue = S),
-        i[1] || (i[1] = (S) => e.wrapper.modelValueOnUpdate(S))
+        u[0] || (u[0] = (w) => e.wrapper.modelValue = w),
+        u[1] || (u[1] = (w) => e.wrapper.modelValueOnUpdate(w))
       ],
       type: e.wrapper.field.componentOptions.regularFieldType,
       label: e.wrapper.field.label,
@@ -760,12 +771,14 @@ const We = /* @__PURE__ */ B({
       bgColor: a(l).fieldBgColor,
       class: R(e.wrapper.field.cssClass),
       "lazy-rules": s,
-      clearable: e.wrapper.field.clearable,
+      prefix: e.wrapper.field.prefix,
+      suffix: e.wrapper.field.suffix,
       readonly: e.wrapper.field.readonly,
+      clearable: e.wrapper.field.clearable,
       autogrow: !0,
       rules: e.wrapper.rules,
       onClear: e.wrapper.clear
-    }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "onClear"]));
+    }, null, 8, ["modelValue", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "prefix", "suffix", "readonly", "clearable", "rules", "onClear"]));
   }
 }), Je = /* @__PURE__ */ B({
   __name: "NumberField",
@@ -773,22 +786,22 @@ const We = /* @__PURE__ */ B({
     wrapper: {}
   },
   setup(r) {
-    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), o = t.formSettings, l = t.formStyle, s = o.rulesBehaviour === "lazy", c = w();
+    const e = r, t = e.wrapper.injectForm.getFormFactoryInstance(), o = t.formSettings, l = t.formStyle, s = o.rulesBehaviour === "lazy", c = _();
     function n() {
       return c.value ? c.value.validate() : !1;
     }
-    function d() {
+    function p() {
       c.value && c.value.resetValidation();
     }
     return q(() => {
-      e.wrapper.registerBehaviourCallbacks(n, d);
-    }), (u, i) => (m(), C(a(Z), {
+      e.wrapper.registerBehaviourCallbacks(n, p);
+    }), (i, u) => (m(), C(a(M), {
       ref_key: "fieldRef",
       ref: c,
       modelValue: e.wrapper.modelValue,
       "onUpdate:modelValue": [
-        i[0] || (i[0] = (S) => e.wrapper.modelValue = S),
-        i[1] || (i[1] = (S) => e.wrapper.modelValueOnUpdate(S))
+        u[0] || (u[0] = (w) => e.wrapper.modelValue = w),
+        u[1] || (u[1] = (w) => e.wrapper.modelValueOnUpdate(w))
       ],
       modelModifiers: { number: !0 },
       type: "number",
@@ -807,29 +820,31 @@ const We = /* @__PURE__ */ B({
       class: R(e.wrapper.field.cssClass),
       "lazy-rules": s,
       clearable: e.wrapper.field.clearable,
+      prefix: e.wrapper.field.prefix,
+      suffix: e.wrapper.field.suffix,
       readonly: e.wrapper.field.readonly,
       rules: e.wrapper.rules,
       onClear: e.wrapper.clear
-    }, null, 8, ["modelValue", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "readonly", "rules", "onClear"]));
+    }, null, 8, ["modelValue", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "prefix", "suffix", "readonly", "rules", "onClear"]));
   }
 });
 class oe {
-  constructor(e, t, o, l, s, c, n, d) {
-    k(this, "resourceName");
-    k(this, "formSettings");
-    k(this, "formStyle");
-    k(this, "actionComponent");
-    k(this, "sectionComponent");
-    k(this, "wrapperResetComponent");
-    k(this, "associationDisplayComponent");
-    k(this, "associationDisplayRecord");
+  constructor(e, t, o, l, s, c, n, p) {
+    D(this, "resourceName");
+    D(this, "formSettings");
+    D(this, "formStyle");
+    D(this, "actionComponent");
+    D(this, "sectionComponent");
+    D(this, "wrapperResetComponent");
+    D(this, "associationDisplayComponent");
+    D(this, "associationDisplayRecord");
     this.resourceName = e, this.formSettings = {
       ...t,
       ...N.getGlobalFormSetting()
     }, this.formStyle = {
       ...o,
       ...N.getGlobalFormStyle()
-    }, this.actionComponent = l ?? N.getGlobalActionComponent(), this.sectionComponent = s ?? N.getGlobalSectionComponent(), this.wrapperResetComponent = c ?? N.getGlobalWrapperResetComponent(), this.associationDisplayComponent = n ?? N.getGlobalAssociationDisplayComponent(), this.associationDisplayRecord = d ?? N.getGlobalAssociationDisplayRecord();
+    }, this.actionComponent = l ?? N.getGlobalActionComponent(), this.sectionComponent = s ?? N.getGlobalSectionComponent(), this.wrapperResetComponent = c ?? N.getGlobalWrapperResetComponent(), this.associationDisplayComponent = n ?? N.getGlobalAssociationDisplayComponent(), this.associationDisplayRecord = p ?? N.getGlobalAssociationDisplayRecord();
   }
   static getFieldComponentByFormFieldType(e) {
     return {
@@ -849,43 +864,48 @@ class oe {
     const l = [];
     return e.form.sections.forEach((c) => {
       const n = [];
-      c.fields.forEach((u) => {
-        const i = oe.getFieldComponentByFormFieldType(
-          u.field_type
-        ), S = {
-          associationDisplayComponent: this.associationDisplayRecord[u.field_association_class ?? ""] ?? this.associationDisplayComponent,
+      c.fields.forEach((i) => {
+        const u = oe.getFieldComponentByFormFieldType(
+          i.field_type
+        ), w = {
+          associationDisplayComponent: this.associationDisplayRecord[i.field_association_class ?? ""] ?? this.associationDisplayComponent,
           regularFieldType: this.getRegularFieldTypeByFieldType(
-            u.field_type
+            i.field_type
           )
         }, h = {
-          type: u.field_type,
-          metadata: u,
-          label: u.label,
-          hint: u.hint,
-          cssClass: u.css_class,
-          selectOptions: u.select_options,
-          rules: u.rules,
+          type: i.field_type,
+          metadata: i,
+          label: i.label,
+          hint: i.hint,
+          prefix: i.prefix,
+          suffix: i.suffix,
+          readonly: e.form.readonly ?? c.readonly ?? i.readonly,
+          cssClass: i.css_class,
+          selectOptions: i.select_options,
+          rules: i.rules,
           clearable: e.form.clearable,
           provideUniqKey: t,
-          defaultDisplayValue: u.default_display_value,
-          component: i,
-          componentOptions: S
+          defaultDisplayValue: i.default_display_value,
+          component: u,
+          componentOptions: w
         };
         n.push(h);
       });
-      const d = {
+      const p = {
         label: c.label,
         icon: c.icon,
         cssClass: c.css_class,
+        readonly: e.form.readonly ?? c.readonly,
         fields: n
       };
-      l.push(d);
+      l.push(p);
     }), {
       sections: l,
       resourceName: e.form.resource_name,
       cssClass: e.form.css_class,
       resetable: e.form.resetable,
       clearable: e.form.clearable,
+      readonly: e.form.readonly,
       backendDateFormat: e.form.backend_date_format,
       backendDatetimeFormat: e.form.backend_datetime_format,
       context: o
@@ -897,13 +917,13 @@ class oe {
     }[e] || void 0;
   }
 }
-function Me(r, e, t) {
-  const o = t.getFormFactoryInstance().formSettings, l = t.getForm(), s = (u, i, S) => u[i] ? S ? () => c(u[i]) : () => u[i] : u.compare_to ? () => t.getFieldDataByFieldName(u.compare_to) ?? "Submit64 error : missing comparator definition" : () => "", c = (u) => String(
-    _.formatDate(
-      _.extractDate(u, l.backendDateFormat),
+function Xe(r, e, t) {
+  const o = t.getFormFactoryInstance().formSettings, l = t.getForm(), s = (i, u, w) => i[u] ? w ? () => c(i[u]) : () => i[u] : i.compare_to ? () => t.getFieldDataByFieldName(i.compare_to) ?? "Submit64 error : missing comparator definition" : () => "", c = (i) => String(
+    S.formatDate(
+      S.extractDate(i, l.backendDateFormat),
       o.dateFormat
     )
-  ), n = [], d = [];
+  ), n = [], p = [];
   switch (e) {
     case "date":
       n.push(se(o.dateFormat));
@@ -912,11 +932,11 @@ function Me(r, e, t) {
       n.push(se(o.datetimeFormat));
       break;
   }
-  return r.forEach((u) => {
-    const i = u;
-    switch (i.type) {
+  return r.forEach((i) => {
+    const u = i;
+    switch (u.type) {
       case "required":
-        n.push(Xe());
+        n.push(Ze());
         break;
       case "absence":
         n.push(et());
@@ -925,18 +945,18 @@ function Me(r, e, t) {
         n.push(tt());
         break;
       case "inclusion":
-        n.push(ce(i.including));
+        n.push(ce(u.including));
         break;
       case "exclusion":
-        n.push(Ze(i.excluding));
+        n.push(Me(u.excluding));
         break;
       case "backend":
         break;
       case "allowNull":
-        d.push("allowNull");
+        p.push("allowNull");
         break;
       case "allowBlank":
-        d.push("allowBlank");
+        p.push("allowBlank");
         break;
       case "positiveNumber":
         n.push(nt());
@@ -944,48 +964,48 @@ function Me(r, e, t) {
       case "lessThanOrEqualNumber":
         n.push(
           ot(
-            s(i, "less_than")
+            s(u, "less_than")
           )
         );
         break;
       case "lessThanNumber":
         n.push(
           lt(
-            s(i, "less_than")
+            s(u, "less_than")
           )
         );
         break;
       case "greaterThanOrEqualNumber":
         n.push(
           st(
-            s(i, "greater_than")
+            s(u, "greater_than")
           )
         );
         break;
       case "greaterThanNumber":
         n.push(
           it(
-            s(i, "greater_than")
+            s(u, "greater_than")
           )
         );
         break;
       case "equalToNumber":
         n.push(
-          ut(s(i, "equal_to"))
+          ut(s(u, "equal_to"))
         );
         break;
       case "otherThanNumber":
         n.push(
           ct(
-            s(i, "other_than")
+            s(u, "other_than")
           )
         );
         break;
       case "numberIntegerOnly":
-        n.push(dt());
+        n.push(pt());
         break;
       case "numberNumericOnly":
-        n.push(pt());
+        n.push(dt());
         break;
       case "numberEvenOnly":
         n.push(ft());
@@ -996,62 +1016,62 @@ function Me(r, e, t) {
       case "lessThanOrEqualStringLength":
         n.push(
           gt(
-            s(i, "less_than")
+            s(u, "less_than")
           )
         );
         break;
       case "lessThanStringLength":
         n.push(
           bt(
-            s(i, "less_than")
+            s(u, "less_than")
           )
         );
         break;
       case "greaterThanOrEqualStringLength":
         n.push(
           yt(
-            s(i, "greater_than")
+            s(u, "greater_than")
           )
         );
         break;
       case "greaterThanStringLength":
         n.push(
           ht(
-            s(i, "greater_than")
+            s(u, "greater_than")
           )
         );
         break;
       case "equalToStringLength":
         n.push(
-          wt(
-            s(i, "equal_to")
+          _t(
+            s(u, "equal_to")
           )
         );
         break;
       case "equalToString":
         n.push(
-          _t(s(i, "equal_to"))
+          St(s(u, "equal_to"))
         );
         break;
       case "betweenStringLength":
         n.push(
-          St(
-            () => i.min,
-            () => i.max
+          wt(
+            () => u.min,
+            () => u.max
           )
         );
         break;
       case "otherThanString":
         n.push(
           Ft(
-            s(i, "other_than")
+            s(u, "other_than")
           )
         );
         break;
       case "lessThanOrEqualDate":
         n.push(
           vt(
-            s(i, "less_than", !0),
+            s(u, "less_than", !0),
             o.dateFormat
           )
         );
@@ -1059,15 +1079,15 @@ function Me(r, e, t) {
       case "lessThanDate":
         n.push(
           Ct(
-            s(i, "less_than", !0),
+            s(u, "less_than", !0),
             o.dateFormat
           )
         );
         break;
       case "greaterThanOrEqualDate":
         n.push(
-          Dt(
-            s(i, "greater_than", !0),
+          xt(
+            s(u, "greater_than", !0),
             o.dateFormat
           )
         );
@@ -1075,30 +1095,30 @@ function Me(r, e, t) {
       case "greaterThanDate":
         n.push(
           Vt(
-            s(i, "greater_than", !0),
+            s(u, "greater_than", !0),
             o.dateFormat
           )
         );
         break;
       case "equalToDate":
         n.push(
-          kt(
-            s(i, "equal_to", !0),
+          Dt(
+            s(u, "equal_to", !0),
             o.dateFormat
           )
         );
         break;
       case "otherThanDate":
         n.push(
-          xt(
-            s(i, "other_than", !0),
+          kt(
+            s(u, "other_than", !0),
             o.dateFormat
           )
         );
         break;
     }
-  }), d.length > 0 ? d.map((u) => {
-    switch (u) {
+  }), p.length > 0 ? p.map((i) => {
+    switch (i) {
       case "allowBlank":
         return at(n);
       case "allowNull":
@@ -1106,13 +1126,13 @@ function Me(r, e, t) {
     }
   }) : n;
 }
-function Xe() {
+function Ze() {
   return (r) => !!r || "Ce champ est requis";
 }
 function ce(r) {
   return (e) => r.includes(String(e)) || `Doit être contenu dans ${r.toString()}`;
 }
-function Ze(r) {
+function Me(r) {
   return (e) => !r.includes(
     String(e) || `Ne doit pas être contenu dans ${ce.toString()}`
   );
@@ -1176,10 +1196,10 @@ function ct(r, e) {
     return Number(t) !== o || `Doit être différent de ${r}`;
   };
 }
-function dt() {
+function pt() {
   return (r) => /^-?\d+$/.test(String(r).trim()) || "Nombre entier uniquement";
 }
-function pt() {
+function dt() {
   return (r) => /^-?\d+(\.\d+)?$/.test(String(r).trim()) || "Caractère numérique uniquement";
 }
 function ft() {
@@ -1212,19 +1232,19 @@ function ht(r) {
     return String(e).length > t || `Sup. à ${t}`;
   };
 }
-function St(r, e) {
+function wt(r, e) {
   return (t) => {
     const o = r(), l = e();
     return String(t).length >= o && String(t).length <= l || `Entre ${o} et ${l}`;
   };
 }
-function _t(r, e) {
+function St(r, e) {
   return (t) => {
     const o = r();
     return String(t) === o || `Égale à ${o}`;
   };
 }
-function wt(r) {
+function _t(r) {
   return (e) => {
     const t = r();
     return String(e).length === t || `Doit contenir ${t} caractères`;
@@ -1238,38 +1258,38 @@ function Ft(r) {
 }
 function vt(r, e) {
   return (t) => {
-    const o = r(), l = _.extractDate(String(t), e), s = _.extractDate(o, e);
+    const o = r(), l = S.extractDate(String(t), e), s = S.extractDate(o, e);
     return l <= s || `Inf. ou égal à ${o}`;
   };
 }
 function Ct(r, e) {
   return (t) => {
-    const o = r(), l = _.extractDate(String(t), e), s = _.extractDate(o, e);
+    const o = r(), l = S.extractDate(String(t), e), s = S.extractDate(o, e);
     return l < s || `Inf. à ${o}`;
   };
 }
-function Dt(r, e) {
+function xt(r, e) {
   return (t) => {
-    const o = r(), l = _.extractDate(String(t), e), s = _.extractDate(o, e);
+    const o = r(), l = S.extractDate(String(t), e), s = S.extractDate(o, e);
     return l >= s || `Sup. ou égal à ${o}`;
   };
 }
 function Vt(r, e) {
   return (t) => {
-    const o = r(), l = _.extractDate(String(t), e), s = _.extractDate(o, e);
+    const o = r(), l = S.extractDate(String(t), e), s = S.extractDate(o, e);
     return l > s || `Sup. à ${o}`;
+  };
+}
+function Dt(r, e) {
+  return (t) => {
+    const o = r(), l = S.extractDate(String(t), e), s = S.extractDate(o, e);
+    return l === s || `Égale à ${l}`;
   };
 }
 function kt(r, e) {
   return (t) => {
-    const o = r(), l = _.extractDate(String(t), e), s = _.extractDate(o, e);
-    return l === s || `Égale à ${l}`;
-  };
-}
-function xt(r, e) {
-  return (t) => {
     const o = r();
-    return _.extractDate(String(t), e) !== _.extractDate(o, e) || `Doit être différent de ${o}`;
+    return S.extractDate(String(t), e) !== S.extractDate(o, e) || `Doit être différent de ${o}`;
   };
 }
 function se(r) {
@@ -1278,43 +1298,44 @@ function se(r) {
 function Bt(r, e) {
   if (typeof r != "string" || !r.trim())
     return !1;
-  const t = _.extractDate(r, e);
-  return !(t instanceof Date) || isNaN(t.getTime()) ? !1 : _.formatDate(t, e) === r;
+  const t = S.extractDate(r, e);
+  return !(t instanceof Date) || isNaN(t.getTime()) ? !1 : S.formatDate(t, e) === r;
 }
 const Tt = {
-  computeServerRules: Me
+  computeServerRules: Xe
 }, Rt = {
   key: 0,
   class: "q-field__bottom text-negative q-pt-none"
 }, qt = ["index"], ie = /* @__PURE__ */ B({
   __name: "FieldWrapper",
   props: {
-    field: {}
+    field: {},
+    context: {}
   },
   setup(r, { expose: e }) {
     const t = r;
     let o = () => !0, l = () => {
     };
-    const s = _e(t.field.provideUniqKey), c = D(), n = w(), d = w([]);
-    function u() {
+    const s = Se(t.field.provideUniqKey), c = x(), n = _(), p = _([]);
+    function i() {
       s && (n.value = s.getDataByFieldName(
         t.field.metadata.field_name
-      ), n.value = i(n.value), ae(() => {
+      ), n.value = u(n.value), ae(() => {
         A();
       }));
     }
-    function i(f) {
+    function u(f) {
       switch (t.field.type) {
         case "checkbox":
           return f == null || f === "" ? !1 : f;
         case "date":
-          return f == null || f === "" ? null : _.formatDate(
-            _.extractDate(String(f), s.getForm().backendDateFormat),
+          return f == null || f === "" ? null : S.formatDate(
+            S.extractDate(String(f), s.getForm().backendDateFormat),
             s.getFormFactoryInstance().formSettings.dateFormat
           );
         case "datetime":
-          return f == null || f === "" ? null : _.formatDate(
-            _.extractDate(
+          return f == null || f === "" ? null : S.formatDate(
+            S.extractDate(
               String(f),
               s.getForm().backendDatetimeFormat
             ),
@@ -1323,19 +1344,19 @@ const Tt = {
       }
       return f;
     }
-    function S(f) {
+    function w(f) {
       switch (t.field.type) {
         case "date":
-          return f == null || f === "" ? null : _.formatDate(
-            _.extractDate(
+          return f == null || f === "" ? null : S.formatDate(
+            S.extractDate(
               String(f),
               s.getFormFactoryInstance().formSettings.dateFormat
             ),
             s.getForm().backendDateFormat
           );
         case "datetime":
-          return f == null || f === "" ? null : _.formatDate(
-            _.extractDate(
+          return f == null || f === "" ? null : S.formatDate(
+            S.extractDate(
               String(f),
               s.getFormFactoryInstance().formSettings.datetimeFormat
             ),
@@ -1378,7 +1399,7 @@ const Tt = {
           break;
       }
     }
-    function D() {
+    function x() {
       return Tt.computeServerRules(
         t.field.rules ?? [],
         t.field.type,
@@ -1388,14 +1409,14 @@ const Tt = {
     function g(f) {
       n.value = f;
     }
-    function p() {
+    function d() {
       return n;
     }
     function y() {
-      return S(a(n));
+      return w(a(n));
     }
     function F(f) {
-      d.value = f;
+      p.value = f;
     }
     function O() {
       return o();
@@ -1407,34 +1428,34 @@ const Tt = {
       o = f, l = $;
     }
     return e({
-      reset: u,
+      reset: i,
       clear: h,
       validate: O,
       resetValidation: A,
       getValueDeserialized: y,
-      getValueSerialized: p,
+      getValueSerialized: d,
       setupBackendErrors: F
     }), q(() => {
       var $;
-      u();
-      const f = ($ = we()) == null ? void 0 : $.exposed;
+      i();
+      const f = ($ = _e()) == null ? void 0 : $.exposed;
       f && s && s.registerRef(
         t.field.metadata.field_name,
         f
       );
     }), (f, $) => (m(), T("div", null, [
       K(f.$slots, "default", {
-        propsWrapper: { modelValue: n.value, modelValueOnUpdate: g, field: t.field, injectForm: a(s), rules: a(c), reset: u, clear: h, getValueDeserialized: y, getValueSerialized: p, validate: O, registerBehaviourCallbacks: H }
+        propsWrapper: { modelValue: n.value, modelValueOnUpdate: g, field: t.field, injectForm: a(s), rules: a(c), reset: i, clear: h, getValueDeserialized: y, getValueSerialized: d, validate: O, registerBehaviourCallbacks: H }
       }, () => [
         (m(), C(P(t.field.component), {
-          wrapper: { modelValue: n.value, modelValueOnUpdate: g, field: t.field, injectForm: a(s), rules: a(c), reset: u, clear: h, getValueDeserialized: y, getValueSerialized: p, validate: O, registerBehaviourCallbacks: H }
+          wrapper: { modelValue: n.value, modelValueOnUpdate: g, field: t.field, injectForm: a(s), rules: a(c), reset: i, clear: h, getValueDeserialized: y, getValueSerialized: d, validate: O, registerBehaviourCallbacks: H }
         }, null, 8, ["wrapper"])),
-        d.value.length > 0 ? (m(), T("div", Rt, [
-          (m(!0), T(L, null, te(d.value, (Q, ee) => (m(), T("div", {
+        p.value.length > 0 ? (m(), T("div", Rt, [
+          (m(!0), T(L, null, te(p.value, (Q, ee) => (m(), T("div", {
             index: ee,
             class: "flex column"
           }, G(Q), 9, qt))), 256))
-        ])) : I("", !0)
+        ])) : E("", !0)
       ])
     ]));
   }
@@ -1474,8 +1495,8 @@ const Tt = {
         t.associationDisplayComponent,
         t.associationDisplayRecord
       )
-    ), s = Ye(xe()), c = w(/* @__PURE__ */ new Map()), n = w(), d = w(!1), u = w(!1), i = w("create");
-    async function S() {
+    ), s = Ye(ke()), c = _(/* @__PURE__ */ new Map()), n = _(), p = _(!1), i = _(!1), u = _("create");
+    async function w() {
       o = await t.getMetadataAndData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
@@ -1486,25 +1507,25 @@ const Tt = {
           s,
           t.context
         )
-      ), t.resourceId && (i.value = "edit"), d.value = !0;
+      ), t.resourceId && (u.value = "edit"), p.value = !0;
     }
     async function h() {
-      var z, Y;
+      var I, Y;
       if (!g())
         return;
-      u.value = !0, O();
-      const b = D(), v = await t.getSubmitFormData({
+      i.value = !0, O();
+      const b = x(), v = await t.getSubmitFormData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
         resourceData: b,
         context: t.context
       });
-      v.success ? (i.value === "create" && (i.value = "edit"), o && v.resource_data && (o.resource_data = v.resource_data), p(), (Y = t.onSubmitSuccess) == null || Y.call(t)) : ([...c.value].forEach((E) => {
-        const W = v.errors[E[0]];
-        W && E[1].setupBackendErrors(W);
-      }), (z = t.onSubmitFail) == null || z.call(t)), u.value = !1;
+      v.success ? (u.value === "create" && (u.value = "edit"), o && v.resource_data && (o.resource_data = v.resource_data), d(), (Y = t.onSubmitSuccess) == null || Y.call(t)) : ([...c.value].forEach((z) => {
+        const W = v.errors[z[0]];
+        W && z[1].setupBackendErrors(W);
+      }), (I = t.onSubmitFail) == null || I.call(t)), i.value = !1;
     }
-    function D() {
+    function x() {
       const b = {};
       return [...c.value].forEach((v) => {
         b[v[0]] = v[1].getValueDeserialized();
@@ -1519,7 +1540,7 @@ const Tt = {
         }
       }), b;
     }
-    function p() {
+    function d() {
       c.value.forEach((b) => {
         b.reset();
       });
@@ -1547,7 +1568,7 @@ const Tt = {
         return o.resource_data[b];
     }
     function f(b) {
-      const v = [...c.value].find((z) => z[0] === b);
+      const v = [...c.value].find((I) => I[0] === b);
       return v ? v[1].getValue() : null;
     }
     function $() {
@@ -1562,7 +1583,7 @@ const Tt = {
         row_count: 0
       }));
     }
-    function de() {
+    function pe() {
       [
         "getMetadataAndData",
         "getMetadataAndData",
@@ -1571,8 +1592,8 @@ const Tt = {
         (t[v] === null || t[v] === void 0) && console.warn(`Missing props for <Submit64> -> ${v}`);
       });
     }
-    function pe() {
-      return i.value;
+    function de() {
+      return u.value;
     }
     return Fe(s, {
       registerRef: A,
@@ -1582,56 +1603,59 @@ const Tt = {
       getForm: Q,
       getAssociationDataCallback: ee
     }), e({
-      getMode: pe,
+      getMode: de,
       getFormFactoryInstance: $,
       getForm: Q,
       validateForm: g,
-      resetForm: p,
+      resetForm: d,
       clearForm: y,
       resetValidation: F,
       submitForm: h
     }), q(async () => {
-      de(), await S();
-    }), (b, v) => d.value && n.value ? (m(), T("div", Ot, [
+      pe(), await w();
+    }), (b, v) => p.value && n.value ? (m(), T("div", Ot, [
       j("div", {
         class: R(n.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (m(!0), T(L, null, te(n.value.sections, (z, Y) => (m(), C(P(a(l).sectionComponent), {
+        (m(!0), T(L, null, te(n.value.sections, (I, Y) => (m(), C(P(a(l).sectionComponent), {
           key: Y,
-          section: z
+          section: I,
+          context: t.context
         }, {
           default: V(() => [
-            (m(!0), T(L, null, te(z.fields, (E) => (m(), T(L, {
-              key: E.metadata.field_name
+            (m(!0), T(L, null, te(I.fields, (z) => (m(), T(L, {
+              key: z.metadata.field_name
             }, [
-              b.$slots[E.metadata.field_name] ? (m(), C(ie, {
+              b.$slots[z.metadata.field_name] ? (m(), C(ie, {
                 key: 1,
-                field: E
+                field: z,
+                context: t.context
               }, {
                 default: V(({ propsWrapper: W }) => [
-                  K(b.$slots, E.metadata.field_name, { propsWrapper: W })
+                  K(b.$slots, "default", { propsWrapper: W })
                 ]),
-                _: 2
-              }, 1032, ["field"])) : (m(), C(ie, {
+                _: 3
+              }, 8, ["field", "context"])) : (m(), C(ie, {
                 key: 0,
-                field: E
-              }, null, 8, ["field"]))
+                field: z,
+                context: t.context
+              }, null, 8, ["field", "context"]))
             ], 64))), 128))
           ]),
           _: 2
-        }, 1032, ["section"]))), 128))
+        }, 1032, ["section", "context"]))), 128))
       ], 2),
       (m(), C(P(a(l).actionComponent), {
-        isLoadingSubmit: u.value,
+        isLoadingSubmit: i.value,
         submit: h,
         clear: n.value.clearable ? y : void 0,
-        reset: n.value.resetable ? p : void 0
+        reset: n.value.resetable ? d : void 0
       }, null, 8, ["isLoadingSubmit", "clear", "reset"])),
       b.$slots.more_actions ? K(b.$slots, "more_actions", {
         key: 0,
         propsForm: { generatedForm: n.value }
-      }) : I("", !0)
-    ])) : I("", !0);
+      }) : E("", !0)
+    ])) : E("", !0);
   }
 });
 export {

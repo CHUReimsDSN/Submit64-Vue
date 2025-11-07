@@ -8,6 +8,7 @@ import {
   unref,
 } from "vue";
 import type {
+  TContext,
   TFormFieldDef,
   TSubmit64FieldWrapper,
   TSubmit64FieldWrapperPropsSlot,
@@ -18,6 +19,7 @@ import { date } from "quasar";
 // props
 const propsComponent = defineProps<{
   field: TFormFieldDef;
+  context?: TContext;
 }>();
 
 // var

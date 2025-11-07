@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { QSelect, QItemLabel, QItem, QItemSection } from "quasar";
+import { QSelect } from "quasar";
 import type {
   TSelectOptionPagination,
   TSubmit64AssociationDisplayPropsSlot,
@@ -118,6 +118,8 @@ onMounted(() => {
     :class="propsComponent.wrapper.field.cssClass"
     :lazy-rules="lazyRules"
     :clearable="propsComponent.wrapper.field.clearable"
+    :prefix="propsComponent.wrapper.field.prefix"
+    :suffix="propsComponent.wrapper.field.suffix"
     :readonly="propsComponent.wrapper.field.readonly"
     :rules="propsComponent.wrapper.rules"
     :options="selectOptionsFiltered"

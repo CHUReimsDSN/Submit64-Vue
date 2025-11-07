@@ -25,12 +25,14 @@ export type TResourceFormMetadata = {
   resetable?: boolean;
   clearable?: boolean;
   css_class?: string;
+  readonly?: boolean;
 };
 export type TResourceFormSectionMetadata = {
   fields: TResourceFieldMetadata[];
   label?: string;
   icon?: string;
   css_class?: string;
+  readonly?: boolean;
 };
 export type TResourceFieldMetadata = {
   field_name: string;
@@ -39,6 +41,9 @@ export type TResourceFieldMetadata = {
   field_association_name?: string;
   field_association_class?: string;
   hint?: string;
+  prefix?: string;
+  suffix?: string;
+  readonly?: boolean;
   rules?: TSubmit64Rule[];
   select_options?: {
     label: string;
@@ -46,7 +51,6 @@ export type TResourceFieldMetadata = {
     disabled?: boolean;
   }[];
   css_class?: string;
-  readonly?: boolean;
   default_display_value?: string;
 };
 export type TSubmit64AssociationData = {
@@ -94,6 +98,7 @@ export type TFormDef = {
   backendDatetimeFormat: string;
   resetable?: boolean;
   clearable?: boolean;
+  readonly?: boolean;
   cssClass?: string;
   context?: TContext;
 };
@@ -102,6 +107,7 @@ export type TFormSection = {
   label?: string;
   icon?: string;
   cssClass?: string;
+  readonly?: boolean;
 };
 export type TFormFieldDef = {
   type:
@@ -119,10 +125,12 @@ export type TFormFieldDef = {
   provideUniqKey: InjectionKey<TSubmit64FormProvider>;
   label?: string;
   hint?: string;
+  suffix?: string;
+  prefix?: string;
+  readonly?: boolean;
   rules?: TSubmit64Rule[];
   cssClass?: string;
   clearable?: boolean;
-  readonly?: boolean;
   defaultDisplayValue?: string | string[];
   selectOptions?: TSubmit64AssociationRowEntry[];
   component: Component;
@@ -206,6 +214,7 @@ export type TSubmit64FormProps = {
 };
 export type TSubmit64SectionFormProps = {
   section: TFormSection;
+  context?: TContext;
 };
 export type TSubmit64ActionFormProps = {
   isLoadingSubmit: boolean;
