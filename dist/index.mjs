@@ -669,12 +669,12 @@ const We = /* @__PURE__ */ B({
       });
     }
     function w() {
-      const d = e.wrapper.getValueSerialized();
-      if (!d) {
-        console.log("early return shit");
-        return;
-      }
       ae(() => {
+        const d = e.wrapper.getValueSerialized();
+        if (!d) {
+          console.log("early return shit");
+          return;
+        }
         console.log("in next tick => ", d), n.value = d.map(
           (b, S) => (console.log("in map => ", b, S), {
             label: e.wrapper.field.defaultDisplayValue[S] ?? "???",
