@@ -1414,7 +1414,7 @@ const Tt = {
       n.value = f;
     }
     function d() {
-      return n;
+      return a(n);
     }
     function b() {
       return w(a(n));

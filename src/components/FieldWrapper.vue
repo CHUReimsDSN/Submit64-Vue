@@ -152,7 +152,7 @@ function modelValueOnUpdate(value: unknown) {
   modelValue.value = value;
 }
 function getValueSerialized() {
-  return modelValue;
+  return unref(modelValue);
 }
 function getValueDeserialized() {
   return formModelDeserializeByType(unref(modelValue));
