@@ -38,13 +38,12 @@ export type TResourceFieldMetadata = {
     suffix?: string;
     readonly?: boolean;
     rules?: TSubmit64Rule[];
-    select_options?: {
-        label: string;
-        value: unknown;
-        disabled?: boolean;
-    }[];
+    static_select_options?: TSubmit64StaticSelectOptions[];
     css_class?: string;
-    default_display_value?: string;
+    field_association_data?: {
+        label?: string | string[];
+        data?: TRecord | TRecord[];
+    };
 };
 export type TSubmit64AssociationData = {
     rows: TSubmit64AssociationRowEntry[];
@@ -53,7 +52,7 @@ export type TSubmit64AssociationData = {
 export type TSubmit64AssociationRowEntry = {
     label: string;
     value: unknown;
-    disabled?: boolean;
+    data: TRecord;
 };
 export type TSubmit64SubmitSubmitData = {
     success: boolean;
@@ -83,7 +82,7 @@ export type TFormStyle = {
 export type TFormDef = {
     sections: TFormSection[];
     resourceName: string;
-    resourceId?: TRecord['id'];
+    resourceId?: TRecord["id"];
     backendDateFormat: string;
     backendDatetimeFormat: string;
     resetable?: boolean;
@@ -110,8 +109,11 @@ export type TFormFieldDef = {
     rules?: TSubmit64Rule[];
     cssClass?: string;
     clearable?: boolean;
-    defaultDisplayValue?: string | string[];
-    selectOptions?: TSubmit64AssociationRowEntry[];
+    associationData?: {
+        label?: string | string[];
+        data?: TRecord | TRecord[];
+    };
+    staticSelectOptions?: TSubmit64StaticSelectOptions[];
     component: Component;
     componentOptions: {
         associationDisplayComponent?: Component;
@@ -170,11 +172,8 @@ export type TSubmit64FieldWrapperResetProps = {
     reset: () => void;
 };
 export type TSubmit64AssociationDisplayProps = {
-    index: number;
-    label: string;
-    selected: boolean;
-    focused: boolean;
-    opt: TSubmit64AssociationRowEntry;
+    associationName: string;
+    entry: TSubmit64AssociationRowEntry;
     itemProps: QItemProps;
 };
 export type TSubmit64ActionFormProps = {
@@ -223,7 +222,7 @@ export type TPropsWithClass = {
     class?: string | undefined;
 };
 export type TSubmit64ValidationRule = (val: unknown) => boolean | string;
-export type TSubmit64FormMode = 'edit' | 'create';
+export type TSubmit64FormMode = "edit" | "create";
 export type TSubmit64FunctionsProvider = {
     registerRef: (resourceDataKey: string, fieldRef: TSubmit64FieldWrapper) => void;
     getDataByFieldName: (fieldName: string) => void | unknown;
@@ -231,5 +230,10 @@ export type TSubmit64FunctionsProvider = {
     getFormFactoryInstance: () => Readonly<FormFactory>;
     getForm: () => TFormDef;
     getAssociationDataCallback(): (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
+};
+export type TSubmit64StaticSelectOptions = {
+    label: string;
+    value: unknown;
+    disabled?: boolean;
 };
 export {};

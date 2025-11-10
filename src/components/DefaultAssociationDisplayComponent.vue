@@ -9,7 +9,7 @@ const propsComponent = defineProps<TSubmit64AssociationDisplayProps>();
 <template>
   <q-item v-bind="propsComponent.itemProps">
     <q-item-section>
-      <q-item-label>{{ propsComponent.opt.label }}</q-item-label>
+      <q-item-label>{{ propsComponent.entry.label }}</q-item-label>
     </q-item-section>
   </q-item>
 </template>

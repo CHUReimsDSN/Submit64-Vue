@@ -41,8 +41,7 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   update(() => {
     callback({
       resourceName: propsComponent.functionsProvider.getForm().resourceName,
-      associationName:
-        propsComponent.field.metadata.field_association_name!,
+      associationName: propsComponent.field.metadata.field_association_name!,
       limit: selectOptionsScrollPagination.value.limit,
       offset: selectOptionsScrollPagination.value.offset,
       labelFilter: val,
@@ -59,20 +58,21 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
 function setupDefaultSelectValue() {
   void nextTick(() => {
     const value = propsComponent.getValueSerialized();
-    if (!value) {
+    if (!value || !propsComponent.field.associationData) {
       return;
     }
     selectOptionsFiltered.value = (value as unknown[]).map(
       (valueMap, valueMapIndex) => {
         return {
           label:
-            (
-              propsComponent.field.defaultDisplayValue as (
-                | string
-                | undefined
-              )[]
-            )[valueMapIndex] ?? "???",
+            (propsComponent.field.associationData!.label as string[])[
+              valueMapIndex
+            ][valueMapIndex] ?? "???",
           value: valueMap,
+          data: (
+            propsComponent.field.associationData!
+              .data as TSubmit64AssociationRowEntry["data"][]
+          )[valueMapIndex],
         };
       }
     );
@@ -138,8 +138,15 @@ onMounted(() => {
     @clear="clear"
     @filter="onFilter"
   >
-    <template v-slot:options="scope: TSubmit64AssociationDisplayProps">
-      <component :is="displayComponent" :scope="scope" />
+    <template v-slot:options="scope">
+      <component
+        :is="displayComponent"
+        v-bind="{ 
+        associationName: propsComponent.field.metadata.field_association_name,
+        entry: scope.opt,
+        itemProps: scope.itemProps
+      } as TSubmit64AssociationDisplayProps"
+      />
     </template>
   </q-select>
 </template>

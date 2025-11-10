@@ -1,4 +1,4 @@
-import type { Component, InjectionKey } from "vue";
+import type { Component } from "vue";
 import type {
   TFormDef,
   TFormFieldDef,
@@ -6,7 +6,6 @@ import type {
   TFormSettings,
   TFormSection,
   TResourceFormMetadataAndData,
-  TSubmit64FunctionsProvider,
   TContext,
   TResourceFieldMetadata,
 } from "./models";
@@ -107,10 +106,10 @@ export class FormFactory {
           suffix: columnMetadata.suffix,
           readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly ?? columnMetadata.readonly,
           cssClass: columnMetadata.css_class,
-          selectOptions: columnMetadata.select_options,
+          staticSelectOptions: columnMetadata.static_select_options,
+          associationData: columnMetadata.field_association_data,
           rules: columnMetadata.rules,
           clearable: formMetadataAndData.form.clearable,
-          defaultDisplayValue: columnMetadata.default_display_value,
           component,
           componentOptions,
         };

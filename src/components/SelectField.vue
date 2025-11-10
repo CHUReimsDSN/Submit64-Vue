@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import { QSelect } from "quasar";
-import {
-  TSubmit64AssociationRowEntry,
-  TSubmit64FieldProps,
-} from "../models";
+import { TSubmit64FieldProps, TSubmit64StaticSelectOptions } from "../models";
 import { onMounted, ref } from "vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // refs
-const selectOptions = ref<Readonly<TSubmit64AssociationRowEntry[]>>([]);
-const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
-const fieldRef = ref<InstanceType<typeof QSelect>>()
+const selectOptions = ref<Readonly<TSubmit64StaticSelectOptions[]>>([]);
+const selectOptionsFiltered = ref<TSubmit64StaticSelectOptions[]>([]);
+const fieldRef = ref<InstanceType<typeof QSelect>>();
 
 // consts
 const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
@@ -37,20 +34,22 @@ function inputFilter(val: string, update: (callback: () => void) => void) {
   });
 }
 function setupSelectOptions() {
-  selectOptions.value = Object.freeze(propsComponent.field.selectOptions ?? []);
-  selectOptionsFiltered.value = propsComponent.field.selectOptions ?? [];
+  selectOptions.value = Object.freeze(
+    propsComponent.field.staticSelectOptions ?? []
+  );
+  selectOptionsFiltered.value = propsComponent.field.staticSelectOptions ?? [];
 }
 function validate() {
   if (!fieldRef.value) {
-    return false
+    return false;
   }
-  return fieldRef.value.validate() as boolean
+  return fieldRef.value.validate() as boolean;
 }
 function resetValidation() {
   if (!fieldRef.value) {
-    return
+    return;
   }
-  fieldRef.value.resetValidation()
+  fieldRef.value.resetValidation();
 }
 function clear() {
   propsComponent.clear();
@@ -60,7 +59,7 @@ function clear() {
 // lifeCycle
 onMounted(() => {
   setupSelectOptions();
-  propsComponent.registerBehaviourCallbacks(validate, resetValidation)
+  propsComponent.registerBehaviourCallbacks(validate, resetValidation);
 });
 </script>
 
