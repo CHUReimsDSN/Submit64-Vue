@@ -178,7 +178,6 @@ export type TSubmit64AssociationDisplayProps = {
 };
 export type TSubmit64ActionFormProps = {
     isLoadingSubmit: boolean;
-    formDef: TFormDef;
     functionsProvider: TSubmit64FunctionsProvider;
     submit: () => Promise<void> | void;
     reset?: (() => void) | undefined;

@@ -1,13 +1,12 @@
 var ge = Object.defineProperty;
 var ye = (n, e, t) => e in n ? ge(n, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : n[e] = t;
 var k = (n, e, t) => ye(n, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as T, createElementBlock as O, openBlock as p, createVNode as B, createBlock as D, createCommentVNode as $, unref as o, normalizeClass as R, createElementVNode as I, toDisplayString as G, renderSlot as J, resolveComponent as be, normalizeProps as ne, guardReactiveProps as oe, withCtx as x, createTextVNode as he, ref as S, onMounted as q, watch as ve, Fragment as L, resolveDynamicComponent as H, nextTick as re, getCurrentInstance as Fe, renderList as ee, mergeProps as Se } from "vue";
-import { QBtn as U, QIcon as K, QItem as _e, QItemSection as Ce, QItemLabel as Ve, QInput as M, QPopupProxy as te, QDate as ce, QTime as De, QCheckbox as xe, QSelect as ae, date as F } from "quasar";
+import { defineComponent as T, createElementBlock as O, openBlock as p, createVNode as B, createBlock as x, createCommentVNode as $, unref as o, normalizeClass as R, createElementVNode as I, toDisplayString as G, renderSlot as J, resolveComponent as be, normalizeProps as ne, guardReactiveProps as oe, withCtx as D, createTextVNode as he, ref as S, onMounted as q, watch as ve, Fragment as L, resolveDynamicComponent as H, nextTick as re, getCurrentInstance as Fe, renderList as ee, mergeProps as Se } from "vue";
+import { QBtn as U, QIcon as K, QItem as _e, QItemSection as Ce, QItemLabel as Ve, QInput as M, QPopupProxy as te, QDate as ce, QTime as xe, QCheckbox as De, QSelect as ae, date as F } from "quasar";
 const ke = { class: "flex row items-center no-wrap q-pt-sm" }, Be = /* @__PURE__ */ T({
   __name: "DefaultActionComponent",
   props: {
     isLoadingSubmit: { type: Boolean },
-    formDef: {},
     functionsProvider: {},
     submit: { type: Function },
     reset: { type: Function },
@@ -21,13 +20,13 @@ const ke = { class: "flex row items-center no-wrap q-pt-sm" }, Be = /* @__PURE__
         loading: e.isLoadingSubmit,
         onClick: r[0] || (r[0] = (l) => e.submit())
       }, null, 8, ["loading"]),
-      e.reset ? (p(), D(o(U), {
+      e.reset ? (p(), x(o(U), {
         key: 0,
         loading: e.isLoadingSubmit,
         label: "Réinitialiser",
         onClick: r[1] || (r[1] = (l) => e.reset())
       }, null, 8, ["loading"])) : $("", !0),
-      e.clear ? (p(), D(o(U), {
+      e.clear ? (p(), x(o(U), {
         key: 1,
         loading: e.isLoadingSubmit,
         label: "Vider",
@@ -48,7 +47,7 @@ const ke = { class: "flex row items-center no-wrap q-pt-sm" }, Be = /* @__PURE__
       class: R(["flex column", e.section.cssClass])
     }, [
       I("div", Te, [
-        e.section.icon ? (p(), D(o(K), {
+        e.section.icon ? (p(), x(o(K), {
           key: 0,
           name: e.section.icon,
           size: "sm"
@@ -69,7 +68,7 @@ const ke = { class: "flex row items-center no-wrap q-pt-sm" }, Be = /* @__PURE__
     const e = n;
     return (t, r) => {
       const l = be("q-icon");
-      return p(), D(l, {
+      return p(), x(l, {
         name: "reset",
         class: "cursor-pointer",
         onClick: r[0] || (r[0] = (i) => e.reset())
@@ -85,12 +84,12 @@ const ke = { class: "flex row items-center no-wrap q-pt-sm" }, Be = /* @__PURE__
   },
   setup(n) {
     const e = n;
-    return (t, r) => (p(), D(o(_e), ne(oe(e.itemProps)), {
-      default: x(() => [
+    return (t, r) => (p(), x(o(_e), ne(oe(e.itemProps)), {
+      default: D(() => [
         B(o(Ce), null, {
-          default: x(() => [
+          default: D(() => [
             B(o(Ve), null, {
-              default: x(() => [
+              default: D(() => [
                 he(G(e.entry.label), 1)
               ]),
               _: 1
@@ -208,7 +207,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
     }
     return q(() => {
       e.registerBehaviourCallbacks(c, u);
-    }), (h, _) => (p(), D(o(M), {
+    }), (h, _) => (p(), x(o(M), {
       ref_key: "fieldRef",
       ref: a,
       modelValue: e.modelValue,
@@ -237,14 +236,14 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
       rules: e.rules,
       onClear: e.clear
     }, {
-      append: x(() => [
+      append: D(() => [
         B(o(K), {
           size: "sm",
           color: "primary",
           name: "event",
           class: "cursor-pointer"
         }, {
-          default: x(() => [
+          default: D(() => [
             B(o(te), {
               ref_key: "popupProxyRef",
               ref: s,
@@ -252,7 +251,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
               "transition-show": "scale",
               "transition-hide": "scale"
             }, {
-              default: x(() => [
+              default: D(() => [
                 B(o(ce), {
                   modelValue: e.modelValue,
                   "onUpdate:modelValue": [
@@ -261,7 +260,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
                   ],
                   mask: o(t).formSettings.dateFormat
                 }, {
-                  default: x(() => [
+                  default: D(() => [
                     I("div", $e, [
                       B(o(U), {
                         onClick: d,
@@ -314,7 +313,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
     }
     return q(() => {
       e.registerBehaviourCallbacks(h, _);
-    }), (C, y) => (p(), D(o(M), {
+    }), (C, y) => (p(), x(o(M), {
       ref_key: "fieldRef",
       ref: d,
       modelValue: e.modelValue,
@@ -343,14 +342,14 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
       rules: e.rules,
       onClear: e.clear
     }, {
-      append: x(() => [
+      append: D(() => [
         B(o(K), {
           size: "sm",
           color: "primary",
           name: "event",
           class: "cursor-pointer"
         }, {
-          default: x(() => [
+          default: D(() => [
             B(o(te), {
               ref_key: "datePopupProxyRef",
               ref: s,
@@ -358,7 +357,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
               "transition-show": "scale",
               "transition-hide": "scale"
             }, {
-              default: x(() => [
+              default: D(() => [
                 B(o(ce), {
                   modelValue: e.modelValue,
                   "onUpdate:modelValue": [
@@ -367,7 +366,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
                   ],
                   mask: o(t).formSettings.datetimeFormat
                 }, {
-                  default: x(() => [
+                  default: D(() => [
                     I("div", we, [
                       B(o(U), {
                         onClick: c,
@@ -392,7 +391,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
           name: "access_time",
           class: "cursor-pointer"
         }, {
-          default: x(() => [
+          default: D(() => [
             B(o(te), {
               ref_key: "timePopupProxyRef",
               ref: a,
@@ -400,8 +399,8 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
               "transition-show": "scale",
               "transition-hide": "scale"
             }, {
-              default: x(() => [
-                B(o(De), {
+              default: D(() => [
+                B(o(xe), {
                   modelValue: e.modelValue,
                   "onUpdate:modelValue": [
                     y[2] || (y[2] = (f) => e.modelValue = f),
@@ -410,7 +409,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
                   mask: o(t).formSettings.datetimeFormat,
                   format24h: ""
                 }, {
-                  default: x(() => [
+                  default: D(() => [
                     I("div", Ee, [
                       B(o(U), {
                         onClick: u,
@@ -471,7 +470,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
     ), q(() => {
       e.registerBehaviourCallbacks(i, s);
     }), (a, d) => (p(), O(L, null, [
-      B(o(xe), {
+      B(o(De), {
         modelValue: e.modelValue,
         "onUpdate:modelValue": [
           d[0] || (d[0] = (c) => e.modelValue = c),
@@ -549,7 +548,7 @@ const $e = { class: "row items-center justify-end" }, ze = /* @__PURE__ */ T({
     }
     return q(() => {
       u(), e.registerBehaviourCallbacks(h, _);
-    }), (y, f) => (p(), D(o(ae), {
+    }), (y, f) => (p(), x(o(ae), {
       ref_key: "fieldRef",
       ref: l,
       modelValue: e.modelValue,
@@ -651,7 +650,7 @@ const Qe = /* @__PURE__ */ T({
     }
     return q(() => {
       h(), e.registerBehaviourCallbacks(_, C);
-    }), (f, v) => (p(), D(o(ae), {
+    }), (f, v) => (p(), x(o(ae), {
       ref_key: "fieldRef",
       ref: c,
       modelValue: e.modelValue,
@@ -686,8 +685,8 @@ const Qe = /* @__PURE__ */ T({
       onClear: y,
       onFilter: u
     }, {
-      options: x((g) => [
-        (p(), D(H(o(t)), ne(oe({
+      options: D((g) => [
+        (p(), x(H(o(t)), ne(oe({
           associationName: e.field.metadata.field_association_name,
           entry: g.opt,
           itemProps: g.itemProps
@@ -758,7 +757,7 @@ const Qe = /* @__PURE__ */ T({
     }
     return q(() => {
       h(), e.registerBehaviourCallbacks(_, C);
-    }), (f, v) => (p(), D(o(ae), {
+    }), (f, v) => (p(), x(o(ae), {
       ref_key: "fieldRef",
       ref: c,
       modelValue: e.modelValue,
@@ -795,8 +794,8 @@ const Qe = /* @__PURE__ */ T({
       onClear: y,
       onFilter: u
     }, {
-      options: x((g) => [
-        (p(), D(H(o(t)), ne(oe({
+      options: D((g) => [
+        (p(), x(H(o(t)), ne(oe({
           associationName: e.field.metadata.field_association_name,
           entry: g.opt,
           itemProps: g.itemProps
@@ -829,7 +828,7 @@ const Qe = /* @__PURE__ */ T({
     }
     return q(() => {
       e.registerBehaviourCallbacks(a, d);
-    }), (c, u) => (p(), D(o(M), {
+    }), (c, u) => (p(), x(o(M), {
       ref_key: "fieldRef",
       ref: s,
       modelValue: e.modelValue,
@@ -885,7 +884,7 @@ const Qe = /* @__PURE__ */ T({
     }
     return q(() => {
       e.registerBehaviourCallbacks(a, d);
-    }), (c, u) => (p(), D(o(M), {
+    }), (c, u) => (p(), x(o(M), {
       ref_key: "fieldRef",
       ref: s,
       modelValue: e.modelValue,
@@ -1200,7 +1199,7 @@ function We(n, e, t) {
         break;
       case "otherThanDate":
         a.push(
-          Dt(
+          xt(
             i(u, "other_than", !0),
             r.dateFormat
           )
@@ -1376,16 +1375,16 @@ function Vt(n, e) {
     return l === i || `Égale à ${l}`;
   };
 }
-function Dt(n, e) {
+function xt(n, e) {
   return (t) => {
     const r = n();
     return F.extractDate(String(t), e) !== F.extractDate(r, e) || `Doit être différent de ${r}`;
   };
 }
 function se(n) {
-  return (e) => e == null || e === "" ? !0 : xt(e, n) || `Date invalide. Format : ${n}`;
+  return (e) => e == null || e === "" ? !0 : Dt(e, n) || `Date invalide. Format : ${n}`;
 }
-function xt(n, e) {
+function Dt(n, e) {
   if (typeof n != "string" || !n.trim())
     return !1;
   const t = F.extractDate(n, e);
@@ -1552,7 +1551,7 @@ const kt = {
         modelValueOnUpdate: C,
         registerBehaviourCallbacks: A
       }, () => [
-        (p(), D(H(t.field.component), {
+        (p(), x(H(t.field.component), {
           modelValue: s.value,
           field: t.field,
           functionsProvider: t.functionsProvider,
@@ -1731,27 +1730,27 @@ const kt = {
       I("div", {
         class: R(a.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (p(!0), O(L, null, ee(a.value.sections, (w, Y) => (p(), D(H(o(l).sectionComponent), {
+        (p(!0), O(L, null, ee(a.value.sections, (w, Y) => (p(), x(H(o(l).sectionComponent), {
           key: Y,
           section: w,
           context: t.context,
           "functions-provider": i
         }, {
-          default: x(() => [
+          default: D(() => [
             (p(!0), O(L, null, ee(w.fields, (E) => (p(), O(L, {
               key: E.metadata.field_name
             }, [
-              b.$slots[E.metadata.field_name] ? (p(), D(ue, {
+              b.$slots[E.metadata.field_name] ? (p(), x(ue, {
                 key: 1,
                 field: E,
                 context: t.context,
                 "functions-provider": i
               }, {
-                default: x((W) => [
+                default: D((W) => [
                   J(b.$slots, "default", Se({ ref_for: !0 }, W))
                 ]),
                 _: 3
-              }, 8, ["field", "context"])) : (p(), D(ue, {
+              }, 8, ["field", "context"])) : (p(), x(ue, {
                 key: 0,
                 field: E,
                 context: t.context,
@@ -1762,7 +1761,7 @@ const kt = {
           _: 2
         }, 1032, ["section", "context"]))), 128))
       ], 2),
-      (p(), D(H(o(l).actionComponent), {
+      (p(), x(H(o(l).actionComponent), {
         isLoadingSubmit: c.value,
         submit: _,
         clear: a.value.clearable ? v : void 0,
