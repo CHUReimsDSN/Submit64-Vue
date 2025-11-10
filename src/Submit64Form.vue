@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, provide, ref } from "vue";
+import { onMounted, ref, unref } from "vue";
 import type {
   TFormDef,
   TSubmit64FormExpose,
@@ -8,11 +8,10 @@ import type {
   TResourceFormMetadataAndData,
   TSubmit64AssociationData,
   TSubmit64FormMode,
+  TSubmit64FunctionsProvider,
 } from "./models";
 import { FormFactory } from "./form-factory";
 import FieldWrapper from "./components/FieldWrapper.vue";
-import { uid } from "quasar";
-import { getSubmit64FormProviderSymbol } from "./utils";
 
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
@@ -31,7 +30,14 @@ const formFactoryInstance = Object.freeze(
     propsComponent.associationDisplayRecord
   )
 );
-const providingUniqKey = getSubmit64FormProviderSymbol(uid());
+const functionsProvider: TSubmit64FunctionsProvider = {
+  registerRef,
+  getDataByFieldName,
+  getFieldDataByFieldName,
+  getFormFactoryInstance,
+  getForm,
+  getAssociationDataCallback,
+};
 
 // refs
 const fieldRefs = ref<Map<string, TSubmit64FieldWrapper>>(new Map());
@@ -50,7 +56,6 @@ async function setupMetadatasAndForm() {
   generatedForm.value = Object.freeze(
     formFactoryInstance.getForm(
       formMetadataAndData,
-      providingUniqKey,
       propsComponent.resourceId,
       propsComponent.context
     )
@@ -149,13 +154,13 @@ function getFieldDataByFieldName(fieldName: string) {
   if (!fieldRef) {
     return null;
   }
-  return fieldRef[1].getValue();
+  return fieldRef[1].getValueSerialized();
 }
 function getFormFactoryInstance() {
   return formFactoryInstance;
 }
 function getForm() {
-  return generatedForm.value!;
+  return unref(generatedForm.value)!;
 }
 function getAssociationDataCallback() {
   return (
@@ -171,7 +176,6 @@ function getAssociationDataCallback() {
 function ensurePropsAreOk() {
   const propsToCheck: (keyof TSubmit64FormProps)[] = [
     "getMetadataAndData",
-    "getMetadataAndData",
     "resourceName",
   ];
   propsToCheck.forEach((propsName) => {
@@ -186,16 +190,6 @@ function ensurePropsAreOk() {
 function getMode() {
   return mode.value;
 }
-
-// provides
-provide(providingUniqKey, {
-  registerRef,
-  getDataByFieldName,
-  getFieldDataByFieldName,
-  getFormFactoryInstance,
-  getForm,
-  getAssociationDataCallback,
-});
 
 // exposes
 defineExpose({
@@ -219,44 +213,52 @@ onMounted(async () => {
 <template>
   <div v-if="setupIsDone && generatedForm" class="flex column">
     <div :class="generatedForm.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
-      <Component
-        v-for="(section, indexSection) in generatedForm.sections"
-        :key="indexSection"
-        :is="formFactoryInstance.sectionComponent"
-        :section="section"
-        :context="propsComponent.context"
+      <template
+        v-for="(section, _indexSection) in generatedForm.sections"
+        :key="_indexSection"
       >
-        <template
-          v-for="field in section.fields"
-          :key="field.metadata.field_name"
+        <Component
+          :is="formFactoryInstance.sectionComponent"
+          :section="section"
+          :context="propsComponent.context"
+          :functions-provider="functionsProvider"
         >
-          <FieldWrapper
-            v-if="!$slots[field.metadata.field_name]"
-            :field="field"
-            :context="propsComponent.context"
-          />
+          <template
+            v-for="field in section.fields"
+            :key="field.metadata.field_name"
+          >
+            <FieldWrapper
+              v-if="!$slots[field.metadata.field_name]"
+              :field="field"
+              :context="propsComponent.context"
+              :functions-provider="functionsProvider"
+            />
 
-          <template v-else>
-            <FieldWrapper :field="field" :context="propsComponent.context">
-              <template v-slot:default="{ propsWrapper }">
-                <slot :propsWrapper="propsWrapper"></slot>
-              </template>
-            </FieldWrapper>
+            <template v-else>
+              <FieldWrapper
+                :field="field"
+                :context="propsComponent.context"
+                :functions-provider="functionsProvider"
+              >
+                <template v-slot:default="propsField">
+                  <slot v-bind="propsField"></slot>
+                </template>
+              </FieldWrapper>
+            </template>
           </template>
-        </template>
-      </Component>
+        </Component>
+      </template>
     </div>
     <component
       :is="formFactoryInstance.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
-      :formDef="generatedForm"
       :submit="submitForm"
       :clear="generatedForm.clearable ? clearForm : undefined"
       :reset="generatedForm.resetable ? resetForm : undefined"
+      :functions-provider="functionsProvider"
     />
     <template v-if="$slots['more_actions']">
       <slot name="more_actions" :propsForm="{ generatedForm }"></slot>
     </template>
   </div>
 </template>
-

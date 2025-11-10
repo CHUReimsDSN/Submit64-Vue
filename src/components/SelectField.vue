@@ -3,7 +3,6 @@ import { QSelect } from "quasar";
 import {
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
-  TSubmit64FieldWrapperPropsSlot,
 } from "../models";
 import { onMounted, ref } from "vue";
 
@@ -16,7 +15,7 @@ const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
 const fieldRef = ref<InstanceType<typeof QSelect>>()
 
 // consts
-const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
+const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
@@ -37,9 +36,9 @@ function inputFilter(val: string, update: (callback: () => void) => void) {
     });
   });
 }
-function setupSelectOptions(propsWrapper: TSubmit64FieldWrapperPropsSlot) {
-  selectOptions.value = Object.freeze(propsWrapper.field.selectOptions ?? []);
-  selectOptionsFiltered.value = propsWrapper.field.selectOptions ?? [];
+function setupSelectOptions() {
+  selectOptions.value = Object.freeze(propsComponent.field.selectOptions ?? []);
+  selectOptionsFiltered.value = propsComponent.field.selectOptions ?? [];
 }
 function validate() {
   if (!fieldRef.value) {
@@ -54,27 +53,27 @@ function resetValidation() {
   fieldRef.value.resetValidation()
 }
 function clear() {
-  propsComponent.wrapper.clear();
+  propsComponent.clear();
   selectOptionsFiltered.value = [];
 }
 
 // lifeCycle
 onMounted(() => {
-  setupSelectOptions(propsComponent.wrapper);
-  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
+  setupSelectOptions();
+  propsComponent.registerBehaviourCallbacks(validate, resetValidation)
 });
 </script>
 
 <template>
   <q-select
     ref="fieldRef"
-    v-model="(propsComponent.wrapper.modelValue as string)"
+    v-model="(propsComponent.modelValue as string)"
     v-on:update:model-value="
-      (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
+      (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
-    :type="propsComponent.wrapper.field.componentOptions.regularFieldType"
-    :label="propsComponent.wrapper.field.label"
-    :hint="propsComponent.wrapper.field.hint"
+    :type="propsComponent.field.componentOptions.regularFieldType"
+    :label="propsComponent.field.label"
+    :hint="propsComponent.field.hint"
     :outlined="styleConfig.fieldOutlined"
     :filled="styleConfig.fieldFilled"
     :standout="styleConfig.fieldStandout"
@@ -85,13 +84,13 @@ onMounted(() => {
     :hideBottomSpace="styleConfig.fieldHideBottomSpace"
     :color="styleConfig.fieldColor"
     :bgColor="styleConfig.fieldBgColor"
-    :class="propsComponent.wrapper.field.cssClass"
+    :class="propsComponent.field.cssClass"
     :lazy-rules="lazyRules"
-    :clearable="propsComponent.wrapper.field.clearable"
-    :prefix="propsComponent.wrapper.field.prefix"
-    :suffix="propsComponent.wrapper.field.suffix"
-    :readonly="propsComponent.wrapper.field.readonly"
-    :rules="propsComponent.wrapper.rules"
+    :clearable="propsComponent.field.clearable"
+    :prefix="propsComponent.field.prefix"
+    :suffix="propsComponent.field.suffix"
+    :readonly="propsComponent.field.readonly"
+    :rules="propsComponent.rules"
     :options="selectOptionsFiltered"
     :mapOptions="true"
     :emitValue="true"

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { QItemLabel, QItem, QItemSection } from "quasar";
-import type { TSubmit64AssociationDisplayPropsSlot } from "../models";
+import type { TSubmit64AssociationDisplayProps } from "../models";
 
 // props
-const propsComponent = defineProps<TSubmit64AssociationDisplayPropsSlot>();
+const propsComponent = defineProps<TSubmit64AssociationDisplayProps>();
 </script>
 
 <template>

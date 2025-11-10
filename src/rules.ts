@@ -1,5 +1,5 @@
 import { date } from "quasar";
-import { TFormFieldDef, TSubmit64FormProvider, TSubmit64ValidationRule } from "./models";
+import { TFormFieldDef, TSubmit64FunctionsProvider, TSubmit64ValidationRule } from "./models";
 
 export type TSubmit64Rule = {
   type: // general
@@ -62,7 +62,7 @@ type TUpperRule = "allowNull" | "allowBlank";
 function computeServerRules(
   metadataRules: TSubmit64Rule[],
   fieldType: TFormFieldDef["type"],
-  formProvider: TSubmit64FormProvider
+  formProvider: TSubmit64FunctionsProvider
 ): TSubmit64ValidationRule[] {
   const formFactorySettings =
     formProvider.getFormFactoryInstance().formSettings;

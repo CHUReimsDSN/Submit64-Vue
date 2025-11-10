@@ -6,7 +6,7 @@ import type {
   TFormSettings,
   TFormSection,
   TResourceFormMetadataAndData,
-  TSubmit64FormProvider,
+  TSubmit64FunctionsProvider,
   TContext,
   TResourceFieldMetadata,
 } from "./models";
@@ -82,7 +82,6 @@ export class FormFactory {
 
   getForm(
     formMetadataAndData: TResourceFormMetadataAndData,
-    providingUniqKey: InjectionKey<TSubmit64FormProvider>,
     resourceId?: TFormDef['resourceId'],
     context?: TContext
   ): TFormDef {
@@ -111,7 +110,6 @@ export class FormFactory {
           selectOptions: columnMetadata.select_options,
           rules: columnMetadata.rules,
           clearable: formMetadataAndData.form.clearable,
-          provideUniqKey: providingUniqKey,
           defaultDisplayValue: columnMetadata.default_display_value,
           component,
           componentOptions,

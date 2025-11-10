@@ -7,7 +7,7 @@ import { onMounted, ref } from "vue";
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // consts
-const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
+const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
@@ -38,19 +38,19 @@ function resetValidation() {
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
+  propsComponent.registerBehaviourCallbacks(validate, resetValidation)
 })
 </script>
 
 <template>
   <q-input
     ref="fieldRef"
-    v-model="(propsComponent.wrapper.modelValue as string)"
+    v-model="(propsComponent.modelValue as string)"
     v-on:update:model-value="
-      (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
+      (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
-    :label="propsComponent.wrapper.field.label"
-    :hint="propsComponent.wrapper.field.hint"
+    :label="propsComponent.field.label"
+    :hint="propsComponent.field.hint"
     :outlined="styleConfig.fieldOutlined"
     :filled="styleConfig.fieldFilled"
     :standout="styleConfig.fieldStandout"
@@ -61,14 +61,14 @@ onMounted(() => {
     :hideBottomSpace="styleConfig.fieldHideBottomSpace"
     :color="styleConfig.fieldColor"
     :bgColor="styleConfig.fieldBgColor"
-    :class="propsComponent.wrapper.field.cssClass"
+    :class="propsComponent.field.cssClass"
     :lazy-rules="lazyRules"
-    :prefix="propsComponent.wrapper.field.prefix"
-    :suffix="propsComponent.wrapper.field.suffix"
-    :readonly="propsComponent.wrapper.field.readonly"
-    :clearable="propsComponent.wrapper.field.clearable"
-    :rules="propsComponent.wrapper.rules"
-    @clear="propsComponent.wrapper.clear"
+    :prefix="propsComponent.field.prefix"
+    :suffix="propsComponent.field.suffix"
+    :readonly="propsComponent.field.readonly"
+    :clearable="propsComponent.field.clearable"
+    :rules="propsComponent.rules"
+    @clear="propsComponent.clear"
   >
     <template v-slot:append>
       <q-icon size="sm" color="primary" name="event" class="cursor-pointer">
@@ -79,9 +79,9 @@ onMounted(() => {
           transition-hide="scale"
         >
           <q-date
-            v-model="(propsComponent.wrapper.modelValue as string)"
+            v-model="(propsComponent.modelValue as string)"
             v-on:update:model-value="
-              (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
+              (value: unknown) => propsComponent.modelValueOnUpdate(value)
             "
             :mask="formFactory.formSettings.dateFormat"
           >

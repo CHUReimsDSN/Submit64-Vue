@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TSubmit64FieldWrapperResetPropsSlot } from "../models";
+import { TSubmit64FieldWrapperResetProps } from "../models";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldWrapperResetPropsSlot>();
+const propsComponent = defineProps<TSubmit64FieldWrapperResetProps>();
 </script>
 
 <template>
