@@ -739,7 +739,7 @@ const je = /* @__PURE__ */ T({
         const f = e.getValueSerialized();
         !f || !e.field.associationData || (a.value = f.map(
           (v, g) => ({
-            label: e.field.associationData.label[g][g] ?? "???",
+            label: e.field.associationData.label[g] ?? "???",
             value: v,
             data: e.field.associationData.data[g]
           })

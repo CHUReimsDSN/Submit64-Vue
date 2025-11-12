@@ -67,7 +67,7 @@ function setupDefaultSelectValue() {
           label:
             (propsComponent.field.associationData!.label as string[])[
               valueMapIndex
-            ][valueMapIndex] ?? "???",
+            ] ?? "???",
           value: valueMap,
           data: (
             propsComponent.field.associationData!
