@@ -39,13 +39,15 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
     };
   }
   update(() => {
+    const form = propsComponent.functionsProvider.getForm();
     callback({
-      resourceName: propsComponent.functionsProvider.getForm().resourceName,
+      resourceName: form.resourceName,
+      resourceId: form.resourceId,
       associationName: propsComponent.field.metadata.field_association_name!,
       limit: selectOptionsScrollPagination.value.limit,
       offset: selectOptionsScrollPagination.value.offset,
       labelFilter: val,
-      context: propsComponent.functionsProvider.getForm().context,
+      context: form.context,
     })
       .then((response) => {
         selectOptionsFiltered.value = response.rows;
@@ -67,7 +69,7 @@ function setupDefaultSelectValue() {
           label:
             (propsComponent.field.associationData!.label as string[])[
               valueMapIndex
-            ][valueMapIndex] ?? "???",
+            ] ?? "???",
           value: valueMap,
           data: (
             propsComponent.field.associationData!
@@ -105,7 +107,7 @@ onMounted(() => {
 <template>
   <q-select
     ref="fieldRef"
-    v-model="(propsComponent.modelValue as string)"
+    :model-value="(propsComponent.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "

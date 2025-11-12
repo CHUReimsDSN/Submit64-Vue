@@ -223,6 +223,7 @@ export type TSubmit64GetMetadataAndData = {
 };
 export type TSubmit64GetAssociationData = {
   resourceName: string;
+  resourceId?: TRecord["id"];
   associationName: string;
   limit: number;
   offset: number;
