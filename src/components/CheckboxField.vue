@@ -10,7 +10,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 const ruleResult = ref<boolean | string>(true);
 
 // consts
-const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
+const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
 const styleConfig = formFactory.formStyle;
 
 // functions
@@ -23,9 +23,9 @@ function resetValidation() {
 
 // watchs
 watch(
-  () => propsComponent.wrapper.modelValue,
+  () => propsComponent.modelValue,
   (newValue) => {
-    for (const rule of propsComponent.wrapper
+    for (const rule of propsComponent
       .rules as TSubmit64ValidationRule[]) {
       ruleResult.value = rule(newValue);
       if (ruleResult.value !== true) {
@@ -37,22 +37,23 @@ watch(
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, resetValidation);
 });
 </script>
 
 <template>
   <q-checkbox
-    v-model="(propsComponent.wrapper.modelValue as string)"
-    v-on:update:model-value="(value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)"
-    :label="propsComponent.wrapper.field.label"
+    v-model="(propsComponent.modelValue as string)"
+    v-on:update:model-value="(value: unknown) => propsComponent.modelValueOnUpdate(value)"
+    :label="propsComponent.field.label"
     :dense="styleConfig.fieldDense"
     :color="styleConfig.fieldColor"
-    :aria-readonly="propsComponent.wrapper.field.readonly"
-    :class="propsComponent.wrapper.field.cssClass"
+    :aria-readonly="propsComponent.field.readonly"
+    :class="propsComponent.field.cssClass"
+    class="q-pb-md"
   />
-  <div v-if="propsComponent.wrapper.field.hint" class="q-field__bottom">
-    {{ propsComponent.wrapper.field.hint }}
+  <div v-if="propsComponent.field.hint" class="q-field__bottom">
+    {{ propsComponent.field.hint }}
   </div>
   <div
     v-if="ruleResult !== true"

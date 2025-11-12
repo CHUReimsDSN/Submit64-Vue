@@ -1,26 +1,14 @@
 <script setup lang="ts">
-import {
-  getCurrentInstance,
-  inject,
-  nextTick,
-  onMounted,
-  ref,
-  unref,
-} from "vue";
+import { getCurrentInstance, nextTick, onMounted, ref, unref } from "vue";
 import type {
-  TContext,
-  TFormFieldDef,
   TSubmit64FieldWrapper,
-  TSubmit64FieldWrapperPropsSlot,
+  TSubmit64FieldWrapperProps,
 } from "../models";
 import { Submit64Rules } from "../rules";
 import { date } from "quasar";
 
 // props
-const propsComponent = defineProps<{
-  field: TFormFieldDef;
-  context?: TContext;
-}>();
+const propsComponent = defineProps<TSubmit64FieldWrapperProps>();
 
 // var
 let validationCallback: () => boolean = () => {
@@ -31,7 +19,6 @@ let resetValidationCallback: () => void = () => {
 };
 
 // consts
-const injectForm = inject(propsComponent.field.provideUniqKey)!;
 const rules = getComputedRules();
 
 // refs
@@ -40,10 +27,7 @@ const backendErrors = ref<string[]>([]);
 
 // functions
 function reset() {
-  if (!injectForm) {
-    return;
-  }
-  modelValue.value = injectForm.getDataByFieldName(
+  modelValue.value = propsComponent.functionsProvider.getDataByFieldName(
     propsComponent.field.metadata.field_name
   );
   modelValue.value = formModelSerializeByType(modelValue.value);
@@ -55,16 +39,20 @@ function formModelSerializeByType(value: unknown) {
   switch (propsComponent.field.type) {
     case "checkbox":
       if (value === null || value === undefined || value === "") {
-        return false
+        return false;
       }
-      return value
+      return value;
     case "date":
       if (value === null || value === undefined || value === "") {
         return null;
       }
       return date.formatDate(
-        date.extractDate(String(value), injectForm.getForm().backendDateFormat),
-        injectForm.getFormFactoryInstance().formSettings.dateFormat
+        date.extractDate(
+          String(value),
+          propsComponent.functionsProvider.getForm().backendDateFormat
+        ),
+        propsComponent.functionsProvider.getFormFactoryInstance().formSettings
+          .dateFormat
       );
     case "datetime":
       if (value === null || value === undefined || value === "") {
@@ -73,9 +61,10 @@ function formModelSerializeByType(value: unknown) {
       return date.formatDate(
         date.extractDate(
           String(value),
-          injectForm.getForm().backendDatetimeFormat
+          propsComponent.functionsProvider.getForm().backendDatetimeFormat
         ),
-        injectForm.getFormFactoryInstance().formSettings.datetimeFormat
+        propsComponent.functionsProvider.getFormFactoryInstance().formSettings
+          .datetimeFormat
       );
   }
   return value;
@@ -89,9 +78,10 @@ function formModelDeserializeByType(value: unknown) {
       return date.formatDate(
         date.extractDate(
           String(value),
-          injectForm.getFormFactoryInstance().formSettings.dateFormat
+          propsComponent.functionsProvider.getFormFactoryInstance().formSettings
+            .dateFormat
         ),
-        injectForm.getForm().backendDateFormat
+        propsComponent.functionsProvider.getForm().backendDateFormat
       );
     case "datetime":
       if (value === null || value === undefined || value === "") {
@@ -100,9 +90,10 @@ function formModelDeserializeByType(value: unknown) {
       return date.formatDate(
         date.extractDate(
           String(value),
-          injectForm.getFormFactoryInstance().formSettings.datetimeFormat
+          propsComponent.functionsProvider.getFormFactoryInstance().formSettings
+            .datetimeFormat
         ),
-        injectForm.getForm().backendDatetimeFormat
+        propsComponent.functionsProvider.getForm().backendDatetimeFormat
       );
   }
   return value;
@@ -145,7 +136,7 @@ function getComputedRules() {
   return Submit64Rules.computeServerRules(
     propsComponent.field.rules ?? [],
     propsComponent.field.type,
-    injectForm
+    propsComponent.functionsProvider
   );
 }
 function modelValueOnUpdate(value: unknown) {
@@ -189,8 +180,8 @@ defineExpose({
 onMounted(() => {
   reset();
   const proxyInstanceRef = getCurrentInstance()?.exposed;
-  if (proxyInstanceRef && injectForm) {
-    injectForm.registerRef(
+  if (proxyInstanceRef && propsComponent.functionsProvider) {
+    propsComponent.functionsProvider.registerRef(
       propsComponent.field.metadata.field_name,
       proxyInstanceRef as TSubmit64FieldWrapper
     );
@@ -201,11 +192,32 @@ onMounted(() => {
 <template>
   <div>
     <slot
-      :propsWrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate, registerBehaviourCallbacks } as TSubmit64FieldWrapperPropsSlot)"
+      :is="propsComponent.field.component"
+      :modelValue="modelValue"
+      :field="propsComponent.field"
+      :functionsProvider="propsComponent.functionsProvider"
+      :rules="rules"
+      :reset="reset"
+      :clear="clear"
+      :getValueDeserialized="getValueDeserialized"
+      :getValueSerialized="getValueSerialized"
+      :validate="validate"
+      :modelValueOnUpdate="modelValueOnUpdate"
+      :registerBehaviourCallbacks="registerBehaviourCallbacks"
     >
       <Component
         :is="propsComponent.field.component"
-        :wrapper="({ modelValue, modelValueOnUpdate, field: propsComponent.field, injectForm, rules, reset, clear, getValueDeserialized, getValueSerialized, validate, registerBehaviourCallbacks } as TSubmit64FieldWrapperPropsSlot)"
+        :modelValue="modelValue"
+        :field="propsComponent.field"
+        :functionsProvider="propsComponent.functionsProvider"
+        :rules="rules"
+        :reset="reset"
+        :clear="clear"
+        :getValueDeserialized="getValueDeserialized"
+        :getValueSerialized="getValueSerialized"
+        :validate="validate"
+        :modelValueOnUpdate="modelValueOnUpdate"
+        :registerBehaviourCallbacks="registerBehaviourCallbacks"
       />
       <div
         v-if="backendErrors.length > 0"

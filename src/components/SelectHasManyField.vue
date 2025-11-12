@@ -2,7 +2,7 @@
 import { QSelect } from "quasar";
 import type {
   TSelectOptionPagination,
-  TSubmit64AssociationDisplayPropsSlot,
+  TSubmit64AssociationDisplayProps,
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
 } from "../models";
@@ -14,8 +14,8 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // consts
 const displayComponent =
-  propsComponent.wrapper.field.componentOptions.associationDisplayComponent;
-const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
+  propsComponent.field.componentOptions.associationDisplayComponent;
+const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
@@ -31,7 +31,7 @@ const fieldRef = ref<InstanceType<typeof QSelect>>();
 // functions
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   const callback =
-    propsComponent.wrapper.injectForm.getAssociationDataCallback();
+    propsComponent.functionsProvider.getAssociationDataCallback();
   if (val === "") {
     selectOptionsScrollPagination.value = {
       limit: getSubmit64AssociationDataDefaultLimit(),
@@ -40,13 +40,12 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   }
   update(() => {
     callback({
-      resourceName: propsComponent.wrapper.injectForm.getForm().resourceName,
-      associationName:
-        propsComponent.wrapper.field.metadata.field_association_name!,
+      resourceName: propsComponent.functionsProvider.getForm().resourceName,
+      associationName: propsComponent.field.metadata.field_association_name!,
       limit: selectOptionsScrollPagination.value.limit,
       offset: selectOptionsScrollPagination.value.offset,
       labelFilter: val,
-      context: propsComponent.wrapper.injectForm.getForm().context,
+      context: propsComponent.functionsProvider.getForm().context,
     })
       .then((response) => {
         selectOptionsFiltered.value = response.rows;
@@ -58,21 +57,22 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
 }
 function setupDefaultSelectValue() {
   void nextTick(() => {
-    const value = propsComponent.wrapper.getValueSerialized();
-    if (!value) {
+    const value = propsComponent.getValueSerialized();
+    if (!value || !propsComponent.field.associationData) {
       return;
     }
     selectOptionsFiltered.value = (value as unknown[]).map(
       (valueMap, valueMapIndex) => {
         return {
           label:
-            (
-              propsComponent.wrapper.field.defaultDisplayValue as (
-                | string
-                | undefined
-              )[]
-            )[valueMapIndex] ?? "???",
+            (propsComponent.field.associationData!.label as string[])[
+              valueMapIndex
+            ][valueMapIndex] ?? "???",
           value: valueMap,
+          data: (
+            propsComponent.field.associationData!
+              .data as TSubmit64AssociationRowEntry["data"][]
+          )[valueMapIndex],
         };
       }
     );
@@ -91,27 +91,27 @@ function resetValidation() {
   fieldRef.value.resetValidation();
 }
 function clear() {
-  propsComponent.wrapper.clear();
+  propsComponent.clear();
   selectOptionsFiltered.value = [];
 }
 
 // lifeCycle
 onMounted(() => {
   setupDefaultSelectValue();
-  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, resetValidation);
 });
 </script>
 
 <template>
   <q-select
     ref="fieldRef"
-    v-model="(propsComponent.wrapper.modelValue as string)"
+    v-model="(propsComponent.modelValue as string)"
     v-on:update:model-value="
-      (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
+      (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
-    :type="propsComponent.wrapper.field.componentOptions.regularFieldType"
-    :label="propsComponent.wrapper.field.label"
-    :hint="propsComponent.wrapper.field.hint"
+    :type="propsComponent.field.componentOptions.regularFieldType"
+    :label="propsComponent.field.label"
+    :hint="propsComponent.field.hint"
     :outlined="styleConfig.fieldOutlined"
     :filled="styleConfig.fieldFilled"
     :standout="styleConfig.fieldStandout"
@@ -122,13 +122,13 @@ onMounted(() => {
     :hideBottomSpace="styleConfig.fieldHideBottomSpace"
     :color="styleConfig.fieldColor"
     :bgColor="styleConfig.fieldBgColor"
-    :class="propsComponent.wrapper.field.cssClass"
+    :class="propsComponent.field.cssClass"
     :lazy-rules="lazyRules"
-    :clearable="propsComponent.wrapper.field.clearable"
-    :prefix="propsComponent.wrapper.field.prefix"
-    :suffix="propsComponent.wrapper.field.suffix"
-    :readonly="propsComponent.wrapper.field.readonly"
-    :rules="propsComponent.wrapper.rules"
+    :clearable="propsComponent.field.clearable"
+    :prefix="propsComponent.field.prefix"
+    :suffix="propsComponent.field.suffix"
+    :readonly="propsComponent.field.readonly"
+    :rules="propsComponent.rules"
     :options="selectOptionsFiltered"
     :mapOptions="true"
     :emitValue="true"
@@ -138,8 +138,15 @@ onMounted(() => {
     @clear="clear"
     @filter="onFilter"
   >
-    <template v-slot:options="scope: TSubmit64AssociationDisplayPropsSlot">
-      <component :is="displayComponent" :scope="scope" />
+    <template v-slot:options="scope">
+      <component
+        :is="displayComponent"
+        v-bind="{ 
+        associationName: propsComponent.field.metadata.field_association_name,
+        entry: scope.opt,
+        itemProps: scope.itemProps
+      } as TSubmit64AssociationDisplayProps"
+      />
     </template>
   </q-select>
 </template>

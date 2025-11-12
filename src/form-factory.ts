@@ -1,4 +1,4 @@
-import type { Component, InjectionKey } from "vue";
+import type { Component } from "vue";
 import type {
   TFormDef,
   TFormFieldDef,
@@ -6,7 +6,6 @@ import type {
   TFormSettings,
   TFormSection,
   TResourceFormMetadataAndData,
-  TSubmit64FormProvider,
   TContext,
   TResourceFieldMetadata,
 } from "./models";
@@ -82,7 +81,7 @@ export class FormFactory {
 
   getForm(
     formMetadataAndData: TResourceFormMetadataAndData,
-    providingUniqKey: InjectionKey<TSubmit64FormProvider>,
+    resourceId?: TFormDef['resourceId'],
     context?: TContext
   ): TFormDef {
     const sections: TFormSection[] = [];
@@ -107,11 +106,10 @@ export class FormFactory {
           suffix: columnMetadata.suffix,
           readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly ?? columnMetadata.readonly,
           cssClass: columnMetadata.css_class,
-          selectOptions: columnMetadata.select_options,
+          staticSelectOptions: columnMetadata.static_select_options,
+          associationData: columnMetadata.field_association_data,
           rules: columnMetadata.rules,
           clearable: formMetadataAndData.form.clearable,
-          provideUniqKey: providingUniqKey,
-          defaultDisplayValue: columnMetadata.default_display_value,
           component,
           componentOptions,
         };
@@ -129,6 +127,7 @@ export class FormFactory {
     const form: TFormDef = {
       sections,
       resourceName: formMetadataAndData.form.resource_name,
+      resourceId: resourceId,
       cssClass: formMetadataAndData.form.css_class,
       resetable: formMetadataAndData.form.resetable,
       clearable: formMetadataAndData.form.clearable,

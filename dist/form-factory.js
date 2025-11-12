@@ -53,7 +53,7 @@ export class FormFactory {
         this.associationDisplayRecord =
             associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
     }
-    getForm(formMetadataAndData, providingUniqKey, context) {
+    getForm(formMetadataAndData, resourceId, context) {
         const sections = [];
         formMetadataAndData.form.sections.forEach((sectionMetadata) => {
             const fields = [];
@@ -72,11 +72,10 @@ export class FormFactory {
                     suffix: columnMetadata.suffix,
                     readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly ?? columnMetadata.readonly,
                     cssClass: columnMetadata.css_class,
-                    selectOptions: columnMetadata.select_options,
+                    staticSelectOptions: columnMetadata.static_select_options,
+                    associationData: columnMetadata.field_association_data,
                     rules: columnMetadata.rules,
                     clearable: formMetadataAndData.form.clearable,
-                    provideUniqKey: providingUniqKey,
-                    defaultDisplayValue: columnMetadata.default_display_value,
                     component,
                     componentOptions,
                 };
@@ -94,6 +93,7 @@ export class FormFactory {
         const form = {
             sections,
             resourceName: formMetadataAndData.form.resource_name,
+            resourceId: resourceId,
             cssClass: formMetadataAndData.form.css_class,
             resetable: formMetadataAndData.form.resetable,
             clearable: formMetadataAndData.form.clearable,

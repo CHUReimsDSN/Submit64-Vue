@@ -1,8 +1,4 @@
-import {
-  InjectionKey,
-  type Component,
-  type ComponentPublicInstance,
-} from "vue";
+import { type Component, type ComponentPublicInstance } from "vue";
 import type { TSubmit64Rule } from "./rules";
 import { type QItemProps, ValidationRule } from "quasar";
 import { FormFactory } from "./form-factory";
@@ -45,13 +41,12 @@ export type TResourceFieldMetadata = {
   suffix?: string;
   readonly?: boolean;
   rules?: TSubmit64Rule[];
-  select_options?: {
-    label: string;
-    value: unknown;
-    disabled?: boolean;
-  }[];
+  static_select_options?: TSubmit64StaticSelectOptions[];
   css_class?: string;
-  default_display_value?: string;
+  field_association_data?: {
+    label?: string | string[];
+    data?: TRecord | TRecord[];
+  };
 };
 export type TSubmit64AssociationData = {
   rows: TSubmit64AssociationRowEntry[];
@@ -60,7 +55,7 @@ export type TSubmit64AssociationData = {
 export type TSubmit64AssociationRowEntry = {
   label: string;
   value: unknown;
-  disabled?: boolean;
+  data: TRecord;
 };
 export type TSubmit64SubmitSubmitData = {
   success: boolean;
@@ -71,29 +66,30 @@ export type TSubmit64SubmitSubmitData = {
 
 // singleton
 export type TFormSettings = {
-  rulesBehaviour?: "lazy" | "ondemand";
-  dateFormat?: string;
-  datetimeFormat?: string;
-  renderBackendHint?: boolean;
+  rulesBehaviour?: "lazy" | "ondemand" | undefined;
+  dateFormat?: string | undefined;
+  datetimeFormat?: string | undefined;
+  renderBackendHint?: boolean | undefined;
 };
 export type TFormStyle = {
-  fieldFilled?: boolean;
-  fieldOutlined?: boolean;
-  fieldStandout?: boolean | string;
-  fieldBorderless?: boolean;
-  fieldRounded?: boolean;
-  fieldSquare?: boolean;
-  fieldDense?: boolean;
-  fieldHideBottomSpace?: boolean;
-  fieldColor?: string;
-  fieldBgColor?: string;
-  fieldClass?: string;
+  fieldFilled?: boolean | undefined;
+  fieldOutlined?: boolean | undefined;
+  fieldStandout?: boolean | string | undefined;
+  fieldBorderless?: boolean | undefined;
+  fieldRounded?: boolean | undefined;
+  fieldSquare?: boolean | undefined;
+  fieldDense?: boolean | undefined;
+  fieldHideBottomSpace?: boolean | undefined;
+  fieldColor?: string | undefined;
+  fieldBgColor?: string | undefined;
+  fieldClass?: string | undefined;
 };
 
 // form factory
 export type TFormDef = {
   sections: TFormSection[];
   resourceName: string;
+  resourceId?: TRecord["id"];
   backendDateFormat: string;
   backendDatetimeFormat: string;
   resetable?: boolean;
@@ -122,7 +118,6 @@ export type TFormFieldDef = {
     | "number"
     | "object";
   metadata: TResourceFieldMetadata;
-  provideUniqKey: InjectionKey<TSubmit64FormProvider>;
   label?: string;
   hint?: string;
   suffix?: string;
@@ -131,8 +126,11 @@ export type TFormFieldDef = {
   rules?: TSubmit64Rule[];
   cssClass?: string;
   clearable?: boolean;
-  defaultDisplayValue?: string | string[];
-  selectOptions?: TSubmit64AssociationRowEntry[];
+  associationData?: {
+    label?: string | string[];
+    data?: TRecord | TRecord[];
+  };
+  staticSelectOptions?: TSubmit64StaticSelectOptions[];
   component: Component;
   componentOptions: {
     associationDisplayComponent?: Component;
@@ -140,52 +138,13 @@ export type TFormFieldDef = {
   };
 };
 export type TSubmit64FieldWrapper = ComponentPublicInstance & {
-  getValue: () => unknown;
+  getValueSerialized: () => unknown;
   getValueDeserialized: () => unknown;
   reset: () => void;
   clear: () => void;
   validate: () => boolean;
   resetValidation: () => void;
   setupBackendErrors: (errors: string[]) => void;
-};
-export type TSubmit64FieldProps = {
-  wrapper: TSubmit64FieldWrapperPropsSlot;
-};
-
-// slots
-export type TSubmit64FieldWrapperPropsSlot = {
-  modelValue: unknown;
-  field: TFormFieldDef;
-  injectForm: TSubmit64FormProvider;
-  rules: ValidationRule[];
-  modelValueOnUpdate: (value: unknown) => void;
-  reset: () => void;
-  clear: () => void;
-  getValueSerialized: () => unknown;
-  getValueDeserialized: () => unknown;
-  registerBehaviourCallbacks: (registerValidationArg: () => boolean, registerResetValidationArg: () => void) => void;
-};
-export type TSubmit64FieldWrapperResetPropsSlot = {
-  reset: () => void;
-};
-export type TSubmit64AssociationDisplayPropsSlot = {
-  index: number;
-  label: string;
-  selected: boolean;
-  focused: boolean;
-  opt: TSubmit64AssociationRowEntry;
-  itemProps: QItemProps;
-};
-
-export type TSubmit64FormProvider = {
-  registerRef: (resourceDataKey: string, fieldRef: TSubmit64FieldWrapper) => void;
-  getDataByFieldName: (fieldName: string) => void | unknown;
-  getFieldDataByFieldName: (fieldName: string) => unknown;
-  getFormFactoryInstance: () => Readonly<FormFactory>;
-  getForm: () => TFormDef;
-  getAssociationDataCallback(): (
-    submit64Params: TSubmit64GetAssociationData
-  ) => Promise<TSubmit64AssociationData>;
 };
 
 // props
@@ -197,30 +156,63 @@ export type TSubmit64FormProps = {
   getSubmitFormData: (
     submit64Params: TSubmit64GetSubmitData
   ) => Promise<TSubmit64SubmitSubmitData>;
-  getAssociationData?: (
-    submit64Params: TSubmit64GetAssociationData
-  ) => Promise<TSubmit64AssociationData>;
-  resourceId?: TRecord["id"];
-  formSettings?: TFormSettings;
-  formStyle?: TFormStyle;
-  sectionComponent?: Component;
-  actionComponent?: Component;
-  wrapperResetComponent?: Component;
-  associationDisplayComponent?: Component;
-  associationDisplayRecord?: Record<string, Component>;
-  onSubmitFail?: () => void;
-  onSubmitSuccess?: () => void;
-  context?: TContext;
+  getAssociationData?:
+    | ((
+        submit64Params: TSubmit64GetAssociationData
+      ) => Promise<TSubmit64AssociationData>)
+    | undefined;
+  resourceId?: TRecord["id"] | undefined;
+  formSettings?: TFormSettings | undefined;
+  formStyle?: TFormStyle | undefined;
+  sectionComponent?: Component | undefined;
+  actionComponent?: Component | undefined;
+  wrapperResetComponent?: Component | undefined;
+  associationDisplayComponent?: Component | undefined;
+  associationDisplayRecord?: Record<string, Component> | undefined;
+  onSubmitFail?: (() => void) | undefined;
+  onSubmitSuccess?: (() => void) | undefined;
+  context?: TContext | undefined;
 };
 export type TSubmit64SectionFormProps = {
   section: TFormSection;
-  context?: TContext;
+  functionsProvider: TSubmit64FunctionsProvider;
+  context?: TContext | undefined;
+};
+
+export type TSubmit64FieldWrapperProps = {
+  field: TFormFieldDef;
+  functionsProvider: TSubmit64FunctionsProvider;
+  context?: TContext | undefined;
+};
+export type TSubmit64FieldProps = {
+  modelValue: unknown;
+  field: TFormFieldDef;
+  functionsProvider: TSubmit64FunctionsProvider;
+  rules: ValidationRule[];
+  modelValueOnUpdate: (value: unknown) => void;
+  reset: () => void;
+  clear: () => void;
+  getValueSerialized: () => unknown;
+  getValueDeserialized: () => unknown;
+  registerBehaviourCallbacks: (
+    registerValidationArg: () => boolean,
+    registerResetValidationArg: () => void
+  ) => void;
+};
+export type TSubmit64FieldWrapperResetProps = {
+  reset: () => void;
+};
+export type TSubmit64AssociationDisplayProps = {
+  associationName: string;
+  entry: TSubmit64AssociationRowEntry;
+  itemProps: QItemProps;
 };
 export type TSubmit64ActionFormProps = {
   isLoadingSubmit: boolean;
-  reset?: () => void;
-  clear?: () => void;
+  functionsProvider: TSubmit64FunctionsProvider;
   submit: () => Promise<void> | void;
+  reset?: (() => void) | undefined;
+  clear?: (() => void) | undefined;
 };
 
 // backend request
@@ -262,7 +254,25 @@ export type TSelectOptionPagination = {
   offset: number;
 };
 export type TPropsWithClass = {
-  class?: string;
+  class?: string | undefined;
 };
 export type TSubmit64ValidationRule = (val: unknown) => boolean | string;
-export type TSubmit64FormMode = 'edit' | 'create'
+export type TSubmit64FormMode = "edit" | "create";
+export type TSubmit64FunctionsProvider = {
+  registerRef: (
+    resourceDataKey: string,
+    fieldRef: TSubmit64FieldWrapper
+  ) => void;
+  getDataByFieldName: (fieldName: string) => void | unknown;
+  getFieldDataByFieldName: (fieldName: string) => unknown;
+  getFormFactoryInstance: () => Readonly<FormFactory>;
+  getForm: () => TFormDef;
+  getAssociationDataCallback(): (
+    submit64Params: TSubmit64GetAssociationData
+  ) => Promise<TSubmit64AssociationData>;
+};
+export type TSubmit64StaticSelectOptions = {
+  label: string;
+  value: unknown;
+  disabled?: boolean;
+};

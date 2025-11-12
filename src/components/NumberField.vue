@@ -7,7 +7,7 @@ import { QInput } from "quasar";
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // consts
-const formFactory = propsComponent.wrapper.injectForm.getFormFactoryInstance();
+const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
@@ -31,20 +31,20 @@ function resetValidation() {
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.wrapper.registerBehaviourCallbacks(validate, resetValidation)
+  propsComponent.registerBehaviourCallbacks(validate, resetValidation)
 });
 </script>
 
 <template>
   <q-input
     ref="fieldRef"
-    v-model.number="(propsComponent.wrapper.modelValue as string)"
+    v-model.number="(propsComponent.modelValue as string)"
     v-on:update:model-value="
-      (value: unknown) => propsComponent.wrapper.modelValueOnUpdate(value)
+      (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
     type="number"
-    :label="propsComponent.wrapper.field.label"
-    :hint="propsComponent.wrapper.field.hint"
+    :label="propsComponent.field.label"
+    :hint="propsComponent.field.hint"
     :outlined="styleConfig.fieldOutlined"
     :filled="styleConfig.fieldFilled"
     :standout="styleConfig.fieldStandout"
@@ -55,13 +55,13 @@ onMounted(() => {
     :hideBottomSpace="styleConfig.fieldHideBottomSpace"
     :color="styleConfig.fieldColor"
     :bgColor="styleConfig.fieldBgColor"
-    :class="propsComponent.wrapper.field.cssClass"
+    :class="propsComponent.field.cssClass"
     :lazy-rules="lazyRules"
-    :clearable="propsComponent.wrapper.field.clearable"
-    :prefix="propsComponent.wrapper.field.prefix"
-    :suffix="propsComponent.wrapper.field.suffix"
-    :readonly="propsComponent.wrapper.field.readonly"
-    :rules="propsComponent.wrapper.rules"
-    @clear="propsComponent.wrapper.clear"
+    :clearable="propsComponent.field.clearable"
+    :prefix="propsComponent.field.prefix"
+    :suffix="propsComponent.field.suffix"
+    :readonly="propsComponent.field.readonly"
+    :rules="propsComponent.rules"
+    @clear="propsComponent.clear"
   />
 </template>
