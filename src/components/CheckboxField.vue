@@ -25,8 +25,7 @@ function resetValidation() {
 watch(
   () => propsComponent.modelValue,
   (newValue) => {
-    for (const rule of propsComponent
-      .rules as TSubmit64ValidationRule[]) {
+    for (const rule of propsComponent.rules as TSubmit64ValidationRule[]) {
       ruleResult.value = rule(newValue);
       if (ruleResult.value !== true) {
         break;
@@ -42,23 +41,25 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-checkbox
-    v-model="(propsComponent.modelValue as string)"
-    v-on:update:model-value="(value: unknown) => propsComponent.modelValueOnUpdate(value)"
-    :label="propsComponent.field.label"
-    :dense="styleConfig.fieldDense"
-    :color="styleConfig.fieldColor"
-    :aria-readonly="propsComponent.field.readonly"
-    :class="propsComponent.field.cssClass"
-    class="q-pb-md"
-  />
-  <div v-if="propsComponent.field.hint" class="q-field__bottom">
-    {{ propsComponent.field.hint }}
-  </div>
-  <div
-    v-if="ruleResult !== true"
-    class="q-field--error q-field__bottom text-negative"
-  >
-    {{ ruleResult }}
+  <div class="flex column">
+    <q-checkbox
+      v-model="(propsComponent.modelValue as string)"
+      v-on:update:model-value="(value: unknown) => propsComponent.modelValueOnUpdate(value)"
+      :label="propsComponent.field.label"
+      :dense="styleConfig.fieldDense"
+      :color="styleConfig.fieldColor"
+      :aria-readonly="propsComponent.field.readonly"
+      :class="propsComponent.field.cssClass"
+      class="q-pb-md"
+    />
+    <div v-if="propsComponent.field.hint" class="q-field__bottom">
+      {{ propsComponent.field.hint }}
+    </div>
+    <div
+      v-if="ruleResult !== true"
+      class="q-field--error q-field__bottom text-negative"
+    >
+      {{ ruleResult }}
+    </div>
   </div>
 </template>
