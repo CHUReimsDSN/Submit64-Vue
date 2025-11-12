@@ -102,7 +102,7 @@ onMounted(() => {
 <template>
   <q-select
     ref="fieldRef"
-    v-model="(propsComponent.modelValue as string)"
+    :model-value="(propsComponent.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "

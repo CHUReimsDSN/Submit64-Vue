@@ -45,7 +45,7 @@ onMounted(() => {
 <template>
   <q-input
     ref="fieldRef"
-    v-model="(propsComponent.modelValue as string)"
+    :model-value="(propsComponent.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
@@ -79,7 +79,7 @@ onMounted(() => {
           transition-hide="scale"
         >
           <q-date
-            v-model="(propsComponent.modelValue as string)"
+            :model-value="(propsComponent.modelValue as string)"
             v-on:update:model-value="
               (value: unknown) => propsComponent.modelValueOnUpdate(value)
             "

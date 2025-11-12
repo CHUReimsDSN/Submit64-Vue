@@ -43,7 +43,7 @@ onMounted(() => {
 <template>
   <div class="flex column">
     <q-checkbox
-      v-model="(propsComponent.modelValue as string)"
+      :model-value="(propsComponent.modelValue as boolean)"
       v-on:update:model-value="(value: unknown) => propsComponent.modelValueOnUpdate(value)"
       :label="propsComponent.field.label"
       :dense="styleConfig.fieldDense"
