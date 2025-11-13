@@ -65,12 +65,9 @@ function setupDefaultSelectValue() {
     }
     selectOptionsFiltered.value = [
       {
-        label:
-          (propsComponent.field.associationData.label as string | undefined) ??
-          "???",
+        label: propsComponent.field.associationData.label[0] ?? "???",
         value,
-        data: propsComponent.field.associationData
-          .data as TSubmit64AssociationRowEntry["data"],
+        data: propsComponent.field.associationData.data[0],
       },
     ];
   });

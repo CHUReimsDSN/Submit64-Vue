@@ -44,8 +44,8 @@ export type TResourceFieldMetadata = {
   static_select_options?: TSubmit64StaticSelectOptions[];
   css_class?: string;
   field_association_data?: {
-    label?: string | string[];
-    data?: TRecord | TRecord[];
+    label: string[];
+    data: TRecord[];
   };
 };
 export type TSubmit64AssociationData = {
@@ -127,8 +127,8 @@ export type TFormFieldDef = {
   cssClass?: string;
   clearable?: boolean;
   associationData?: {
-    label?: string | string[];
-    data?: TRecord | TRecord[];
+    label: string[];
+    data: TRecord[];
   };
   staticSelectOptions?: TSubmit64StaticSelectOptions[];
   component: Component;
@@ -209,6 +209,7 @@ export type TSubmit64AssociationDisplayProps = {
 };
 export type TSubmit64ActionFormProps = {
   isLoadingSubmit: boolean;
+  orphelanErrors: Record<string, string[]>;
   functionsProvider: TSubmit64FunctionsProvider;
   submit: () => Promise<void> | void;
   reset?: (() => void) | undefined;

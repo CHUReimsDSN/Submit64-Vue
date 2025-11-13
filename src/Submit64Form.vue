@@ -45,6 +45,7 @@ const generatedForm = ref<TFormDef>();
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
 const mode = ref<TSubmit64FormMode>("create");
+const orphelanErrors = ref<Record<string, string[]>>({});
 
 // functions
 async function setupMetadatasAndForm() {
@@ -79,14 +80,24 @@ async function submitForm(): Promise<void> {
     context: propsComponent.context,
   });
   if (!newData.success) {
+    orphelanErrors.value = {}
+    const parentedKeys: string[] = [];
     [...fieldRefs.value].forEach((entry) => {
       const entryBackendErrors = newData.errors[entry[0]];
       if (entryBackendErrors) {
         entry[1].setupBackendErrors(entryBackendErrors);
+        parentedKeys.push(entry[0]);
       }
+    });
+    Object.entries(newData.errors).forEach((errorEntry) => {
+      if (parentedKeys.includes(errorEntry[0])) {
+        return
+      }
+      orphelanErrors.value[errorEntry[0]] = errorEntry[1]
     });
     propsComponent.onSubmitFail?.();
   } else {
+    orphelanErrors.value = {}
     if (mode.value === "create") {
       mode.value = "edit";
     }
@@ -252,6 +263,7 @@ onMounted(async () => {
     <component
       :is="formFactoryInstance.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
+      :orphelanErrors="orphelanErrors"
       :submit="submitForm"
       :clear="generatedForm.clearable ? clearForm : undefined"
       :reset="generatedForm.resetable ? resetForm : undefined"

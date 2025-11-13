@@ -67,13 +67,13 @@ function setupDefaultSelectValue() {
       (valueMap, valueMapIndex) => {
         return {
           label:
-            (propsComponent.field.associationData!.label as string[])[
+            (propsComponent.field.associationData!.label)[
               valueMapIndex
             ] ?? "???",
           value: valueMap,
           data: (
             propsComponent.field.associationData!
-              .data as TSubmit64AssociationRowEntry["data"][]
+              .data
           )[valueMapIndex],
         };
       }
