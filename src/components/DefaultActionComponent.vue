@@ -15,6 +15,7 @@ function getButtonBindStyle(): QBtnProps {
     square: formStyle.fieldSquare,
     dense: formStyle.fieldDense,
     color: formStyle.fieldColor,
+    noCaps: true
   };
 }
 </script>
@@ -30,7 +31,7 @@ function getButtonBindStyle(): QBtnProps {
         {{ errorKey }} : {{ errorList.join(",") }}
       </div>
     </div>
-    <div class="flex row items-center no-wrap q-pt-sm">
+    <div class="flex row items-center no-wrap q-pt-sm q-gutter-x-sm">
       <q-btn
         v-bind="getButtonBindStyle()"
         label="Enregistrer"
