@@ -15,6 +15,7 @@ function getButtonBindStyle(): QBtnProps {
     square: formStyle.fieldSquare,
     dense: formStyle.fieldDense,
     color: formStyle.fieldColor,
+    noCaps: true
   };
 }
 </script>

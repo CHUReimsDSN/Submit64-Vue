@@ -22,7 +22,8 @@ const Te = { class: "flex column" }, Oe = { class: "flex column" }, Re = { class
         rounded: a.fieldRounded,
         square: a.fieldSquare,
         dense: a.fieldDense,
-        color: a.fieldColor
+        color: a.fieldColor,
+        noCaps: !0
       };
     }
     return (a, r) => (m(), T("div", Te, [
