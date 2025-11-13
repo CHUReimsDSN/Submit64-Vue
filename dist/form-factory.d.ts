@@ -6,11 +6,12 @@ export declare class FormFactory {
     formSettings: Required<TFormSettings>;
     formStyle: Required<TFormStyle>;
     actionComponent: Component;
+    orphanErrorsComponent: Component;
     sectionComponent: Component;
     wrapperResetComponent: Component;
     associationDisplayComponent: Component;
     associationDisplayRecord: Record<string, Component>;
-    constructor(resourceName: string, formSettings?: Partial<TFormSettings>, formStyle?: Partial<TFormStyle>, actionComponent?: Component, sectionComponent?: Component, wrapperResetComponent?: Component, associationDisplayComponent?: Component, associationDisplayRecord?: Record<string, Component>);
-    getForm(formMetadataAndData: TResourceFormMetadataAndData, resourceId?: TFormDef['resourceId'], context?: TContext): TFormDef;
+    constructor(resourceName: string, formSettings?: Partial<TFormSettings>, formStyle?: Partial<TFormStyle>, actionComponent?: Component, orphanErrorsComponent?: Component, sectionComponent?: Component, wrapperResetComponent?: Component, associationDisplayComponent?: Component, associationDisplayRecord?: Record<string, Component>);
+    getForm(formMetadataAndData: TResourceFormMetadataAndData, resourceId?: TFormDef["resourceId"], context?: TContext): TFormDef;
     private getRegularFieldTypeByFieldType;
 }

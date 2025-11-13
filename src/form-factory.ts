@@ -42,6 +42,7 @@ export class FormFactory {
   formSettings: Required<TFormSettings>;
   formStyle: Required<TFormStyle>;
   actionComponent: Component;
+  orphanErrorsComponent: Component;
   sectionComponent: Component;
   wrapperResetComponent: Component;
   associationDisplayComponent: Component;
@@ -52,6 +53,7 @@ export class FormFactory {
     formSettings?: Partial<TFormSettings>,
     formStyle?: Partial<TFormStyle>,
     actionComponent?: Component,
+    orphanErrorsComponent?: Component,
     sectionComponent?: Component,
     wrapperResetComponent?: Component,
     associationDisplayComponent?: Component,
@@ -68,6 +70,8 @@ export class FormFactory {
     };
     this.actionComponent =
       actionComponent ?? Submit64.getGlobalActionComponent();
+    this.orphanErrorsComponent =
+      orphanErrorsComponent ?? Submit64.getGlobalOrphanErrorComponent();
     this.sectionComponent =
       sectionComponent ?? Submit64.getGlobalSectionComponent();
     this.wrapperResetComponent =
@@ -81,7 +85,7 @@ export class FormFactory {
 
   getForm(
     formMetadataAndData: TResourceFormMetadataAndData,
-    resourceId?: TFormDef['resourceId'],
+    resourceId?: TFormDef["resourceId"],
     context?: TContext
   ): TFormDef {
     const sections: TFormSection[] = [];
@@ -92,7 +96,10 @@ export class FormFactory {
           columnMetadata.field_type
         );
         const componentOptions = {
-          associationDisplayComponent: this.associationDisplayRecord[columnMetadata.field_association_class ?? ''] ?? this.associationDisplayComponent,
+          associationDisplayComponent:
+            this.associationDisplayRecord[
+              columnMetadata.field_association_class ?? ""
+            ] ?? this.associationDisplayComponent,
           regularFieldType: this.getRegularFieldTypeByFieldType(
             columnMetadata.field_type
           ),
@@ -104,7 +111,10 @@ export class FormFactory {
           hint: columnMetadata.hint,
           prefix: columnMetadata.prefix,
           suffix: columnMetadata.suffix,
-          readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly ?? columnMetadata.readonly,
+          readonly:
+            formMetadataAndData.form.readonly ??
+            sectionMetadata.readonly ??
+            columnMetadata.readonly,
           cssClass: columnMetadata.css_class,
           staticSelectOptions: columnMetadata.static_select_options,
           associationData: columnMetadata.field_association_data,

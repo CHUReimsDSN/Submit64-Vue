@@ -260,6 +260,61 @@ type TSubmit64ActionFormProps = {
 
 <br /><br /> 
 
+## Surcharge du composant des erreurs orphelines
+Surcharge globale : 
+```typescript
+import { Submit64 } from 'submit64-vue';
+import MyCustomOrphanError from './MyCustomOrphanError.vue'
+
+Submit64.registerGlobalOrphanErrorsComponent(MyCustomOrphanError);
+```
+
+Surcharge locale : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+import MyCustomOrphanError from './MyCustomOrphanError.vue'
+</script>
+
+<template>
+  <Submit64Form :orphanErrorsComponent="MyCustomOrphanError" />
+</template>
+```
+
+Exemple de composant :  
+```vue
+<script setup lang="ts">
+import { UiBindUtils } from 'src/utils/ui-bind';
+import type { TSubmit64OrphanErrorFormProps } from 'submit64-vue';
+
+const propsComponent = defineProps<TSubmit64OrphanErrorFormProps>();
+</script>
+
+<template>
+ <div class="flex column">
+    <div
+      v-for="(errorList, errorKey) in propsComponent.orphelanErrors"
+      :key="errorKey"
+      class="q-field--error q-field__bottom text-negative"
+    >
+      {{ errorKey }} : {{ errorList.join(",") }}
+    </div>
+  </div>
+</template>
+```
+
+Props disponibles :  
+```typescript
+type TSubmit64OrphanErrorFormProps = {
+  /*
+  * Les erreurs orphelines
+  */
+  orphanErrors: Record<string, string[]>;
+};
+```
+
+<br /><br /> 
+
 ## Surcharge du composant d'affichage dans la liste des associations
 Surcharge globale : 
 ```typescript

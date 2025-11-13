@@ -22,15 +22,6 @@ function getButtonBindStyle(): QBtnProps {
 
 <template>
   <div class="flex column">
-    <div class="flex column">
-      <div
-        v-for="(errorList, errorKey) in propsComponent.orphelanErrors"
-        :key="errorKey"
-        class="q-field--error q-field__bottom text-negative"
-      >
-        {{ errorKey }} : {{ errorList.join(",") }}
-      </div>
-    </div>
     <div class="flex row items-center no-wrap q-pt-sm q-gutter-x-sm">
       <q-btn
         v-bind="getButtonBindStyle()"

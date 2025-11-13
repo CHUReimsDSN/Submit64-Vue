@@ -164,8 +164,9 @@ export type TSubmit64FormProps = {
   resourceId?: TRecord["id"] | undefined;
   formSettings?: TFormSettings | undefined;
   formStyle?: TFormStyle | undefined;
-  sectionComponent?: Component | undefined;
   actionComponent?: Component | undefined;
+  orphanErrorsComponent?: Component | undefined;
+  sectionComponent?: Component | undefined;
   wrapperResetComponent?: Component | undefined;
   associationDisplayComponent?: Component | undefined;
   associationDisplayRecord?: Record<string, Component> | undefined;
@@ -207,9 +208,12 @@ export type TSubmit64AssociationDisplayProps = {
   entry: TSubmit64AssociationRowEntry;
   itemProps: QItemProps;
 };
+export type TSubmit64OrphanErrorFormProps = {
+  orphanErrors: Record<string, string[]>;
+  functionsProvider: TSubmit64FunctionsProvider;
+}
 export type TSubmit64ActionFormProps = {
   isLoadingSubmit: boolean;
-  orphelanErrors: Record<string, string[]>;
   functionsProvider: TSubmit64FunctionsProvider;
   submit: () => Promise<void> | void;
   reset?: (() => void) | undefined;
