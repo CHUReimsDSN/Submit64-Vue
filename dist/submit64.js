@@ -19,7 +19,7 @@ export class Submit64 {
             renderBackendHint: true,
         };
         this._formStyle = {
-            fieldOutlined: true,
+            fieldOutlined: false,
             fieldDense: true,
             fieldHideBottomSpace: true,
             fieldFilled: false,

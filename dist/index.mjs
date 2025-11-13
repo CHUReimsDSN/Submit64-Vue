@@ -135,7 +135,7 @@ const Te = { class: "flex column" }, Oe = { class: "flex column" }, qe = { class
       datetimeFormat: "DD/MM/YYYY HH:mm",
       renderBackendHint: !0
     }, this._formStyle = {
-      fieldOutlined: !0,
+      fieldOutlined: !1,
       fieldDense: !0,
       fieldHideBottomSpace: !0,
       fieldFilled: !1,
