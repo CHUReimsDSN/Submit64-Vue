@@ -1,9 +1,9 @@
 var he = Object.defineProperty;
 var ve = (n, e, t) => e in n ? he(n, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : n[e] = t;
 var k = (n, e, t) => ve(n, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as O, createElementBlock as T, openBlock as m, createElementVNode as z, Fragment as A, renderList as J, toDisplayString as G, createVNode as B, createBlock as C, createCommentVNode as E, unref as o, mergeProps as W, normalizeClass as q, renderSlot as K, resolveComponent as _e, normalizeProps as oe, guardReactiveProps as re, withCtx as D, createTextVNode as Fe, ref as h, onMounted as P, watch as Se, resolveDynamicComponent as j, nextTick as ae, getCurrentInstance as Ce } from "vue";
+import { defineComponent as O, createElementBlock as T, openBlock as m, createElementVNode as z, Fragment as A, renderList as J, toDisplayString as G, createVNode as B, createBlock as C, createCommentVNode as E, unref as o, mergeProps as W, normalizeClass as R, renderSlot as K, resolveComponent as _e, normalizeProps as oe, guardReactiveProps as re, withCtx as D, createTextVNode as Fe, ref as h, onMounted as P, watch as Se, resolveDynamicComponent as j, nextTick as ae, getCurrentInstance as Ce } from "vue";
 import { QBtn as H, QIcon as X, QItem as xe, QItemSection as De, QItemLabel as ke, QInput as ee, QPopupProxy as ne, QDate as me, QTime as Ve, QCheckbox as Be, QSelect as le, date as v } from "quasar";
-const Te = { class: "flex column" }, Oe = { class: "flex column" }, Re = { class: "flex row items-center no-wrap q-pt-sm" }, qe = /* @__PURE__ */ O({
+const Te = { class: "flex column" }, Oe = { class: "flex column" }, qe = { class: "flex row items-center no-wrap q-pt-sm q-gutter-x-sm" }, Re = /* @__PURE__ */ O({
   __name: "DefaultActionComponent",
   props: {
     isLoadingSubmit: { type: Boolean },
@@ -33,7 +33,7 @@ const Te = { class: "flex column" }, Oe = { class: "flex column" }, Re = { class
           class: "q-field--error q-field__bottom text-negative"
         }, G(s) + " : " + G(i.join(",")), 1))), 128))
       ]),
-      z("div", Re, [
+      z("div", qe, [
         B(o(H), W(t(), {
           label: "Enregistrer",
           loading: e.isLoadingSubmit,
@@ -62,7 +62,7 @@ const Te = { class: "flex column" }, Oe = { class: "flex column" }, Re = { class
   setup(n) {
     const e = n, t = e.functionsProvider.getFormFactoryInstance().formStyle;
     return (a, r) => (m(), T("div", {
-      class: q(["flex column", e.section.cssClass])
+      class: R(["flex column", e.section.cssClass])
     }, [
       z("div", Pe, [
         e.section.icon ? (m(), C(o(X), {
@@ -146,7 +146,7 @@ const Te = { class: "flex column" }, Oe = { class: "flex column" }, Re = { class
       fieldClass: "",
       fieldColor: "primary",
       fieldBgColor: "white"
-    }, this._actionComponent = qe, this._sectionComponent = ze, this._wrapperResetComponent = we, this._associationDisplayComponent = Ee, this._associationDisplayDictonary = {};
+    }, this._actionComponent = Re, this._sectionComponent = ze, this._wrapperResetComponent = we, this._associationDisplayComponent = Ee, this._associationDisplayDictonary = {};
   }
   static registerGlobalFormSetting(e) {
     this._instance._formSettings = {
@@ -243,7 +243,7 @@ const Ie = { class: "row items-center justify-end" }, Ue = /* @__PURE__ */ O({
       hideBottomSpace: o(r).fieldHideBottomSpace,
       color: o(r).fieldColor,
       bgColor: o(r).fieldBgColor,
-      class: q(e.field.cssClass),
+      class: R(e.field.cssClass),
       "lazy-rules": i,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -343,7 +343,7 @@ const Ie = { class: "row items-center justify-end" }, Ue = /* @__PURE__ */ O({
       hideBottomSpace: o(r).fieldHideBottomSpace,
       color: o(r).fieldColor,
       bgColor: o(r).fieldBgColor,
-      class: q(e.field.cssClass),
+      class: R(e.field.cssClass),
       "lazy-rules": i,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -481,7 +481,7 @@ const Ie = { class: "row items-center justify-end" }, Ue = /* @__PURE__ */ O({
         dense: o(r).fieldDense,
         color: o(r).fieldColor,
         "aria-readonly": e.field.readonly,
-        class: q([e.field.cssClass, "q-pb-md"])
+        class: R([e.field.cssClass, "q-pb-md"])
       }, null, 8, ["model-value", "label", "dense", "color", "aria-readonly", "class"]),
       e.field.hint ? (m(), T("div", je, G(e.field.hint), 1)) : E("", !0),
       t.value !== !0 ? (m(), T("div", Qe, G(t.value), 1)) : E("", !0)
@@ -567,7 +567,7 @@ const Ie = { class: "row items-center justify-end" }, Ue = /* @__PURE__ */ O({
       hideBottomSpace: o(l).fieldHideBottomSpace,
       color: o(l).fieldColor,
       bgColor: o(l).fieldBgColor,
-      class: q(e.field.cssClass),
+      class: R(e.field.cssClass),
       "lazy-rules": d,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -611,15 +611,15 @@ const Ke = /* @__PURE__ */ O({
         limit: Z(),
         offset: 0
       }), _(() => {
-        const R = e.functionsProvider.getForm();
+        const q = e.functionsProvider.getForm();
         b({
-          resourceName: R.resourceName,
-          resourceId: R.resourceId,
+          resourceName: q.resourceName,
+          resourceId: q.resourceId,
           associationName: e.field.metadata.field_association_name,
           limit: d.value.limit,
           offset: d.value.offset,
           labelFilter: p,
-          context: R.context
+          context: q.context
         }).then((w) => {
           l.value = w.rows;
         }).catch(() => {
@@ -668,7 +668,7 @@ const Ke = /* @__PURE__ */ O({
       hideBottomSpace: o(i).fieldHideBottomSpace,
       color: o(i).fieldColor,
       bgColor: o(i).fieldBgColor,
-      class: q(e.field.cssClass),
+      class: R(e.field.cssClass),
       "lazy-rules": s,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -717,15 +717,15 @@ const Ke = /* @__PURE__ */ O({
         limit: Z(),
         offset: 0
       }), _(() => {
-        const R = e.functionsProvider.getForm();
+        const q = e.functionsProvider.getForm();
         b({
-          resourceName: R.resourceName,
-          resourceId: R.resourceId,
+          resourceName: q.resourceName,
+          resourceId: q.resourceId,
           associationName: e.field.metadata.field_association_name,
           limit: d.value.limit,
           offset: d.value.offset,
           labelFilter: p,
-          context: R.context
+          context: q.context
         }).then((w) => {
           l.value = w.rows;
         }).catch(() => {
@@ -774,7 +774,7 @@ const Ke = /* @__PURE__ */ O({
       hideBottomSpace: o(i).fieldHideBottomSpace,
       color: o(i).fieldColor,
       bgColor: o(i).fieldBgColor,
-      class: q(e.field.cssClass),
+      class: R(e.field.cssClass),
       "lazy-rules": s,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -842,7 +842,7 @@ const Ke = /* @__PURE__ */ O({
       hideBottomSpace: o(r).fieldHideBottomSpace,
       color: o(r).fieldColor,
       bgColor: o(r).fieldBgColor,
-      class: q(e.field.cssClass),
+      class: R(e.field.cssClass),
       "lazy-rules": i,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -895,7 +895,7 @@ const Ke = /* @__PURE__ */ O({
       hideBottomSpace: o(r).fieldHideBottomSpace,
       color: o(r).fieldColor,
       bgColor: o(r).fieldBgColor,
-      class: q(e.field.cssClass),
+      class: R(e.field.cssClass),
       "lazy-rules": i,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -1371,15 +1371,15 @@ function Ot(n, e) {
   };
 }
 function de(n) {
-  return (e) => e == null || e === "" ? !0 : Rt(e, n) || `Date invalide. Format : ${n}`;
+  return (e) => e == null || e === "" ? !0 : qt(e, n) || `Date invalide. Format : ${n}`;
 }
-function Rt(n, e) {
+function qt(n, e) {
   if (typeof n != "string" || !n.trim())
     return !1;
   const t = v.extractDate(n, e);
   return !(t instanceof Date) || isNaN(t.getTime()) ? !1 : v.formatDate(t, e) === n;
 }
-const qt = {
+const Rt = {
   computeServerRules: Me
 }, Pt = {
   key: 0,
@@ -1400,7 +1400,7 @@ const qt = {
       s.value = t.functionsProvider.getDataByFieldName(
         t.field.metadata.field_name
       ), s.value = u(s.value), ae(() => {
-        R();
+        q();
       });
     }
     function u(f) {
@@ -1482,7 +1482,7 @@ const qt = {
       }
     }
     function x() {
-      return qt.computeServerRules(
+      return Rt.computeServerRules(
         t.field.rules ?? [],
         t.field.type,
         t.functionsProvider
@@ -1503,7 +1503,7 @@ const qt = {
     function b() {
       return a();
     }
-    function R() {
+    function q() {
       return r();
     }
     function w(f, I) {
@@ -1513,7 +1513,7 @@ const qt = {
       reset: d,
       clear: y,
       validate: b,
-      resetValidation: R,
+      resetValidation: q,
       getValueDeserialized: p,
       getValueSerialized: F,
       setupBackendErrors: _
@@ -1669,7 +1669,7 @@ const qt = {
         g.clear();
       });
     }
-    function R() {
+    function q() {
       s.value.forEach((g) => {
         g.resetValidation();
       });
@@ -1720,13 +1720,13 @@ const qt = {
       validateForm: p,
       resetForm: _,
       clearForm: b,
-      resetValidation: R,
+      resetValidation: q,
       submitForm: V
     }), P(async () => {
       ye(), await x();
     }), (g, S) => d.value && l.value ? (m(), T("div", $t, [
       z("div", {
-        class: q(l.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
+        class: R(l.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
         (m(!0), T(A, null, J(l.value.sections, (U, Y) => (m(), C(j(o(r).sectionComponent), {
           key: Y,
