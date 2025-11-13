@@ -5,6 +5,7 @@ export declare class Submit64 {
     private _formSettings;
     private _formStyle;
     private _actionComponent;
+    private _orphanErrorsComponent;
     private _sectionComponent;
     private _wrapperResetComponent;
     private _associationDisplayComponent;
@@ -13,6 +14,7 @@ export declare class Submit64 {
     static registerGlobalFormSetting(formSetting: TFormSettings): void;
     static registerGlobalFormStyle(formStyle: TFormStyle): void;
     static registerGlobalActionComponent(actionComponent: Component): void;
+    static registerGlobalOrphanErrorsComponent(orphanErrorComponent: Component): void;
     static registerGlobalSectionComponent(sectionComponent: Component): void;
     static registerGlobalWrapperResetComponent(wrapperResetComponent: Component): void;
     static registerGlobalAssociationDisplayComponent(displayComponent: Component): void;
@@ -20,6 +22,7 @@ export declare class Submit64 {
     static getGlobalFormSetting(): Required<TFormSettings>;
     static getGlobalFormStyle(): Required<TFormStyle>;
     static getGlobalActionComponent(): Component;
+    static getGlobalOrphanErrorComponent(): Component;
     static getGlobalSectionComponent(): Component;
     static getGlobalWrapperResetComponent(): Component;
     static getGlobalAssociationDisplayComponent(): Component;

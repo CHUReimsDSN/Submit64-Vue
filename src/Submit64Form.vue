@@ -24,6 +24,7 @@ const formFactoryInstance = Object.freeze(
     propsComponent.formSettings,
     propsComponent.formStyle,
     propsComponent.actionComponent,
+    propsComponent.orphanErrorsComponent,
     propsComponent.sectionComponent,
     propsComponent.wrapperResetComponent,
     propsComponent.associationDisplayComponent,
@@ -45,7 +46,7 @@ const generatedForm = ref<TFormDef>();
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
 const mode = ref<TSubmit64FormMode>("create");
-const orphelanErrors = ref<Record<string, string[]>>({});
+const orphanErrors = ref<Record<string, string[]>>({});
 
 // functions
 async function setupMetadatasAndForm() {
@@ -80,7 +81,7 @@ async function submitForm(): Promise<void> {
     context: propsComponent.context,
   });
   if (!newData.success) {
-    orphelanErrors.value = {}
+    orphanErrors.value = {};
     const parentedKeys: string[] = [];
     [...fieldRefs.value].forEach((entry) => {
       const entryBackendErrors = newData.errors[entry[0]];
@@ -91,13 +92,13 @@ async function submitForm(): Promise<void> {
     });
     Object.entries(newData.errors).forEach((errorEntry) => {
       if (parentedKeys.includes(errorEntry[0])) {
-        return
+        return;
       }
-      orphelanErrors.value[errorEntry[0]] = errorEntry[1]
+      orphanErrors.value[errorEntry[0]] = errorEntry[1];
     });
     propsComponent.onSubmitFail?.();
   } else {
-    orphelanErrors.value = {}
+    orphanErrors.value = {};
     if (mode.value === "create") {
       mode.value = "edit";
     }
@@ -261,9 +262,13 @@ onMounted(async () => {
       </template>
     </div>
     <component
+      :is="formFactoryInstance.orphanErrorsComponent"
+      :orphanErrors="orphanErrors"
+      :functions-provider="functionsProvider"
+    />
+    <component
       :is="formFactoryInstance.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
-      :orphelanErrors="orphelanErrors"
       :submit="submitForm"
       :clear="generatedForm.clearable ? clearForm : undefined"
       :reset="generatedForm.resetable ? resetForm : undefined"

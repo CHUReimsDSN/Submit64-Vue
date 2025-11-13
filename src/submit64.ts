@@ -4,12 +4,14 @@ import DefaultActionComponent from "./components/DefaultActionComponent.vue";
 import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
 import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
 import DefaultAssociationDisplayComponent from "./components/DefaultAssociationDisplayComponent.vue";
+import DefaultOrphanErrorsComponent from "./components/DefaultOrphanErrorsComponent.vue";
 
 export class Submit64 {
   private static _instance: Submit64 = new Submit64();
   private _formSettings: Required<TFormSettings>;
   private _formStyle: Required<TFormStyle>;
   private _actionComponent: Component;
+  private _orphanErrorsComponent: Component;
   private _sectionComponent: Component;
   private _wrapperResetComponent: Component;
   private _associationDisplayComponent: Component;
@@ -36,6 +38,7 @@ export class Submit64 {
       fieldBgColor: "white",
     };
     this._actionComponent = DefaultActionComponent;
+    this._orphanErrorsComponent = DefaultOrphanErrorsComponent;
     this._sectionComponent = DefaultSectionComponent;
     this._wrapperResetComponent = DefaultWrapperResetComponent;
     this._associationDisplayComponent = DefaultAssociationDisplayComponent;
@@ -58,6 +61,10 @@ export class Submit64 {
 
   static registerGlobalActionComponent(actionComponent: Component) {
     this._instance._actionComponent = actionComponent;
+  }
+
+  static registerGlobalOrphanErrorsComponent(orphanErrorComponent: Component) {
+    this._instance._orphanErrorsComponent = orphanErrorComponent;
   }
 
   static registerGlobalSectionComponent(sectionComponent: Component) {
@@ -90,6 +97,10 @@ export class Submit64 {
 
   static getGlobalActionComponent() {
     return this._instance._actionComponent;
+  }
+
+  static getGlobalOrphanErrorComponent() {
+    return this._instance._orphanErrorsComponent;
   }
 
   static getGlobalSectionComponent() {
