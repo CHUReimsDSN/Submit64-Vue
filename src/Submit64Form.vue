@@ -124,8 +124,10 @@ function getOverridedComponents() {
     if (slot) {
       map.set(
         key,
-        defineComponent(() => {
-          return () => slot();
+        defineComponent({
+          setup(props, { attrs }) {
+            return () => slot({ ...props, ...attrs });
+          },
         })
       );
     }
@@ -146,12 +148,12 @@ function getOverridedComponents() {
     if (componentFromProps && !map.has(entryKey[1])) {
       overridedComponents[entryKey[2]] = componentFromProps;
     } else if (map.has(entryKey[1])) {
-      overridedComponents[entryKey[2]] = map.get(entryKey[1])
+      overridedComponents[entryKey[2]] = map.get(entryKey[1]);
     }
   });
   overridedComponents["associationDisplayRecord"] =
-  propsComponent.associationDisplayRecord;
-  console.log(overridedComponents)
+    propsComponent.associationDisplayRecord;
+  console.log(overridedComponents);
   return overridedComponents;
 }
 function getValuesFormDeserialized(): Record<string, unknown> {
