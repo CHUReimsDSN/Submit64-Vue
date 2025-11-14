@@ -11,7 +11,9 @@ Il est possible de surcharger certains élements de Submit64 :
 - Le composant de section
 - Le composant d'action
 - Le composant d'affichage dans la liste des associations
+- Le composant d'affichage des erreurs orphelines
 - Les champs de saisie
+- Les composant d'extension de champ de saisie
 
 Il existe deux types possibles de surcharge :  
 
@@ -135,7 +137,7 @@ import MyCustomSection from './MyCustomSection.vue'
 Submit64.registerGlobalSectionComponent(MyCustomSection);
 ```
 
-Surcharge locale : 
+Surcharge locale sous forme de props : 
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from "submit64-vue";
@@ -147,9 +149,9 @@ import MyCustomSection from './MyCustomSection.vue'
 </template>
 ```
 
-Exemple de composant :  
 ```vue
 <script setup lang="ts">
+// MyCustomSecton.vue
 import type { TSubmit64SectionFormProps } from 'submit64-vue';
 
 const propsComponent = defineProps<TSubmit64SectionFormProps>()
@@ -170,6 +172,33 @@ const propsComponent = defineProps<TSubmit64SectionFormProps>()
   </div>
 </template>
 ```
+
+Surcharge locale sous forme de slot : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+</script>
+
+<template>
+  <Submit64Form>
+    <template v-slot:actions={propsActions}>
+      <div :class="propsActions.section.cssClass">
+        <div class="flex row items-center">
+          <div class="text-body1 text-weight-medium">
+            My custom section -> {{ propsActions.section.label }}
+          </div>
+        </div>
+
+        <div class="flex column items-start">
+          <slot></slot> <!-- Render all fields -->
+        </div>
+          
+      </div>
+    </template>
+  </Submit64Form>
+</template>
+```
+
 
 Props disponibles :  
 ```typescript

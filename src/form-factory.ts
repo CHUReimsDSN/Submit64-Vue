@@ -1,4 +1,4 @@
-import type { Component } from "vue";
+import type { Component, Slot } from "vue";
 import type {
   TFormDef,
   TFormFieldDef,
@@ -8,6 +8,7 @@ import type {
   TResourceFormMetadataAndData,
   TContext,
   TResourceFieldMetadata,
+  TSubmit64OverridedComponents,
 } from "./models";
 import { Submit64 } from "./submit64";
 import DateField from "./components/DateField.vue";
@@ -21,23 +22,6 @@ import StringField from "./components/StringField.vue";
 import NumberField from "./components/NumberField.vue";
 
 export class FormFactory {
-  private static getFieldComponentByFormFieldType(
-    fieldType: TFormFieldDef["type"]
-  ): Component {
-    return {
-      string: StringField,
-      text: StringField,
-      number: NumberField,
-      date: DateField,
-      datetime: DateTimeField,
-      selectString: SelectField,
-      selectBelongsTo: SelectBelongsToField,
-      selectHasMany: SelectHasManyField,
-      checkbox: CheckboxField,
-      object: ObjectField,
-    }[fieldType];
-  }
-
   resourceName: string;
   formSettings: Required<TFormSettings>;
   formStyle: Required<TFormStyle>;
@@ -50,14 +34,9 @@ export class FormFactory {
 
   constructor(
     resourceName: string,
+    overridedComponent: TSubmit64OverridedComponents,
     formSettings?: Partial<TFormSettings>,
     formStyle?: Partial<TFormStyle>,
-    actionComponent?: Component,
-    orphanErrorsComponent?: Component,
-    sectionComponent?: Component,
-    wrapperResetComponent?: Component,
-    associationDisplayComponent?: Component,
-    associationDisplayRecord?: Record<string, Component>
   ) {
     this.resourceName = resourceName;
     this.formSettings = {
@@ -68,19 +47,20 @@ export class FormFactory {
       ...formStyle,
       ...Submit64.getGlobalFormStyle(),
     };
+    
     this.actionComponent =
-      actionComponent ?? Submit64.getGlobalActionComponent();
+      overridedComponent.actionComponent ?? Submit64.getGlobalActionComponent();
     this.orphanErrorsComponent =
-      orphanErrorsComponent ?? Submit64.getGlobalOrphanErrorComponent();
+      overridedComponent.orphanErrorsComponent ?? Submit64.getGlobalOrphanErrorComponent();
     this.sectionComponent =
-      sectionComponent ?? Submit64.getGlobalSectionComponent();
+      overridedComponent.sectionComponent ?? Submit64.getGlobalSectionComponent();
     this.wrapperResetComponent =
-      wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
+      overridedComponent.wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
     this.associationDisplayComponent =
-      associationDisplayComponent ??
+      overridedComponent.associationDisplayComponent ??
       Submit64.getGlobalAssociationDisplayComponent();
     this.associationDisplayRecord =
-      associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
+      overridedComponent.associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
   }
 
   getForm(
@@ -159,5 +139,22 @@ export class FormFactory {
       text: "textarea",
     };
     return mapping[fieldType] || undefined;
+  }
+
+  private static getFieldComponentByFormFieldType(
+    fieldType: TFormFieldDef["type"]
+  ): Component {
+    return {
+      string: StringField,
+      text: StringField,
+      number: NumberField,
+      date: DateField,
+      datetime: DateTimeField,
+      selectString: SelectField,
+      selectBelongsTo: SelectBelongsToField,
+      selectHasMany: SelectHasManyField,
+      checkbox: CheckboxField,
+      object: ObjectField,
+    }[fieldType];
   }
 }

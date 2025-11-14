@@ -179,7 +179,6 @@ export type TSubmit64SectionFormProps = {
   functionsProvider: TSubmit64FunctionsProvider;
   context?: TContext | undefined;
 };
-
 export type TSubmit64FieldWrapperProps = {
   field: TFormFieldDef;
   functionsProvider: TSubmit64FunctionsProvider;
@@ -282,3 +281,11 @@ export type TSubmit64StaticSelectOptions = {
   value: unknown;
   disabled?: boolean;
 };
+export type TSubmit64OverridedComponents = Partial<{
+  actionComponent: Component;
+  orphanErrorsComponent: Component;
+  sectionComponent: Component;
+  wrapperResetComponent: Component;
+  associationDisplayComponent: Component;
+  associationDisplayRecord: Record<string, Component>;
+}>

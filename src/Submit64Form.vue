@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref, unref } from "vue";
+import {
+  onMounted,
+  ref,
+  type Component,
+  unref,
+  useSlots,
+  defineComponent,
+} from "vue";
 import type {
   TFormDef,
   TSubmit64FormExpose,
@@ -9,6 +16,7 @@ import type {
   TSubmit64AssociationData,
   TSubmit64FormMode,
   TSubmit64FunctionsProvider,
+  TSubmit64OverridedComponents,
 } from "./models";
 import { FormFactory } from "./form-factory";
 import FieldWrapper from "./components/FieldWrapper.vue";
@@ -16,19 +24,16 @@ import FieldWrapper from "./components/FieldWrapper.vue";
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
 
-// consts
+// vars
 let formMetadataAndData: TResourceFormMetadataAndData | null = null;
+
+// consts
 const formFactoryInstance = Object.freeze(
   new FormFactory(
     propsComponent.resourceName,
+    getOverridedComponents(),
     propsComponent.formSettings,
-    propsComponent.formStyle,
-    propsComponent.actionComponent,
-    propsComponent.orphanErrorsComponent,
-    propsComponent.sectionComponent,
-    propsComponent.wrapperResetComponent,
-    propsComponent.associationDisplayComponent,
-    propsComponent.associationDisplayRecord
+    propsComponent.formStyle
   )
 );
 const functionsProvider: TSubmit64FunctionsProvider = {
@@ -109,6 +114,50 @@ async function submitForm(): Promise<void> {
     propsComponent.onSubmitSuccess?.();
   }
   isLoadingSubmit.value = false;
+}
+function getOverridedComponents() {
+  const overridedComponents: TSubmit64OverridedComponents = {};
+  const slots = useSlots();
+  const map = new Map<string, Component>();
+  for (const key in slots) {
+    const slot = slots[key];
+    if (slot) {
+      map.set(
+        key,
+        defineComponent({
+          inheritAttrs: false,
+          setup(props, { attrs }) {
+            return () => slot({
+              ...props,
+              ...attrs
+            });
+          },
+        })
+      );
+    }
+  }
+  const keyMap = [
+    ["actionComponent", "actions", "actionComponent"],
+    ["orphanErrorsComponent", "orphan-errors", "orphanErrorsComponent"],
+    ["sectionComponent", "sections", "sectionComponent"],
+    ["wrapperResetComponent", "wrapper-reset", "wrapperResetComponent"],
+    [
+      "associationDisplayComponent",
+      "association-display",
+      "associationDisplayComponent",
+    ],
+  ] as const;
+  keyMap.forEach((entryKey) => {
+    const componentFromProps = propsComponent[entryKey[0]];
+    if (componentFromProps && !map.has(entryKey[1])) {
+      overridedComponents[entryKey[2]] = componentFromProps;
+    } else if (map.has(entryKey[1])) {
+      overridedComponents[entryKey[2]] = map.get(entryKey[1]);
+    }
+  });
+  overridedComponents["associationDisplayRecord"] =
+    propsComponent.associationDisplayRecord;
+  return overridedComponents;
 }
 function getValuesFormDeserialized(): Record<string, unknown> {
   const resourceData: Record<string, unknown> = {};
@@ -233,7 +282,7 @@ onMounted(async () => {
           :is="formFactoryInstance.sectionComponent"
           :section="section"
           :context="propsComponent.context"
-          :functions-provider="functionsProvider"
+          :functionsProvider="functionsProvider"
         >
           <template
             v-for="field in section.fields"
@@ -264,7 +313,7 @@ onMounted(async () => {
     <component
       :is="formFactoryInstance.orphanErrorsComponent"
       :orphanErrors="orphanErrors"
-      :functions-provider="functionsProvider"
+      :functionsProvider="functionsProvider"
     />
     <component
       :is="formFactoryInstance.actionComponent"
@@ -272,10 +321,7 @@ onMounted(async () => {
       :submit="submitForm"
       :clear="generatedForm.clearable ? clearForm : undefined"
       :reset="generatedForm.resetable ? resetForm : undefined"
-      :functions-provider="functionsProvider"
+      :functionsProvider="functionsProvider"
     />
-    <template v-if="$slots['more_actions']">
-      <slot name="more_actions" :propsForm="{ generatedForm }"></slot>
-    </template>
   </div>
 </template>
