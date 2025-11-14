@@ -282,3 +282,11 @@ export type TSubmit64StaticSelectOptions = {
   value: unknown;
   disabled?: boolean;
 };
+export type TSubmit64OverridedComponents = Partial<{
+  actionComponent: Component;
+  orphanErrorsComponent: Component;
+  sectionComponent: Component;
+  wrapperResetComponent: Component;
+  associationDisplayComponent: Component;
+  associationDisplayRecord: Record<string, Component>;
+}>

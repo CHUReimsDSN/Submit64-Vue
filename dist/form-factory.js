@@ -9,20 +9,6 @@ import SelectHasManyField from "./components/SelectHasManyField.vue";
 import StringField from "./components/StringField.vue";
 import NumberField from "./components/NumberField.vue";
 export class FormFactory {
-    static getFieldComponentByFormFieldType(fieldType) {
-        return {
-            string: StringField,
-            text: StringField,
-            number: NumberField,
-            date: DateField,
-            datetime: DateTimeField,
-            selectString: SelectField,
-            selectBelongsTo: SelectBelongsToField,
-            selectHasMany: SelectHasManyField,
-            checkbox: CheckboxField,
-            object: ObjectField,
-        }[fieldType];
-    }
     resourceName;
     formSettings;
     formStyle;
@@ -32,7 +18,7 @@ export class FormFactory {
     wrapperResetComponent;
     associationDisplayComponent;
     associationDisplayRecord;
-    constructor(resourceName, formSettings, formStyle, actionComponent, orphanErrorsComponent, sectionComponent, wrapperResetComponent, associationDisplayComponent, associationDisplayRecord) {
+    constructor(resourceName, overridedComponent, formSettings, formStyle) {
         this.resourceName = resourceName;
         this.formSettings = {
             ...formSettings,
@@ -43,18 +29,18 @@ export class FormFactory {
             ...Submit64.getGlobalFormStyle(),
         };
         this.actionComponent =
-            actionComponent ?? Submit64.getGlobalActionComponent();
+            overridedComponent.actionComponent ?? Submit64.getGlobalActionComponent();
         this.orphanErrorsComponent =
-            orphanErrorsComponent ?? Submit64.getGlobalOrphanErrorComponent();
+            overridedComponent.orphanErrorsComponent ?? Submit64.getGlobalOrphanErrorComponent();
         this.sectionComponent =
-            sectionComponent ?? Submit64.getGlobalSectionComponent();
+            overridedComponent.sectionComponent ?? Submit64.getGlobalSectionComponent();
         this.wrapperResetComponent =
-            wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
+            overridedComponent.wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
         this.associationDisplayComponent =
-            associationDisplayComponent ??
+            overridedComponent.associationDisplayComponent ??
                 Submit64.getGlobalAssociationDisplayComponent();
         this.associationDisplayRecord =
-            associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
+            overridedComponent.associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
     }
     getForm(formMetadataAndData, resourceId, context) {
         const sections = [];
@@ -114,5 +100,19 @@ export class FormFactory {
             text: "textarea",
         };
         return mapping[fieldType] || undefined;
+    }
+    static getFieldComponentByFormFieldType(fieldType) {
+        return {
+            string: StringField,
+            text: StringField,
+            number: NumberField,
+            date: DateField,
+            datetime: DateTimeField,
+            selectString: SelectField,
+            selectBelongsTo: SelectBelongsToField,
+            selectHasMany: SelectHasManyField,
+            checkbox: CheckboxField,
+            object: ObjectField,
+        }[fieldType];
     }
 }

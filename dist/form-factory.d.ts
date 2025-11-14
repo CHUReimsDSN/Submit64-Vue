@@ -1,7 +1,6 @@
 import type { Component } from "vue";
-import type { TFormDef, TFormStyle, TFormSettings, TResourceFormMetadataAndData, TContext } from "./models";
+import type { TFormDef, TFormStyle, TFormSettings, TResourceFormMetadataAndData, TContext, TSubmit64OverridedComponents } from "./models";
 export declare class FormFactory {
-    private static getFieldComponentByFormFieldType;
     resourceName: string;
     formSettings: Required<TFormSettings>;
     formStyle: Required<TFormStyle>;
@@ -11,7 +10,8 @@ export declare class FormFactory {
     wrapperResetComponent: Component;
     associationDisplayComponent: Component;
     associationDisplayRecord: Record<string, Component>;
-    constructor(resourceName: string, formSettings?: Partial<TFormSettings>, formStyle?: Partial<TFormStyle>, actionComponent?: Component, orphanErrorsComponent?: Component, sectionComponent?: Component, wrapperResetComponent?: Component, associationDisplayComponent?: Component, associationDisplayRecord?: Record<string, Component>);
+    constructor(resourceName: string, overridedComponent: TSubmit64OverridedComponents, formSettings?: Partial<TFormSettings>, formStyle?: Partial<TFormStyle>);
     getForm(formMetadataAndData: TResourceFormMetadataAndData, resourceId?: TFormDef["resourceId"], context?: TContext): TFormDef;
     private getRegularFieldTypeByFieldType;
+    private static getFieldComponentByFormFieldType;
 }
