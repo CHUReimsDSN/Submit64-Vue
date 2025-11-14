@@ -145,6 +145,8 @@ function getOverridedComponents() {
     const componentFromProps = propsComponent[entryKey[0]];
     if (componentFromProps && !map.has(entryKey[1])) {
       overridedComponents[entryKey[2]] = componentFromProps;
+    } else if (map.has(entryKey[1])) {
+      overridedComponents[entryKey[2]] = map.get(entryKey[1])
     }
   });
   overridedComponents["associationDisplayRecord"] =

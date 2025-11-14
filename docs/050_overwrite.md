@@ -192,7 +192,7 @@ import { Submit64Form } from "submit64-vue";
         <div class="flex column items-start">
           <slot></slot> <!-- Render all fields -->
         </div>
-        
+          
       </div>
     </template>
   </Submit64Form>
