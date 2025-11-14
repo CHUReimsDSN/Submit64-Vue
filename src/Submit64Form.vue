@@ -282,7 +282,7 @@ onMounted(async () => {
           :is="formFactoryInstance.sectionComponent"
           :section="section"
           :context="propsComponent.context"
-          :functions-provider="functionsProvider"
+          :functionsProvider="functionsProvider"
         >
           <template
             v-for="field in section.fields"
@@ -313,7 +313,7 @@ onMounted(async () => {
     <component
       :is="formFactoryInstance.orphanErrorsComponent"
       :orphanErrors="orphanErrors"
-      :functions-provider="functionsProvider"
+      :functionsProvider="functionsProvider"
     />
     <component
       :is="formFactoryInstance.actionComponent"
@@ -321,7 +321,7 @@ onMounted(async () => {
       :submit="submitForm"
       :clear="generatedForm.clearable ? clearForm : undefined"
       :reset="generatedForm.resetable ? resetForm : undefined"
-      :functions-provider="functionsProvider"
+      :functionsProvider="functionsProvider"
     />
   </div>
 </template>

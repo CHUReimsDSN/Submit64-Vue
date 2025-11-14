@@ -1777,7 +1777,7 @@ const $t = {
           key: j,
           section: E,
           context: t.context,
-          "functions-provider": i
+          functionsProvider: i
         }, {
           default: k(() => [
             (m(!0), R(Q, null, J(E.fields, (V) => (m(), R(Q, {
@@ -1806,14 +1806,14 @@ const $t = {
       ], 2),
       (m(), C(A(o(r).orphanErrorsComponent), {
         orphanErrors: y.value,
-        "functions-provider": i
+        functionsProvider: i
       }, null, 8, ["orphanErrors"])),
       (m(), C(A(o(r).actionComponent), {
         isLoadingSubmit: u.value,
         submit: T,
         clear: l.value.clearable ? P : void 0,
         reset: l.value.resetable ? h : void 0,
-        "functions-provider": i
+        functionsProvider: i
       }, null, 8, ["isLoadingSubmit", "clear", "reset"]))
     ])) : G("", !0);
   }
