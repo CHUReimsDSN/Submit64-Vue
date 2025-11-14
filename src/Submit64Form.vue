@@ -125,8 +125,9 @@ function getOverridedComponents() {
       map.set(
         key,
         defineComponent({
-          setup(props, { attrs }) {
-            return () => slot({ ...props, ...attrs });
+          inheritAttrs: false,
+          setup(_, { attrs }) {
+            return () => slot(attrs);
           },
         })
       );
@@ -153,7 +154,6 @@ function getOverridedComponents() {
   });
   overridedComponents["associationDisplayRecord"] =
     propsComponent.associationDisplayRecord;
-  console.log(overridedComponents);
   return overridedComponents;
 }
 function getValuesFormDeserialized(): Record<string, unknown> {

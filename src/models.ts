@@ -179,7 +179,6 @@ export type TSubmit64SectionFormProps = {
   functionsProvider: TSubmit64FunctionsProvider;
   context?: TContext | undefined;
 };
-
 export type TSubmit64FieldWrapperProps = {
   field: TFormFieldDef;
   functionsProvider: TSubmit64FunctionsProvider;
