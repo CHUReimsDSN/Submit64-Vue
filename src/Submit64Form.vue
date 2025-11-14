@@ -150,7 +150,8 @@ function getOverridedComponents() {
     }
   });
   overridedComponents["associationDisplayRecord"] =
-    propsComponent.associationDisplayRecord;
+  propsComponent.associationDisplayRecord;
+  console.log(overridedComponents)
   return overridedComponents;
 }
 function getValuesFormDeserialized(): Record<string, unknown> {
@@ -317,8 +318,5 @@ onMounted(async () => {
       :reset="generatedForm.resetable ? resetForm : undefined"
       :functions-provider="functionsProvider"
     />
-    <template v-if="$slots['more_actions']">
-      <slot name="more_actions" :propsForm="{ generatedForm }"></slot>
-    </template>
   </div>
 </template>
