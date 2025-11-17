@@ -45,7 +45,7 @@ const qe = { class: "flex column" }, Re = { class: "flex row items-center no-wra
       ])
     ]));
   }
-}), Ee = { class: "flex row items-center" }, Ne = { class: "text-body1 text-weight-medium" }, $e = { class: "flex column q-gutter-sm" }, ze = /* @__PURE__ */ B({
+}), Ee = { class: "flex row items-center" }, Ne = { class: "text-body1 text-weight-medium" }, $e = { class: "flex column q-gutter-md" }, ze = /* @__PURE__ */ B({
   __name: "DefaultSectionComponent",
   props: {
     section: {},
