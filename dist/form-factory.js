@@ -17,7 +17,6 @@ export class FormFactory {
     sectionComponent;
     wrapperResetComponent;
     associationDisplayComponent;
-    associationDisplayRecord;
     constructor(resourceName, overridedComponent, formSettings, formStyle) {
         this.resourceName = resourceName;
         this.formSettings = {
@@ -39,8 +38,6 @@ export class FormFactory {
         this.associationDisplayComponent =
             overridedComponent.associationDisplayComponent ??
                 Submit64.getGlobalAssociationDisplayComponent();
-        this.associationDisplayRecord =
-            overridedComponent.associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
     }
     getForm(formMetadataAndData, resourceId, context) {
         const sections = [];
@@ -49,7 +46,7 @@ export class FormFactory {
             sectionMetadata.fields.forEach((columnMetadata) => {
                 const component = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
                 const componentOptions = {
-                    associationDisplayComponent: this.associationDisplayRecord[columnMetadata.field_association_class ?? ""] ?? this.associationDisplayComponent,
+                    associationDisplayComponent: this.associationDisplayComponent,
                     regularFieldType: this.getRegularFieldTypeByFieldType(columnMetadata.field_type),
                 };
                 const field = {
@@ -67,7 +64,7 @@ export class FormFactory {
                     associationData: columnMetadata.field_association_data,
                     rules: columnMetadata.rules,
                     clearable: formMetadataAndData.form.clearable,
-                    component,
+                    mainComponent: component,
                     componentOptions,
                 };
                 fields.push(field);

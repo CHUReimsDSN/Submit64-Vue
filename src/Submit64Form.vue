@@ -116,49 +116,48 @@ async function submitForm(): Promise<void> {
   isLoadingSubmit.value = false;
 }
 function getOverridedComponents() {
-  const overridedComponents: TSubmit64OverridedComponents = {};
+  const overridedComponents: TSubmit64OverridedComponents = {
+    sectionComponent: propsComponent.sectionComponent,
+    actionComponent: propsComponent.actionComponent,
+    orphanErrorsComponent: propsComponent.orphanErrorsComponent,
+    associationDisplayComponent: propsComponent.associationDisplayComponent,
+    dynamicComponentRecord: {},
+  };
   const slots = useSlots();
-  const map = new Map<string, Component>();
   for (const key in slots) {
     const slot = slots[key];
     if (slot) {
-      map.set(
-        key,
-        defineComponent({
-          inheritAttrs: false,
-          setup(props, { attrs, slots: innerSlots }) {
-            return () => slot({
+      const component = defineComponent({
+        inheritAttrs: false,
+        setup(props, { attrs, slots: innerSlots }) {
+          return () =>
+            slot({
               ...props,
               ...attrs,
-              slots: innerSlots
+              slots: innerSlots,
             });
-          },
-        })
-      );
+        },
+      });
+      switch (key) {
+        case "sections":
+          overridedComponents.sectionComponent = component;
+          break;
+        case "actions":
+          overridedComponents.actionComponent = component;
+          break;
+        case "orphan-errors":
+          overridedComponents.orphanErrorsComponent = component;
+          break;
+        case "association-display":
+          overridedComponents.associationDisplayComponent = component;
+          break;
+        default:
+          overridedComponents.dynamicComponentRecord![key] = component;
+          break;
+      }
     }
   }
-  const keyMap = [
-    ["actionComponent", "actions", "actionComponent"],
-    ["orphanErrorsComponent", "orphan-errors", "orphanErrorsComponent"],
-    ["sectionComponent", "sections", "sectionComponent"],
-    ["wrapperResetComponent", "wrapper-reset", "wrapperResetComponent"],
-    [
-      "associationDisplayComponent",
-      "association-display",
-      "associationDisplayComponent",
-    ],
-  ] as const;
-  keyMap.forEach((entryKey) => {
-    const componentFromProps = propsComponent[entryKey[0]];
-    if (componentFromProps && !map.has(entryKey[1])) {
-      overridedComponents[entryKey[2]] = componentFromProps;
-    } else if (map.has(entryKey[1])) {
-      overridedComponents[entryKey[2]] = map.get(entryKey[1]);
-    }
-  });
-  overridedComponents["associationDisplayRecord"] =
-    propsComponent.associationDisplayRecord;
-  console.log(overridedComponents)
+  console.log(overridedComponents);
   return overridedComponents;
 }
 function getValuesFormDeserialized(): Record<string, unknown> {
@@ -291,23 +290,10 @@ onMounted(async () => {
             :key="field.metadata.field_name"
           >
             <FieldWrapper
-              v-if="!$slots[field.metadata.field_name]"
               :field="field"
               :context="propsComponent.context"
-              :functions-provider="functionsProvider"
+              :functionsProvider="functionsProvider"
             />
-
-            <template v-else>
-              <FieldWrapper
-                :field="field"
-                :context="propsComponent.context"
-                :functions-provider="functionsProvider"
-              >
-                <template v-slot:default="propsField">
-                  <slot v-bind="propsField"></slot>
-                </template>
-              </FieldWrapper>
-            </template>
           </template>
         </Component>
       </template>

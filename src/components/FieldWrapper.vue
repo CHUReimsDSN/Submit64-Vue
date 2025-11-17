@@ -192,7 +192,7 @@ onMounted(() => {
 <template>
   <div>
     <slot
-      :is="propsComponent.field.component"
+      :is="propsComponent.field.mainComponent"
       :modelValue="modelValue"
       :field="propsComponent.field"
       :functionsProvider="propsComponent.functionsProvider"
@@ -206,7 +206,12 @@ onMounted(() => {
       :registerBehaviourCallbacks="registerBehaviourCallbacks"
     >
       <Component
-        :is="propsComponent.field.component"
+        v-if="propsComponent.field.beforeComponent"
+        :is="propsComponent.field.beforeComponent"
+        :field="propsComponent.field"
+      />
+      <Component
+        :is="propsComponent.field.mainComponent"
         :modelValue="modelValue"
         :field="propsComponent.field"
         :functionsProvider="propsComponent.functionsProvider"
@@ -218,6 +223,11 @@ onMounted(() => {
         :validate="validate"
         :modelValueOnUpdate="modelValueOnUpdate"
         :registerBehaviourCallbacks="registerBehaviourCallbacks"
+      />
+      <Component
+        v-if="propsComponent.field.afterComponent"
+        :is="propsComponent.field.afterComponent"
+        :field="propsComponent.field"
       />
       <div
         v-if="backendErrors.length > 0"

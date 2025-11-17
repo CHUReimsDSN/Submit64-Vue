@@ -1,4 +1,4 @@
-import type { Component, Slot } from "vue";
+import type { Component } from "vue";
 import type {
   TFormDef,
   TFormFieldDef,
@@ -30,7 +30,6 @@ export class FormFactory {
   sectionComponent: Component;
   wrapperResetComponent: Component;
   associationDisplayComponent: Component;
-  associationDisplayRecord: Record<string, Component>;
 
   constructor(
     resourceName: string,
@@ -59,8 +58,6 @@ export class FormFactory {
     this.associationDisplayComponent =
       overridedComponent.associationDisplayComponent ??
       Submit64.getGlobalAssociationDisplayComponent();
-    this.associationDisplayRecord =
-      overridedComponent.associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
   }
 
   getForm(
@@ -76,10 +73,7 @@ export class FormFactory {
           columnMetadata.field_type
         );
         const componentOptions = {
-          associationDisplayComponent:
-            this.associationDisplayRecord[
-              columnMetadata.field_association_class ?? ""
-            ] ?? this.associationDisplayComponent,
+          associationDisplayComponent: this.associationDisplayComponent,
           regularFieldType: this.getRegularFieldTypeByFieldType(
             columnMetadata.field_type
           ),
@@ -100,7 +94,7 @@ export class FormFactory {
           associationData: columnMetadata.field_association_data,
           rules: columnMetadata.rules,
           clearable: formMetadataAndData.form.clearable,
-          component,
+          mainComponent: component,
           componentOptions,
         };
         fields.push(field);

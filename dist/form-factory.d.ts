@@ -9,7 +9,6 @@ export declare class FormFactory {
     sectionComponent: Component;
     wrapperResetComponent: Component;
     associationDisplayComponent: Component;
-    associationDisplayRecord: Record<string, Component>;
     constructor(resourceName: string, overridedComponent: TSubmit64OverridedComponents, formSettings?: Partial<TFormSettings>, formStyle?: Partial<TFormStyle>);
     getForm(formMetadataAndData: TResourceFormMetadataAndData, resourceId?: TFormDef["resourceId"], context?: TContext): TFormDef;
     private getRegularFieldTypeByFieldType;

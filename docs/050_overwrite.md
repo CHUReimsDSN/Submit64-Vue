@@ -10,10 +10,9 @@ Il est possible de surcharger certains élements de Submit64 :
 - Le style des champs
 - Le composant de section
 - Le composant d'action
-- Le composant d'affichage dans la liste des associations
 - Le composant d'affichage des erreurs orphelines
-- Les champs de saisie
-- Les composant d'extension de champ de saisie
+- Le composant d'affichage dans la liste des associations
+- Les composants d'extension de champ de saisie
 
 Il existe deux types possibles de surcharge :  
 
@@ -244,19 +243,19 @@ import { Submit64Form } from "submit64-vue";
           <q-btn
             label="Save"
             :loading="propsAction.isLoadingSubmit"
-            @click="propsAction.submit()"
+            @click="propsAction.submit"
           />
           <q-btn
             v-if="propsAction.reset"
             :loading="propsAction.isLoadingSubmit"
             label="Reset"
-            @click="propsAction.reset()"
+            @click="propsAction.reset"
           />
           <q-btn
             v-if="propsAction.clear"
             :loading="propsAction.isLoadingSubmit"
             label="Clear"
-            @click="propsAction.clear()"
+            @click="propsAction.clear"
           />
         </div>
       </div>
@@ -472,3 +471,43 @@ type TSubmit64AssociationDisplayPropsSlot = {
 ```
 
 <br /><br /> 
+
+
+## Surcharge des composants d'extension de champ de saisie
+La surcharge globale n'est pas disponible pour les extensions de champ de saisie.  
+La surcharge sous form de props n'est pas disponible pour les extensions de champ de saisie.  
+
+Deux slots sont disponibles pour les extensions de champs de saisie : `before` et `after`.  
+Le nom du slot dépend du nom du champ.
+Exemple pour un champ nommé `libelle`:  
+
+- `v-slot:field-libelle-before`  
+- `v-slot:field-libelle-after`
+
+Surcharge locale sous forme de slot : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+</script>
+
+<template>
+  <Submit64Form>
+    <template v-slot:field-libele-before>
+      <div class="text-amber">Hello I'm before</div>
+    </template>
+    <template v-slot:field-libele-after>
+      <div class=text-purple>Hello I'm after</div>
+    </template>
+  </Submit64Form>
+</template>
+```
+
+Props disponibles :  
+```typescript
+type TSubmit64BeforeAfterFieldProps = {
+  field: TFormFieldDef;
+}
+```
+
+<br /><br /> 
+
