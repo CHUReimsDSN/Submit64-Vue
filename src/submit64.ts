@@ -104,6 +104,7 @@ export class Submit64 {
   }
 
   static getGlobalAssociationDisplayComponent() {
+    console.log('fboncvobocv')
     return this._instance._associationDisplayComponent;
   }
   

@@ -84,6 +84,7 @@ export class Submit64 {
         return this._instance._wrapperResetComponent;
     }
     static getGlobalAssociationDisplayComponent() {
+        console.log('fboncvobocv');
         return this._instance._associationDisplayComponent;
     }
 }

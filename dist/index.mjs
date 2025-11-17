@@ -202,7 +202,7 @@ const qe = { class: "flex column" }, Re = { class: "flex row items-center no-wra
     return this._instance._wrapperResetComponent;
   }
   static getGlobalAssociationDisplayComponent() {
-    return this._instance._associationDisplayComponent;
+    return console.log("fboncvobocv"), this._instance._associationDisplayComponent;
   }
 };
 D(X, "_instance", new X());
