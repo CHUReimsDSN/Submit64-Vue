@@ -1,4 +1,4 @@
-import type { Component, Slot } from "vue";
+import type { Component } from "vue";
 import type {
   TFormDef,
   TFormFieldDef,
@@ -30,7 +30,7 @@ export class FormFactory {
   sectionComponent: Component;
   wrapperResetComponent: Component;
   associationDisplayComponent: Component;
-  associationDisplayRecord: Record<string, Component>;
+  dynamicComponentRecord: Record<string, Component>;
 
   constructor(
     resourceName: string,
@@ -59,8 +59,7 @@ export class FormFactory {
     this.associationDisplayComponent =
       overridedComponent.associationDisplayComponent ??
       Submit64.getGlobalAssociationDisplayComponent();
-    this.associationDisplayRecord =
-      overridedComponent.associationDisplayRecord ?? Submit64.getGlobalAssociationDisplayRecord();
+    this.dynamicComponentRecord = overridedComponent.dynamicComponentRecord ?? {};
   }
 
   getForm(
@@ -72,14 +71,13 @@ export class FormFactory {
     formMetadataAndData.form.sections.forEach((sectionMetadata) => {
       const fields: TFormFieldDef[] = [];
       sectionMetadata.fields.forEach((columnMetadata) => {
+        const beforeComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-before`]
         const component = FormFactory.getFieldComponentByFormFieldType(
           columnMetadata.field_type
         );
+        const afterComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-after`]
         const componentOptions = {
-          associationDisplayComponent:
-            this.associationDisplayRecord[
-              columnMetadata.field_association_class ?? ""
-            ] ?? this.associationDisplayComponent,
+          associationDisplayComponent: this.associationDisplayComponent,
           regularFieldType: this.getRegularFieldTypeByFieldType(
             columnMetadata.field_type
           ),
@@ -100,7 +98,9 @@ export class FormFactory {
           associationData: columnMetadata.field_association_data,
           rules: columnMetadata.rules,
           clearable: formMetadataAndData.form.clearable,
-          component,
+          beforeComponent: beforeComponent,
+          mainComponent: component,
+          afterComponent: afterComponent,
           componentOptions,
         };
         fields.push(field);

@@ -114,7 +114,9 @@ export type TFormFieldDef = {
         data: TRecord[];
     };
     staticSelectOptions?: TSubmit64StaticSelectOptions[];
-    component: Component;
+    beforeComponent?: Component | undefined;
+    mainComponent: Component;
+    afterComponent?: Component | undefined;
     componentOptions: {
         associationDisplayComponent?: Component;
         regularFieldType?: "textarea";
@@ -188,6 +190,9 @@ export type TSubmit64ActionFormProps = {
     reset?: (() => void) | undefined;
     clear?: (() => void) | undefined;
 };
+export type TSubmit64BeforeAfterFieldProps = {
+    field: TFormFieldDef;
+};
 export type TSubmit64GetMetadataAndData = {
     resourceName: string;
     resourceId?: TRecord["id"];
@@ -247,6 +252,6 @@ export type TSubmit64OverridedComponents = Partial<{
     sectionComponent: Component;
     wrapperResetComponent: Component;
     associationDisplayComponent: Component;
-    associationDisplayRecord: Record<string, Component>;
+    dynamicComponentRecord: Record<string, Component>;
 }>;
 export {};
