@@ -36,6 +36,7 @@ export class FormFactory {
             overridedComponent.sectionComponent ?? Submit64.getGlobalSectionComponent();
         this.wrapperResetComponent =
             overridedComponent.wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
+        console.log(overridedComponent.associationDisplayComponent);
         this.associationDisplayComponent =
             overridedComponent.associationDisplayComponent ??
                 Submit64.getGlobalAssociationDisplayComponent();

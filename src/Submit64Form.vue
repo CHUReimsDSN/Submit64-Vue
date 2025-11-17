@@ -157,7 +157,6 @@ function getOverridedComponents() {
       }
     }
   }
-  console.log(overridedComponents);
   return overridedComponents;
 }
 function getValuesFormDeserialized(): Record<string, unknown> {
