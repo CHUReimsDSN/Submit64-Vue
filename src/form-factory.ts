@@ -30,6 +30,7 @@ export class FormFactory {
   sectionComponent: Component;
   wrapperResetComponent: Component;
   associationDisplayComponent: Component;
+  dynamicComponentRecord: Record<string, Component>;
 
   constructor(
     resourceName: string,
@@ -58,6 +59,7 @@ export class FormFactory {
     this.associationDisplayComponent =
       overridedComponent.associationDisplayComponent ??
       Submit64.getGlobalAssociationDisplayComponent();
+    this.dynamicComponentRecord = overridedComponent.dynamicComponentRecord ?? {};
   }
 
   getForm(
@@ -69,9 +71,11 @@ export class FormFactory {
     formMetadataAndData.form.sections.forEach((sectionMetadata) => {
       const fields: TFormFieldDef[] = [];
       sectionMetadata.fields.forEach((columnMetadata) => {
+        const beforeComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-before`]
         const component = FormFactory.getFieldComponentByFormFieldType(
           columnMetadata.field_type
         );
+        const afterComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-after`]
         const componentOptions = {
           associationDisplayComponent: this.associationDisplayComponent,
           regularFieldType: this.getRegularFieldTypeByFieldType(
@@ -94,7 +98,9 @@ export class FormFactory {
           associationData: columnMetadata.field_association_data,
           rules: columnMetadata.rules,
           clearable: formMetadataAndData.form.clearable,
+          beforeComponent: beforeComponent,
           mainComponent: component,
+          afterComponent: afterComponent,
           componentOptions,
         };
         fields.push(field);

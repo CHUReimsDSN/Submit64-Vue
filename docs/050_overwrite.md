@@ -492,11 +492,11 @@ import { Submit64Form } from "submit64-vue";
 
 <template>
   <Submit64Form>
-    <template v-slot:field-libele-before>
-      <div class="text-amber">Hello I'm before</div>
+    <template v-slot:field-label-before>
+      <div class="text-amber">Hello I'm before the label field</div>
     </template>
-    <template v-slot:field-libele-after>
-      <div class=text-purple>Hello I'm after</div>
+    <template v-slot:field-label-after>
+      <div class=text-purple>Hello I'm after the label field</div>
     </template>
   </Submit64Form>
 </template>

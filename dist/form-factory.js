@@ -17,6 +17,7 @@ export class FormFactory {
     sectionComponent;
     wrapperResetComponent;
     associationDisplayComponent;
+    dynamicComponentRecord;
     constructor(resourceName, overridedComponent, formSettings, formStyle) {
         this.resourceName = resourceName;
         this.formSettings = {
@@ -38,13 +39,16 @@ export class FormFactory {
         this.associationDisplayComponent =
             overridedComponent.associationDisplayComponent ??
                 Submit64.getGlobalAssociationDisplayComponent();
+        this.dynamicComponentRecord = overridedComponent.dynamicComponentRecord ?? {};
     }
     getForm(formMetadataAndData, resourceId, context) {
         const sections = [];
         formMetadataAndData.form.sections.forEach((sectionMetadata) => {
             const fields = [];
             sectionMetadata.fields.forEach((columnMetadata) => {
+                const beforeComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-before`];
                 const component = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
+                const afterComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-after`];
                 const componentOptions = {
                     associationDisplayComponent: this.associationDisplayComponent,
                     regularFieldType: this.getRegularFieldTypeByFieldType(columnMetadata.field_type),
@@ -64,7 +68,9 @@ export class FormFactory {
                     associationData: columnMetadata.field_association_data,
                     rules: columnMetadata.rules,
                     clearable: formMetadataAndData.form.clearable,
+                    beforeComponent: beforeComponent,
                     mainComponent: component,
+                    afterComponent: afterComponent,
                     componentOptions,
                 };
                 fields.push(field);
