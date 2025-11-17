@@ -2,7 +2,6 @@
 import { QSelect } from "quasar";
 import type {
   TSelectOptionPagination,
-  TSubmit64AssociationDisplayProps,
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
 } from "../models";
@@ -130,14 +129,12 @@ onMounted(() => {
     @clear="clear"
     @filter="onFilter"
   >
-    <template v-slot:options="scope">
+    <template v-slot:option="scope">
       <component
         :is="displayComponent"
-        v-bind="{ 
-        associationName: propsComponent.field.metadata.field_association_name,
-        entry: scope.opt,
-        itemProps: scope.itemProps
-      } as TSubmit64AssociationDisplayProps"
+        :associationName="propsComponent.field.metadata.field_association_name"
+        :entry="scope.opt"
+        :itemProps="scope.itemProps"
       />
     </template>
   </q-select>
