@@ -158,6 +158,7 @@ function getOverridedComponents() {
   });
   overridedComponents["associationDisplayRecord"] =
     propsComponent.associationDisplayRecord;
+  console.log(overridedComponents)
   return overridedComponents;
 }
 function getValuesFormDeserialized(): Record<string, unknown> {

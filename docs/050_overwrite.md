@@ -155,7 +155,7 @@ import { Submit64Form } from "submit64-vue";
         </div>
 
         <div class="flex column items-start">
-          <slot></slot> <!-- Render all fields -->
+          <component :is="propsSection.slots?.default" /> <!-- Render all fields -->
         </div>
         
       </div>
@@ -230,7 +230,42 @@ import MyCustomAction from './MyCustomAction.vue'
 Submit64.registerGlobalActionComponent(MyCustomAction);
 ```
 
-Surcharge locale : 
+Surcharge locale sous forme de slot : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+</script>
+
+<template>
+  <Submit64Form>
+    <template v-slot:actions="propsAction">
+      <div class="flex column">
+        <div class="flex row items-center no-wrap q-pt-sm q-gutter-x-sm">
+          <q-btn
+            label="Save"
+            :loading="propsAction.isLoadingSubmit"
+            @click="propsAction.submit()"
+          />
+          <q-btn
+            v-if="propsAction.reset"
+            :loading="propsAction.isLoadingSubmit"
+            label="Reset"
+            @click="propsAction.reset()"
+          />
+          <q-btn
+            v-if="propsAction.clear"
+            :loading="propsAction.isLoadingSubmit"
+            label="Clear"
+            @click="propsAction.clear()"
+          />
+        </div>
+      </div>
+    </template>
+  </Submit64Form>
+</template>
+```
+
+Surcharge locale sous forme de props : 
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from "submit64-vue";
@@ -242,10 +277,9 @@ import MyCustomAction from './MyCustomAction.vue'
 </template>
 ```
 
-Exemple de composant :  
 ```vue
 <script setup lang="ts">
-import { UiBindUtils } from 'src/utils/ui-bind';
+// MyCustomAction.vue
 import type { TSubmit64ActionFormProps } from 'submit64-vue';
 
 const propsComponent = defineProps<TSubmit64ActionFormProps>();
@@ -299,7 +333,30 @@ import MyCustomOrphanError from './MyCustomOrphanError.vue'
 Submit64.registerGlobalOrphanErrorsComponent(MyCustomOrphanError);
 ```
 
-Surcharge locale : 
+Surcharge locale sous forme de slot : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+</script>
+
+<template>
+  <Submit64Form>
+    <template v-slot:orphan-errors="propsOrphanErrors">
+      <div class="flex column">
+        <div
+          v-for="(errorList, errorKey) in propsOrphanErrors.orphanErrors"
+          :key="errorKey"
+          class="q-field--error q-field__bottom text-negative"
+        >
+          {{ errorKey }} : {{ errorList.join(",") }}
+        </div>
+      </div>
+    </template>
+  </Submit64Form>
+</template>
+```
+
+Surcharge locale sous forme de props : 
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from "submit64-vue";
@@ -311,9 +368,9 @@ import MyCustomOrphanError from './MyCustomOrphanError.vue'
 </template>
 ```
 
-Exemple de composant :  
 ```vue
 <script setup lang="ts">
+// MyCustomOrphanError.vue
 import { UiBindUtils } from 'src/utils/ui-bind';
 import type { TSubmit64OrphanErrorFormProps } from 'submit64-vue';
 
@@ -354,7 +411,26 @@ import AssociationDisplay from './AssociationDisplay.vue'
 Submit64.registerGlobalAssociationDisplayComponent(AssociationDisplay);
 ```
 
-Surcharge locale : 
+Surcharge locale sous forme de slot : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+</script>
+
+<template>
+  <Submit64Form>
+    <template v-slot:association-display="propsAssociationDisplay">
+      <q-item v-bind="propsAssociationDisplay.itemProps">
+        <q-item-section>
+          <q-item-label>{{ propsAssociationDisplay.entry.label }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </template>
+  </Submit64Form>
+</template>
+```
+
+Surcharge locale sous forme de props : 
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from "submit64-vue";
@@ -366,9 +442,9 @@ import AssociationDisplay from './AssociationDisplay.vue'
 </template>
 ```
 
-Exemple de composant :  
 ```vue
 <script setup lang="ts">
+// AssociationDisplay.vue
 import type { TSubmit64AssociationDisplayPropsSlot } from "../models";
 
 const propsComponent = defineProps<TSubmit64AssociationDisplayPropsSlot>();
@@ -381,7 +457,6 @@ const propsComponent = defineProps<TSubmit64AssociationDisplayPropsSlot>();
     </q-item-section>
   </q-item>
 </template>
-
 ```
 
 Props disponibles :  
@@ -397,8 +472,3 @@ type TSubmit64AssociationDisplayPropsSlot = {
 ```
 
 <br /><br /> 
-
-## Surcharge de composant d'affichage dans la liste des associations par association
-
-{: .warning }
-Feature en développement

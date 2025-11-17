@@ -1688,7 +1688,7 @@ const zt = {
       ].forEach((V) => {
         const q = t[V[0]];
         q && !E.has(V[1]) ? g[V[2]] = q : E.has(V[1]) && (g[V[2]] = E.get(V[1]));
-      }), g.associationDisplayRecord = t.associationDisplayRecord, g;
+      }), g.associationDisplayRecord = t.associationDisplayRecord, console.log(g), g;
     }
     function p() {
       const g = {};
