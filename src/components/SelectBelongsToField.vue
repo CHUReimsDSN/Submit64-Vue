@@ -104,7 +104,6 @@ onMounted(() => {
     "
     :type="propsComponent.field.componentOptions.regularFieldType"
     :label="propsComponent.field.label"
-    :hint="propsComponent.field.hint"
     :outlined="styleConfig.fieldOutlined"
     :filled="styleConfig.fieldFilled"
     :standout="styleConfig.fieldStandout"

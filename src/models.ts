@@ -18,31 +18,31 @@ export type TResourceFormMetadata = {
   resource_name: string;
   backend_date_format: string;
   backend_datetime_format: string;
-  resetable?: boolean;
-  clearable?: boolean;
-  css_class?: string;
-  readonly?: boolean;
+  resetable?: boolean | null;
+  clearable: boolean | null;
+  css_class: string | null;
+  readonly: boolean | null;
 };
 export type TResourceFormSectionMetadata = {
   fields: TResourceFieldMetadata[];
-  label?: string;
-  icon?: string;
-  css_class?: string;
-  readonly?: boolean;
+  label: string | null;
+  icon: string | null;
+  css_class: string | null;
+  readonly: boolean | null;
 };
 export type TResourceFieldMetadata = {
   field_name: string;
   field_type: TFormFieldDef["type"];
   label: string;
-  field_association_name?: string;
-  field_association_class?: string;
-  hint?: string;
-  prefix?: string;
-  suffix?: string;
-  readonly?: boolean;
-  rules?: TSubmit64Rule[];
-  static_select_options?: TSubmit64StaticSelectOptions[];
-  css_class?: string;
+  field_association_name: string | null;
+  field_association_class: string | null;
+  hint: string | null;
+  prefix: string  | null;
+  suffix: string  | null;
+  readonly: boolean  | null;
+  rules: TSubmit64Rule[];
+  static_select_options: TSubmit64StaticSelectOptions[];
+  css_class: string | null;
   field_association_data?: {
     label: string[];
     data: TRecord[];

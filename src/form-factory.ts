@@ -86,18 +86,18 @@ export class FormFactory {
           type: columnMetadata.field_type,
           metadata: columnMetadata,
           label: columnMetadata.label,
-          hint: columnMetadata.hint,
-          prefix: columnMetadata.prefix,
-          suffix: columnMetadata.suffix,
+          hint: columnMetadata.hint ?? undefined,
+          prefix: columnMetadata.prefix ?? undefined,
+          suffix: columnMetadata.suffix ?? undefined,
           readonly:
             formMetadataAndData.form.readonly ??
             sectionMetadata.readonly ??
-            columnMetadata.readonly,
-          cssClass: columnMetadata.css_class,
+            columnMetadata.readonly ?? undefined,
+          cssClass: columnMetadata.css_class ?? undefined,
           staticSelectOptions: columnMetadata.static_select_options,
           associationData: columnMetadata.field_association_data,
           rules: columnMetadata.rules,
-          clearable: formMetadataAndData.form.clearable,
+          clearable: formMetadataAndData.form.clearable ?? undefined,
           beforeComponent: beforeComponent,
           mainComponent: component,
           afterComponent: afterComponent,
@@ -106,10 +106,10 @@ export class FormFactory {
         fields.push(field);
       });
       const section: TFormSection = {
-        label: sectionMetadata.label,
-        icon: sectionMetadata.icon,
-        cssClass: sectionMetadata.css_class,
-        readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly,
+        label: sectionMetadata.label ?? undefined,
+        icon: sectionMetadata.icon ?? undefined,
+        cssClass: sectionMetadata.css_class ?? undefined,
+        readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly ?? undefined,
         fields,
       };
       sections.push(section);
@@ -118,10 +118,10 @@ export class FormFactory {
       sections,
       resourceName: formMetadataAndData.form.resource_name,
       resourceId: resourceId,
-      cssClass: formMetadataAndData.form.css_class,
-      resetable: formMetadataAndData.form.resetable,
-      clearable: formMetadataAndData.form.clearable,
-      readonly: formMetadataAndData.form.readonly,
+      cssClass: formMetadataAndData.form.css_class ?? undefined,
+      resetable: formMetadataAndData.form.resetable ?? undefined,
+      clearable: formMetadataAndData.form.clearable ?? undefined,
+      readonly: formMetadataAndData.form.readonly ?? undefined,
       backendDateFormat: formMetadataAndData.form.backend_date_format,
       backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
       context,

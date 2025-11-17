@@ -1,6 +1,6 @@
 {
   "name": "submit64-vue",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Submit64 for VueJS",
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
