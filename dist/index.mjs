@@ -665,7 +665,6 @@ const Me = /* @__PURE__ */ B({
       "onUpdate:modelValue": S[0] || (S[0] = (h) => e.modelValueOnUpdate(h)),
       type: e.field.componentOptions.regularFieldType,
       label: e.field.label,
-      hint: e.field.hint,
       outlined: o(i).fieldOutlined,
       filled: o(i).fieldFilled,
       standout: o(i).fieldStandout,
@@ -698,7 +697,7 @@ const Me = /* @__PURE__ */ B({
         }, null, 8, ["associationName", "entry", "itemProps"]))
       ]),
       _: 1
-    }, 8, ["model-value", "type", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "prefix", "suffix", "readonly", "rules", "options"]));
+    }, 8, ["model-value", "type", "label", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "clearable", "prefix", "suffix", "readonly", "rules", "options"]));
   }
 }), et = /* @__PURE__ */ B({
   __name: "SelectHasManyField",
@@ -949,15 +948,15 @@ class ae {
           type: u.field_type,
           metadata: u,
           label: u.label,
-          hint: u.hint,
-          prefix: u.prefix,
-          suffix: u.suffix,
-          readonly: e.form.readonly ?? s.readonly ?? u.readonly,
-          cssClass: u.css_class,
+          hint: u.hint ?? void 0,
+          prefix: u.prefix ?? void 0,
+          suffix: u.suffix ?? void 0,
+          readonly: e.form.readonly ?? s.readonly ?? u.readonly ?? void 0,
+          cssClass: u.css_class ?? void 0,
           staticSelectOptions: u.static_select_options,
           associationData: u.field_association_data,
           rules: u.rules,
-          clearable: e.form.clearable,
+          clearable: e.form.clearable ?? void 0,
           beforeComponent: c,
           mainComponent: y,
           afterComponent: x,
@@ -966,10 +965,10 @@ class ae {
         l.push(C);
       });
       const d = {
-        label: s.label,
-        icon: s.icon,
-        cssClass: s.css_class,
-        readonly: e.form.readonly ?? s.readonly,
+        label: s.label ?? void 0,
+        icon: s.icon ?? void 0,
+        cssClass: s.css_class ?? void 0,
+        readonly: e.form.readonly ?? s.readonly ?? void 0,
         fields: l
       };
       a.push(d);
@@ -977,10 +976,10 @@ class ae {
       sections: a,
       resourceName: e.form.resource_name,
       resourceId: t,
-      cssClass: e.form.css_class,
-      resetable: e.form.resetable,
-      clearable: e.form.clearable,
-      readonly: e.form.readonly,
+      cssClass: e.form.css_class ?? void 0,
+      resetable: e.form.resetable ?? void 0,
+      clearable: e.form.clearable ?? void 0,
+      readonly: e.form.readonly ?? void 0,
       backendDateFormat: e.form.backend_date_format,
       backendDatetimeFormat: e.form.backend_datetime_format,
       context: r
