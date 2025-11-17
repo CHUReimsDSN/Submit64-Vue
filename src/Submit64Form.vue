@@ -126,10 +126,11 @@ function getOverridedComponents() {
         key,
         defineComponent({
           inheritAttrs: false,
-          setup(props, { attrs }) {
+          setup(props, { attrs, slots: innerSlots }) {
             return () => slot({
               ...props,
-              ...attrs
+              ...attrs,
+              slots: innerSlots
             });
           },
         })

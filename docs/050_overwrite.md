@@ -137,6 +137,33 @@ import MyCustomSection from './MyCustomSection.vue'
 Submit64.registerGlobalSectionComponent(MyCustomSection);
 ```
 
+
+Surcharge locale sous forme de slot : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+</script>
+
+<template>
+  <Submit64Form>
+    <template v-slot:sections="propsSection">
+      <div :class="propsSection.section.cssClass">
+        <div class="flex row items-center">
+          <div class="text-body1 text-weight-medium">
+            My custom section -> {{ propsSection.section.label }}
+          </div>
+        </div>
+
+        <div class="flex column items-start">
+          <slot></slot> <!-- Render all fields -->
+        </div>
+        
+      </div>
+    </template>
+  </Submit64Form>
+</template>
+```
+
 Surcharge locale sous forme de props : 
 ```vue
 <script setup lang="ts">
@@ -170,32 +197,6 @@ const propsComponent = defineProps<TSubmit64SectionFormProps>()
     </div>
     
   </div>
-</template>
-```
-
-Surcharge locale sous forme de slot : 
-```vue
-<script setup lang="ts">
-import { Submit64Form } from "submit64-vue";
-</script>
-
-<template>
-  <Submit64Form>
-    <template v-slot:actions={propsActions}>
-      <div :class="propsActions.section.cssClass">
-        <div class="flex row items-center">
-          <div class="text-body1 text-weight-medium">
-            My custom section -> {{ propsActions.section.label }}
-          </div>
-        </div>
-
-        <div class="flex column items-start">
-          <slot></slot> <!-- Render all fields -->
-        </div>
-          
-      </div>
-    </template>
-  </Submit64Form>
 </template>
 ```
 
