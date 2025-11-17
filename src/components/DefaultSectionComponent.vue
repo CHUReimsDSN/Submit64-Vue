@@ -24,7 +24,7 @@ const formStyle =
       </div>
     </div>
 
-    <div class="flex column q-gutter-sm">
+    <div class="flex column q-gutter-md">
       <slot></slot>
     </div>
   </div>
