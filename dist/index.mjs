@@ -1771,7 +1771,7 @@ const zt = {
       return o(y);
     }
     function he() {
-      return l == JSON.stringify(S());
+      return l !== JSON.stringify(S());
     }
     return e({
       getMode: ye,

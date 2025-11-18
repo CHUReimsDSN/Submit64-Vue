@@ -253,7 +253,7 @@ function getMode() {
   return unref(mode);
 }
 function valuesHasChanged() {
-  return stringyfiedValues == JSON.stringify(getValuesFormDeserialized())
+  return stringyfiedValues !== JSON.stringify(getValuesFormDeserialized())
 }
 
 
