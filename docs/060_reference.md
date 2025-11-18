@@ -47,6 +47,11 @@ type TSubmit64FormExpose = {
   * Soumet le formulaire
   */
   submitForm: () => Promise<void>;
+
+  /*
+  * Renvoi si le formulaire à été modifier ou non
+  */
+  valuesHasChanged: () => boolean;
 };
 ```
 

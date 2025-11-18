@@ -255,6 +255,7 @@ export type TSubmit64FormExpose = {
   clearForm: () => void;
   resetValidation: () => void;
   submitForm: () => Promise<void>;
+  valuesHasChanged: () => boolean;
 };
 
 // utils

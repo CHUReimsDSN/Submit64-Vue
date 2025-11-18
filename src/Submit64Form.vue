@@ -2,10 +2,10 @@
 import {
   onMounted,
   ref,
-  type Component,
   unref,
   useSlots,
   defineComponent,
+  nextTick,
 } from "vue";
 import type {
   TFormDef,
@@ -26,6 +26,7 @@ const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
 
 // vars
 let formMetadataAndData: TResourceFormMetadataAndData | null = null;
+let stringyfiedValues = ''
 
 // consts
 const formFactoryInstance = Object.freeze(
@@ -71,6 +72,9 @@ async function setupMetadatasAndForm() {
     mode.value = "edit";
   }
   setupIsDone.value = true;
+  void nextTick(() => {
+    stringyfiedValues = JSON.stringify(getValuesFormDeserialized())
+  })
 }
 async function submitForm(): Promise<void> {
   if (!validateForm()) {
@@ -249,8 +253,12 @@ function ensurePropsAreOk() {
   });
 }
 function getMode() {
-  return mode.value;
+  return unref(mode);
 }
+function valuesHasChanged() {
+  return stringyfiedValues !== JSON.stringify(getValuesFormDeserialized())
+}
+
 
 // exposes
 defineExpose({
@@ -262,6 +270,7 @@ defineExpose({
   clearForm,
   resetValidation,
   submitForm,
+  valuesHasChanged
 }) as unknown as TSubmit64FormExpose;
 
 // lifeCycle
