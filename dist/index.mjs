@@ -1,8 +1,8 @@
 var ve = Object.defineProperty;
 var _e = (n, e, t) => e in n ? ve(n, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : n[e] = t;
 var k = (n, e, t) => _e(n, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as B, createElementBlock as O, openBlock as m, createElementVNode as U, createVNode as T, createBlock as x, createCommentVNode as I, unref as o, mergeProps as te, normalizeClass as N, toDisplayString as j, renderSlot as ce, resolveComponent as Ce, normalizeProps as Fe, guardReactiveProps as Se, withCtx as D, createTextVNode as xe, Fragment as Y, renderList as W, ref as b, onMounted as E, watch as ke, resolveDynamicComponent as L, nextTick as oe, getCurrentInstance as Ve, useSlots as De } from "vue";
-import { QBtn as A, QIcon as J, QItem as Be, QItemSection as Te, QItemLabel as Oe, QInput as Z, QPopupProxy as ne, QDate as de, QTime as qe, QCheckbox as Re, QSelect as re, date as v } from "quasar";
+import { defineComponent as B, createElementBlock as O, openBlock as m, createElementVNode as U, createVNode as T, createBlock as x, createCommentVNode as I, unref as o, mergeProps as ne, normalizeClass as N, toDisplayString as j, renderSlot as ce, resolveComponent as Ce, normalizeProps as Fe, guardReactiveProps as Se, withCtx as D, createTextVNode as xe, Fragment as Y, renderList as W, ref as b, onMounted as E, watch as ke, resolveDynamicComponent as L, nextTick as Z, getCurrentInstance as Ve, useSlots as De } from "vue";
+import { QBtn as A, QIcon as J, QItem as Be, QItemSection as Te, QItemLabel as Oe, QInput as M, QPopupProxy as oe, QDate as de, QTime as qe, QCheckbox as Re, QSelect as re, date as v } from "quasar";
 const Pe = { class: "flex column" }, Ne = { class: "flex row items-center no-wrap q-pt-sm q-gutter-x-sm" }, Ee = /* @__PURE__ */ B({
   __name: "DefaultActionComponent",
   props: {
@@ -27,17 +27,17 @@ const Pe = { class: "flex column" }, Ne = { class: "flex row items-center no-wra
     }
     return (r, l) => (m(), O("div", Pe, [
       U("div", Ne, [
-        T(o(A), te(t(), {
+        T(o(A), ne(t(), {
           label: "Enregistrer",
           loading: e.isLoadingSubmit,
           onClick: e.submit
         }), null, 16, ["loading", "onClick"]),
-        e.reset ? (m(), x(o(A), te({ key: 0 }, t(), {
+        e.reset ? (m(), x(o(A), ne({ key: 0 }, t(), {
           loading: e.isLoadingSubmit,
           label: "Réinitialiser",
           onClick: e.reset
         }), null, 16, ["loading", "onClick"])) : I("", !0),
-        e.clear ? (m(), x(o(A), te({ key: 1 }, t(), {
+        e.clear ? (m(), x(o(A), ne({ key: 1 }, t(), {
           loading: e.isLoadingSubmit,
           label: "Vider",
           onClick: e.clear
@@ -234,7 +234,7 @@ const je = { class: "row items-center justify-end" }, Ae = /* @__PURE__ */ B({
     }
     return E(() => {
       e.registerBehaviourCallbacks(u, c);
-    }), (y, F) => (m(), x(o(Z), {
+    }), (y, F) => (m(), x(o(M), {
       ref_key: "fieldRef",
       ref: a,
       "model-value": e.modelValue,
@@ -268,7 +268,7 @@ const je = { class: "row items-center justify-end" }, Ae = /* @__PURE__ */ B({
           class: "cursor-pointer"
         }, {
           default: D(() => [
-            T(o(ne), {
+            T(o(oe), {
               ref_key: "popupProxyRef",
               ref: s,
               cover: "",
@@ -334,7 +334,7 @@ const je = { class: "row items-center justify-end" }, Ae = /* @__PURE__ */ B({
     }
     return E(() => {
       e.registerBehaviourCallbacks(y, F);
-    }), (V, _) => (m(), x(o(Z), {
+    }), (V, _) => (m(), x(o(M), {
       ref_key: "fieldRef",
       ref: d,
       "model-value": e.modelValue,
@@ -368,7 +368,7 @@ const je = { class: "row items-center justify-end" }, Ae = /* @__PURE__ */ B({
           class: "cursor-pointer"
         }, {
           default: D(() => [
-            T(o(ne), {
+            T(o(oe), {
               ref_key: "datePopupProxyRef",
               ref: s,
               cover: "",
@@ -407,7 +407,7 @@ const je = { class: "row items-center justify-end" }, Ae = /* @__PURE__ */ B({
           class: "cursor-pointer"
         }, {
           default: D(() => [
-            T(o(ne), {
+            T(o(oe), {
               ref_key: "timePopupProxyRef",
               ref: a,
               cover: "",
@@ -636,7 +636,7 @@ const tt = /* @__PURE__ */ B({
       });
     }
     function y() {
-      oe(() => {
+      Z(() => {
         const p = e.getValueSerialized();
         !p || !e.field.associationData || (a.value = [
           {
@@ -741,7 +741,7 @@ const tt = /* @__PURE__ */ B({
       });
     }
     function y() {
-      oe(() => {
+      Z(() => {
         const p = e.getValueSerialized();
         !p || !e.field.associationData || (a.value = p.map(
           (S, h) => ({
@@ -831,7 +831,7 @@ const tt = /* @__PURE__ */ B({
     }
     return E(() => {
       e.registerBehaviourCallbacks(a, d);
-    }), (u, c) => (m(), x(o(Z), {
+    }), (u, c) => (m(), x(o(M), {
       ref_key: "fieldRef",
       ref: s,
       "model-value": e.modelValue,
@@ -884,7 +884,7 @@ const tt = /* @__PURE__ */ B({
     }
     return E(() => {
       e.registerBehaviourCallbacks(a, d);
-    }), (u, c) => (m(), x(o(Z), {
+    }), (u, c) => (m(), x(o(M), {
       ref_key: "fieldRef",
       ref: s,
       "model-value": e.modelValue,
@@ -1409,7 +1409,7 @@ const zt = {
     function d() {
       s.value = t.functionsProvider.getDataByFieldName(
         t.field.metadata.field_name
-      ), s.value = u(s.value), oe(() => {
+      ), s.value = u(s.value), Z(() => {
         q();
       });
     }
@@ -1572,10 +1572,10 @@ const zt = {
           field: t.field
         }, null, 8, ["field"])) : I("", !0),
         a.value.length > 0 ? (m(), O("div", wt, [
-          (m(!0), O(Y, null, W(a.value, (M, ee) => (m(), O("div", {
-            index: ee,
+          (m(!0), O(Y, null, W(a.value, (ee, te) => (m(), O("div", {
+            index: te,
             class: "flex column"
-          }, j(M), 9, It))), 256))
+          }, j(ee), 9, It))), 256))
         ])) : I("", !0)
       ])
     ]));
@@ -1614,8 +1614,8 @@ const zt = {
         t.formStyle
       )
     ), s = {
-      registerRef: M,
-      getDataByFieldName: ee,
+      registerRef: ee,
+      getDataByFieldName: te,
       getFieldDataByFieldName: me,
       getFormFactoryInstance: le,
       getForm: ie,
@@ -1632,7 +1632,9 @@ const zt = {
           t.resourceId,
           t.context
         )
-      ), t.resourceId && (y.value = "edit"), l = JSON.stringify(S()), u.value = !0;
+      ), t.resourceId && (y.value = "edit"), u.value = !0, Z(() => {
+        l = JSON.stringify(S());
+      });
     }
     async function _() {
       var R, H;
@@ -1736,10 +1738,10 @@ const zt = {
         g.setupBackendErrors([]);
       });
     }
-    function M(g, C) {
+    function ee(g, C) {
       a.value.set(g, C);
     }
-    function ee(g) {
+    function te(g) {
       if (r)
         return r.resource_data[g];
     }

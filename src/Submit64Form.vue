@@ -5,6 +5,7 @@ import {
   unref,
   useSlots,
   defineComponent,
+  nextTick,
 } from "vue";
 import type {
   TFormDef,
@@ -70,8 +71,10 @@ async function setupMetadatasAndForm() {
   if (propsComponent.resourceId) {
     mode.value = "edit";
   }
-  stringyfiedValues = JSON.stringify(getValuesFormDeserialized())
   setupIsDone.value = true;
+  void nextTick(() => {
+    stringyfiedValues = JSON.stringify(getValuesFormDeserialized())
+  })
 }
 async function submitForm(): Promise<void> {
   if (!validateForm()) {
