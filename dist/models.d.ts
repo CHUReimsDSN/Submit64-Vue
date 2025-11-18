@@ -222,6 +222,7 @@ export type TSubmit64FormExpose = {
     clearForm: () => void;
     resetValidation: () => void;
     submitForm: () => Promise<void>;
+    valuesHasChanged: () => boolean;
 };
 export type TContext = Record<string, unknown>;
 export type TSelectOptionPagination = {

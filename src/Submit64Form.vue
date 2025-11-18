@@ -2,7 +2,6 @@
 import {
   onMounted,
   ref,
-  type Component,
   unref,
   useSlots,
   defineComponent,
@@ -26,6 +25,7 @@ const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
 
 // vars
 let formMetadataAndData: TResourceFormMetadataAndData | null = null;
+let stringyfiedValues = ''
 
 // consts
 const formFactoryInstance = Object.freeze(
@@ -70,6 +70,7 @@ async function setupMetadatasAndForm() {
   if (propsComponent.resourceId) {
     mode.value = "edit";
   }
+  stringyfiedValues = JSON.stringify(getValuesFormDeserialized())
   setupIsDone.value = true;
 }
 async function submitForm(): Promise<void> {
@@ -249,8 +250,12 @@ function ensurePropsAreOk() {
   });
 }
 function getMode() {
-  return mode.value;
+  return unref(mode);
 }
+function valuesHasChanged() {
+  return stringyfiedValues == JSON.stringify(getValuesFormDeserialized())
+}
+
 
 // exposes
 defineExpose({
@@ -262,6 +267,7 @@ defineExpose({
   clearForm,
   resetValidation,
   submitForm,
+  valuesHasChanged
 }) as unknown as TSubmit64FormExpose;
 
 // lifeCycle
