@@ -14,13 +14,13 @@ const formStyle =
   <div>
     <div class="flex row items-center">
       <q-icon
-        v-if="propsComponent.section.icon"
-        :name="propsComponent.section.icon"
+        v-if="propsComponent.sectionApi.getDataRef().icon"
+        :name="propsComponent.sectionApi.getDataRef().icon"
         size="sm"
         :color="formStyle.fieldColor"
       />
       <div class="text-body1 text-weight-medium">
-        {{ propsComponent.section.label }}
+        {{ propsComponent.sectionApi.getDataRef().label }}
       </div>
     </div>
 

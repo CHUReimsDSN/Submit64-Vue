@@ -55,13 +55,13 @@ const Ge = { class: "flex column" }, je = { class: "flex row items-center no-wra
     const e = r, t = e.formApi.getForm().formStyle;
     return (n, o) => (y(), T("div", null, [
       j("div", We, [
-        e.section.icon ? (y(), k(a(re), {
+        e.sectionApi.getDataRef().icon ? (y(), k(a(re), {
           key: 0,
-          name: e.section.icon,
+          name: e.sectionApi.getDataRef().icon,
           size: "sm",
           color: a(t).fieldColor
         }, null, 8, ["name", "color"])) : $("", !0),
-        j("div", Ye, W(e.section.label), 1)
+        j("div", Ye, W(e.sectionApi.getDataRef().label), 1)
       ]),
       j("div", Me, [
         Oe(n.$slots, "default")
