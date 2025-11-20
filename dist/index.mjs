@@ -1446,7 +1446,7 @@ class X {
             beforeComponent: x,
             mainComponent: D,
             afterComponent: f,
-            events: t.fields[b.field_name],
+            events: t.fields[b.field_name] ?? {},
             componentOptions: m
           };
           l.push(F);
@@ -1458,7 +1458,7 @@ class X {
           hidden: !1,
           name: s.name ?? void 0,
           readonly: this.formMetadataAndData.form.readonly ?? s.readonly ?? void 0,
-          events: t.sections[s.name ?? i.toString()],
+          events: t.sections[s.name ?? i.toString()] ?? {},
           beforeComponent: u,
           mainComponent: c,
           afterComponent: C,

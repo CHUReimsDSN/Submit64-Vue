@@ -160,7 +160,7 @@ export class FormFactory {
             beforeComponent: beforeComponent,
             mainComponent: mainComponent,
             afterComponent: afterComponent,
-            events: events.fields[columnMetadata.field_name],
+            events: events.fields[columnMetadata.field_name] ?? {},
             componentOptions,
           };
           fields.push(field);
@@ -185,7 +185,7 @@ export class FormFactory {
             sectionMetadata.readonly ??
             undefined,
           events:
-            events.sections[sectionMetadata.name ?? sectionIndex.toString()],
+            events.sections[sectionMetadata.name ?? sectionIndex.toString()] ?? {},
           beforeComponent: beforeComponent,
           mainComponent: mainComponent,
           afterComponent: afterComponent,
