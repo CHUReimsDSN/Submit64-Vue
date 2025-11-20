@@ -35,6 +35,7 @@ let formMetadataAndData: TResourceFormMetadataAndData | null = null;
 let stringyfiedValues = "";
 
 // consts
+const slots = useSlots();
 const fieldWrapperRefs: Map<string, TSubmit64FieldWrapperComponent> = new Map();
 const sectionsWrapperRefs: Map<string, TSubmit64SectionWrapperComponent> =
   new Map();
@@ -143,7 +144,6 @@ function getOverridedComponents() {
     associationDisplayComponent: propsComponent.associationDisplayComponent,
     dynamicComponentRecord: {},
   };
-  const slots = useSlots();
   for (const key in slots) {
     const slot = slots[key];
     if (slot) {
