@@ -113,7 +113,7 @@ function resetValidation() {
 function getDataRef() {
   return propsComponent.privateFormApi.getFormRef().value?.sections.find((section) => {
     return section.name === propsComponent.section.name || section.name === propsComponent.sectionIndex.toString()
-  })
+  })!
 }
 function getFields() {
   return fields

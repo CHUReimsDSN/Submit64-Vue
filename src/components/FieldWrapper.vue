@@ -170,7 +170,7 @@ function resetValidation() {
 function getDataRef() {
   return propsComponent.privateFormApi.getFormRef().value?.sections.map((section => section.fields)).flat().find((field) => {
     return field.metadata.field_name === propsComponent.field.metadata.field_name
-  })
+  })!
 }
 function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,

@@ -147,7 +147,7 @@ export type TSubmit64SectionWrapperApi = {
     hide: () => void;
     unhide: () => void;
     resetValidation: () => void;
-    getDataRef: () => TFormSection | undefined;
+    getDataRef: () => TFormSection;
     getFields(): Map<string, TSubmit64FieldWrapperComponent>;
 };
 export type TSubmit64FieldWrapperComponent = ComponentPublicInstance & {
@@ -161,7 +161,7 @@ export type TSubmit64FieldWrapperComponent = ComponentPublicInstance & {
     getValueSerialized: () => unknown;
     getValueDeserialized: () => unknown;
     setupBackendErrors: (errors: string[]) => void;
-    getDataRef: () => TFormField | undefined;
+    getDataRef: () => TFormField;
 };
 export type TSubmit64FormProps = {
     resourceName: string;
