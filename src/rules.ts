@@ -64,7 +64,6 @@ function computeServerRules(
   fieldType: TFormField["type"],
   formApi: TSubmit64FormApi
 ): TSubmit64ValidationRule[] {
-  const form = formApi.getForm();
   const getCompareToValueRule = (
     rule: TSubmit64RuleOperateTo,
     operateTo: keyof TSubmit64RuleOperateTo,
@@ -89,8 +88,8 @@ function computeServerRules(
   ): string => {
     return String(
       date.formatDate(
-        date.extractDate(ruleDate, form.formSettings.backendDateFormat),
-        form.formSettings.dateFormat
+        date.extractDate(ruleDate, formApi.formSettings.backendDateFormat),
+        formApi.formSettings.dateFormat
       )
     );
   };
@@ -98,10 +97,10 @@ function computeServerRules(
   const upperRules: TUpperRule[] = [];
   switch (fieldType) {
     case "date":
-      rules.push(validDate(form.formSettings.dateFormat));
+      rules.push(validDate(formApi.formSettings.dateFormat));
       break;
     case "datetime":
-      rules.push(validDate(form.formSettings.datetimeFormat));
+      rules.push(validDate(formApi.formSettings.datetimeFormat));
       break;
   }
   metadataRules.forEach((metadataRule) => {
@@ -251,7 +250,7 @@ function computeServerRules(
         rules.push(
           lessThanOrEqualDate(
             getCompareToValueRule(rule, "less_than", true) as () => string,
-            form.formSettings.dateFormat
+            formApi.formSettings.dateFormat
           )
         );
         break;
@@ -259,7 +258,7 @@ function computeServerRules(
         rules.push(
           lessThanDate(
             getCompareToValueRule(rule, "less_than", true) as () => string,
-            form.formSettings.dateFormat
+            formApi.formSettings.dateFormat
           )
         );
         break;
@@ -267,7 +266,7 @@ function computeServerRules(
         rules.push(
           greaterThanOrEqualDate(
             getCompareToValueRule(rule, "greater_than", true) as () => string,
-            form.formSettings.dateFormat
+            formApi.formSettings.dateFormat
           )
         );
         break;
@@ -275,7 +274,7 @@ function computeServerRules(
         rules.push(
           greaterThanDate(
             getCompareToValueRule(rule, "greater_than", true) as () => string,
-            form.formSettings.dateFormat
+            formApi.formSettings.dateFormat
           )
         );
         break;
@@ -283,7 +282,7 @@ function computeServerRules(
         rules.push(
           equalToDate(
             getCompareToValueRule(rule, "equal_to", true) as () => string,
-            form.formSettings.dateFormat
+            formApi.formSettings.dateFormat
           )
         );
         break;
@@ -291,7 +290,7 @@ function computeServerRules(
         rules.push(
           otherThanDate(
             getCompareToValueRule(rule, "other_than", true) as () => string,
-            form.formSettings.dateFormat
+            formApi.formSettings.dateFormat
           )
         );
         break;

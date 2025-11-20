@@ -1,19 +1,19 @@
 export class DynamicLogicBuilder {
-    fullFormApi;
+    formApi;
     events = [];
-    constructor(fullFormApi) {
-        this.fullFormApi = fullFormApi;
+    constructor(formApi) {
+        this.formApi = formApi;
     }
     when(arg1, arg2) {
-        const operatorInstance = new BuilderOperator(this, this.fullFormApi);
         const eventType = arg1;
         const data = arg2;
-        const formEvent = new FormEvent(eventType, data);
+        const formEvent = new FormEvent(eventType, data, this.formApi);
         this.events.push(formEvent);
+        const operatorInstance = new BuilderOperator(formEvent);
         return operatorInstance;
     }
-    static create(fullFormApi) {
-        const instance = new DynamicLogicBuilder(fullFormApi);
+    static create(formApi) {
+        const instance = new DynamicLogicBuilder(formApi);
         return instance;
     }
     static getEventsObjectFromInstance(instance) {
@@ -55,50 +55,24 @@ export class DynamicLogicBuilder {
     }
 }
 class BuilderOperator {
-    logicBuilder;
-    fullFormApi;
-    constructor(logicBuilder, fullFormApi) {
-        this.logicBuilder = logicBuilder;
-        this.fullFormApi = fullFormApi;
+    formEvent;
+    constructor(formEvent) {
+        this.formEvent = formEvent;
     }
-    then(arg1, arg2) {
-        let actionInstance;
-        if (typeof arg1 === "function") {
-            actionInstance = new BuilderAction(this.fullFormApi, "Hide field", { fieldName: "" }, arg1);
-        }
-        else {
-            const actionType = arg1;
-            const data = arg2;
-            actionInstance = new BuilderAction(this.fullFormApi, actionType, data);
-        }
-        return new BuilderActionOperator(this.fullFormApi);
-    }
-}
-class BuilderActionOperator {
-    fullFormApi;
-    constructor(fullFormApi) {
-        this.fullFormApi = fullFormApi;
-    }
-    then(arg1, arg2) {
-        let actionInstance;
-        if (typeof arg1 === "function") {
-            actionInstance = new BuilderAction(this.fullFormApi, "Hide field", { fieldName: "" }, arg1);
-        }
-        else {
-            const actionType = arg1;
-            const data = arg2;
-            actionInstance = new BuilderAction(this.fullFormApi, actionType, data);
-        }
-        return new BuilderActionOperator(this.fullFormApi);
+    then(customAction) {
+        this.formEvent.actions.push(customAction);
+        return this;
     }
 }
 class FormEvent {
     type;
     data;
     actions = [];
-    constructor(type, data) {
+    formApi;
+    constructor(type, data, formApi) {
         this.type = type;
         this.data = data;
+        this.formApi = formApi;
     }
     getTarget() {
         switch (this.type) {
@@ -132,7 +106,7 @@ class FormEvent {
                     targetName: this.data.fieldName,
                     key: "onReset",
                 };
-            case "Field confirm statement":
+            case "Field confirm value statement":
                 return {
                     target: "field",
                     targetName: this.data
@@ -234,284 +208,10 @@ class FormEvent {
         }
     }
     getActionCallback() {
-        const allCallbacks = this.actions.map((action) => {
-            return action.generateEvent();
-        });
         return () => {
-            allCallbacks.forEach((callback) => {
-                callback();
+            this.actions.forEach((callback) => {
+                callback(this.formApi);
             });
         };
-    }
-}
-class BuilderAction {
-    fullFormApi;
-    type;
-    data;
-    customCallback;
-    cyclicActionCalls = new Set();
-    constructor(fullFormApi, type, data, customCallback) {
-        this.fullFormApi = fullFormApi;
-        this.type = type;
-        this.data = data;
-        this.customCallback = customCallback;
-    }
-    generateEvent() {
-        const eventCallback = this.getEventCallback();
-        return () => {
-            if (this.cyclicActionCalls.has(this.type)) {
-                return;
-            }
-            this.cyclicActionCalls.add(this.type);
-            eventCallback();
-            this.cyclicActionCalls.clear();
-        };
-    }
-    getEventCallback() {
-        if (this.customCallback) {
-            return () => {
-                this.customCallback?.(this.fullFormApi);
-            };
-        }
-        switch (this.type) {
-            case "Set field label":
-                return this.setFieldLabel;
-            case "Set field prefix":
-                return this.setFieldPrefix;
-            case "Set field suffix":
-                return this.setFieldSuffix;
-            case "Set field css class":
-                return this.setFieldCssClass;
-            case "Set field hint":
-                return this.setFieldHint;
-            case "Set field readonly state":
-                return this.setFieldReadonlyState;
-            case "Hide field":
-                return this.hideField;
-            case "Unhide field":
-                return this.unhideField;
-            case "Clear field":
-                return this.clearField;
-            case "Reset field":
-                return this.resetField;
-            case "Validate field":
-                return this.validateField;
-            case "Set section label":
-                return this.setSectionLabel;
-            case "Set section icon":
-                return this.setSectionIcon;
-            case "Set section css class":
-                return this.setSectionCssClass;
-            case "Set section readonly state":
-                return this.setSectionReadonlyState;
-            case "Hide section":
-                return this.hideSection;
-            case "Unhide section":
-                return this.unHideSection;
-            case "Clear section":
-                return this.clearSection;
-            case "Reset section":
-                return this.resetSection;
-            case "Validate section":
-                return this.validateSection;
-            case "Set form readonly state":
-                return this.setFormReadonlyState;
-            case "Set form css class":
-                return this.setFormCssClass;
-            case "Set form context":
-                return this.setFormContext;
-            case "Submit form":
-                return this.submitForm;
-            case "Clear form":
-                return this.clearForm;
-            case "Reset form":
-                return this.resetForm;
-            case "Validate form":
-                return this.validateForm;
-            default:
-                console.warn(`Submit64 -> unhandled builder action callback generation : ${this.type}`);
-                return () => { };
-        }
-    }
-    setFieldLabel() {
-        const data = this.data;
-        const fieldRef = this.fullFormApi.getField(data.fieldName)?.getDataRef();
-        if (fieldRef) {
-            fieldRef.label = data.newLabel;
-        }
-    }
-    setFieldPrefix() {
-        const data = this.data;
-        const fieldRef = this.fullFormApi.getField(data.fieldName)?.getDataRef();
-        if (fieldRef) {
-            fieldRef.prefix = data.newPrefix;
-        }
-    }
-    setFieldSuffix() {
-        const data = this.data;
-        const fieldRef = this.fullFormApi.getField(data.fieldName)?.getDataRef();
-        if (fieldRef) {
-            fieldRef.suffix = data.newSuffix;
-        }
-    }
-    setFieldCssClass() {
-        const data = this.data;
-        const fieldRef = this.fullFormApi.getField(data.fieldName)?.getDataRef();
-        if (fieldRef) {
-            fieldRef.cssClass = data.newCssClass;
-        }
-    }
-    setFieldHint() {
-        const data = this.data;
-        const fieldRef = this.fullFormApi.getField(data.fieldName)?.getDataRef();
-        if (fieldRef) {
-            fieldRef.hint = data.newHint;
-        }
-    }
-    setFieldReadonlyState() {
-        const data = this.data;
-        const fieldRef = this.fullFormApi.getField(data.fieldName)?.getDataRef();
-        if (fieldRef) {
-            fieldRef.readonly = data.newState;
-        }
-    }
-    hideField() {
-        const data = this.data;
-        const field = this.fullFormApi.getField(data.fieldName);
-        if (field) {
-            field.hide();
-        }
-    }
-    unhideField() {
-        const data = this.data;
-        const field = this.fullFormApi.getField(data.fieldName);
-        if (field) {
-            field.unhide();
-        }
-    }
-    clearField() {
-        const data = this.data;
-        const field = this.fullFormApi.getField(data.fieldName);
-        if (field) {
-            field.clear();
-        }
-    }
-    resetField() {
-        const data = this.data;
-        const field = this.fullFormApi.getField(data.fieldName);
-        if (field) {
-            field.reset();
-        }
-    }
-    validateField() {
-        const data = this.data;
-        const field = this.fullFormApi.getField(data.fieldName);
-        if (field) {
-            field.validate();
-        }
-    }
-    setSectionLabel() {
-        const data = this.data;
-        const sectionRef = this.fullFormApi
-            .getSection(data.sectionName)
-            ?.getDataRef();
-        if (sectionRef) {
-            sectionRef.label = data.newLabel;
-        }
-    }
-    setSectionIcon() {
-        const data = this.data;
-        const sectionRef = this.fullFormApi
-            .getSection(data.sectionName)
-            ?.getDataRef();
-        if (sectionRef) {
-            sectionRef.icon = data.newIcon;
-        }
-    }
-    setSectionCssClass() {
-        const data = this.data;
-        const sectionRef = this.fullFormApi
-            .getSection(data.sectionName)
-            ?.getDataRef();
-        if (sectionRef) {
-            sectionRef.cssClass = data.newCssClass;
-        }
-    }
-    setSectionReadonlyState() {
-        const data = this.data;
-        const sectionRef = this.fullFormApi
-            .getSection(data.sectionName)
-            ?.getDataRef();
-        if (sectionRef) {
-            sectionRef.readonly = data.newState;
-        }
-    }
-    hideSection() {
-        const data = this.data;
-        const section = this.fullFormApi.getSection(data.sectionName);
-        if (section) {
-            section.hide();
-        }
-    }
-    unHideSection() {
-        const data = this.data;
-        const section = this.fullFormApi.getSection(data.sectionName);
-        if (section) {
-            section.unhide();
-        }
-    }
-    clearSection() {
-        const data = this.data;
-        const section = this.fullFormApi.getSection(data.sectionName);
-        if (section) {
-            section.clear();
-        }
-    }
-    resetSection() {
-        const data = this.data;
-        const section = this.fullFormApi.getSection(data.sectionName);
-        if (section) {
-            section.reset();
-        }
-    }
-    validateSection() {
-        const data = this.data;
-        const section = this.fullFormApi.getSection(data.sectionName);
-        if (section) {
-            section.validate();
-        }
-    }
-    setFormReadonlyState() {
-        const data = this.data;
-        const formRef = this.fullFormApi.getFormRef().value;
-        if (formRef) {
-            formRef.readonly = data.newState;
-        }
-    }
-    setFormCssClass() {
-        const data = this.data;
-        const formRef = this.fullFormApi.getFormRef().value;
-        if (formRef) {
-            formRef.cssClass = data.newCssClass;
-        }
-    }
-    setFormContext() {
-        const data = this.data;
-        const formRef = this.fullFormApi.getFormRef().value;
-        if (formRef) {
-            formRef.context = data.newContext;
-        }
-    }
-    submitForm() {
-        this.fullFormApi.submitForm();
-    }
-    clearForm() {
-        this.fullFormApi.clearForm();
-    }
-    resetForm() {
-        this.fullFormApi.resetForm();
-    }
-    validateForm() {
-        this.fullFormApi.validateForm();
     }
 }

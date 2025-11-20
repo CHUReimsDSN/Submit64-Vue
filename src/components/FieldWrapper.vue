@@ -7,10 +7,7 @@ import {
   unref,
   watch,
 } from "vue";
-import type {
-  TSubmit64FieldWrapperComponent,
-  TSubmit64FieldWrapperProps,
-} from "../models";
+import type { TSubmit64FieldApi, TSubmit64FieldWrapperProps } from "../models";
 import { Submit64Rules } from "../rules";
 import { date } from "quasar";
 import { callAllEvents } from "../utils";
@@ -38,7 +35,7 @@ const backendErrors = ref<string[]>([]);
 
 // functions
 function reset() {
-  modelValue.value = propsComponent.privateFormApi.getInitialValueByFieldName(
+  modelValue.value = propsComponent.formApi.getInitialValueByFieldName(
     propsComponent.field.metadata.field_name
   );
   modelValue.value = formModelSerializeByType(modelValue.value);
@@ -48,7 +45,7 @@ function reset() {
   });
 }
 function formModelSerializeByType(value: unknown) {
-  const form = propsComponent.formApi.getForm();
+  const form = propsComponent.formApi;
   switch (propsComponent.field.type) {
     case "checkbox":
       if (value === null || value === undefined || value === "") {
@@ -78,7 +75,7 @@ function formModelSerializeByType(value: unknown) {
   return value;
 }
 function formModelDeserializeByType(value: unknown) {
-  const form = propsComponent.formApi.getForm();
+  const form = propsComponent.formApi;
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined || value === "") {
@@ -153,8 +150,70 @@ function getValueDeserialized() {
 function setupBackendErrors(errorsArg: string[]) {
   backendErrors.value = errorsArg;
 }
-function hide() {}
-function unhide() {}
+function hide() {
+  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+    propsComponent.field.metadata.field_name
+  );
+  if (fieldRef) {
+    fieldRef.hidden = true;
+  }
+}
+function unhide() {
+  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+    propsComponent.field.metadata.field_name
+  );
+  if (fieldRef) {
+    fieldRef.hidden = false;
+  }
+}
+function setReadonlyState(state: boolean) {
+  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+    propsComponent.field.metadata.field_name
+  );
+  if (fieldRef) {
+    fieldRef.readonly = state;
+  }
+}
+function setHint(hint: string) {
+  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+    propsComponent.field.metadata.field_name
+  );
+  if (fieldRef) {
+    fieldRef.hint = hint;
+  }
+}
+function setCssClass(cssClass: string) {
+  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+    propsComponent.field.metadata.field_name
+  );
+  if (fieldRef) {
+    fieldRef.cssClass = cssClass;
+  }
+}
+function setSuffix(suffix: string) {
+  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+    propsComponent.field.metadata.field_name
+  );
+  if (fieldRef) {
+    fieldRef.suffix = suffix;
+  }
+}
+function setPrefix(prefix: string) {
+  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+    propsComponent.field.metadata.field_name
+  );
+  if (fieldRef) {
+    fieldRef.prefix = prefix;
+  }
+}
+function setLabel(label: string) {
+  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+    propsComponent.field.metadata.field_name
+  );
+  if (fieldRef) {
+    fieldRef.label = label;
+  }
+}
 function validate() {
   const validated = validationCallback();
   callAllEvents(propsComponent.field.events.onValidated);
@@ -167,11 +226,6 @@ function isValid() {
 function resetValidation() {
   return resetValidationCallback();
 }
-function getDataRef() {
-  return propsComponent.privateFormApi.getFormRef().value?.sections.map((section => section.fields)).flat().find((field) => {
-    return field.metadata.field_name === propsComponent.field.metadata.field_name
-  })!
-}
 function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,
   registerIsValidArg: () => boolean,
@@ -182,8 +236,8 @@ function registerBehaviourCallbacks(
   resetValidationCallback = registerResetValidationArg;
 }
 
-// exposes
-defineExpose({
+// expose
+const api: TSubmit64FieldApi = {
   reset,
   clear,
   validate,
@@ -194,8 +248,14 @@ defineExpose({
   getValueDeserialized,
   getValueSerialized,
   setupBackendErrors,
-  getDataRef
-});
+  setReadonlyState,
+  setHint,
+  setCssClass,
+  setSuffix,
+  setPrefix,
+  setLabel,
+};
+defineExpose(api);
 
 // watchs
 watch(
@@ -219,9 +279,9 @@ onMounted(() => {
   reset();
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef && propsComponent.formApi) {
-    propsComponent.registerRef(
+    propsComponent.privateFormApi.registerFieldWrapperRef(
       propsComponent.field.metadata.field_name,
-      proxyInstanceRef as TSubmit64FieldWrapperComponent
+      proxyInstanceRef as TSubmit64FieldApi
     );
   }
 });

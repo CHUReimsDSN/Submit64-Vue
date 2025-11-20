@@ -14,7 +14,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // consts
 const displayComponent =
   propsComponent.field.componentOptions.associationDisplayComponent;
-const form = propsComponent.formApi.getForm();
+const form = propsComponent.formApi;
 const formSetting = form.formSettings;
 const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
@@ -30,7 +30,7 @@ const fieldRef = ref<InstanceType<typeof QSelect>>();
 // functions
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   const callback =
-    propsComponent.privateFormApi.getAssociationDataCallback();
+    propsComponent.formApi.getAssociationDataCallback();
   if (val === "") {
     selectOptionsScrollPagination.value = {
       limit: getSubmit64AssociationDataDefaultLimit(),
@@ -38,7 +38,7 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
     };
   }
   update(() => {
-    const form = propsComponent.formApi.getForm();
+    const form = propsComponent.formApi;
     callback({
       resourceName: form.resourceName,
       resourceId: form.resourceId,

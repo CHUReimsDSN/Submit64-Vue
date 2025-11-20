@@ -1,4 +1,4 @@
-import { Ref, type Component, type ComponentPublicInstance } from "vue";
+import { Ref, type Component } from "vue";
 import type { TSubmit64Rule } from "./rules";
 import { type QItemProps, ValidationRule } from "quasar";
 import { DynamicLogicBuilder } from "./dynamic-logic-builder";
@@ -82,7 +82,7 @@ export type TFormStyle = {
     fieldBgColor?: string | undefined;
     fieldClass?: string | undefined;
 };
-export type TFormDef = {
+export type TForm = {
     sections: TFormSection[];
     resourceName: string;
     resourceId?: TRecord["id"];
@@ -93,23 +93,23 @@ export type TFormDef = {
     clearable?: boolean;
     readonly?: boolean;
     cssClass?: string;
-    actionComponent: Component;
-    orphanErrorsComponent: Component;
-    wrapperResetComponent: Component;
-    dynamicComponentRecord: Record<string, Component>;
+    actionComponent: Readonly<Component>;
+    orphanErrorsComponent: Readonly<Component>;
+    wrapperResetComponent: Readonly<Component>;
+    dynamicComponentRecord: Readonly<Record<string, Component>>;
     context?: TContext;
 };
 export type TFormSection = {
     fields: TFormField[];
+    name: Readonly<string>;
     label?: string;
-    name?: string;
     icon?: string;
     hidden: boolean;
     cssClass?: string;
     readonly?: boolean;
-    beforeComponent?: Component | undefined;
-    mainComponent: Component;
-    afterComponent?: Component | undefined;
+    beforeComponent?: Readonly<Component> | undefined;
+    mainComponent: Readonly<Component>;
+    afterComponent?: Readonly<Component> | undefined;
     events: Readonly<TFormSectionEvent>;
 };
 export type TFormField = {
@@ -129,17 +129,40 @@ export type TFormField = {
         data: TRecord[];
     };
     staticSelectOptions?: TSubmit64StaticSelectOptions[];
-    beforeComponent?: Component | undefined;
-    mainComponent: Component;
-    afterComponent?: Component | undefined;
+    beforeComponent?: Readonly<Component> | undefined;
+    mainComponent: Readonly<Component>;
+    afterComponent?: Readonly<Component> | undefined;
     events: Readonly<TFormFieldEvent>;
     componentOptions: {
-        associationDisplayComponent?: Component;
+        associationDisplayComponent?: Readonly<Component>;
         regularFieldType?: "textarea";
     };
 };
-export type TSubmit64SectionWrapperComponent = ComponentPublicInstance & TSubmit64SectionWrapperApi;
-export type TSubmit64SectionWrapperApi = {
+export type TSubmit64FormApi = Readonly<TForm> & {
+    getMode: () => TSubmit64FormMode;
+    getSection: (sectionName: string) => TSubmit64SectionApi | undefined;
+    getField: (fieldName: string) => TSubmit64FieldApi | undefined;
+    validateForm: () => boolean;
+    isFormValid: () => boolean;
+    resetForm: () => void;
+    clearForm: () => void;
+    resetValidation: () => void;
+    submitForm: () => Promise<void>;
+    valuesHasChanged: () => boolean;
+    getInitialValueByFieldName: (fieldName: string) => unknown;
+    getAssociationDataCallback: () => (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
+    setContext: (context: TContext) => void;
+    setCssClass: (cssClass: string) => void;
+    setReadonlyState: (state: boolean) => void;
+};
+export type TSubmit64FormPrivateApi = {
+    getFormRef: () => Ref<TForm>;
+    getSectionRef: (sectionName: string) => TFormSection | undefined;
+    getFieldRef: (fieldName: string) => TFormField | undefined;
+    registerSectionWrapperRef: (sectionName: string, sectionComponent: TSubmit64SectionApi) => void;
+    registerFieldWrapperRef: (fieldName: string, fieldComponent: TSubmit64FieldApi) => void;
+};
+export type TSubmit64SectionApi = Readonly<TFormSection> & {
     reset: () => void;
     clear: () => void;
     validate: () => boolean;
@@ -147,10 +170,13 @@ export type TSubmit64SectionWrapperApi = {
     hide: () => void;
     unhide: () => void;
     resetValidation: () => void;
-    getDataRef: () => TFormSection;
-    getFields(): Map<string, TSubmit64FieldWrapperComponent>;
+    getFields: () => Map<string, TSubmit64FieldApi>;
+    setReadonlyState: (state: boolean) => void;
+    setCssClass: (cssClass: string) => void;
+    setIcon: (icon: string) => void;
+    setLabel: (label: string) => void;
 };
-export type TSubmit64FieldWrapperComponent = ComponentPublicInstance & {
+export type TSubmit64FieldApi = {
     reset: () => void;
     clear: () => void;
     validate: () => boolean;
@@ -161,7 +187,12 @@ export type TSubmit64FieldWrapperComponent = ComponentPublicInstance & {
     getValueSerialized: () => unknown;
     getValueDeserialized: () => unknown;
     setupBackendErrors: (errors: string[]) => void;
-    getDataRef: () => TFormField;
+    setReadonlyState: (state: boolean) => void;
+    setHint: (hint: string) => void;
+    setCssClass: (cssClass: string) => void;
+    setSuffix: (suffix: string) => void;
+    setPrefix: (prefix: string) => void;
+    setLabel: (label: string) => void;
 };
 export type TSubmit64FormProps = {
     resourceName: string;
@@ -188,28 +219,25 @@ export type TFormSettingsProps = {
 };
 export type TSubmit64SectionWrapperProps = {
     section: TFormSection;
-    sectionIndex: number;
     formApi: TSubmit64FormApi;
-    privateFormApi: TSubmit64PrivateFormApi;
-    registerRef: (sectionName: string, sectionRef: TSubmit64SectionWrapperComponent) => void;
+    privateFormApi: TSubmit64FormPrivateApi;
     context?: TContext | undefined;
 };
 export type TSubmit64SectionProps = {
     formApi: TSubmit64FormApi;
-    sectionApi: TSubmit64SectionWrapperApi;
+    sectionApi: TSubmit64SectionApi;
+    context?: TContext | undefined;
 };
 export type TSubmit64FieldWrapperProps = {
     field: TFormField;
     formApi: TSubmit64FormApi;
-    privateFormApi: TSubmit64PrivateFormApi;
-    registerRef: (fieldName: string, fieldRef: TSubmit64FieldWrapperComponent) => void;
+    privateFormApi: TSubmit64FormPrivateApi;
     context?: TContext | undefined;
 };
 export type TSubmit64FieldProps = {
     modelValue: unknown;
     field: TFormField;
     formApi: TSubmit64FormApi;
-    privateFormApi: TSubmit64PrivateFormApi;
     rules: ValidationRule[];
     modelValueOnUpdate: (value: unknown) => void;
     reset: () => void;
@@ -229,7 +257,6 @@ export type TSubmit64AssociationDisplayProps = {
 export type TSubmit64OrphanErrorFormProps = {
     orphanErrors: Record<string, string[]>;
     formApi: TSubmit64FormApi;
-    privateFormApi: TSubmit64PrivateFormApi;
 };
 export type TSubmit64ActionFormProps = {
     isLoadingSubmit: boolean;
@@ -240,7 +267,7 @@ export type TSubmit64ActionFormProps = {
 };
 export type TSubmit64BeforeAfterSectionProps = {
     formApi: TSubmit64FormApi;
-    sectionApi: TSubmit64SectionWrapperApi;
+    sectionApi: TSubmit64SectionApi;
 };
 export type TSubmit64BeforeAfterFieldProps = {
     field: TFormField;
@@ -277,25 +304,6 @@ export type TPropsWithClass = {
 };
 export type TSubmit64ValidationRule = (val: unknown) => boolean | string;
 export type TSubmit64FormMode = "edit" | "create";
-export type TSubmit64FormApi = {
-    getMode: () => TSubmit64FormMode;
-    getForm: () => Readonly<TFormDef>;
-    getSection: (sectionName: string) => TSubmit64SectionWrapperComponent | undefined;
-    getField: (fieldName: string) => TSubmit64FieldWrapperComponent | undefined;
-    validateForm: () => boolean;
-    isFormValid: () => boolean;
-    resetForm: () => void;
-    clearForm: () => void;
-    resetValidation: () => void;
-    submitForm: () => Promise<void>;
-    valuesHasChanged: () => boolean;
-};
-export type TSubmit64PrivateFormApi = {
-    getInitialValueByFieldName: (fieldName: string) => unknown;
-    getAssociationDataCallback: () => (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
-    getFormRef: () => Ref<TFormDef | undefined, TFormDef | undefined>;
-};
-export type TSubmit64FullFormApi = TSubmit64FormApi & TSubmit64PrivateFormApi;
 export type TSubmit64StaticSelectOptions = {
     label: string;
     value: unknown;

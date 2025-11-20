@@ -23,16 +23,16 @@ export class FormFactory {
     wrapperResetComponent;
     associationDisplayComponent;
     dynamicComponentRecord;
-    fullFormApi;
+    formApi;
     registerEventCallback;
-    constructor(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, fullFormApi, eventManager) {
+    constructor(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager) {
         this.dynamicComponentRecord =
             overridedComponent.dynamicComponentRecord ?? {};
         this.formMetadataAndData = formMetadataAndData;
         this.resourceId = resourceId;
         this.context = context;
         this.resourceName = resourceName;
-        this.fullFormApi = fullFormApi;
+        this.formApi = formApi;
         this.formSettings = {
             ...formSettings,
             ...Submit64.getGlobalFormSetting(),
@@ -59,12 +59,12 @@ export class FormFactory {
                 Submit64.getGlobalAssociationDisplayComponent();
         this.registerEventCallback = eventManager ?? (() => { });
     }
-    static getForm(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, fullFormApi, eventManager) {
-        const instance = new FormFactory(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, fullFormApi, eventManager);
+    static getForm(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager) {
+        const instance = new FormFactory(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager);
         return instance.generateFormDef();
     }
     generateFormDef() {
-        const eventBuilderInstance = DynamicLogicBuilder.create(this.fullFormApi);
+        const eventBuilderInstance = DynamicLogicBuilder.create(this.formApi);
         this.registerEventCallback(eventBuilderInstance);
         const events = DynamicLogicBuilder.getEventsObjectFromInstance(eventBuilderInstance);
         const sections = [];
@@ -75,7 +75,7 @@ export class FormFactory {
                 const mainComponent = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
                 const afterComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-after`];
                 const componentOptions = {
-                    associationDisplayComponent: this.associationDisplayComponent,
+                    associationDisplayComponent: markRaw(this.associationDisplayComponent),
                     regularFieldType: FormFactory.getRegularFieldTypeByFieldType(columnMetadata.field_type),
                 };
                 const field = {
@@ -95,9 +95,9 @@ export class FormFactory {
                     rules: columnMetadata.rules,
                     clearable: this.formMetadataAndData.form.clearable ?? undefined,
                     hidden: false,
-                    beforeComponent: markRaw(beforeComponent),
+                    beforeComponent: beforeComponent ? markRaw(beforeComponent) : undefined,
                     mainComponent: markRaw(mainComponent),
-                    afterComponent: markRaw(afterComponent),
+                    afterComponent: afterComponent ? markRaw(afterComponent) : undefined,
                     events: events.fields[columnMetadata.field_name] ?? {},
                     componentOptions,
                 };
@@ -111,14 +111,14 @@ export class FormFactory {
                 icon: sectionMetadata.icon ?? undefined,
                 cssClass: sectionMetadata.css_class ?? undefined,
                 hidden: false,
-                name: sectionMetadata.name ?? undefined,
+                name: sectionMetadata.name ?? sectionIndex.toString(),
                 readonly: this.formMetadataAndData.form.readonly ??
                     sectionMetadata.readonly ??
                     undefined,
                 events: events.sections[sectionMetadata.name ?? sectionIndex.toString()] ?? {},
-                beforeComponent: markRaw(beforeComponent),
+                beforeComponent: beforeComponent ? markRaw(beforeComponent) : undefined,
                 mainComponent: markRaw(mainComponent),
-                afterComponent: markRaw(afterComponent),
+                afterComponent: afterComponent ? markRaw(afterComponent) : undefined,
                 fields,
             };
             sections.push(section);

@@ -10,7 +10,7 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 const ruleResult = ref<boolean | string>(true);
 
 // consts
-const form = propsComponent.formApi.getForm();
+const form = propsComponent.formApi;
 const styleConfig = form.formStyle;
 
 // functions

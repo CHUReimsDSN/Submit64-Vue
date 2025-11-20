@@ -8,7 +8,7 @@ const propsComponent = defineProps<TSubmit64ActionFormProps>();
 // functions
 function getButtonBindStyle(): QBtnProps {
   const formStyle =
-    propsComponent.formApi.getForm().formStyle;
+    propsComponent.formApi.formStyle;
   return {
     outline: formStyle.fieldOutlined,
     rounded: formStyle.fieldRounded,

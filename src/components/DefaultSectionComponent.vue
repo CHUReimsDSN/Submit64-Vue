@@ -4,23 +4,19 @@ import type { TSubmit64SectionProps } from "../models";
 
 // props
 const propsComponent = defineProps<TSubmit64SectionProps>();
-
-// const
-const formStyle =
-  propsComponent.formApi.getForm().formStyle;
 </script>
 
 <template>
   <div>
     <div class="flex row items-center">
       <q-icon
-        v-if="propsComponent.sectionApi.getDataRef().icon"
-        :name="propsComponent.sectionApi.getDataRef().icon"
+        v-if="propsComponent.sectionApi.icon"
+        :name="propsComponent.sectionApi.icon"
         size="sm"
-        :color="formStyle.fieldColor"
+        :color="propsComponent.formApi.formStyle.fieldColor"
       />
       <div class="text-body1 text-weight-medium">
-        {{ propsComponent.sectionApi.getDataRef().label }}
+        {{ propsComponent.sectionApi.label }}
       </div>
     </div>
 

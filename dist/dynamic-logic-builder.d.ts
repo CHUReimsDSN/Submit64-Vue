@@ -1,10 +1,10 @@
-import { TContext, TFormEvent, TFormFieldEvent, TFormSectionEvent, TSubmit64FullFormApi } from "./models";
+import { TFormEvent, TFormFieldEvent, TFormSectionEvent, TSubmit64FormApi } from "./models";
 export declare class DynamicLogicBuilder {
-    private fullFormApi;
+    private formApi;
     private events;
     private constructor();
     when<K extends keyof TWhenArgs>(arg1: K, arg2: TWhenArgs[K]): BuilderOperator;
-    static create(fullFormApi: TSubmit64FullFormApi): DynamicLogicBuilder;
+    static create(formApi: TSubmit64FormApi): DynamicLogicBuilder;
     static getEventsObjectFromInstance(instance: DynamicLogicBuilder): {
         fields: Record<string, TFormFieldEvent>;
         sections: Record<string, TFormSectionEvent>;
@@ -27,7 +27,7 @@ type TWhenArgs = {
     "Field is reseted": {
         fieldName: string;
     };
-    "Field confirm statement": {
+    "Field confirm value statement": {
         fieldName: string;
         statement: () => void;
     };
@@ -62,107 +62,34 @@ type TWhenArgs = {
     "Form is reseted": undefined;
     "Form is valid": undefined;
     "Form is validated": undefined;
-    "Function is called": {
-        functionToListenTo: () => void;
-    };
 };
 declare class BuilderOperator {
-    private logicBuilder;
-    private fullFormApi;
-    constructor(logicBuilder: DynamicLogicBuilder, fullFormApi: TSubmit64FullFormApi);
-    then<K extends keyof TThenArgs>(actionType: K, data: TThenArgs[K]): BuilderActionOperator;
-    then(customAction: TThenCustomCallback, _: undefined): BuilderActionOperator;
+    private formEvent;
+    constructor(formEvent: FormEvent);
+    then(customAction: TThenCustomCallback): BuilderOperator;
 }
-declare class BuilderActionOperator {
-    private fullFormApi;
-    constructor(fullFormApi: TSubmit64FullFormApi);
-    then<K extends keyof TThenArgs>(actionType: K, data: TThenArgs[K]): BuilderActionOperator;
-    then(customAction: TThenCustomCallback): BuilderActionOperator;
+declare class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
+    type: K;
+    data: TWhenArgs[K];
+    actions: TThenCustomCallback[];
+    formApi: TSubmit64FormApi;
+    constructor(type: K, data: TWhenArgs[K], formApi: TSubmit64FormApi);
+    getTarget(): TFormEventTarget;
+    getActionCallback(): () => void;
 }
-type TThenArgs = {
-    "Set field label": {
-        fieldName: string;
-        newLabel: string;
-    };
-    "Set field prefix": {
-        fieldName: string;
-        newPrefix: string;
-    };
-    "Set field suffix": {
-        fieldName: string;
-        newSuffix: string;
-    };
-    "Set field css class": {
-        fieldName: string;
-        newCssClass: string;
-    };
-    "Set field hint": {
-        fieldName: string;
-        newHint: string;
-    };
-    "Set field readonly state": {
-        fieldName: string;
-        newState: boolean;
-    };
-    "Hide field": {
-        fieldName: string;
-    };
-    "Unhide field": {
-        fieldName: string;
-    };
-    "Clear field": {
-        fieldName: string;
-    };
-    "Reset field": {
-        fieldName: string;
-    };
-    "Validate field": {
-        fieldName: string;
-    };
-    "Set section label": {
-        sectionName: string;
-        newLabel: string;
-    };
-    "Set section icon": {
-        sectionName: string;
-        newIcon: string;
-    };
-    "Set section css class": {
-        sectionName: string;
-        newCssClass: string;
-    };
-    "Set section readonly state": {
-        sectionName: string;
-        newState: boolean;
-    };
-    "Hide section": {
-        sectionName: string;
-    };
-    "Unhide section": {
-        sectionName: string;
-    };
-    "Validate section": {
-        sectionName: string;
-    };
-    "Reset section": {
-        sectionName: string;
-    };
-    "Clear section": {
-        sectionName: string;
-    };
-    "Set form readonly state": {
-        newState: boolean;
-    };
-    "Set form css class": {
-        newCssClass: string;
-    };
-    "Set form context": {
-        newContext: TContext;
-    };
-    "Submit form": undefined;
-    "Clear form": undefined;
-    "Reset form": undefined;
-    "Validate form": undefined;
+type TThenCustomCallback = (formApi: TSubmit64FormApi) => void;
+type TFormEventTarget = {
+    target: "field";
+    targetName: string;
+    key: keyof TFormFieldEvent;
+} | {
+    target: "section";
+    targetName: string;
+    key: keyof TFormSectionEvent;
+} | {
+    target: "form";
+    key: keyof TFormEvent;
+} | {
+    target: null;
 };
-type TThenCustomCallback = (fullFormApi: TSubmit64FullFormApi) => void;
 export {};

@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { getCurrentInstance, onMounted, watch } from "vue";
 import type {
-  TSubmit64FieldWrapperComponent,
-  TSubmit64SectionWrapperApi,
-  TSubmit64SectionWrapperComponent,
+  TSubmit64FieldApi,
+  TSubmit64SectionApi,
   TSubmit64SectionWrapperProps,
 } from "../models";
-import { callAllEvents } from "../utils";
+import { callAllEvents, deepFreeze } from "../utils";
 
 // props
 const propsComponent = defineProps<TSubmit64SectionWrapperProps>();
 
 // consts
-const fields: Map<string, TSubmit64FieldWrapperComponent> = new Map();
-const sectionApi: TSubmit64SectionWrapperApi = {
+const fields: Map<string, TSubmit64FieldApi> = new Map();
+const sectionApi: TSubmit64SectionApi = {
   reset,
   clear,
   validate,
@@ -21,9 +20,13 @@ const sectionApi: TSubmit64SectionWrapperApi = {
   hide,
   unhide,
   resetValidation,
-  getDataRef,
-  getFields
-}
+  getFields,
+  setReadonlyState,
+  setCssClass,
+  setIcon,
+  setLabel,
+  ...deepFreeze({ ...propsComponent.section }),
+};
 
 // functions
 function setupFields() {
@@ -49,14 +52,9 @@ function clear() {
   callAllEvents(propsComponent.section.events.onClear);
 }
 function hide() {
-  const sectionRef = propsComponent.privateFormApi
-    .getFormRef()
-    .value?.sections.find((sectionFind) => {
-      return (
-        sectionFind.name === propsComponent.section.name ||
-        sectionFind.name === propsComponent.sectionIndex.toString()
-      );
-    });
+  const sectionRef = propsComponent.privateFormApi.getSectionRef(
+    propsComponent.section.name
+  );
   if (!sectionRef) {
     return;
   }
@@ -67,14 +65,9 @@ function hide() {
   callAllEvents(propsComponent.section.events.onHide);
 }
 function unhide() {
-  const sectionRef = propsComponent.privateFormApi
-    .getFormRef()
-    .value?.sections.find((sectionFind) => {
-      return (
-        sectionFind.name === propsComponent.section.name ||
-        sectionFind.name === propsComponent.sectionIndex.toString()
-      );
-    });
+  const sectionRef = propsComponent.privateFormApi.getSectionRef(
+    propsComponent.section.name
+  );
   if (!sectionRef) {
     return;
   }
@@ -89,7 +82,7 @@ function validate() {
   fields.forEach((field) => {
     if (!field.validate()) {
       isValid = false;
-      return
+      return;
     }
   });
   callAllEvents(propsComponent.section.events.onValidated);
@@ -110,13 +103,40 @@ function resetValidation() {
     field.resetValidation();
   });
 }
-function getDataRef() {
-  return propsComponent.privateFormApi.getFormRef().value?.sections.find((section) => {
-    return section.name === propsComponent.section.name || section.name === propsComponent.sectionIndex.toString()
-  })!
-}
 function getFields() {
-  return fields
+  return fields;
+}
+function setReadonlyState(state: boolean) {
+  const sectionRef = propsComponent.privateFormApi.getSectionRef(
+    propsComponent.section.name
+  );
+  if (sectionRef) {
+    sectionRef.readonly = state;
+  }
+}
+function setCssClass(cssClass: string) {
+  const sectionRef = propsComponent.privateFormApi.getSectionRef(
+    propsComponent.section.name
+  );
+  if (sectionRef) {
+    sectionRef.cssClass = cssClass;
+  }
+}
+function setIcon(icon: string) {
+  const sectionRef = propsComponent.privateFormApi.getSectionRef(
+    propsComponent.section.name
+  );
+  if (sectionRef) {
+    sectionRef.icon = icon;
+  }
+}
+function setLabel(label: string) {
+  const sectionRef = propsComponent.privateFormApi.getSectionRef(
+    propsComponent.section.name
+  );
+  if (sectionRef) {
+    sectionRef.label = label;
+  }
 }
 
 // exposes
@@ -136,9 +156,9 @@ watch(
 onMounted(() => {
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef) {
-    propsComponent.registerRef(
-      propsComponent.section.name ?? propsComponent.sectionIndex.toString(),
-      proxyInstanceRef as TSubmit64SectionWrapperComponent
+    propsComponent.privateFormApi.registerSectionWrapperRef(
+      propsComponent.section.name,
+      proxyInstanceRef as TSubmit64SectionApi
     );
   }
   setupFields();
@@ -160,6 +180,7 @@ onMounted(() => {
       :is="propsComponent.section.mainComponent"
       :sectionApi="sectionApi"
       :formApi="propsComponent.formApi"
+      :context="propsComponent.context"
     />
     <Component
       v-if="propsComponent.section.afterComponent"

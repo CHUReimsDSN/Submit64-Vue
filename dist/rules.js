@@ -1,6 +1,5 @@
 import { date } from "quasar";
 function computeServerRules(metadataRules, fieldType, formApi) {
-    const form = formApi.getForm();
     const getCompareToValueRule = (rule, operateTo, dateMode) => {
         if (rule[operateTo]) {
             if (!dateMode) {
@@ -15,16 +14,16 @@ function computeServerRules(metadataRules, fieldType, formApi) {
         return () => "";
     };
     const computedRuleDateFormatToFormFactoryFormat = (ruleDate) => {
-        return String(date.formatDate(date.extractDate(ruleDate, form.formSettings.backendDateFormat), form.formSettings.dateFormat));
+        return String(date.formatDate(date.extractDate(ruleDate, formApi.formSettings.backendDateFormat), formApi.formSettings.dateFormat));
     };
     const rules = [];
     const upperRules = [];
     switch (fieldType) {
         case "date":
-            rules.push(validDate(form.formSettings.dateFormat));
+            rules.push(validDate(formApi.formSettings.dateFormat));
             break;
         case "datetime":
-            rules.push(validDate(form.formSettings.datetimeFormat));
+            rules.push(validDate(formApi.formSettings.datetimeFormat));
             break;
     }
     metadataRules.forEach((metadataRule) => {
@@ -115,22 +114,22 @@ function computeServerRules(metadataRules, fieldType, formApi) {
                 break;
             // date
             case "lessThanOrEqualDate":
-                rules.push(lessThanOrEqualDate(getCompareToValueRule(rule, "less_than", true), form.formSettings.dateFormat));
+                rules.push(lessThanOrEqualDate(getCompareToValueRule(rule, "less_than", true), formApi.formSettings.dateFormat));
                 break;
             case "lessThanDate":
-                rules.push(lessThanDate(getCompareToValueRule(rule, "less_than", true), form.formSettings.dateFormat));
+                rules.push(lessThanDate(getCompareToValueRule(rule, "less_than", true), formApi.formSettings.dateFormat));
                 break;
             case "greaterThanOrEqualDate":
-                rules.push(greaterThanOrEqualDate(getCompareToValueRule(rule, "greater_than", true), form.formSettings.dateFormat));
+                rules.push(greaterThanOrEqualDate(getCompareToValueRule(rule, "greater_than", true), formApi.formSettings.dateFormat));
                 break;
             case "greaterThanDate":
-                rules.push(greaterThanDate(getCompareToValueRule(rule, "greater_than", true), form.formSettings.dateFormat));
+                rules.push(greaterThanDate(getCompareToValueRule(rule, "greater_than", true), formApi.formSettings.dateFormat));
                 break;
             case "equalToDate":
-                rules.push(equalToDate(getCompareToValueRule(rule, "equal_to", true), form.formSettings.dateFormat));
+                rules.push(equalToDate(getCompareToValueRule(rule, "equal_to", true), formApi.formSettings.dateFormat));
                 break;
             case "otherThanDate":
-                rules.push(otherThanDate(getCompareToValueRule(rule, "other_than", true), form.formSettings.dateFormat));
+                rules.push(otherThanDate(getCompareToValueRule(rule, "other_than", true), formApi.formSettings.dateFormat));
                 break;
         }
     });

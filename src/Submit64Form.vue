@@ -7,20 +7,21 @@ import {
   defineComponent,
   nextTick,
   watch,
+  Ref,
 } from "vue";
 import type {
-  TFormDef,
+  TForm,
   TSubmit64FormExpose,
-  TSubmit64FieldWrapperComponent,
+  TSubmit64FieldApi,
   TSubmit64FormProps,
   TResourceFormMetadataAndData,
   TSubmit64AssociationData,
   TSubmit64FormMode,
   TSubmit64FormApi,
   TSubmit64OverridedComponents,
-  TSubmit64SectionWrapperComponent,
-  TSubmit64PrivateFormApi,
-  TSubmit64FullFormApi,
+  TSubmit64SectionApi,
+  TContext,
+  TSubmit64FormPrivateApi,
 } from "./models";
 import { FormFactory } from "./form-factory";
 import { callAllEvents, deepFreeze } from "./utils";
@@ -36,34 +37,11 @@ let stringyfiedValues = "";
 
 // consts
 const slots = useSlots();
-const fieldWrapperRefs: Map<string, TSubmit64FieldWrapperComponent> = new Map();
-const sectionsWrapperRefs: Map<string, TSubmit64SectionWrapperComponent> =
-  new Map();
-const formApi: TSubmit64FormApi = {
-  getMode,
-  getForm,
-  getSection,
-  getField,
-  validateForm,
-  isFormValid,
-  resetForm,
-  clearForm,
-  resetValidation,
-  submitForm,
-  valuesHasChanged,
-};
-const privateFormApi: TSubmit64PrivateFormApi = {
-  getInitialValueByFieldName,
-  getAssociationDataCallback,
-  getFormRef,
-};
-const fullFormApi: TSubmit64FullFormApi = {
-  ...formApi,
-  ...privateFormApi,
-};
+const fieldWrapperRefs: Map<string, TSubmit64FieldApi> = new Map();
+const sectionsWrapperRefs: Map<string, TSubmit64SectionApi> = new Map();
 
 // refs
-const form = ref<TFormDef>();
+const form = ref<TForm>();
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
 const mode = ref<TSubmit64FormMode>("create");
@@ -71,11 +49,13 @@ const orphanErrors = ref<Record<string, string[]>>({});
 
 // functions
 async function setupMetadatasAndForm() {
+  console.timeEnd("mount and ready");
   formMetadataAndData = await propsComponent.getMetadataAndData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
     context: propsComponent.context,
   });
+  console.time("mount and ready 2");
   form.value = FormFactory.getForm(
     propsComponent.resourceName,
     propsComponent.resourceId,
@@ -84,7 +64,7 @@ async function setupMetadatasAndForm() {
     propsComponent.formSettings,
     propsComponent.formStyle,
     propsComponent.context,
-    fullFormApi,
+    formApi,
     propsComponent.eventManager
   );
   if (propsComponent.resourceId) {
@@ -229,29 +209,12 @@ function clearBackendErrors() {
     fieldRef.setupBackendErrors([]);
   });
 }
-function registerSectionWrapperRef(
-  sectionName: string,
-  sectionComponent: TSubmit64SectionWrapperComponent
-) {
-  sectionsWrapperRefs.set(sectionName, sectionComponent);
-}
-function registerFieldWrapperRef(
-  fieldName: string,
-  fieldComponent: TSubmit64FieldWrapperComponent
-) {
-  fieldWrapperRefs.set(fieldName, fieldComponent);
-}
+
 function getInitialValueByFieldName(fieldName: string) {
   if (!formMetadataAndData) {
     return;
   }
   return formMetadataAndData.resource_data[fieldName];
-}
-function getForm() {
-  return deepFreeze(unref(form.value!));
-}
-function getFormRef() {
-  return form;
 }
 function getSection(sectionName: string) {
   return sectionsWrapperRefs.get(sectionName);
@@ -290,8 +253,76 @@ function getMode() {
 function valuesHasChanged() {
   return stringyfiedValues !== JSON.stringify(getValuesFormDeserialized());
 }
+function setContext(context: TContext) {
+  if (form.value) {
+    form.value.context = context;
+  }
+}
+function setCssClass(cssClass: string) {
+  if (form.value) {
+    form.value.cssClass = cssClass;
+  }
+}
+function setReadonlyState(state: boolean) {
+  if (form.value) form.value.readonly = state;
+}
 
-// exposes
+// private api
+function getFormRef() {
+  return form as Ref<TForm>;
+}
+function getSectionRef(sectionName: string) {
+  return form.value?.sections.find((section) => {
+    return section.name === sectionName;
+  });
+}
+function getFieldRef(fieldName: string) {
+  return form.value?.sections
+    .map((s) => s.fields)
+    .flat()
+    .find((field) => {
+      return field.metadata.field_name === fieldName;
+    });
+}
+function registerSectionWrapperRef(
+  sectionName: string,
+  sectionComponent: TSubmit64SectionApi
+) {
+  sectionsWrapperRefs.set(sectionName, sectionComponent);
+}
+function registerFieldWrapperRef(
+  fieldName: string,
+  fieldComponent: TSubmit64FieldApi
+) {
+  fieldWrapperRefs.set(fieldName, fieldComponent);
+}
+
+// api
+const privateFormApi: TSubmit64FormPrivateApi = {
+  getFormRef,
+  getSectionRef,
+  getFieldRef,
+  registerSectionWrapperRef,
+  registerFieldWrapperRef,
+};
+const formApi: TSubmit64FormApi = {
+  getMode,
+  getSection,
+  getField,
+  validateForm,
+  isFormValid,
+  resetForm,
+  clearForm,
+  resetValidation,
+  submitForm,
+  valuesHasChanged,
+  getInitialValueByFieldName,
+  getAssociationDataCallback,
+  setContext,
+  setCssClass,
+  setReadonlyState,
+  ...deepFreeze({ ...form.value! }),
+};
 defineExpose(formApi) as unknown as TSubmit64FormExpose;
 
 // watchs
@@ -313,10 +344,10 @@ onMounted(async () => {
   console.time("mount and ready");
   ensurePropsAreOk();
   await setupMetadatasAndForm();
+  console.time("mount and ready 2");
   void nextTick(() => {
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
   });
-  console.timeEnd("mount and ready");
 });
 </script>
 
@@ -324,10 +355,9 @@ onMounted(async () => {
   <div v-if="setupIsDone && form" class="flex column">
     <div :class="form.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
       <SectionWrapper
-        v-for="(section, indexSection) in form.sections"
-        :key="section.name ?? indexSection"
+        v-for="section in form.sections"
+        :key="section.name"
         :section="section"
-        :sectionIndex="indexSection"
         :context="propsComponent.context"
         :formApi="formApi"
         :privateFormApi="privateFormApi"
@@ -356,7 +386,6 @@ onMounted(async () => {
       :clear="form.clearable ? clearForm : undefined"
       :reset="form.resetable ? resetForm : undefined"
       :formApi="formApi"
-      :privateFormApi="privateFormApi"
     />
   </div>
 </template>
