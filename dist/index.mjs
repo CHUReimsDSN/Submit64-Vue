@@ -1917,7 +1917,7 @@ const Xt = {
     };
     function s() {
       t.section.fields.forEach((m) => {
-        const g = m.metadata.field_name, $ = t.formApi.getField(g);
+        const g = m.metadata.field_name, $ = t.formApi.getFieldByName(g);
         $ && r.set(g, $);
       });
     }

@@ -32,7 +32,7 @@ const sectionApi: TSubmit64SectionApi = {
 function setupFields() {
   propsComponent.section.fields.forEach((field) => {
     const fieldName = field.metadata.field_name;
-    const fieldFound = propsComponent.formApi.getField(fieldName);
+    const fieldFound = propsComponent.formApi.getFieldByName(fieldName);
     if (!fieldFound) {
       return;
     }
