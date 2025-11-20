@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { QIcon } from "quasar";
-import type { TSubmit64SectionFormProps } from "../models";
+import type { TSubmit64SectionProps } from "../models";
 
 // props
-const propsComponent = defineProps<TSubmit64SectionFormProps>();
+const propsComponent = defineProps<TSubmit64SectionProps>();
 
 // const
 const formStyle =
-  propsComponent.functionsProvider.getFormFactoryInstance().formStyle;
+  propsComponent.formApi.getForm().formStyle;
 </script>
 
 <template>
-  <div class="flex column" :class="propsComponent.section.cssClass">
+  <div>
     <div class="flex row items-center">
       <q-icon
         v-if="propsComponent.section.icon"
@@ -29,3 +29,4 @@ const formStyle =
     </div>
   </div>
 </template>
+

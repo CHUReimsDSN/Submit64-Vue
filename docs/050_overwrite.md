@@ -12,6 +12,7 @@ Il est possible de surcharger certains élements de Submit64 :
 - Le composant d'action
 - Le composant d'affichage des erreurs orphelines
 - Le composant d'affichage dans la liste des associations
+- Les composants d'extension de section
 - Les composants d'extension de champ de saisie
 
 Il existe deux types possibles de surcharge :  
@@ -473,6 +474,52 @@ type TSubmit64AssociationDisplayPropsSlot = {
 <br /><br /> 
 
 
+## Surcharge des composants d'extension de section
+La surcharge globale n'est pas disponible pour les extensions de section.  
+La surcharge sous form de props n'est pas disponible pour les extensions de section.  
+
+Deux slots sont disponibles pour les extensions de section : `before` et `after`.  
+Le nom du slot dépend du nom de la section, ou de l'index de la section le cas où la section n'a pas de nom.
+Exemple pour une section nommé `machin`:  
+
+- `v-slot:section-machin-before`  
+- `v-slot:section-machin-after`
+
+Exemple pour une section d'index `2`:  
+
+- `v-slot:section-2-before`  
+- `v-slot:section-2-after`  
+
+Surcharge locale sous forme de slot : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+</script>
+
+<template>
+  <Submit64Form>
+    <template v-slot:section-random-before>
+      <div class="text-amber">Hello I'm before the random section</div>
+    </template>
+    <template v-slot:section-random-after>
+      <div class=text-purple>Hello I'm after the random section</div>
+    </template>
+  </Submit64Form>
+</template>
+```
+
+Props disponibles :  
+```typescript
+type TSubmit64BeforeAfterSectionProps = {
+  section: TFormSection;
+  formApi: TSubmit64FormApi;
+}
+```
+
+<br /><br /> 
+
+
+
 ## Surcharge des composants d'extension de champ de saisie
 La surcharge globale n'est pas disponible pour les extensions de champ de saisie.  
 La surcharge sous form de props n'est pas disponible pour les extensions de champ de saisie.  
@@ -505,7 +552,8 @@ import { Submit64Form } from "submit64-vue";
 Props disponibles :  
 ```typescript
 type TSubmit64BeforeAfterFieldProps = {
-  field: TFormFieldDef;
+  field: TFormField;
+  formApi: TSubmit64FormApi;
 }
 ```
 

@@ -1,7 +1,7 @@
 import type { Component } from "vue";
 import type {
   TFormDef,
-  TFormFieldDef,
+  TFormField,
   TFormStyle,
   TFormSettings,
   TFormSection,
@@ -9,6 +9,8 @@ import type {
   TContext,
   TResourceFieldMetadata,
   TSubmit64OverridedComponents,
+  TFormSettingsProps,
+  TSubmit64FullFormApi,
 } from "./models";
 import { Submit64 } from "./submit64";
 import DateField from "./components/DateField.vue";
@@ -20,9 +22,13 @@ import SelectBelongsToField from "./components/SelectBelongsToField.vue";
 import SelectHasManyField from "./components/SelectHasManyField.vue";
 import StringField from "./components/StringField.vue";
 import NumberField from "./components/NumberField.vue";
+import { DynamicLogicBuilder } from "./dynamic-logic-builder";
 
 export class FormFactory {
   resourceName: string;
+  resourceId: TFormDef["resourceId"];
+  formMetadataAndData: TResourceFormMetadataAndData;
+  context?: TContext;
   formSettings: Required<TFormSettings>;
   formStyle: Required<TFormStyle>;
   actionComponent: Component;
@@ -31,110 +37,189 @@ export class FormFactory {
   wrapperResetComponent: Component;
   associationDisplayComponent: Component;
   dynamicComponentRecord: Record<string, Component>;
+  fullFormApi: TSubmit64FullFormApi;
+  registerEventCallback: (builder: DynamicLogicBuilder) => void;
 
-  constructor(
+  private constructor(
     resourceName: string,
+    resourceId: TFormDef["resourceId"],
     overridedComponent: TSubmit64OverridedComponents,
-    formSettings?: Partial<TFormSettings>,
-    formStyle?: Partial<TFormStyle>,
+    formMetadataAndData: TResourceFormMetadataAndData,
+    formSettings: Partial<TFormSettingsProps> | undefined,
+    formStyle: Partial<TFormStyle> | undefined,
+    context: TContext | undefined,
+    fullFormApi: TSubmit64FullFormApi,
+    eventManager: ((builder: DynamicLogicBuilder) => void) | undefined
   ) {
+    this.dynamicComponentRecord =
+      overridedComponent.dynamicComponentRecord ?? {};
+    this.formMetadataAndData = formMetadataAndData;
+    this.resourceId = resourceId;
+    this.context = context;
     this.resourceName = resourceName;
+    this.fullFormApi = fullFormApi;
     this.formSettings = {
       ...formSettings,
       ...Submit64.getGlobalFormSetting(),
+      backendDateFormat: formMetadataAndData.form.backend_date_format,
+      backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format
     };
     this.formStyle = {
       ...formStyle,
       ...Submit64.getGlobalFormStyle(),
     };
-    
+
     this.actionComponent =
       overridedComponent.actionComponent ?? Submit64.getGlobalActionComponent();
     this.orphanErrorsComponent =
-      overridedComponent.orphanErrorsComponent ?? Submit64.getGlobalOrphanErrorComponent();
+      overridedComponent.orphanErrorsComponent ??
+      Submit64.getGlobalOrphanErrorComponent();
     this.sectionComponent =
-      overridedComponent.sectionComponent ?? Submit64.getGlobalSectionComponent();
+      overridedComponent.sectionComponent ??
+      Submit64.getGlobalSectionComponent();
     this.wrapperResetComponent =
-      overridedComponent.wrapperResetComponent ?? Submit64.getGlobalWrapperResetComponent();
+      overridedComponent.wrapperResetComponent ??
+      Submit64.getGlobalWrapperResetComponent();
     this.associationDisplayComponent =
       overridedComponent.associationDisplayComponent ??
       Submit64.getGlobalAssociationDisplayComponent();
-    this.dynamicComponentRecord = overridedComponent.dynamicComponentRecord ?? {};
+
+    this.registerEventCallback = eventManager ?? (() => {});
   }
 
-  getForm(
+  static getForm(
+    resourceName: string,
+    resourceId: TFormDef["resourceId"],
+    overridedComponent: TSubmit64OverridedComponents,
     formMetadataAndData: TResourceFormMetadataAndData,
-    resourceId?: TFormDef["resourceId"],
-    context?: TContext
-  ): TFormDef {
+    formSettings: Partial<TFormSettingsProps> | undefined,
+    formStyle: Partial<TFormStyle> | undefined,
+    context: TContext | undefined,
+    fullFormApi: TSubmit64FullFormApi,
+    eventManager: ((builder: DynamicLogicBuilder) => void) | undefined
+  ) {
+    const instance = new FormFactory(
+      resourceName,
+      resourceId,
+      overridedComponent,
+      formMetadataAndData,
+      formSettings,
+      formStyle,
+      context,
+      fullFormApi,
+      eventManager
+    );
+    return instance.generateFormDef();
+  }
+
+  private generateFormDef(): TFormDef {
+    const eventBuilderInstance = DynamicLogicBuilder.create(this.fullFormApi);
+    this.registerEventCallback(eventBuilderInstance);
+    const events =
+      DynamicLogicBuilder.getEventsObjectFromInstance(eventBuilderInstance);
     const sections: TFormSection[] = [];
-    formMetadataAndData.form.sections.forEach((sectionMetadata) => {
-      const fields: TFormFieldDef[] = [];
-      sectionMetadata.fields.forEach((columnMetadata) => {
-        const beforeComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-before`]
-        const component = FormFactory.getFieldComponentByFormFieldType(
-          columnMetadata.field_type
-        );
-        const afterComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-after`]
-        const componentOptions = {
-          associationDisplayComponent: this.associationDisplayComponent,
-          regularFieldType: this.getRegularFieldTypeByFieldType(
+    this.formMetadataAndData.form.sections.forEach(
+      (sectionMetadata, sectionIndex) => {
+        const fields: TFormField[] = [];
+        sectionMetadata.fields.forEach((columnMetadata) => {
+          const beforeComponent =
+            this.dynamicComponentRecord[
+              `field-${columnMetadata.field_name}-before`
+            ];
+          const mainComponent = FormFactory.getFieldComponentByFormFieldType(
             columnMetadata.field_type
-          ),
-        };
-        const field: TFormFieldDef = {
-          type: columnMetadata.field_type,
-          metadata: columnMetadata,
-          label: columnMetadata.label,
-          hint: columnMetadata.hint ?? undefined,
-          prefix: columnMetadata.prefix ?? undefined,
-          suffix: columnMetadata.suffix ?? undefined,
+          );
+          const afterComponent =
+            this.dynamicComponentRecord[
+              `field-${columnMetadata.field_name}-after`
+            ];
+          const componentOptions = {
+            associationDisplayComponent: this.associationDisplayComponent,
+            regularFieldType: FormFactory.getRegularFieldTypeByFieldType(
+              columnMetadata.field_type
+            ),
+          };
+          const field: TFormField = {
+            type: columnMetadata.field_type,
+            metadata: Object.freeze(columnMetadata),
+            label: columnMetadata.label,
+            hint: columnMetadata.hint ?? undefined,
+            prefix: columnMetadata.prefix ?? undefined,
+            suffix: columnMetadata.suffix ?? undefined,
+            readonly:
+              this.formMetadataAndData.form.readonly ??
+              sectionMetadata.readonly ??
+              columnMetadata.readonly ??
+              undefined,
+            cssClass: columnMetadata.css_class ?? undefined,
+            staticSelectOptions: columnMetadata.static_select_options,
+            associationData: columnMetadata.field_association_data,
+            rules: columnMetadata.rules,
+            clearable: this.formMetadataAndData.form.clearable ?? undefined,
+            hidden: false,
+            beforeComponent: beforeComponent,
+            mainComponent: mainComponent,
+            afterComponent: afterComponent,
+            events: events.fields[columnMetadata.field_name],
+            componentOptions,
+          };
+          fields.push(field);
+        });
+        const beforeComponent =
+          this.dynamicComponentRecord[
+            `section-${sectionMetadata.name ?? sectionIndex}-before`
+          ];
+        const mainComponent = this.sectionComponent;
+        const afterComponent =
+          this.dynamicComponentRecord[
+            `section-${sectionMetadata.name ?? sectionIndex}-after`
+          ];
+        const section: TFormSection = {
+          label: sectionMetadata.label ?? undefined,
+          icon: sectionMetadata.icon ?? undefined,
+          cssClass: sectionMetadata.css_class ?? undefined,
+          hidden: false,
+          name: sectionMetadata.name ?? undefined,
           readonly:
-            formMetadataAndData.form.readonly ??
+            this.formMetadataAndData.form.readonly ??
             sectionMetadata.readonly ??
-            columnMetadata.readonly ?? undefined,
-          cssClass: columnMetadata.css_class ?? undefined,
-          staticSelectOptions: columnMetadata.static_select_options,
-          associationData: columnMetadata.field_association_data,
-          rules: columnMetadata.rules,
-          clearable: formMetadataAndData.form.clearable ?? undefined,
+            undefined,
+          events:
+            events.sections[sectionMetadata.name ?? sectionIndex.toString()],
           beforeComponent: beforeComponent,
-          mainComponent: component,
+          mainComponent: mainComponent,
           afterComponent: afterComponent,
-          componentOptions,
+          fields,
         };
-        fields.push(field);
-      });
-      const section: TFormSection = {
-        label: sectionMetadata.label ?? undefined,
-        icon: sectionMetadata.icon ?? undefined,
-        cssClass: sectionMetadata.css_class ?? undefined,
-        readonly: formMetadataAndData.form.readonly ?? sectionMetadata.readonly ?? undefined,
-        fields,
-      };
-      sections.push(section);
-    });
+        sections.push(section);
+      }
+    );
     const form: TFormDef = {
       sections,
-      resourceName: formMetadataAndData.form.resource_name,
-      resourceId: resourceId,
-      cssClass: formMetadataAndData.form.css_class ?? undefined,
-      resetable: formMetadataAndData.form.resetable ?? undefined,
-      clearable: formMetadataAndData.form.clearable ?? undefined,
-      readonly: formMetadataAndData.form.readonly ?? undefined,
-      backendDateFormat: formMetadataAndData.form.backend_date_format,
-      backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
-      context,
+      resourceName: this.formMetadataAndData.form.resource_name,
+      resourceId: this.resourceId,
+      formSettings: this.formSettings,
+      formStyle: this.formStyle,
+      cssClass: this.formMetadataAndData.form.css_class ?? undefined,
+      resetable: this.formMetadataAndData.form.resetable ?? undefined,
+      clearable: this.formMetadataAndData.form.clearable ?? undefined,
+      readonly: this.formMetadataAndData.form.readonly ?? undefined,
+      events: events.form,
+      actionComponent: this.actionComponent,
+      orphanErrorsComponent: this.orphanErrorsComponent,
+      wrapperResetComponent: this.wrapperResetComponent,
+      dynamicComponentRecord: this.dynamicComponentRecord,
+      context: this.context,
     };
     return form;
   }
 
-  private getRegularFieldTypeByFieldType(
+  private static getRegularFieldTypeByFieldType(
     fieldType: TResourceFieldMetadata["field_type"]
-  ): TFormFieldDef["componentOptions"]["regularFieldType"] | undefined {
+  ): TFormField["componentOptions"]["regularFieldType"] | undefined {
     const mapping: Record<
       TResourceFieldMetadata["field_type"][number],
-      TFormFieldDef["componentOptions"]["regularFieldType"]
+      TFormField["componentOptions"]["regularFieldType"]
     > = {
       text: "textarea",
     };
@@ -142,7 +227,7 @@ export class FormFactory {
   }
 
   private static getFieldComponentByFormFieldType(
-    fieldType: TFormFieldDef["type"]
+    fieldType: TFormField["type"]
   ): Component {
     return {
       string: StringField,

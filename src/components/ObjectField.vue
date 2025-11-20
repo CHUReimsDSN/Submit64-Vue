@@ -5,7 +5,7 @@ import { TSubmit64FieldProps } from '../models';
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // consts
-const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
+const formFactory = propsComponent.formApi.getFormFactoryInstance();
 const formSetting = formFactory.formSettings;
 const styleConfig = formFactory.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";

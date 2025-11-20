@@ -1,5 +1,5 @@
 import { date } from "quasar";
-import { TFormFieldDef, TSubmit64FunctionsProvider, TSubmit64ValidationRule } from "./models";
+import { TFormField, TSubmit64FormApi, TSubmit64ValidationRule } from "./models";
 
 export type TSubmit64Rule = {
   type: // general
@@ -61,12 +61,10 @@ type TSubmit64RuleOperateTo = TSubmit64Rule & {
 type TUpperRule = "allowNull" | "allowBlank";
 function computeServerRules(
   metadataRules: TSubmit64Rule[],
-  fieldType: TFormFieldDef["type"],
-  formProvider: TSubmit64FunctionsProvider
+  fieldType: TFormField["type"],
+  formApi: TSubmit64FormApi
 ): TSubmit64ValidationRule[] {
-  const formFactorySettings =
-    formProvider.getFormFactoryInstance().formSettings;
-  const form = formProvider.getForm();
+  const form = formApi.getForm();
   const getCompareToValueRule = (
     rule: TSubmit64RuleOperateTo,
     operateTo: keyof TSubmit64RuleOperateTo,
@@ -81,7 +79,7 @@ function computeServerRules(
     }
     if (rule.compare_to) {
       return () =>
-        formProvider.getFieldDataByFieldName(rule.compare_to as string) ??
+        formApi.getField(rule.compare_to as string)?.getValueSerialized() ??
         "Submit64 error : missing comparator definition";
     }
     return () => "";
@@ -91,8 +89,8 @@ function computeServerRules(
   ): string => {
     return String(
       date.formatDate(
-        date.extractDate(ruleDate, form.backendDateFormat),
-        formFactorySettings.dateFormat
+        date.extractDate(ruleDate, form.formSettings.backendDateFormat),
+        form.formSettings.dateFormat
       )
     );
   };
@@ -100,10 +98,10 @@ function computeServerRules(
   const upperRules: TUpperRule[] = [];
   switch (fieldType) {
     case "date":
-      rules.push(validDate(formFactorySettings.dateFormat));
+      rules.push(validDate(form.formSettings.dateFormat));
       break;
     case "datetime":
-      rules.push(validDate(formFactorySettings.datetimeFormat));
+      rules.push(validDate(form.formSettings.datetimeFormat));
       break;
   }
   metadataRules.forEach((metadataRule) => {
@@ -253,7 +251,7 @@ function computeServerRules(
         rules.push(
           lessThanOrEqualDate(
             getCompareToValueRule(rule, "less_than", true) as () => string,
-            formFactorySettings.dateFormat
+            form.formSettings.dateFormat
           )
         );
         break;
@@ -261,7 +259,7 @@ function computeServerRules(
         rules.push(
           lessThanDate(
             getCompareToValueRule(rule, "less_than", true) as () => string,
-            formFactorySettings.dateFormat
+            form.formSettings.dateFormat
           )
         );
         break;
@@ -269,7 +267,7 @@ function computeServerRules(
         rules.push(
           greaterThanOrEqualDate(
             getCompareToValueRule(rule, "greater_than", true) as () => string,
-            formFactorySettings.dateFormat
+            form.formSettings.dateFormat
           )
         );
         break;
@@ -277,7 +275,7 @@ function computeServerRules(
         rules.push(
           greaterThanDate(
             getCompareToValueRule(rule, "greater_than", true) as () => string,
-            formFactorySettings.dateFormat
+            form.formSettings.dateFormat
           )
         );
         break;
@@ -285,7 +283,7 @@ function computeServerRules(
         rules.push(
           equalToDate(
             getCompareToValueRule(rule, "equal_to", true) as () => string,
-            formFactorySettings.dateFormat
+            form.formSettings.dateFormat
           )
         );
         break;
@@ -293,7 +291,7 @@ function computeServerRules(
         rules.push(
           otherThanDate(
             getCompareToValueRule(rule, "other_than", true) as () => string,
-            formFactorySettings.dateFormat
+            form.formSettings.dateFormat
           )
         );
         break;

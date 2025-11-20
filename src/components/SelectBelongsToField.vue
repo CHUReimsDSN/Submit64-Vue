@@ -14,9 +14,9 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // consts
 const displayComponent =
   propsComponent.field.componentOptions.associationDisplayComponent;
-const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
-const formSetting = formFactory.formSettings;
-const styleConfig = formFactory.formStyle;
+const form = propsComponent.formApi.getForm();
+const formSetting = form.formSettings;
+const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs
@@ -30,7 +30,7 @@ const fieldRef = ref<InstanceType<typeof QSelect>>();
 // functions
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   const callback =
-    propsComponent.functionsProvider.getAssociationDataCallback();
+    propsComponent.privateFormApi.getAssociationDataCallback();
   if (val === "") {
     selectOptionsScrollPagination.value = {
       limit: getSubmit64AssociationDataDefaultLimit(),
@@ -38,7 +38,7 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
     };
   }
   update(() => {
-    const form = propsComponent.functionsProvider.getForm();
+    const form = propsComponent.formApi.getForm();
     callback({
       resourceName: form.resourceName,
       resourceId: form.resourceId,
@@ -77,6 +77,12 @@ function validate() {
   }
   return fieldRef.value.validate() as boolean;
 }
+function isValid() {
+  if (!fieldRef.value) {
+    return false
+  }
+  return fieldRef.value.hasError
+}
 function resetValidation() {
   if (!fieldRef.value) {
     return;
@@ -91,7 +97,7 @@ function clear() {
 // lifeCycle
 onMounted(() => {
   setupDefaultSelectValue();
-  propsComponent.registerBehaviourCallbacks(validate, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
 });
 </script>
 

@@ -12,9 +12,9 @@ const selectOptionsFiltered = ref<TSubmit64StaticSelectOptions[]>([]);
 const fieldRef = ref<InstanceType<typeof QSelect>>();
 
 // consts
-const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
-const formSetting = formFactory.formSettings;
-const styleConfig = formFactory.formStyle;
+const form = propsComponent.formApi.getForm();
+const formSetting = form.formSettings;
+const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // functions
@@ -45,6 +45,12 @@ function validate() {
   }
   return fieldRef.value.validate() as boolean;
 }
+function isValid() {
+  if (!fieldRef.value) {
+    return false
+  }
+  return fieldRef.value.hasError
+}
 function resetValidation() {
   if (!fieldRef.value) {
     return;
@@ -59,7 +65,7 @@ function clear() {
 // lifeCycle
 onMounted(() => {
   setupSelectOptions();
-  propsComponent.registerBehaviourCallbacks(validate, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
 });
 </script>
 
