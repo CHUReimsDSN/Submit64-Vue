@@ -1,4 +1,4 @@
-import type { Component } from "vue";
+import { markRaw, type Component } from "vue";
 import type {
   TFormDef,
   TFormField,
@@ -157,9 +157,9 @@ export class FormFactory {
             rules: columnMetadata.rules,
             clearable: this.formMetadataAndData.form.clearable ?? undefined,
             hidden: false,
-            beforeComponent: beforeComponent,
-            mainComponent: mainComponent,
-            afterComponent: afterComponent,
+            beforeComponent: markRaw(beforeComponent),
+            mainComponent: markRaw(mainComponent),
+            afterComponent: markRaw(afterComponent),
             events: events.fields[columnMetadata.field_name] ?? {},
             componentOptions,
           };
@@ -186,9 +186,9 @@ export class FormFactory {
             undefined,
           events:
             events.sections[sectionMetadata.name ?? sectionIndex.toString()] ?? {},
-          beforeComponent: beforeComponent,
-          mainComponent: mainComponent,
-          afterComponent: afterComponent,
+          beforeComponent: markRaw(beforeComponent),
+          mainComponent: markRaw(mainComponent),
+          afterComponent: markRaw(afterComponent),
           fields,
         };
         sections.push(section);
@@ -205,13 +205,12 @@ export class FormFactory {
       clearable: this.formMetadataAndData.form.clearable ?? undefined,
       readonly: this.formMetadataAndData.form.readonly ?? undefined,
       events: events.form,
-      actionComponent: this.actionComponent,
-      orphanErrorsComponent: this.orphanErrorsComponent,
-      wrapperResetComponent: this.wrapperResetComponent,
+      actionComponent: markRaw(this.actionComponent),
+      orphanErrorsComponent: markRaw(this.orphanErrorsComponent),
+      wrapperResetComponent: markRaw(this.wrapperResetComponent),
       dynamicComponentRecord: this.dynamicComponentRecord,
       context: this.context,
     };
-    console.log(form)
     return form;
   }
 

@@ -1,4 +1,4 @@
-import type { Component } from "vue";
+import { type Component } from "vue";
 import type { TFormDef, TFormStyle, TFormSettings, TResourceFormMetadataAndData, TContext, TSubmit64OverridedComponents, TFormSettingsProps, TSubmit64FullFormApi } from "./models";
 import { DynamicLogicBuilder } from "./dynamic-logic-builder";
 export declare class FormFactory {
