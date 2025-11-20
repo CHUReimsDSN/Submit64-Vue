@@ -1418,7 +1418,7 @@ class X {
     const e = ae.create(this.fullFormApi);
     this.registerEventCallback(e);
     const t = ae.getEventsObjectFromInstance(e), n = [];
-    return this.formMetadataAndData.form.sections.forEach(
+    this.formMetadataAndData.form.sections.forEach(
       (s, i) => {
         const l = [];
         s.fields.forEach((b) => {
@@ -1466,7 +1466,8 @@ class X {
         };
         n.push(p);
       }
-    ), {
+    );
+    const o = {
       sections: n,
       resourceName: this.formMetadataAndData.form.resource_name,
       resourceId: this.resourceId,
@@ -1483,6 +1484,7 @@ class X {
       dynamicComponentRecord: this.dynamicComponentRecord,
       context: this.context
     };
+    return console.log(o), o;
   }
   static getRegularFieldTypeByFieldType(e) {
     return {

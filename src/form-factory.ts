@@ -211,6 +211,7 @@ export class FormFactory {
       dynamicComponentRecord: this.dynamicComponentRecord,
       context: this.context,
     };
+    console.log(form)
     return form;
   }
 
