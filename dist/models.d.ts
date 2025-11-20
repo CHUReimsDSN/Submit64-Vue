@@ -176,7 +176,7 @@ export type TSubmit64SectionApi = Readonly<TFormSection> & {
     setIcon: (icon: string) => void;
     setLabel: (label: string) => void;
 };
-export type TSubmit64FieldApi = {
+export type TSubmit64FieldApi = Readonly<TFormField> & {
     reset: () => void;
     clear: () => void;
     validate: () => boolean;
