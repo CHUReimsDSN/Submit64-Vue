@@ -48,7 +48,6 @@ const He = { class: "flex column" }, Ge = { class: "flex row items-center no-wra
 }), Qe = { class: "flex row items-center" }, We = { class: "text-body1 text-weight-medium" }, Ye = { class: "flex column q-gutter-md" }, Me = /* @__PURE__ */ N({
   __name: "DefaultSectionComponent",
   props: {
-    section: {},
     formApi: {},
     sectionApi: {}
   },
@@ -2193,21 +2192,18 @@ const Mt = {
     }, [
       t.section.beforeComponent ? (y(), x(P(t.section.beforeComponent), {
         key: 0,
-        section: t.section,
         formApi: t.formApi,
         sectionApi: o
-      }, null, 8, ["section", "formApi"])) : $("", !0),
+      }, null, 8, ["formApi"])) : $("", !0),
       (y(), x(P(t.section.mainComponent), {
-        section: t.section,
         sectionApi: o,
         formApi: t.formApi
-      }, null, 8, ["section", "formApi"])),
+      }, null, 8, ["formApi"])),
       t.section.afterComponent ? (y(), x(P(t.section.afterComponent), {
         key: 1,
-        field: t.section,
         formApi: t.formApi,
         sectionApi: o
-      }, null, 8, ["field", "formApi"])) : $("", !0)
+      }, null, 8, ["formApi"])) : $("", !0)
     ], 2));
   }
 }), en = {

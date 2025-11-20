@@ -153,20 +153,17 @@ onMounted(() => {
     <Component
       v-if="propsComponent.section.beforeComponent"
       :is="propsComponent.section.beforeComponent"
-      :section="propsComponent.section"
       :formApi="propsComponent.formApi"
       :sectionApi="sectionApi"
     />
     <Component
       :is="propsComponent.section.mainComponent"
-      :section="propsComponent.section"
       :sectionApi="sectionApi"
       :formApi="propsComponent.formApi"
     />
     <Component
       v-if="propsComponent.section.afterComponent"
       :is="propsComponent.section.afterComponent"
-      :field="propsComponent.section"
       :formApi="propsComponent.formApi"
       :sectionApi="sectionApi"
     />

@@ -228,7 +228,6 @@ export type TSubmit64SectionWrapperProps = {
   context?: TContext | undefined;
 };
 export type TSubmit64SectionProps = {
-  section: TFormSection;
   formApi: TSubmit64FormApi;
   sectionApi: TSubmit64SectionWrapperApi;
 };
@@ -280,7 +279,6 @@ export type TSubmit64ActionFormProps = {
   clear?: (() => void) | undefined;
 };
 export type TSubmit64BeforeAfterSectionProps = {
-  section: TFormSection;
   formApi: TSubmit64FormApi;
   sectionApi: TSubmit64SectionWrapperApi;
 }
