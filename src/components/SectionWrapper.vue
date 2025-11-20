@@ -2,6 +2,7 @@
 import { getCurrentInstance, onMounted, watch } from "vue";
 import type {
   TSubmit64FieldWrapperComponent,
+  TSubmit64SectionWrapperApi,
   TSubmit64SectionWrapperComponent,
   TSubmit64SectionWrapperProps,
 } from "../models";
@@ -12,6 +13,17 @@ const propsComponent = defineProps<TSubmit64SectionWrapperProps>();
 
 // consts
 const fields: Map<string, TSubmit64FieldWrapperComponent> = new Map();
+const sectionApi: TSubmit64SectionWrapperApi = {
+  reset,
+  clear,
+  validate,
+  isValid,
+  hide,
+  unhide,
+  resetValidation,
+  getDataRef,
+  getFields
+}
 
 // functions
 function setupFields() {
@@ -73,10 +85,15 @@ function unhide() {
   callAllEvents(propsComponent.section.events.onUnhide);
 }
 function validate() {
+  let isValid = true;
   fields.forEach((field) => {
-    field.validate();
+    if (!field.validate()) {
+      isValid = false;
+      return
+    }
   });
   callAllEvents(propsComponent.section.events.onValidated);
+  return isValid;
 }
 function isValid() {
   let isValid = true;
@@ -103,17 +120,7 @@ function getFields() {
 }
 
 // exposes
-defineExpose({
-  reset,
-  clear,
-  validate,
-  isValid,
-  hide,
-  unhide,
-  resetValidation,
-  getDataRef,
-  getFields
-});
+defineExpose(sectionApi);
 
 // watchs
 watch(
@@ -148,10 +155,12 @@ onMounted(() => {
       :is="propsComponent.section.beforeComponent"
       :section="propsComponent.section"
       :formApi="propsComponent.formApi"
+      :sectionApi="sectionApi"
     />
     <Component
       :is="propsComponent.section.mainComponent"
       :section="propsComponent.section"
+      :sectionApi="sectionApi"
       :formApi="propsComponent.formApi"
     />
     <Component
@@ -159,7 +168,7 @@ onMounted(() => {
       :is="propsComponent.section.afterComponent"
       :field="propsComponent.section"
       :formApi="propsComponent.formApi"
-      *
+      :sectionApi="sectionApi"
     />
   </div>
 </template>

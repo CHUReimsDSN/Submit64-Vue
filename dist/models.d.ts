@@ -138,7 +138,8 @@ export type TFormField = {
         regularFieldType?: "textarea";
     };
 };
-export type TSubmit64SectionWrapperComponent = ComponentPublicInstance & {
+export type TSubmit64SectionWrapperComponent = ComponentPublicInstance & TSubmit64SectionWrapperApi;
+export type TSubmit64SectionWrapperApi = {
     reset: () => void;
     clear: () => void;
     validate: () => boolean;
@@ -196,6 +197,7 @@ export type TSubmit64SectionWrapperProps = {
 export type TSubmit64SectionProps = {
     section: TFormSection;
     formApi: TSubmit64FormApi;
+    sectionApi: TSubmit64SectionWrapperApi;
 };
 export type TSubmit64FieldWrapperProps = {
     field: TFormField;
@@ -240,6 +242,7 @@ export type TSubmit64ActionFormProps = {
 export type TSubmit64BeforeAfterSectionProps = {
     section: TFormSection;
     formApi: TSubmit64FormApi;
+    sectionApi: TSubmit64SectionWrapperApi;
 };
 export type TSubmit64BeforeAfterFieldProps = {
     field: TFormField;
