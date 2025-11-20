@@ -216,11 +216,17 @@ function getInitialValueByFieldName(fieldName: string) {
   }
   return formMetadataAndData.resource_data[fieldName];
 }
-function getSection(sectionName: string) {
+function getSectionByName(sectionName: string) {
   return sectionsWrapperRefs.get(sectionName);
 }
-function getField(fieldName: string) {
+function getSections() {
+  return sectionsWrapperRefs
+}
+function getFieldByName(fieldName: string) {
   return fieldWrapperRefs.get(fieldName);
+}
+function getFields() {
+  return fieldWrapperRefs
 }
 function getAssociationDataCallback() {
   return (
@@ -307,8 +313,10 @@ const privateFormApi: TSubmit64FormPrivateApi = {
 };
 const formApi: TSubmit64FormApi = {
   getMode,
-  getSection,
-  getField,
+  getSectionByName,
+  getSections,
+  getFieldByName,
+  getFields,
   validateForm,
   isFormValid,
   resetForm,

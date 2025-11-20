@@ -3,7 +3,7 @@ export declare class DynamicLogicBuilder {
     private formApi;
     private events;
     private constructor();
-    when<K extends keyof TWhenArgs>(arg1: K, arg2: TWhenArgs[K]): BuilderOperator;
+    when<K extends keyof TWhenArgs>(arg1: K, arg2?: TWhenArgs[K]): BuilderOperator;
     static create(formApi: TSubmit64FormApi): DynamicLogicBuilder;
     static getEventsObjectFromInstance(instance: DynamicLogicBuilder): {
         fields: Record<string, TFormFieldEvent>;

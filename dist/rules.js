@@ -9,7 +9,7 @@ function computeServerRules(metadataRules, fieldType, formApi) {
             return () => computedRuleDateFormatToFormFactoryFormat(rule[operateTo]);
         }
         if (rule.compare_to) {
-            return () => formApi.getField(rule.compare_to)?.getValueSerialized() ??
+            return () => formApi.getFieldByName(rule.compare_to)?.getValueSerialized() ??
                 "Submit64 error : missing comparator definition";
         }
         return () => "";

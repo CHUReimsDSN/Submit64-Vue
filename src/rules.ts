@@ -79,7 +79,7 @@ function computeServerRules(
     }
     if (rule.compare_to) {
       return () =>
-        formApi.getField(rule.compare_to as string)?.getValueSerialized() ??
+        formApi.getFieldByName(rule.compare_to as string)?.getValueSerialized() ??
         "Submit64 error : missing comparator definition";
     }
     return () => "";

@@ -13,7 +13,7 @@ export class DynamicLogicBuilder {
     this.formApi = formApi;
   }
 
-  when<K extends keyof TWhenArgs>(arg1: K, arg2: TWhenArgs[K]) {
+  when<K extends keyof TWhenArgs>(arg1: K, arg2?: TWhenArgs[K]) {
     const eventType = arg1;
     const data = arg2 as TWhenArgs[K];
     const formEvent = new FormEvent(eventType, data, this.formApi);

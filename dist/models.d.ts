@@ -140,8 +140,10 @@ export type TFormField = {
 };
 export type TSubmit64FormApi = {
     getMode: () => TSubmit64FormMode;
-    getSection: (sectionName: string) => TSubmit64SectionApi | undefined;
-    getField: (fieldName: string) => TSubmit64FieldApi | undefined;
+    getSectionByName: (sectionName: string) => TSubmit64SectionApi | undefined;
+    getSections: () => Map<string, TSubmit64SectionApi>;
+    getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
+    getFields: () => Map<string, TSubmit64FieldApi>;
     validateForm: () => boolean;
     isFormValid: () => boolean;
     resetForm: () => void;
