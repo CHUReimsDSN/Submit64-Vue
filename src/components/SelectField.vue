@@ -12,7 +12,7 @@ const selectOptionsFiltered = ref<TSubmit64StaticSelectOptions[]>([]);
 const fieldRef = ref<InstanceType<typeof QSelect>>();
 
 // consts
-const form = propsComponent.formApi
+const form = propsComponent.formApi.form
 const formSetting = form.formSettings;
 const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";

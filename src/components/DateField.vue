@@ -7,7 +7,7 @@ import { onMounted, ref } from "vue";
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // consts
-const form = propsComponent.formApi;
+const form = propsComponent.formApi.form;
 const formSetting = form.formSettings;
 const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";

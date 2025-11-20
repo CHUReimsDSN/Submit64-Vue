@@ -45,7 +45,7 @@ function reset() {
   });
 }
 function formModelSerializeByType(value: unknown) {
-  const form = propsComponent.formApi;
+  const form = propsComponent.formApi.form;
   switch (propsComponent.field.type) {
     case "checkbox":
       if (value === null || value === undefined || value === "") {
@@ -75,7 +75,7 @@ function formModelSerializeByType(value: unknown) {
   return value;
 }
 function formModelDeserializeByType(value: unknown) {
-  const form = propsComponent.formApi;
+  const form = propsComponent.formApi.form;
   switch (propsComponent.field.type) {
     case "date":
       if (value === null || value === undefined || value === "") {
@@ -254,6 +254,7 @@ const api: TSubmit64FieldApi = {
   setSuffix,
   setPrefix,
   setLabel,
+  field: propsComponent.field
 };
 defineExpose(api);
 

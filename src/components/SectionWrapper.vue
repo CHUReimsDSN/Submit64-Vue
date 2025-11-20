@@ -5,7 +5,7 @@ import type {
   TSubmit64SectionApi,
   TSubmit64SectionWrapperProps,
 } from "../models";
-import { callAllEvents, deepFreeze } from "../utils";
+import { callAllEvents } from "../utils";
 
 // props
 const propsComponent = defineProps<TSubmit64SectionWrapperProps>();
@@ -25,7 +25,7 @@ const sectionApi: TSubmit64SectionApi = {
   setCssClass,
   setIcon,
   setLabel,
-  ...deepFreeze({ ...propsComponent.section }),
+  section: propsComponent.section
 };
 
 // functions
@@ -180,7 +180,6 @@ onMounted(() => {
       :is="propsComponent.section.mainComponent"
       :sectionApi="sectionApi"
       :formApi="propsComponent.formApi"
-      :context="propsComponent.context"
     />
     <Component
       v-if="propsComponent.section.afterComponent"

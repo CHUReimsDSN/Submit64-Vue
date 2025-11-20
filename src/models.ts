@@ -158,7 +158,7 @@ export type TFormField = {
 };
 
 // apis
-export type TSubmit64FormApi = Readonly<TForm> & {
+export type TSubmit64FormApi = {
   getMode: () => TSubmit64FormMode;
   getSection: (sectionName: string) => TSubmit64SectionApi | undefined;
   getField: (fieldName: string) => TSubmit64FieldApi | undefined;
@@ -176,6 +176,7 @@ export type TSubmit64FormApi = Readonly<TForm> & {
   setContext: (context: TContext) => void;
   setCssClass: (cssClass: string) => void;
   setReadonlyState: (state: boolean) => void;
+  form: TForm;
 };
 export type TSubmit64FormPrivateApi = {
   getFormRef: () => Ref<TForm>;
@@ -190,7 +191,7 @@ export type TSubmit64FormPrivateApi = {
     fieldComponent: TSubmit64FieldApi
   ) => void;
 };
-export type TSubmit64SectionApi = Readonly<TFormSection> & {
+export type TSubmit64SectionApi = {
   reset: () => void;
   clear: () => void;
   validate: () => boolean;
@@ -203,8 +204,9 @@ export type TSubmit64SectionApi = Readonly<TFormSection> & {
   setCssClass: (cssClass: string) => void;
   setIcon: (icon: string) => void;
   setLabel: (label: string) => void;
+  section: TFormSection;
 };
-export type TSubmit64FieldApi = Readonly<TFormField> & {
+export type TSubmit64FieldApi = {
   reset: () => void;
   clear: () => void;
   validate: () => boolean;
@@ -221,6 +223,7 @@ export type TSubmit64FieldApi = Readonly<TFormField> & {
   setSuffix: (suffix: string) => void;
   setPrefix: (prefix: string) => void;
   setLabel: (label: string) => void;
+  field: TFormField;
 };
 
 // props
@@ -259,18 +262,15 @@ export type TSubmit64SectionWrapperProps = {
   section: TFormSection;
   formApi: TSubmit64FormApi;
   privateFormApi: TSubmit64FormPrivateApi;
-  context?: TContext | undefined;
 };
 export type TSubmit64SectionProps = {
   formApi: TSubmit64FormApi;
   sectionApi: TSubmit64SectionApi;
-  context?: TContext | undefined;
 };
 export type TSubmit64FieldWrapperProps = {
   field: TFormField;
   formApi: TSubmit64FormApi;
   privateFormApi: TSubmit64FormPrivateApi;
-  context?: TContext | undefined;
 };
 export type TSubmit64FieldProps = {
   modelValue: unknown;

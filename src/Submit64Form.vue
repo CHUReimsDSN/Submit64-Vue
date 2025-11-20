@@ -24,7 +24,7 @@ import type {
   TSubmit64FormPrivateApi,
 } from "./models";
 import { FormFactory } from "./form-factory";
-import { callAllEvents, deepFreeze } from "./utils";
+import { callAllEvents } from "./utils";
 import FieldWrapper from "./components/FieldWrapper.vue";
 import SectionWrapper from "./components/SectionWrapper.vue";
 
@@ -321,7 +321,7 @@ const formApi: TSubmit64FormApi = {
   setContext,
   setCssClass,
   setReadonlyState,
-  ...deepFreeze({ ...form.value! }),
+  form: form.value!
 };
 defineExpose(formApi) as unknown as TSubmit64FormExpose;
 
