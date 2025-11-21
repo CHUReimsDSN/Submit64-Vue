@@ -392,4 +392,4 @@ export type TFormFieldEvent = {
   onUnhide?: TSubmit64Event;
   onConfirmStatement?: TSubmit64Event;
 };
-export type TSubmit64Event = (() => void)[];
+export type TSubmit64Event = (() => unknown)[];

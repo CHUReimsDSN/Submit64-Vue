@@ -3,4 +3,4 @@ import { DynamicLogicBuilder } from './dynamic-logic-builder'
 import Submit64Form from "./Submit64Form.vue";
 
 export * from './models'
-export { Submit64, DynamicLogicBuilder, type Submit64Form };
+export { Submit64, DynamicLogicBuilder, Submit64Form };
