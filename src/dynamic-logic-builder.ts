@@ -95,7 +95,7 @@ type TWhenArgs = {
   "Field is validated": { fieldName: string };
   "Field is cleared": { fieldName: string };
   "Field is reseted": { fieldName: string };
-  "Field confirm value statement": { fieldName: string; statement: () => void };
+  //"Field confirm value statement": { fieldName: string; statement: () => void };
   "Field is hidden": { fieldName: string };
   "Field is unhidden": { fieldName: string };
   "Section is valid": { sectionName: string };
@@ -159,13 +159,13 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
           key: "onReset",
         };
 
-      case "Field confirm value statement":
-        return {
-          target: "field",
-          targetName: (this.data as TWhenArgs["Field confirm value statement"])
-            .fieldName,
-          key: "onConfirmStatement",
-        };
+      // case "Field confirm value statement":
+      //   return {
+      //     target: "field",
+      //     targetName: (this.data as TWhenArgs["Field confirm value statement"])
+      //       .fieldName,
+      //     key: "onConfirmStatement",
+      //   };
       case "Field is hidden":
         return {
           target: "field",
@@ -265,7 +265,6 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
   }
   getActionCallback() {
     return () => {
-      console.log(this.cyclicActionCallSet)
       if (this.cyclicActionCallSet.has(this.type)) {
         return;
       }

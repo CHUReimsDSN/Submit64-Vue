@@ -182,6 +182,8 @@ export class FormFactory {
             selectString: SelectField,
             selectBelongsTo: SelectBelongsToField,
             selectHasMany: SelectHasManyField,
+            selectBelongsToThrough: SelectBelongsToField,
+            selectHasManyThrough: SelectHasManyField,
             checkbox: CheckboxField,
             object: ObjectField,
         }[fieldType];

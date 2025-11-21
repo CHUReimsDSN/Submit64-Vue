@@ -210,7 +210,6 @@ function clearBackendErrors() {
     fieldRef.setupBackendErrors([]);
   });
 }
-
 function getInitialValueByFieldName(fieldName: string) {
   if (!formMetadataAndData) {
     return;
@@ -219,6 +218,9 @@ function getInitialValueByFieldName(fieldName: string) {
 }
 function getSectionByName(sectionName: string) {
   return sectionsWrapperRefs.get(sectionName);
+}
+function getSectionByIndex(sectionIndex: number) {
+  return [...sectionsWrapperRefs.values()].at(sectionIndex)
 }
 function getSections() {
   return sectionsWrapperRefs;
@@ -330,6 +332,7 @@ const formReactive = new Proxy({} as TForm, {
 const formApi: TSubmit64FormApi = {
   getMode,
   getSectionByName,
+  getSectionByIndex,
   getSections,
   getFieldByName,
   getFields,

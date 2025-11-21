@@ -128,6 +128,8 @@ export type TFormField = {
     | "selectString"
     | "selectBelongsTo"
     | "selectHasMany"
+    | "selectBelongsToThrough"
+    | "selectHasManyThrough"
     | "checkbox"
     | "number"
     | "object"
@@ -161,6 +163,7 @@ export type TFormField = {
 export type TSubmit64FormApi = {
   getMode: () => TSubmit64FormMode;
   getSectionByName: (sectionName: string) => TSubmit64SectionApi | undefined;
+  getSectionByIndex: (sectionIndex: number) => TSubmit64SectionApi | undefined;
   getSections: () => Map<string, TSubmit64SectionApi>;
   getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
   getFields: () => Map<string, TSubmit64FieldApi>;

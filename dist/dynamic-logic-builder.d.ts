@@ -27,10 +27,6 @@ type TWhenArgs = {
     "Field is reseted": {
         fieldName: string;
     };
-    "Field confirm value statement": {
-        fieldName: string;
-        statement: () => void;
-    };
     "Field is hidden": {
         fieldName: string;
     };

@@ -113,7 +113,7 @@ export type TFormSection = {
     events: Readonly<TFormSectionEvent>;
 };
 export type TFormField = {
-    type: Readonly<"string" | "text" | "date" | "datetime" | "selectString" | "selectBelongsTo" | "selectHasMany" | "checkbox" | "number" | "object">;
+    type: Readonly<"string" | "text" | "date" | "datetime" | "selectString" | "selectBelongsTo" | "selectHasMany" | "selectBelongsToThrough" | "selectHasManyThrough" | "checkbox" | "number" | "object">;
     metadata: Readonly<TResourceFieldMetadata>;
     label?: string;
     hint?: string;
@@ -141,6 +141,7 @@ export type TFormField = {
 export type TSubmit64FormApi = {
     getMode: () => TSubmit64FormMode;
     getSectionByName: (sectionName: string) => TSubmit64SectionApi | undefined;
+    getSectionByIndex: (sectionIndex: number) => TSubmit64SectionApi | undefined;
     getSections: () => Map<string, TSubmit64SectionApi>;
     getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
     getFields: () => Map<string, TSubmit64FieldApi>;
