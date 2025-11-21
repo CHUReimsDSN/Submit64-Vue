@@ -62,7 +62,7 @@ async function setupMetadatasAndForm() {
     propsComponent.formSettings,
     propsComponent.formStyle,
     propsComponent.context,
-    formApi.value,
+    formApi,
     propsComponent.eventManager
   );
   if (propsComponent.resourceId) {
@@ -310,7 +310,12 @@ const privateFormApi: TSubmit64FormPrivateApi = {
   registerFieldWrapperRef,
 };
 
-const formExpose: TSubmit64FormApi = {
+const formReactive = new Proxy({}, {
+  get(_, prop: keyof TForm) {
+    return form.value?.[prop];
+  },
+});
+const formApi: TSubmit64FormApi = {
   getMode,
   getSectionByName,
   getSections,
@@ -328,15 +333,9 @@ const formExpose: TSubmit64FormApi = {
   setContext,
   setCssClass,
   setReadonlyState,
-  form: form as unknown as TForm,
+  form: formReactive as unknown as TForm
 };
-const formApi = computed<TSubmit64FormApi>(() => {
-  return {
-    ...formExpose,
-    form: form.value!,
-  };
-});
-defineExpose<TSubmit64FormApi>(formExpose);
+defineExpose<TSubmit64FormApi>(formApi);
 
 // watchs
 watch(
