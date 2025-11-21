@@ -114,7 +114,7 @@ async function submitForm(): Promise<void> {
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
     resetForm();
   }
-  callAllEvents(form.value?.events?.onSubmit);
+  callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = false;
 }
 function getOverridedComponents() {
@@ -175,7 +175,7 @@ function validateForm() {
       return;
     }
   });
-  callAllEvents(form.value?.events?.onValidated);
+  callAllEvents(form.value?.events.onValidated);
   return formValid;
 }
 function isFormValid() {
@@ -192,13 +192,13 @@ function resetForm() {
   fieldWrapperRefs.forEach((fieldRef) => {
     fieldRef.reset();
   });
-  callAllEvents(form.value?.events?.onReset);
+  callAllEvents(form.value?.events.onReset);
 }
 function clearForm() {
   fieldWrapperRefs.forEach((fieldRef) => {
     fieldRef.clear();
   });
-  callAllEvents(form.value?.events?.onClear);
+  callAllEvents(form.value?.events.onClear);
 }
 function resetValidation() {
   fieldWrapperRefs.forEach((fieldRef) => {
@@ -351,6 +351,7 @@ watch(
   () => setupSectionsIsDone.value && setupFieldsIsDone.value,
   (newValue) => {
     if (newValue && !setupIsDone.value) {
+      callAllEvents(form.value?.events.onReady)
       setupIsDone.value = true;
     }
   }
@@ -358,13 +359,13 @@ watch(
 watch(
   () => (form.value?.events.onIsValid ? isFormValid() : null),
   () => {
-    callAllEvents(form.value?.events?.onIsValid);
+    callAllEvents(form.value?.events.onIsValid);
   }
 );
 watch(
   () => (form.value?.events.onUpdate ? getValuesFormDeserialized() : null),
   () => {
-    callAllEvents(form.value?.events?.onUpdate);
+    callAllEvents(form.value?.events.onUpdate);
   }
 );
 
