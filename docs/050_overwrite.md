@@ -147,15 +147,15 @@ import { Submit64Form } from "submit64-vue";
 <template>
   <Submit64Form>
     <template v-slot:sections="propsSection">
-      <div :class="propsSection.section.cssClass">
+      <div :class="propsSection.sectionApi.section.cssClass">
         <div class="flex row items-center">
           <div class="text-body1 text-weight-medium">
-            My custom section -> {{ propsSection.section.label }}
+            My custom section -> {{ propsSection.sectionApi.section.label }}
           </div>
         </div>
 
         <div class="flex column items-start">
-          <component :is="propsSection.slots?.default" /> <!-- Render all fields -->
+          <component :is="propsSection.sectionApi.slots?.default" /> <!-- Render all fields -->
         </div>
         
       </div>
@@ -179,16 +179,16 @@ import MyCustomSection from './MyCustomSection.vue'
 ```vue
 <script setup lang="ts">
 // MyCustomSecton.vue
-import type { TSubmit64SectionFormProps } from 'submit64-vue';
+import type { TSubmit64SectionProps } from 'submit64-vue';
 
-const propsComponent = defineProps<TSubmit64SectionFormProps>()
+const propsComponent = defineProps<TSubmit64SectionProps>()
 </script>
 
 <template>
-  <div :class="propsComponent.section.cssClass">
+  <div :class="propsComponent.sectionApi.section.cssClass">
     <div class="flex row items-center">
       <div class="text-body1 text-weight-medium">
-        My custom section -> {{ propsComponent.section.label }}
+        My custom section -> {{ propsComponent.sectionApi.section.label }}
       </div>
     </div>
 
@@ -203,14 +203,9 @@ const propsComponent = defineProps<TSubmit64SectionFormProps>()
 
 Props disponibles :  
 ```typescript
-type TSubmit64SectionFormProps = {
-    section: TFormSection;
-};
-type TFormSection = {
-    fields: TFormFieldDef[];
-    label?: string;
-    icon?: string;
-    cssClass?: string;
+type TSubmit64SectionProps = {
+  formApi: TSubmit64FormApi;
+  sectionApi: TSubmit64SectionApi;
 };
 ```
 
@@ -244,19 +239,19 @@ import { Submit64Form } from "submit64-vue";
           <q-btn
             label="Save"
             :loading="propsAction.isLoadingSubmit"
-            @click="propsAction.submit"
+            @click="propsAction.formApi.submit"
           />
           <q-btn
             v-if="propsAction.reset"
             :loading="propsAction.isLoadingSubmit"
             label="Reset"
-            @click="propsAction.reset"
+            @click="propsAction.formApi.reset"
           />
           <q-btn
             v-if="propsAction.clear"
             :loading="propsAction.isLoadingSubmit"
             label="Clear"
-            @click="propsAction.clear"
+            @click="propsAction.formApi.clear"
           />
         </div>
       </div>
@@ -291,7 +286,7 @@ const propsComponent = defineProps<TSubmit64ActionFormProps>();
       :loading="propsComponent.isLoadingSubmit"
       color="amber"
       label="Submit but its custom"
-      @click="propsComponent.submit"
+      @click="propsComponent.formApi.submit"
     />
   </div>
 </template>
@@ -300,25 +295,8 @@ const propsComponent = defineProps<TSubmit64ActionFormProps>();
 Props disponibles :  
 ```typescript
 type TSubmit64ActionFormProps = {
-  /*
-  * Déduis si le formulaire est en procéssus de soummission. Cela prend en compte l'interopérabilité.
-  */
   isLoadingSubmit: boolean;
-
-  /*
-  * Réinitialise tous les champs à leurs valeurs d’origine
-  */
-  reset?: () => void;
-
-  /*
-  * Efface tout les champs
-  */
-  clear?: () => void;
-
-  /*
-  * Soumet le formulaire
-  */
-  submit: () => Promise<void> | void;
+  formApi: TSubmit64FormApi;
 };
 ```
 
@@ -380,7 +358,7 @@ const propsComponent = defineProps<TSubmit64OrphanErrorFormProps>();
 <template>
  <div class="flex column">
     <div
-      v-for="(errorList, errorKey) in propsComponent.orphelanErrors"
+      v-for="(errorList, errorKey) in propsComponent.orphanErrors"
       :key="errorKey"
       class="q-field--error q-field__bottom text-negative"
     >
@@ -393,9 +371,7 @@ const propsComponent = defineProps<TSubmit64OrphanErrorFormProps>();
 Props disponibles :  
 ```typescript
 type TSubmit64OrphanErrorFormProps = {
-  /*
-  * Les erreurs orphelines
-  */
+  formApi: TSubmit64FormApi;
   orphanErrors: Record<string, string[]>;
 };
 ```
@@ -445,9 +421,9 @@ import AssociationDisplay from './AssociationDisplay.vue'
 ```vue
 <script setup lang="ts">
 // AssociationDisplay.vue
-import type { TSubmit64AssociationDisplayPropsSlot } from "../models";
+import type { TSubmit64AssociationDisplayProps } from "../models";
 
-const propsComponent = defineProps<TSubmit64AssociationDisplayPropsSlot>();
+const propsComponent = defineProps<TSubmit64AssociationDisplayProps>();
 </script>
 
 <template>
@@ -461,12 +437,9 @@ const propsComponent = defineProps<TSubmit64AssociationDisplayPropsSlot>();
 
 Props disponibles :  
 ```typescript
-type TSubmit64AssociationDisplayPropsSlot = {
-  index: number;
-  label: string;
-  selected: boolean;
-  focused: boolean;
-  opt: TSubmit64AssociationRowEntry;
+type TSubmit64AssociationDisplayProps = {
+  associationName: string;
+  entry: TSubmit64AssociationRowEntry;
   itemProps: QItemProps;
 };
 ```
@@ -511,8 +484,8 @@ import { Submit64Form } from "submit64-vue";
 Props disponibles :  
 ```typescript
 type TSubmit64BeforeAfterSectionProps = {
-  section: TFormSection;
   formApi: TSubmit64FormApi;
+  sectionApi: TSubmit64SectionApi;
 }
 ```
 
@@ -552,9 +525,9 @@ import { Submit64Form } from "submit64-vue";
 Props disponibles :  
 ```typescript
 type TSubmit64BeforeAfterFieldProps = {
-  field: TFormField;
   formApi: TSubmit64FormApi;
-}
+  fieldApi: TSubmit64FieldApi;
+};
 ```
 
 <br /><br /> 

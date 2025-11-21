@@ -310,17 +310,14 @@ export type TSubmit64OrphanErrorFormProps = {
 export type TSubmit64ActionFormProps = {
   isLoadingSubmit: boolean;
   formApi: TSubmit64FormApi;
-  submit: () => Promise<void> | void;
-  reset?: (() => void) | undefined;
-  clear?: (() => void) | undefined;
 };
 export type TSubmit64BeforeAfterSectionProps = {
   formApi: TSubmit64FormApi;
   sectionApi: TSubmit64SectionApi;
 };
 export type TSubmit64BeforeAfterFieldProps = {
-  field: TFormField;
   formApi: TSubmit64FormApi;
+  fieldApi: TSubmit64FieldApi;
 };
 
 // backend request

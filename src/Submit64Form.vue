@@ -418,9 +418,6 @@ onMounted(async () => {
     <component
       :is="form.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
-      :submit="submit"
-      :clear="form.clearable ? clear : undefined"
-      :reset="form.resetable ? reset : undefined"
       :formApi="formApi"
     />
   </div>

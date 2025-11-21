@@ -294,8 +294,8 @@ onMounted(() => {
     <Component
       v-if="propsComponent.field.beforeComponent"
       :is="propsComponent.field.beforeComponent"
-      :field="propsComponent.field"
       :formApi="propsComponent.formApi"
+      :fieldApi="api"
     />
     <Component
       :is="propsComponent.field.mainComponent"
@@ -314,8 +314,8 @@ onMounted(() => {
     <Component
       v-if="propsComponent.field.afterComponent"
       :is="propsComponent.field.afterComponent"
-      :field="propsComponent.field"
       :formApi="propsComponent.formApi"
+      :fieldApi="api"
     />
     <div
       v-if="backendErrors.length > 0"
