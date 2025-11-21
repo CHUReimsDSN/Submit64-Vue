@@ -166,7 +166,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-show="propsComponent.section.hidden" class="flex column">
+  <div v-show="propsComponent.section.hidden !== true" class="flex column">
     <Component
       v-if="propsComponent.section.beforeComponent"
       :is="propsComponent.section.beforeComponent"

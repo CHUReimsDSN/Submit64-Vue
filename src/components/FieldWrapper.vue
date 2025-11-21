@@ -289,7 +289,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-show="propsComponent.field.hidden">
+  <div v-show="propsComponent.field.hidden !== true">
     <Component
       v-if="propsComponent.field.beforeComponent"
       :is="propsComponent.field.beforeComponent"

@@ -70,9 +70,9 @@ export class FormFactory {
             },
             formStyle: Submit64.getGlobalFormStyle(),
             events: {},
-            actionComponent: Submit64.getGlobalActionComponent(),
-            orphanErrorsComponent: Submit64.getGlobalOrphanErrorComponent(),
-            wrapperResetComponent: Submit64.getGlobalWrapperResetComponent(),
+            actionComponent: markRaw(Submit64.getGlobalActionComponent()),
+            orphanErrorsComponent: markRaw(Submit64.getGlobalOrphanErrorComponent()),
+            wrapperResetComponent: markRaw(Submit64.getGlobalWrapperResetComponent()),
             dynamicComponentRecord: {},
         };
     }
