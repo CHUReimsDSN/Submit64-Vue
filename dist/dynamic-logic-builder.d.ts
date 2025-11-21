@@ -71,8 +71,9 @@ declare class BuilderOperator {
 declare class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
     type: K;
     data: TWhenArgs[K];
-    actions: TThenCustomCallback[];
     formApi: TSubmit64FormApi;
+    actions: TThenCustomCallback[];
+    cyclicActionCallSet: Set<K>;
     constructor(type: K, data: TWhenArgs[K], formApi: TSubmit64FormApi);
     getTarget(): TFormEventTarget;
     getActionCallback(): () => void;

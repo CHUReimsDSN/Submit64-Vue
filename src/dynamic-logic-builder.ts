@@ -129,8 +129,9 @@ class BuilderOperator {
 class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
   type: K;
   data: TWhenArgs[K];
-  actions: TThenCustomCallback[] = [];
   formApi: TSubmit64FormApi;
+  actions: TThenCustomCallback[] = [];
+  cyclicActionCallSet: Set<K> = new Set()
 
   constructor(type: K, data: TWhenArgs[K], formApi: TSubmit64FormApi) {
     this.type = type;
@@ -277,9 +278,11 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
   }
   getActionCallback() {
     return () => {
+      this.cyclicActionCallSet.add(this.type)
       this.actions.forEach((callback) => {
         callback(this.formApi);
       });
+      this.cyclicActionCallSet.clear()
     };
   }
 }

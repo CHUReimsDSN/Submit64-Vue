@@ -67,8 +67,9 @@ class BuilderOperator {
 class FormEvent {
     type;
     data;
-    actions = [];
     formApi;
+    actions = [];
+    cyclicActionCallSet = new Set();
     constructor(type, data, formApi) {
         this.type = type;
         this.data = data;
@@ -209,9 +210,11 @@ class FormEvent {
     }
     getActionCallback() {
         return () => {
+            this.cyclicActionCallSet.add(this.type);
             this.actions.forEach((callback) => {
                 callback(this.formApi);
             });
+            this.cyclicActionCallSet.clear();
         };
     }
 }
