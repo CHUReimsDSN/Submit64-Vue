@@ -156,6 +156,7 @@ export type TSubmit64FormApi = {
     setContext: (context: TContext) => void;
     setCssClass: (cssClass: string) => void;
     setReadonlyState: (state: boolean) => void;
+    isReady: () => boolean;
     form: TForm;
 };
 export type TSubmit64FormPrivateApi = {

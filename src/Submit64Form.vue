@@ -273,6 +273,9 @@ function setCssClass(cssClass: string) {
 function setReadonlyState(state: boolean) {
   if (form.value) form.value.readonly = state;
 }
+function isReady() {
+  return setupIsDone.value
+}
 
 // private api
 function getFormRef() {
@@ -342,6 +345,7 @@ const formApi: TSubmit64FormApi = {
   setContext,
   setCssClass,
   setReadonlyState,
+  isReady,
   form: formReactive as unknown as TForm,
 };
 defineExpose<TSubmit64FormApi>(formApi);
