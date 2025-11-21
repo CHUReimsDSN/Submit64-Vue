@@ -62,7 +62,7 @@ export class FormFactory {
       ...formSettings,
       ...Submit64.getGlobalFormSetting(),
       backendDateFormat: formMetadataAndData.form.backend_date_format,
-      backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format
+      backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
     };
     this.formStyle = {
       ...formStyle,
@@ -87,6 +87,24 @@ export class FormFactory {
     this.registerEventCallback = eventManager ?? (() => {});
   }
 
+  static getEmptyFormBeforeInit(): TForm {
+    return {
+      resourceName: "",
+      sections: [],
+      formSettings: {
+        ...Submit64.getGlobalFormSetting(),
+        backendDateFormat: "YYYY/MM/DD",
+        backendDatetimeFormat: "YYYY/MM/DD HH:mm",
+      },
+      formStyle: Submit64.getGlobalFormStyle(),
+      events: {},
+      actionComponent: Submit64.getGlobalActionComponent(),
+      orphanErrorsComponent: Submit64.getGlobalOrphanErrorComponent(),
+      wrapperResetComponent: Submit64.getGlobalWrapperResetComponent(),
+      dynamicComponentRecord: {},
+    };
+  }
+
   static getForm(
     resourceName: string,
     resourceId: TForm["resourceId"],
@@ -97,7 +115,7 @@ export class FormFactory {
     context: TContext | undefined,
     formApi: TSubmit64FormApi,
     eventManager: ((builder: DynamicLogicBuilder) => void) | undefined
-  ) {
+  ): TForm {
     const instance = new FormFactory(
       resourceName,
       resourceId,
@@ -134,7 +152,9 @@ export class FormFactory {
               `field-${columnMetadata.field_name}-after`
             ];
           const componentOptions = {
-            associationDisplayComponent: markRaw(this.associationDisplayComponent),
+            associationDisplayComponent: markRaw(
+              this.associationDisplayComponent
+            ),
             regularFieldType: FormFactory.getRegularFieldTypeByFieldType(
               columnMetadata.field_type
             ),
@@ -157,9 +177,13 @@ export class FormFactory {
             rules: columnMetadata.rules,
             clearable: this.formMetadataAndData.form.clearable ?? undefined,
             hidden: false,
-            beforeComponent: beforeComponent ? markRaw(beforeComponent) : undefined,
+            beforeComponent: beforeComponent
+              ? markRaw(beforeComponent)
+              : undefined,
             mainComponent: markRaw(mainComponent),
-            afterComponent: afterComponent ? markRaw(afterComponent) : undefined,
+            afterComponent: afterComponent
+              ? markRaw(afterComponent)
+              : undefined,
             events: events.fields[columnMetadata.field_name] ?? {},
             componentOptions,
           };
@@ -185,8 +209,11 @@ export class FormFactory {
             sectionMetadata.readonly ??
             undefined,
           events:
-            events.sections[sectionMetadata.name ?? sectionIndex.toString()] ?? {},
-          beforeComponent: beforeComponent ? markRaw(beforeComponent) : undefined,
+            events.sections[sectionMetadata.name ?? sectionIndex.toString()] ??
+            {},
+          beforeComponent: beforeComponent
+            ? markRaw(beforeComponent)
+            : undefined,
           mainComponent: markRaw(mainComponent),
           afterComponent: afterComponent ? markRaw(afterComponent) : undefined,
           fields,

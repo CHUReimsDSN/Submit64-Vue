@@ -40,7 +40,7 @@ const fieldWrapperRefs: Map<string, TSubmit64FieldApi> = new Map();
 const sectionsWrapperRefs: Map<string, TSubmit64SectionApi> = new Map();
 
 // refs
-const form = ref<TForm>();
+const form = ref<TForm>(FormFactory.getEmptyFormBeforeInit());
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
 const mode = ref<TSubmit64FormMode>("create");
@@ -70,7 +70,7 @@ async function setupMetadatasAndForm() {
   setupIsDone.value = true;
   void nextTick(() => {
     callAllEvents(form.value?.events?.onReady);
-  })
+  });
 }
 async function submitForm(): Promise<void> {
   if (!validateForm()) {
@@ -334,7 +334,7 @@ const formApi: TSubmit64FormApi = {
   setContext,
   setCssClass,
   setReadonlyState,
-  form: formReactive as unknown as TForm
+  form: formReactive as unknown as TForm,
 };
 defineExpose<TSubmit64FormApi>(formApi);
 
@@ -363,7 +363,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="setupIsDone && form" class="flex column">
+  <div v-show="setupIsDone" class="flex column">
     <div :class="form.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
       <SectionWrapper
         v-for="section in form.sections"

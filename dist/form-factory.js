@@ -37,7 +37,7 @@ export class FormFactory {
             ...formSettings,
             ...Submit64.getGlobalFormSetting(),
             backendDateFormat: formMetadataAndData.form.backend_date_format,
-            backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format
+            backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
         };
         this.formStyle = {
             ...formStyle,
@@ -58,6 +58,23 @@ export class FormFactory {
             overridedComponent.associationDisplayComponent ??
                 Submit64.getGlobalAssociationDisplayComponent();
         this.registerEventCallback = eventManager ?? (() => { });
+    }
+    static getEmptyFormBeforeInit() {
+        return {
+            resourceName: "",
+            sections: [],
+            formSettings: {
+                ...Submit64.getGlobalFormSetting(),
+                backendDateFormat: "YYYY/MM/DD",
+                backendDatetimeFormat: "YYYY/MM/DD HH:mm",
+            },
+            formStyle: Submit64.getGlobalFormStyle(),
+            events: {},
+            actionComponent: Submit64.getGlobalActionComponent(),
+            orphanErrorsComponent: Submit64.getGlobalOrphanErrorComponent(),
+            wrapperResetComponent: Submit64.getGlobalWrapperResetComponent(),
+            dynamicComponentRecord: {},
+        };
     }
     static getForm(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager) {
         const instance = new FormFactory(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager);
@@ -95,9 +112,13 @@ export class FormFactory {
                     rules: columnMetadata.rules,
                     clearable: this.formMetadataAndData.form.clearable ?? undefined,
                     hidden: false,
-                    beforeComponent: beforeComponent ? markRaw(beforeComponent) : undefined,
+                    beforeComponent: beforeComponent
+                        ? markRaw(beforeComponent)
+                        : undefined,
                     mainComponent: markRaw(mainComponent),
-                    afterComponent: afterComponent ? markRaw(afterComponent) : undefined,
+                    afterComponent: afterComponent
+                        ? markRaw(afterComponent)
+                        : undefined,
                     events: events.fields[columnMetadata.field_name] ?? {},
                     componentOptions,
                 };
@@ -115,8 +136,11 @@ export class FormFactory {
                 readonly: this.formMetadataAndData.form.readonly ??
                     sectionMetadata.readonly ??
                     undefined,
-                events: events.sections[sectionMetadata.name ?? sectionIndex.toString()] ?? {},
-                beforeComponent: beforeComponent ? markRaw(beforeComponent) : undefined,
+                events: events.sections[sectionMetadata.name ?? sectionIndex.toString()] ??
+                    {},
+                beforeComponent: beforeComponent
+                    ? markRaw(beforeComponent)
+                    : undefined,
                 mainComponent: markRaw(mainComponent),
                 afterComponent: afterComponent ? markRaw(afterComponent) : undefined,
                 fields,

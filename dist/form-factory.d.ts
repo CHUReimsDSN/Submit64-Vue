@@ -17,6 +17,7 @@ export declare class FormFactory {
     formApi: TSubmit64FormApi;
     registerEventCallback: (builder: DynamicLogicBuilder) => void;
     private constructor();
+    static getEmptyFormBeforeInit(): TForm;
     static getForm(resourceName: string, resourceId: TForm["resourceId"], overridedComponent: TSubmit64OverridedComponents, formMetadataAndData: TResourceFormMetadataAndData, formSettings: Partial<TFormSettingsProps> | undefined, formStyle: Partial<TFormStyle> | undefined, context: TContext | undefined, formApi: TSubmit64FormApi, eventManager: ((builder: DynamicLogicBuilder) => void) | undefined): TForm;
     private generateFormDef;
     private static getRegularFieldTypeByFieldType;

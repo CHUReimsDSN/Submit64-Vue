@@ -166,10 +166,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="flex column"
-    :class="propsComponent.section.hidden ? 'submit64-section-hidden' : ''"
-  >
+  <div v-show="propsComponent.section.hidden" class="flex column">
     <Component
       v-if="propsComponent.section.beforeComponent"
       :is="propsComponent.section.beforeComponent"
@@ -191,13 +188,3 @@ onMounted(() => {
     />
   </div>
 </template>
-
-<style>
-.submit64-section-hidden {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  padding: 0;
-  margin: 0;
-}
-</style>

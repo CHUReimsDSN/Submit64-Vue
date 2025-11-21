@@ -289,7 +289,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="propsComponent.field.hidden ? 'submit64-field-hidden' : ''">
+  <div v-show="propsComponent.field.hidden">
     <Component
       v-if="propsComponent.field.beforeComponent"
       :is="propsComponent.field.beforeComponent"
@@ -330,13 +330,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style>
-.submit64-field-hidden {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  padding: 0;
-  margin: 0;
-}
-</style>
