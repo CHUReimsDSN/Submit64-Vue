@@ -33,6 +33,8 @@ const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
 // vars
 let formMetadataAndData: TResourceFormMetadataAndData | null = null;
 let stringyfiedValues = "";
+let sectionCount = 0;
+let fieldCount = 0;
 
 // consts
 const slots = useSlots();
@@ -41,6 +43,8 @@ const sectionsWrapperRefs: Map<string, TSubmit64SectionApi> = new Map();
 
 // refs
 const form = ref<TForm>(FormFactory.getEmptyFormBeforeInit());
+const setupSectionsIsDone = ref(false);
+const setupFieldsIsDone = ref(false);
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
 const mode = ref<TSubmit64FormMode>("create");
@@ -64,13 +68,11 @@ async function setupMetadatasAndForm() {
     formApi,
     propsComponent.eventManager
   );
+  sectionCount = form.value.sections.length;
+  fieldCount = form.value.sections.map((s) => s.fields).flat().length;
   if (propsComponent.resourceId) {
     mode.value = "edit";
   }
-  setupIsDone.value = true;
-  setTimeout(() => {
-    callAllEvents(form.value?.events?.onReady);
-  }, 1000)
 }
 async function submitForm(): Promise<void> {
   if (!validateForm()) {
@@ -294,12 +296,18 @@ function registerSectionWrapperRef(
   sectionComponent: TSubmit64SectionApi
 ) {
   sectionsWrapperRefs.set(sectionName, sectionComponent);
+  if (sectionCount === sectionsWrapperRefs.size) {
+    setupSectionsIsDone.value = true;
+  }
 }
 function registerFieldWrapperRef(
   fieldName: string,
   fieldComponent: TSubmit64FieldApi
 ) {
   fieldWrapperRefs.set(fieldName, fieldComponent);
+  if (fieldCount === fieldWrapperRefs.size) {
+    setupFieldsIsDone.value = true;
+  }
 }
 
 // api
@@ -339,6 +347,14 @@ const formApi: TSubmit64FormApi = {
 defineExpose<TSubmit64FormApi>(formApi);
 
 // watchs
+watch(
+  () => setupSectionsIsDone.value && setupFieldsIsDone.value,
+  (newValue) => {
+    if (newValue && !setupIsDone.value) {
+      setupIsDone.value = true;
+    }
+  }
+);
 watch(
   () => (form.value?.events.onIsValid ? isFormValid() : null),
   () => {
