@@ -11,7 +11,6 @@ import {
 } from "vue";
 import type {
   TForm,
-  TSubmit64FormExpose,
   TSubmit64FieldApi,
   TSubmit64FormProps,
   TResourceFormMetadataAndData,
@@ -49,13 +48,11 @@ const orphanErrors = ref<Record<string, string[]>>({});
 
 // functions
 async function setupMetadatasAndForm() {
-  console.timeEnd("mount and ready");
   formMetadataAndData = await propsComponent.getMetadataAndData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
     context: propsComponent.context,
   });
-  console.time("mount and ready 2");
   form.value = FormFactory.getForm(
     propsComponent.resourceName,
     propsComponent.resourceId,
@@ -311,7 +308,8 @@ const privateFormApi: TSubmit64FormPrivateApi = {
   registerSectionWrapperRef,
   registerFieldWrapperRef,
 };
-const formApi: TSubmit64FormApi = {
+
+const formExpose: TSubmit64FormApi = {
   getMode,
   getSectionByName,
   getSections,
@@ -330,8 +328,12 @@ const formApi: TSubmit64FormApi = {
   setCssClass,
   setReadonlyState,
   form: form as unknown as TForm
+}
+const formApi: TSubmit64FormApi = {
+  ...formExpose,
+  form: form.value!
 };
-defineExpose(formApi) as unknown as TSubmit64FormExpose;
+defineExpose<TSubmit64FormApi>(formExpose);
 
 // watchs
 watch(
@@ -349,10 +351,8 @@ watch(
 
 // lifeCycle
 onMounted(async () => {
-  console.time("mount and ready");
   ensurePropsAreOk();
   await setupMetadatasAndForm();
-  console.time("mount and ready 2");
   void nextTick(() => {
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
   });

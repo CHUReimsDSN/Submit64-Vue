@@ -341,7 +341,6 @@ export type TSubmit64GetSubmitData = {
 };
 
 // utils
-export type TSubmit64FormExpose = TSubmit64FormApi;
 export type TContext = Record<string, unknown>;
 export type TSelectOptionPagination = {
   limit: number;
