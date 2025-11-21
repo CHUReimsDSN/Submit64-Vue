@@ -103,7 +103,7 @@ async function submit(): Promise<void> {
       }
       orphanErrors.value[errorEntry[0]] = errorEntry[1];
     });
-    callAllEvents(form.value?.events.onSubmitSuccess)
+    callAllEvents(form.value?.events.onSubmitUnsuccess);
   } else {
     orphanErrors.value = {};
     if (mode.value === "create") {
@@ -113,7 +113,21 @@ async function submit(): Promise<void> {
       formMetadataAndData.resource_data = newData.resource_data;
     }
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
-    callAllEvents(form.value?.events.onSubmitUnsuccess)
+    form.value = FormFactory.getForm(
+      propsComponent.resourceName,
+      propsComponent.resourceId,
+      getOverridedComponents(),
+      {
+        form: newData.form!,
+        resource_data: newData.resource_data!
+      },
+      propsComponent.formSettings,
+      propsComponent.formStyle,
+      propsComponent.context,
+      formApi,
+      propsComponent.eventManager
+    );
+    callAllEvents(form.value?.events.onSubmitSuccess);
   }
   callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = false;
@@ -221,7 +235,7 @@ function getSectionByName(sectionName: string) {
   return sectionsWrapperRefs.get(sectionName);
 }
 function getSectionByIndex(sectionIndex: number) {
-  return [...sectionsWrapperRefs.values()].at(sectionIndex)
+  return [...sectionsWrapperRefs.values()].at(sectionIndex);
 }
 function getSections() {
   return sectionsWrapperRefs;
@@ -277,7 +291,7 @@ function setReadonlyState(state: boolean) {
   if (form.value) form.value.readonly = state;
 }
 function isReady() {
-  return setupIsDone.value
+  return setupIsDone.value;
 }
 
 // private api
@@ -359,7 +373,7 @@ watch(
   () => setupSectionsIsDone.value && setupFieldsIsDone.value,
   (newValue) => {
     if (newValue && !setupIsDone.value) {
-      callAllEvents(form.value?.events.onReady)
+      callAllEvents(form.value?.events.onReady);
       setupIsDone.value = true;
     }
   }
