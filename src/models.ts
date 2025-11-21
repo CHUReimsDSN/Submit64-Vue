@@ -1,4 +1,4 @@
-import { Ref, type Component, type ComponentPublicInstance } from "vue";
+import { Ref, type Component } from "vue";
 import type { TSubmit64Rule } from "./rules";
 import { type QItemProps, ValidationRule } from "quasar";
 import { DynamicLogicBuilder } from "./dynamic-logic-builder";
@@ -128,8 +128,8 @@ export type TFormField = {
     | "selectString"
     | "selectBelongsTo"
     | "selectHasMany"
-    | "selectBelongsToThrough"
-    | "selectHasManyThrough"
+    | "selectHasOne"
+    | 'selectHasAndBelongsToMany'
     | "checkbox"
     | "number"
     | "object"
@@ -372,6 +372,8 @@ export type TSubmit64OverridedComponents = Partial<{
 export type TFormEvent = {
   onReady?: TSubmit64Event;
   onSubmit?: TSubmit64Event;
+  onSubmitSuccess?: TSubmit64Event;
+  onSubmitUnsuccess?: TSubmit64Event;
   onUpdate?: TSubmit64Event;
   onClear?: TSubmit64Event;
   onReset?: TSubmit64Event;

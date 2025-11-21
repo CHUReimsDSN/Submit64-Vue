@@ -53,6 +53,8 @@ type TWhenArgs = {
     };
     "Form is ready": undefined;
     "Form is submited": undefined;
+    "Form submit is successful": undefined;
+    "Form submit is unsuccessful": undefined;
     "Form is updated": undefined;
     "Form is cleared": undefined;
     "Form is reseted": undefined;

@@ -103,6 +103,7 @@ async function submit(): Promise<void> {
       }
       orphanErrors.value[errorEntry[0]] = errorEntry[1];
     });
+    callAllEvents(form.value?.events.onSubmitSuccess)
   } else {
     orphanErrors.value = {};
     if (mode.value === "create") {
@@ -112,7 +113,7 @@ async function submit(): Promise<void> {
       formMetadataAndData.resource_data = newData.resource_data;
     }
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
-    reset();
+    callAllEvents(form.value?.events.onSubmitUnsuccess)
   }
   callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = false;

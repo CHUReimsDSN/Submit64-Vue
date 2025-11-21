@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCurrentInstance, onMounted, watch } from "vue";
+import { getCurrentInstance, nextTick, onMounted, watch } from "vue";
 import type {
   TSubmit64FieldApi,
   TSubmit64SectionApi,
@@ -161,7 +161,9 @@ onMounted(() => {
       proxyInstanceRef as TSubmit64SectionApi
     );
   }
-  setupFields();
+  void nextTick(() => {
+    setupFields();
+  });
 });
 </script>
 

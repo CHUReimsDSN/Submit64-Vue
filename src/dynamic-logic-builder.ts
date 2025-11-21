@@ -106,6 +106,8 @@ type TWhenArgs = {
   "Section is reseted": { sectionName: string };
   "Form is ready": undefined;
   "Form is submited": undefined;
+  "Form submit is successful": undefined;
+  "Form submit is unsuccessful": undefined;
   "Form is updated": undefined;
   "Form is cleared": undefined;
   "Form is reseted": undefined;
@@ -230,6 +232,16 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
           target: "form",
           key: "onSubmit",
         };
+      case "Form submit is successful":
+        return {
+          target: 'form',
+          key: 'onSubmitSuccess'
+        }
+        case "Form submit is unsuccessful":
+        return {
+          target: 'form',
+          key: 'onSubmitUnsuccess'
+        }
       case "Form is updated":
         return {
           target: "form",

@@ -166,6 +166,16 @@ class FormEvent {
                     target: "form",
                     key: "onSubmit",
                 };
+            case "Form submit is successful":
+                return {
+                    target: 'form',
+                    key: 'onSubmitSuccess'
+                };
+            case "Form submit is unsuccessful":
+                return {
+                    target: 'form',
+                    key: 'onSubmitUnsuccess'
+                };
             case "Form is updated":
                 return {
                     target: "form",

@@ -113,7 +113,7 @@ export type TFormSection = {
     events: Readonly<TFormSectionEvent>;
 };
 export type TFormField = {
-    type: Readonly<"string" | "text" | "date" | "datetime" | "selectString" | "selectBelongsTo" | "selectHasMany" | "selectBelongsToThrough" | "selectHasManyThrough" | "checkbox" | "number" | "object">;
+    type: Readonly<"string" | "text" | "date" | "datetime" | "selectString" | "selectBelongsTo" | "selectHasMany" | "selectHasOne" | 'selectHasAndBelongsToMany' | "checkbox" | "number" | "object">;
     metadata: Readonly<TResourceFieldMetadata>;
     label?: string;
     hint?: string;
@@ -324,6 +324,8 @@ export type TSubmit64OverridedComponents = Partial<{
 export type TFormEvent = {
     onReady?: TSubmit64Event;
     onSubmit?: TSubmit64Event;
+    onSubmitSuccess?: TSubmit64Event;
+    onSubmitUnsuccess?: TSubmit64Event;
     onUpdate?: TSubmit64Event;
     onClear?: TSubmit64Event;
     onReset?: TSubmit64Event;
