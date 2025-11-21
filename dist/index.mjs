@@ -380,7 +380,7 @@ class dt {
   }
   getActionCallback() {
     return () => {
-      this.cyclicActionCallSet.has(this.type) || (this.cyclicActionCallSet.add(this.type), this.action(this.formApi), this.cyclicActionCallSet.clear());
+      console.log(this.cyclicActionCallSet), !this.cyclicActionCallSet.has(this.type) && (this.cyclicActionCallSet.add(this.type), this.action(this.formApi), this.cyclicActionCallSet.clear());
     };
   }
 }

@@ -265,6 +265,7 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
   }
   getActionCallback() {
     return () => {
+      console.log(this.cyclicActionCallSet)
       if (this.cyclicActionCallSet.has(this.type)) {
         return;
       }
