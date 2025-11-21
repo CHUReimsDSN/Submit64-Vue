@@ -74,8 +74,8 @@ async function setupMetadatasAndForm() {
     mode.value = "edit";
   }
 }
-async function submitForm(): Promise<void> {
-  if (!validateForm()) {
+async function submit(): Promise<void> {
+  if (!validate()) {
     return;
   }
   isLoadingSubmit.value = true;
@@ -112,7 +112,7 @@ async function submitForm(): Promise<void> {
       formMetadataAndData.resource_data = newData.resource_data;
     }
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
-    resetForm();
+    reset();
   }
   callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = false;
@@ -167,7 +167,7 @@ function getValuesFormDeserialized(): Record<string, unknown> {
   });
   return resourceData;
 }
-function validateForm() {
+function validate() {
   let formValid = true;
   fieldWrapperRefs.forEach((fieldRef) => {
     if (!fieldRef.validate()) {
@@ -188,13 +188,13 @@ function isFormValid() {
   });
   return formValid;
 }
-function resetForm() {
+function reset() {
   fieldWrapperRefs.forEach((fieldRef) => {
     fieldRef.reset();
   });
   callAllEvents(form.value?.events.onReset);
 }
-function clearForm() {
+function clear() {
   fieldWrapperRefs.forEach((fieldRef) => {
     fieldRef.clear();
   });
@@ -333,12 +333,12 @@ const formApi: TSubmit64FormApi = {
   getSections,
   getFieldByName,
   getFields,
-  validateForm,
+  validate,
   isFormValid,
-  resetForm,
-  clearForm,
+  reset,
+  clear,
   resetValidation,
-  submitForm,
+  submit,
   valuesHasChanged,
   getInitialValueByFieldName,
   getAssociationDataCallback,
@@ -414,9 +414,9 @@ onMounted(async () => {
     <component
       :is="form.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
-      :submit="submitForm"
-      :clear="form.clearable ? clearForm : undefined"
-      :reset="form.resetable ? resetForm : undefined"
+      :submit="submit"
+      :clear="form.clearable ? clear : undefined"
+      :reset="form.resetable ? reset : undefined"
       :formApi="formApi"
     />
   </div>

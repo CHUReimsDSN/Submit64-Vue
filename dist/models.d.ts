@@ -144,12 +144,12 @@ export type TSubmit64FormApi = {
     getSections: () => Map<string, TSubmit64SectionApi>;
     getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
     getFields: () => Map<string, TSubmit64FieldApi>;
-    validateForm: () => boolean;
+    validate: () => boolean;
     isFormValid: () => boolean;
-    resetForm: () => void;
-    clearForm: () => void;
+    reset: () => void;
+    clear: () => void;
     resetValidation: () => void;
-    submitForm: () => Promise<void>;
+    submit: () => Promise<void>;
     valuesHasChanged: () => boolean;
     getInitialValueByFieldName: (fieldName: string) => unknown;
     getAssociationDataCallback: () => (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
