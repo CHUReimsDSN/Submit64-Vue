@@ -254,7 +254,7 @@ const api: TSubmit64FieldApi = {
   setSuffix,
   setPrefix,
   setLabel,
-  field: propsComponent.field
+  field: propsComponent.field,
 };
 defineExpose(api);
 
@@ -309,7 +309,9 @@ onMounted(() => {
       :validate="validate"
       :modelValueOnUpdate="modelValueOnUpdate"
       :registerBehaviourCallbacks="registerBehaviourCallbacks"
-    />
+    >
+      <slot></slot>
+    </Component>
     <Component
       v-if="propsComponent.field.afterComponent"
       :is="propsComponent.field.afterComponent"

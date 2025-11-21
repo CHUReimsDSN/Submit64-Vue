@@ -8,7 +8,6 @@ import {
   nextTick,
   watch,
   Ref,
-  computed,
 } from "vue";
 import type {
   TForm,
@@ -69,7 +68,9 @@ async function setupMetadatasAndForm() {
     mode.value = "edit";
   }
   setupIsDone.value = true;
-  callAllEvents(form.value?.events?.onReady);
+  void nextTick(() => {
+    callAllEvents(form.value?.events?.onReady);
+  })
 }
 async function submitForm(): Promise<void> {
   if (!validateForm()) {
@@ -310,9 +311,9 @@ const privateFormApi: TSubmit64FormPrivateApi = {
   registerFieldWrapperRef,
 };
 
-const formReactive = new Proxy({}, {
-  get(_, prop: keyof TForm) {
-    return form.value?.[prop];
+const formReactive = new Proxy({} as TForm, {
+  get(_, prop) {
+    return form.value?.[prop as keyof TForm];
   },
 });
 const formApi: TSubmit64FormApi = {
