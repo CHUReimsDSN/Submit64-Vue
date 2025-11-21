@@ -54,21 +54,11 @@ export class DynamicLogicBuilder {
         return allEventObject;
     }
 }
-class BuilderOperator {
-    formEvent;
-    constructor(formEvent) {
-        this.formEvent = formEvent;
-    }
-    then(customAction) {
-        this.formEvent.actions.push(customAction);
-        return this;
-    }
-}
 class FormEvent {
     type;
     data;
     formApi;
-    actions = [];
+    action = () => { };
     cyclicActionCallSet = new Set();
     constructor(type, data, formApi) {
         this.type = type;
@@ -210,11 +200,22 @@ class FormEvent {
     }
     getActionCallback() {
         return () => {
+            if (this.cyclicActionCallSet.has(this.type)) {
+                return;
+            }
             this.cyclicActionCallSet.add(this.type);
-            this.actions.forEach((callback) => {
-                callback(this.formApi);
-            });
+            this.action(this.formApi);
             this.cyclicActionCallSet.clear();
         };
+    }
+}
+class BuilderOperator {
+    formEvent;
+    constructor(formEvent) {
+        this.formEvent = formEvent;
+    }
+    then(customAction) {
+        this.formEvent.action = customAction;
+        return this;
     }
 }

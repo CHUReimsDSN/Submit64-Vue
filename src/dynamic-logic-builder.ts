@@ -113,25 +113,12 @@ type TWhenArgs = {
   "Form is validated": undefined;
 };
 
-class BuilderOperator {
-  private formEvent: FormEvent;
-
-  constructor(formEvent: FormEvent) {
-    this.formEvent = formEvent;
-  }
-
-  then(customAction: TThenCustomCallback): BuilderOperator {
-    this.formEvent.actions.push(customAction);
-    return this;
-  }
-}
-
 class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
   type: K;
   data: TWhenArgs[K];
   formApi: TSubmit64FormApi;
-  actions: TThenCustomCallback[] = [];
-  cyclicActionCallSet: Set<K> = new Set()
+  action: TThenCustomCallback = () => {};
+  cyclicActionCallSet: Set<K> = new Set();
 
   constructor(type: K, data: TWhenArgs[K], formApi: TSubmit64FormApi) {
     this.type = type;
@@ -278,15 +265,28 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
   }
   getActionCallback() {
     return () => {
-      this.cyclicActionCallSet.add(this.type)
-      this.actions.forEach((callback) => {
-        callback(this.formApi);
-      });
-      this.cyclicActionCallSet.clear()
+      if (this.cyclicActionCallSet.has(this.type)) {
+        return;
+      }
+      this.cyclicActionCallSet.add(this.type);
+      this.action(this.formApi);
+      this.cyclicActionCallSet.clear();
     };
   }
 }
 
+class BuilderOperator {
+  private formEvent: FormEvent;
+
+  constructor(formEvent: FormEvent) {
+    this.formEvent = formEvent;
+  }
+
+  then(customAction: TThenCustomCallback): BuilderOperator {
+    this.formEvent.action = customAction;
+    return this;
+  }
+}
 type TThenCustomCallback = (formApi: TSubmit64FormApi) => void;
 type TFormEventTarget =
   | {

@@ -63,20 +63,20 @@ type TWhenArgs = {
     "Form is valid": undefined;
     "Form is validated": undefined;
 };
-declare class BuilderOperator {
-    private formEvent;
-    constructor(formEvent: FormEvent);
-    then(customAction: TThenCustomCallback): BuilderOperator;
-}
 declare class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
     type: K;
     data: TWhenArgs[K];
     formApi: TSubmit64FormApi;
-    actions: TThenCustomCallback[];
+    action: TThenCustomCallback;
     cyclicActionCallSet: Set<K>;
     constructor(type: K, data: TWhenArgs[K], formApi: TSubmit64FormApi);
     getTarget(): TFormEventTarget;
     getActionCallback(): () => void;
+}
+declare class BuilderOperator {
+    private formEvent;
+    constructor(formEvent: FormEvent);
+    then(customAction: TThenCustomCallback): BuilderOperator;
 }
 type TThenCustomCallback = (formApi: TSubmit64FormApi) => void;
 type TFormEventTarget = {

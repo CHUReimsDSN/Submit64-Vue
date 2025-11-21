@@ -211,8 +211,8 @@ class ue {
     this.formApi = e;
   }
   when(e, t) {
-    const r = e, n = t, l = new dt(r, n, this.formApi);
-    return this.events.push(l), new ct(l);
+    const r = e, n = t, l = new ct(r, n, this.formApi);
+    return this.events.push(l), new dt(l);
   }
   static create(e) {
     return new ue(e);
@@ -242,20 +242,12 @@ class ue {
   }
 }
 class ct {
-  constructor(e) {
-    S(this, "formEvent");
-    this.formEvent = e;
-  }
-  then(e) {
-    return this.formEvent.actions.push(e), this;
-  }
-}
-class dt {
   constructor(e, t, r) {
     S(this, "type");
     S(this, "data");
     S(this, "formApi");
-    S(this, "actions", []);
+    S(this, "action", () => {
+    });
     S(this, "cyclicActionCallSet", /* @__PURE__ */ new Set());
     this.type = e, this.data = t, this.formApi = r;
   }
@@ -388,10 +380,17 @@ class dt {
   }
   getActionCallback() {
     return () => {
-      this.cyclicActionCallSet.add(this.type), this.actions.forEach((e) => {
-        e(this.formApi);
-      }), this.cyclicActionCallSet.clear();
+      this.cyclicActionCallSet.has(this.type) || (this.cyclicActionCallSet.add(this.type), this.action(this.formApi), this.cyclicActionCallSet.clear());
     };
+  }
+}
+class dt {
+  constructor(e) {
+    S(this, "formEvent");
+    this.formEvent = e;
+  }
+  then(e) {
+    return this.formEvent.action = e, this;
   }
 }
 const ft = { class: "row items-center justify-end" }, mt = /* @__PURE__ */ O({
