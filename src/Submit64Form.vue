@@ -8,6 +8,7 @@ import {
   nextTick,
   watch,
   Ref,
+  computed,
 } from "vue";
 import type {
   TForm,
@@ -61,7 +62,7 @@ async function setupMetadatasAndForm() {
     propsComponent.formSettings,
     propsComponent.formStyle,
     propsComponent.context,
-    formApi,
+    formApi.value,
     propsComponent.eventManager
   );
   if (propsComponent.resourceId) {
@@ -217,13 +218,13 @@ function getSectionByName(sectionName: string) {
   return sectionsWrapperRefs.get(sectionName);
 }
 function getSections() {
-  return sectionsWrapperRefs
+  return sectionsWrapperRefs;
 }
 function getFieldByName(fieldName: string) {
   return fieldWrapperRefs.get(fieldName);
 }
 function getFields() {
-  return fieldWrapperRefs
+  return fieldWrapperRefs;
 }
 function getAssociationDataCallback() {
   return (
@@ -327,12 +328,14 @@ const formExpose: TSubmit64FormApi = {
   setContext,
   setCssClass,
   setReadonlyState,
-  form: form as unknown as TForm
-}
-const formApi: TSubmit64FormApi = {
-  ...formExpose,
-  form: form.value!
+  form: form as unknown as TForm,
 };
+const formApi = computed<TSubmit64FormApi>(() => {
+  return {
+    ...formExpose,
+    form: form.value!,
+  };
+});
 defineExpose<TSubmit64FormApi>(formExpose);
 
 // watchs
