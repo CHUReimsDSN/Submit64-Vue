@@ -68,9 +68,9 @@ async function setupMetadatasAndForm() {
     mode.value = "edit";
   }
   setupIsDone.value = true;
-  void nextTick(() => {
+  setTimeout(() => {
     callAllEvents(form.value?.events?.onReady);
-  });
+  }, 1000)
 }
 async function submitForm(): Promise<void> {
   if (!validateForm()) {

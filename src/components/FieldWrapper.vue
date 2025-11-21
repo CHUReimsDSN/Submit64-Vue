@@ -254,6 +254,7 @@ const api: TSubmit64FieldApi = {
   setSuffix,
   setPrefix,
   setLabel,
+  setValue: modelValueOnUpdate,
   field: propsComponent.field,
 };
 defineExpose(api);

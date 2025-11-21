@@ -197,6 +197,7 @@ export type TSubmit64FieldApi = {
     setSuffix: (suffix: string) => void;
     setPrefix: (prefix: string) => void;
     setLabel: (label: string) => void;
+    setValue: (value: unknown) => void;
     field: TFormField;
 };
 export type TSubmit64FormProps = {
