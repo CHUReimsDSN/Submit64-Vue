@@ -309,9 +309,7 @@ onMounted(() => {
       :validate="validate"
       :modelValueOnUpdate="modelValueOnUpdate"
       :registerBehaviourCallbacks="registerBehaviourCallbacks"
-    >
-      <slot></slot>
-    </Component>
+    />
     <Component
       v-if="propsComponent.field.afterComponent"
       :is="propsComponent.field.afterComponent"

@@ -25,7 +25,7 @@ const sectionApi: TSubmit64SectionApi = {
   setCssClass,
   setIcon,
   setLabel,
-  section: propsComponent.section
+  section: propsComponent.section,
 };
 
 // functions
@@ -180,7 +180,9 @@ onMounted(() => {
       :is="propsComponent.section.mainComponent"
       :sectionApi="sectionApi"
       :formApi="propsComponent.formApi"
-    />
+    >
+      <slot></slot>
+    </Component>
     <Component
       v-if="propsComponent.section.afterComponent"
       :is="propsComponent.section.afterComponent"
