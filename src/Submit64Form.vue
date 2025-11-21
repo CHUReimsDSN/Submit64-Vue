@@ -329,7 +329,7 @@ const formApi: TSubmit64FormApi = {
   setContext,
   setCssClass,
   setReadonlyState,
-  form: form.value!
+  form: form as unknown as TForm
 };
 defineExpose(formApi) as unknown as TSubmit64FormExpose;
 

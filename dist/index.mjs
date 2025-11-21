@@ -2272,7 +2272,7 @@ const Xt = {
       setContext: v,
       setCssClass: J,
       setReadonlyState: be,
-      form: l.value
+      form: l
     };
     return e(Q), M(
       () => {
