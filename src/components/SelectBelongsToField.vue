@@ -24,7 +24,7 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>(
   getDefaultPagination()
 );
 const fieldRef = ref<InstanceType<typeof QSelect>>();
-const lastLabelFilter = ref("");
+const lastLabelFilter = ref("__init");
 
 // functions
 function getDefaultPagination() {
@@ -116,7 +116,7 @@ function onVirtualScroll(scrollArgs: {
     selectOptionsScrollPagination.value.isLoading !== true &&
     selectOptionsScrollPagination.value.nextPage <
       selectOptionsScrollPagination.value.lastPage &&
-    scrollArgs.to === lastIndex
+    scrollArgs.to === lastIndex && lastIndex > selectOptionsScrollPagination.value.limit - 1
   ) {
     const form = propsComponent.formApi.form;
     const callback = propsComponent.formApi.getAssociationDataCallback();
