@@ -386,13 +386,13 @@ defineExpose<TSubmit64FormApi>(formApi);
 
 // computeds
 const isValidComputed = computed(() => {
+  console.log('is valids computed')
   return isValid();
 });
 const isInvalidComputed = computed(() => {
   return isInvalid();
 });
 const isUpdatedComputed = computed(() => {
-  console.log('computed')
   return getValuesFormSerialized();
 });
 
