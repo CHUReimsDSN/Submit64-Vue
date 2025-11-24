@@ -816,6 +816,8 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       };
     }
     function y(p, V) {
+      if (p === m.value)
+        return;
       const _ = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
       const q = e.formApi.form;
@@ -953,6 +955,8 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       };
     }
     function y(p, V) {
+      if (p === m.value)
+        return;
       const _ = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
       const q = e.formApi.form;

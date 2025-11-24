@@ -37,7 +37,10 @@ function getDefaultPagination() {
   return pagination;
 }
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
-const callback = propsComponent.formApi.getAssociationDataCallback();
+  if (val === lastLabelFilter.value) {
+    return;
+  }
+  const callback = propsComponent.formApi.getAssociationDataCallback();
   selectOptionsScrollPagination.value = getDefaultPagination();
   lastLabelFilter.value = val;
   const form = propsComponent.formApi.form;
