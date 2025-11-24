@@ -347,7 +347,9 @@ export type TSubmit64GetSubmitData = {
 export type TContext = Record<string, unknown>;
 export type TSelectOptionPagination = {
   limit: number;
-  offset: number;
+  nextPage: number;
+  lastPage: number;
+  isLoading: boolean;
 };
 export type TPropsWithClass = {
   class?: string | undefined;
