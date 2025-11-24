@@ -5,7 +5,6 @@ import type {
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
 } from "../models";
-import { getSubmit64AssociationDataDefaultLimit } from "../utils";
 import { nextTick, onMounted, ref } from "vue";
 
 // props
@@ -14,47 +13,62 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // consts
 const displayComponent =
   propsComponent.field.componentOptions.associationDisplayComponent;
-const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
-const formSetting = formFactory.formSettings;
-const styleConfig = formFactory.formStyle;
+const form = propsComponent.formApi.form;
+const formSetting = form.formSettings;
+const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs
 const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
-const selectOptionsScrollPagination = ref<TSelectOptionPagination>({
-  limit: getSubmit64AssociationDataDefaultLimit(),
-  offset: 0,
-});
+const selectOptionsScrollPagination = ref<TSelectOptionPagination>(
+  getDefaultPagination()
+);
 const fieldRef = ref<InstanceType<typeof QSelect>>();
+const lastLabelFilter = ref("__init");
 
 // functions
+function getDefaultPagination() {
+  const pagination: TSelectOptionPagination = {
+    limit: 30,
+    nextPage: 2,
+    lastPage: 2,
+    isLoading: false,
+  };
+  return pagination;
+}
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
-  const callback =
-    propsComponent.functionsProvider.getAssociationDataCallback();
-  if (val === "") {
-    selectOptionsScrollPagination.value = {
-      limit: getSubmit64AssociationDataDefaultLimit(),
-      offset: 0,
-    };
+  if (val === lastLabelFilter.value) {
+    update(() => {});
   }
-  update(() => {
-    const form = propsComponent.functionsProvider.getForm();
-    callback({
-      resourceName: form.resourceName,
-      resourceId: form.resourceId,
-      associationName: propsComponent.field.metadata.field_association_name!,
-      limit: selectOptionsScrollPagination.value.limit,
-      offset: selectOptionsScrollPagination.value.offset,
-      labelFilter: val,
-      context: form.context,
-    })
-      .then((response) => {
+  const callback = propsComponent.formApi.getAssociationDataCallback();
+  selectOptionsScrollPagination.value = getDefaultPagination();
+  lastLabelFilter.value = val;
+  const form = propsComponent.formApi.form;
+  selectOptionsScrollPagination.value.isLoading = true;
+  callback({
+    resourceName: form.resourceName,
+    resourceId: form.resourceId,
+    associationName: propsComponent.field.metadata.field_association_name!,
+    limit: selectOptionsScrollPagination.value.limit,
+    offset:
+      (selectOptionsScrollPagination.value.nextPage - 1) *
+      selectOptionsScrollPagination.value.limit,
+    labelFilter: val,
+    context: form.context,
+  })
+    .then((response) => {
+      update(() => {
         selectOptionsFiltered.value = response.rows;
-      })
-      .catch(() => {
-        selectOptionsFiltered.value = [];
+        selectOptionsScrollPagination.value.lastPage = Math.ceil(
+          response.row_count / selectOptionsScrollPagination.value.limit
+        );
+        selectOptionsScrollPagination.value.isLoading = false;
       });
-  });
+    })
+    .catch(() => {
+      selectOptionsFiltered.value = [];
+      selectOptionsScrollPagination.value = getDefaultPagination();
+    });
 }
 function setupDefaultSelectValue() {
   void nextTick(() => {
@@ -80,6 +94,12 @@ function validate() {
   }
   return fieldRef.value.validate() as boolean;
 }
+function isValid() {
+  if (!fieldRef.value) {
+    return false;
+  }
+  return fieldRef.value.hasError;
+}
 function resetValidation() {
   if (!fieldRef.value) {
     return;
@@ -90,11 +110,49 @@ function clear() {
   propsComponent.clear();
   selectOptionsFiltered.value = [];
 }
+function onVirtualScroll(scrollArgs: {
+  to: number;
+  ref: InstanceType<typeof QSelect>;
+}) {
+  const lastIndex = selectOptionsFiltered.value.length - 1;
+  if (
+    selectOptionsScrollPagination.value.isLoading !== true &&
+    selectOptionsScrollPagination.value.nextPage <
+      selectOptionsScrollPagination.value.lastPage &&
+    scrollArgs.to === lastIndex &&
+    lastIndex > selectOptionsScrollPagination.value.limit - 1
+  ) {
+    const form = propsComponent.formApi.form;
+    const callback = propsComponent.formApi.getAssociationDataCallback();
+    selectOptionsScrollPagination.value.isLoading = true;
+    callback({
+      resourceName: form.resourceName,
+      resourceId: form.resourceId,
+      associationName: propsComponent.field.metadata.field_association_name!,
+      limit: selectOptionsScrollPagination.value.limit,
+      offset:
+        (selectOptionsScrollPagination.value.nextPage - 1) *
+        selectOptionsScrollPagination.value.limit,
+      labelFilter: lastLabelFilter.value,
+      context: form.context,
+    }).then((response) => {
+      selectOptionsFiltered.value = selectOptionsFiltered.value.concat(
+        response.rows
+      );
+      selectOptionsScrollPagination.value.lastPage = Math.ceil(
+        response.row_count / selectOptionsScrollPagination.value.limit
+      );
+      selectOptionsScrollPagination.value.nextPage++;
+      selectOptionsScrollPagination.value.isLoading = false;
+      scrollArgs.ref.refresh();
+    });
+  }
+}
 
 // lifeCycle
 onMounted(() => {
   setupDefaultSelectValue();
-  propsComponent.registerBehaviourCallbacks(validate, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
 });
 </script>
 
@@ -105,7 +163,6 @@ onMounted(() => {
     v-on:update:model-value="
       (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
-    :type="propsComponent.field.componentOptions.regularFieldType"
     :label="propsComponent.field.label"
     :hint="propsComponent.field.hint"
     :outlined="styleConfig.fieldOutlined"
@@ -133,7 +190,13 @@ onMounted(() => {
     :use-chips="true"
     @clear="clear"
     @filter="onFilter"
+    @virtual-scroll="onVirtualScroll"
   >
+    <template v-slot:no-option>
+      <div>
+        {{ propsComponent.formApi.form.formSettings.associationEmptyMessage }}
+      </div>
+    </template>
     <template v-slot:option="scope">
       <component
         :is="displayComponent"

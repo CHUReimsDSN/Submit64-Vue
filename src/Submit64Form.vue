@@ -6,49 +6,45 @@ import {
   useSlots,
   defineComponent,
   nextTick,
+  watch,
+  Ref,
 } from "vue";
 import type {
-  TFormDef,
-  TSubmit64FormExpose,
-  TSubmit64FieldWrapper,
+  TForm,
+  TSubmit64FieldApi,
   TSubmit64FormProps,
   TResourceFormMetadataAndData,
   TSubmit64AssociationData,
   TSubmit64FormMode,
-  TSubmit64FunctionsProvider,
+  TSubmit64FormApi,
   TSubmit64OverridedComponents,
+  TSubmit64SectionApi,
+  TContext,
+  TSubmit64FormPrivateApi,
 } from "./models";
 import { FormFactory } from "./form-factory";
+import { callAllEvents } from "./utils";
 import FieldWrapper from "./components/FieldWrapper.vue";
+import SectionWrapper from "./components/SectionWrapper.vue";
 
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
 
 // vars
 let formMetadataAndData: TResourceFormMetadataAndData | null = null;
-let stringyfiedValues = ''
+let stringyfiedValues = "";
+let sectionCount = 0;
+let fieldCount = 0;
 
 // consts
-const formFactoryInstance = Object.freeze(
-  new FormFactory(
-    propsComponent.resourceName,
-    getOverridedComponents(),
-    propsComponent.formSettings,
-    propsComponent.formStyle
-  )
-);
-const functionsProvider: TSubmit64FunctionsProvider = {
-  registerRef,
-  getDataByFieldName,
-  getFieldDataByFieldName,
-  getFormFactoryInstance,
-  getForm,
-  getAssociationDataCallback,
-};
+const slots = useSlots();
+const fieldWrapperRefs: Map<string, TSubmit64FieldApi> = new Map();
+const sectionsWrapperRefs: Map<string, TSubmit64SectionApi> = new Map();
 
 // refs
-const fieldRefs = ref<Map<string, TSubmit64FieldWrapper>>(new Map());
-const generatedForm = ref<TFormDef>();
+const form = ref<TForm>(FormFactory.getEmptyFormBeforeInit());
+const setupSectionsIsDone = ref(false);
+const setupFieldsIsDone = ref(false);
 const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
 const mode = ref<TSubmit64FormMode>("create");
@@ -61,23 +57,25 @@ async function setupMetadatasAndForm() {
     resourceId: propsComponent.resourceId,
     context: propsComponent.context,
   });
-  generatedForm.value = Object.freeze(
-    formFactoryInstance.getForm(
-      formMetadataAndData,
-      propsComponent.resourceId,
-      propsComponent.context
-    )
+  form.value = FormFactory.getForm(
+    propsComponent.resourceName,
+    propsComponent.resourceId,
+    getOverridedComponents(),
+    formMetadataAndData,
+    propsComponent.formSettings,
+    propsComponent.formStyle,
+    propsComponent.context,
+    formApi,
+    propsComponent.eventManager
   );
+  sectionCount = form.value.sections.length;
+  fieldCount = form.value.sections.map((s) => s.fields).flat().length;
   if (propsComponent.resourceId) {
     mode.value = "edit";
   }
-  setupIsDone.value = true;
-  void nextTick(() => {
-    stringyfiedValues = JSON.stringify(getValuesFormDeserialized())
-  })
 }
-async function submitForm(): Promise<void> {
-  if (!validateForm()) {
+async function submit(): Promise<void> {
+  if (!validate()) {
     return;
   }
   isLoadingSubmit.value = true;
@@ -92,7 +90,7 @@ async function submitForm(): Promise<void> {
   if (!newData.success) {
     orphanErrors.value = {};
     const parentedKeys: string[] = [];
-    [...fieldRefs.value].forEach((entry) => {
+    [...fieldWrapperRefs].forEach((entry) => {
       const entryBackendErrors = newData.errors[entry[0]];
       if (entryBackendErrors) {
         entry[1].setupBackendErrors(entryBackendErrors);
@@ -105,7 +103,7 @@ async function submitForm(): Promise<void> {
       }
       orphanErrors.value[errorEntry[0]] = errorEntry[1];
     });
-    propsComponent.onSubmitFail?.();
+    callAllEvents(form.value?.events.onSubmitUnsuccess);
   } else {
     orphanErrors.value = {};
     if (mode.value === "create") {
@@ -114,9 +112,24 @@ async function submitForm(): Promise<void> {
     if (formMetadataAndData && newData.resource_data) {
       formMetadataAndData.resource_data = newData.resource_data;
     }
-    resetForm();
-    propsComponent.onSubmitSuccess?.();
+    stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
+    form.value = FormFactory.getForm(
+      propsComponent.resourceName,
+      propsComponent.resourceId,
+      getOverridedComponents(),
+      {
+        form: newData.form!,
+        resource_data: newData.resource_data!
+      },
+      propsComponent.formSettings,
+      propsComponent.formStyle,
+      propsComponent.context,
+      formApi,
+      propsComponent.eventManager
+    );
+    callAllEvents(form.value?.events.onSubmitSuccess);
   }
+  callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = false;
 }
 function getOverridedComponents() {
@@ -127,7 +140,6 @@ function getOverridedComponents() {
     associationDisplayComponent: propsComponent.associationDisplayComponent,
     dynamicComponentRecord: {},
   };
-  const slots = useSlots();
   for (const key in slots) {
     const slot = slots[key];
     if (slot) {
@@ -165,67 +177,74 @@ function getOverridedComponents() {
 }
 function getValuesFormDeserialized(): Record<string, unknown> {
   const resourceData: Record<string, unknown> = {};
-  [...fieldRefs.value].forEach((entry) => {
+  [...fieldWrapperRefs].forEach((entry) => {
     resourceData[entry[0]] = entry[1].getValueDeserialized();
   });
   return resourceData;
 }
-function validateForm() {
+function validate() {
   let formValid = true;
-  fieldRefs.value.forEach((fieldRef) => {
+  fieldWrapperRefs.forEach((fieldRef) => {
     if (!fieldRef.validate()) {
+      formValid = false;
+      return;
+    }
+  });
+  callAllEvents(form.value?.events.onValidated);
+  return formValid;
+}
+function isFormValid() {
+  let formValid = true;
+  fieldWrapperRefs.forEach((fieldRef) => {
+    if (!fieldRef.isValid()) {
       formValid = false;
       return;
     }
   });
   return formValid;
 }
-function resetForm() {
-  fieldRefs.value.forEach((fieldRef) => {
+function reset() {
+  fieldWrapperRefs.forEach((fieldRef) => {
     fieldRef.reset();
   });
+  callAllEvents(form.value?.events.onReset);
 }
-function clearForm() {
-  fieldRefs.value.forEach((fieldRef) => {
+function clear() {
+  fieldWrapperRefs.forEach((fieldRef) => {
     fieldRef.clear();
   });
+  callAllEvents(form.value?.events.onClear);
 }
 function resetValidation() {
-  fieldRefs.value.forEach((fieldRef) => {
+  fieldWrapperRefs.forEach((fieldRef) => {
     fieldRef.resetValidation();
   });
 }
 function clearBackendErrors() {
-  fieldRefs.value.forEach((fieldRef) => {
+  fieldWrapperRefs.forEach((fieldRef) => {
     fieldRef.setupBackendErrors([]);
   });
 }
-function registerRef(
-  resourceDataKey: string,
-  fieldComponent: TSubmit64FieldWrapper
-) {
-  fieldRefs.value.set(resourceDataKey, fieldComponent);
-}
-function getDataByFieldName(fieldName: string) {
+function getInitialValueByFieldName(fieldName: string) {
   if (!formMetadataAndData) {
     return;
   }
   return formMetadataAndData.resource_data[fieldName];
 }
-function getFieldDataByFieldName(fieldName: string) {
-  const fieldRef = [...fieldRefs.value].find((entry) => {
-    return entry[0] === fieldName;
-  });
-  if (!fieldRef) {
-    return null;
-  }
-  return fieldRef[1].getValueSerialized();
+function getSectionByName(sectionName: string) {
+  return sectionsWrapperRefs.get(sectionName);
 }
-function getFormFactoryInstance() {
-  return formFactoryInstance;
+function getSectionByIndex(sectionIndex: number) {
+  return [...sectionsWrapperRefs.values()].at(sectionIndex);
 }
-function getForm() {
-  return unref(generatedForm.value)!;
+function getSections() {
+  return sectionsWrapperRefs;
+}
+function getFieldByName(fieldName: string) {
+  return fieldWrapperRefs.get(fieldName);
+}
+function getFields() {
+  return fieldWrapperRefs;
 }
 function getAssociationDataCallback() {
   return (
@@ -256,68 +275,164 @@ function getMode() {
   return unref(mode);
 }
 function valuesHasChanged() {
-  return stringyfiedValues !== JSON.stringify(getValuesFormDeserialized())
+  return stringyfiedValues !== JSON.stringify(getValuesFormDeserialized());
+}
+function setContext(context: TContext) {
+  if (form.value) {
+    form.value.context = context;
+  }
+}
+function setCssClass(cssClass: string) {
+  if (form.value) {
+    form.value.cssClass = cssClass;
+  }
+}
+function setReadonlyState(state: boolean) {
+  if (form.value) form.value.readonly = state;
+}
+function isReady() {
+  return setupIsDone.value;
 }
 
+// private api
+function getFormRef() {
+  return form as Ref<TForm>;
+}
+function getSectionRef(sectionName: string) {
+  return form.value?.sections.find((section) => {
+    return section.name === sectionName;
+  });
+}
+function getFieldRef(fieldName: string) {
+  return form.value?.sections
+    .map((s) => s.fields)
+    .flat()
+    .find((field) => {
+      return field.metadata.field_name === fieldName;
+    });
+}
+function registerSectionWrapperRef(
+  sectionName: string,
+  sectionComponent: TSubmit64SectionApi
+) {
+  sectionsWrapperRefs.set(sectionName, sectionComponent);
+  if (sectionCount === sectionsWrapperRefs.size) {
+    setupSectionsIsDone.value = true;
+  }
+}
+function registerFieldWrapperRef(
+  fieldName: string,
+  fieldComponent: TSubmit64FieldApi
+) {
+  fieldWrapperRefs.set(fieldName, fieldComponent);
+  if (fieldCount === fieldWrapperRefs.size) {
+    setupFieldsIsDone.value = true;
+  }
+}
 
-// exposes
-defineExpose({
+// api
+const privateFormApi: TSubmit64FormPrivateApi = {
+  getFormRef,
+  getSectionRef,
+  getFieldRef,
+  registerSectionWrapperRef,
+  registerFieldWrapperRef,
+};
+
+const formReactive = new Proxy({} as TForm, {
+  get(_, prop) {
+    return form.value?.[prop as keyof TForm];
+  },
+});
+const formApi: TSubmit64FormApi = {
   getMode,
-  getFormFactoryInstance,
-  getForm,
-  validateForm,
-  resetForm,
-  clearForm,
+  getSectionByName,
+  getSectionByIndex,
+  getSections,
+  getFieldByName,
+  getFields,
+  validate,
+  isFormValid,
+  reset,
+  clear,
   resetValidation,
-  submitForm,
-  valuesHasChanged
-}) as unknown as TSubmit64FormExpose;
+  submit,
+  valuesHasChanged,
+  getInitialValueByFieldName,
+  getAssociationDataCallback,
+  setContext,
+  setCssClass,
+  setReadonlyState,
+  isReady,
+  form: formReactive as unknown as TForm,
+};
+defineExpose<TSubmit64FormApi>(formApi);
+
+// watchs
+watch(
+  () => setupSectionsIsDone.value && setupFieldsIsDone.value,
+  (newValue) => {
+    if (newValue && !setupIsDone.value) {
+      callAllEvents(form.value?.events.onReady);
+      setupIsDone.value = true;
+    }
+  }
+);
+watch(
+  () => (form.value?.events.onIsValid ? isFormValid() : null),
+  () => {
+    callAllEvents(form.value?.events.onIsValid);
+  }
+);
+watch(
+  () => (form.value?.events.onUpdate ? getValuesFormDeserialized() : null),
+  () => {
+    callAllEvents(form.value?.events.onUpdate);
+  }
+);
 
 // lifeCycle
 onMounted(async () => {
   ensurePropsAreOk();
   await setupMetadatasAndForm();
+  void nextTick(() => {
+    stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
+  });
 });
 </script>
 
 <template>
-  <div v-if="setupIsDone && generatedForm" class="flex column">
-    <div :class="generatedForm.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
-      <template
-        v-for="(section, _indexSection) in generatedForm.sections"
-        :key="_indexSection"
+  <div v-show="setupIsDone" class="flex column">
+    <div :class="form.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
+      <SectionWrapper
+        v-for="section in form.sections"
+        :key="section.name"
+        :section="section"
+        :context="propsComponent.context"
+        :formApi="formApi"
+        :privateFormApi="privateFormApi"
+        :registerRef="registerSectionWrapperRef"
       >
-        <Component
-          :is="formFactoryInstance.sectionComponent"
-          :section="section"
+        <FieldWrapper
+          v-for="field in section.fields"
+          :key="field.metadata.field_name"
+          :field="field"
           :context="propsComponent.context"
-          :functionsProvider="functionsProvider"
-        >
-          <template
-            v-for="field in section.fields"
-            :key="field.metadata.field_name"
-          >
-            <FieldWrapper
-              :field="field"
-              :context="propsComponent.context"
-              :functionsProvider="functionsProvider"
-            />
-          </template>
-        </Component>
-      </template>
+          :formApi="formApi"
+          :privateFormApi="privateFormApi"
+          :registerRef="registerFieldWrapperRef"
+        />
+      </SectionWrapper>
     </div>
     <component
-      :is="formFactoryInstance.orphanErrorsComponent"
+      :is="form.orphanErrorsComponent"
       :orphanErrors="orphanErrors"
-      :functionsProvider="functionsProvider"
+      :formApi="formApi"
     />
     <component
-      :is="formFactoryInstance.actionComponent"
+      :is="form.actionComponent"
       :isLoadingSubmit="isLoadingSubmit"
-      :submit="submitForm"
-      :clear="generatedForm.clearable ? clearForm : undefined"
-      :reset="generatedForm.resetable ? resetForm : undefined"
-      :functionsProvider="functionsProvider"
+      :formApi="formApi"
     />
   </div>
 </template>

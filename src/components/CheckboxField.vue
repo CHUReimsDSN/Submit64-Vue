@@ -10,11 +10,14 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 const ruleResult = ref<boolean | string>(true);
 
 // consts
-const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
-const styleConfig = formFactory.formStyle;
+const form = propsComponent.formApi.form;
+const styleConfig = form.formStyle;
 
 // functions
 function validate() {
+  return ruleResult.value === true;
+}
+function isValid() {
   return ruleResult.value === true;
 }
 function resetValidation() {
@@ -36,7 +39,7 @@ watch(
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.registerBehaviourCallbacks(validate, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
 });
 </script>
 

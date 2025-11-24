@@ -1,5 +1,5 @@
 import { Component } from "vue";
-import { TFormStyle, TFormSettings } from "./models";
+import { TFormStyle, TFormSettingsProps } from "./models";
 import DefaultActionComponent from "./components/DefaultActionComponent.vue";
 import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
 import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
@@ -8,7 +8,7 @@ import DefaultOrphanErrorsComponent from "./components/DefaultOrphanErrorsCompon
 
 export class Submit64 {
   private static _instance: Submit64 = new Submit64();
-  private _formSettings: Required<TFormSettings>;
+  private _formSettings: Required<TFormSettingsProps>;
   private _formStyle: Required<TFormStyle>;
   private _actionComponent: Component;
   private _orphanErrorsComponent: Component;
@@ -22,6 +22,7 @@ export class Submit64 {
       dateFormat: "DD/MM/YYYY",
       datetimeFormat: "DD/MM/YYYY HH:mm",
       renderBackendHint: true,
+      associationEmptyMessage: 'Empty'
     };
     this._formStyle = {
       fieldOutlined: false,
@@ -43,7 +44,7 @@ export class Submit64 {
     this._associationDisplayComponent = DefaultAssociationDisplayComponent;
   }
 
-  static registerGlobalFormSetting(formSetting: TFormSettings) {
+  static registerGlobalFormSetting(formSetting: TFormSettingsProps) {
     this._instance._formSettings = {
       ...this._instance._formSettings,
       ...formSetting,

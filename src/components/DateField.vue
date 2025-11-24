@@ -7,9 +7,9 @@ import { onMounted, ref } from "vue";
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
 // consts
-const formFactory = propsComponent.functionsProvider.getFormFactoryInstance();
-const formSetting = formFactory.formSettings;
-const styleConfig = formFactory.formStyle;
+const form = propsComponent.formApi.form;
+const formSetting = form.formSettings;
+const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs
@@ -29,6 +29,12 @@ function validate() {
   }
   return fieldRef.value.validate() as boolean
 }
+function isValid() {
+  if (!fieldRef.value) {
+    return false
+  }
+  return fieldRef.value.hasError
+}
 function resetValidation() {
   if (!fieldRef.value) {
     return
@@ -38,7 +44,7 @@ function resetValidation() {
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.registerBehaviourCallbacks(validate, resetValidation)
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation)
 })
 </script>
 
@@ -83,7 +89,7 @@ onMounted(() => {
             v-on:update:model-value="
               (value: unknown) => propsComponent.modelValueOnUpdate(value)
             "
-            :mask="formFactory.formSettings.dateFormat"
+            :mask="form.formSettings.dateFormat"
           >
             <div class="row items-center justify-end">
               <q-btn
