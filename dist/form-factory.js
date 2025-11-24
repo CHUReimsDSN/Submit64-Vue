@@ -95,10 +95,14 @@ export class FormFactory {
                     associationDisplayComponent: markRaw(this.associationDisplayComponent),
                     regularFieldType: FormFactory.getRegularFieldTypeByFieldType(columnMetadata.field_type),
                 };
+                let fieldLabel = columnMetadata.label;
+                if (this.formSettings.requiredFieldsHasAsterisk && columnMetadata.rules.find(rule => rule.type === 'required')) {
+                    fieldLabel.concat('*');
+                }
                 const field = {
                     type: columnMetadata.field_type,
                     metadata: Object.freeze(columnMetadata),
-                    label: `${columnMetadata.label}${this.formSettings.requiredFieldsHasAsterisk ? '*' : ''}`,
+                    label: fieldLabel,
                     hint: columnMetadata.hint ?? undefined,
                     prefix: columnMetadata.prefix ?? undefined,
                     suffix: columnMetadata.suffix ?? undefined,

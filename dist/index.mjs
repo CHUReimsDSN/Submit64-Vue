@@ -1,7 +1,7 @@
 var Me = Object.defineProperty;
 var Ye = (o, e, t) => e in o ? Me(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var S = (o, e, t) => Ye(o, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as T, createElementBlock as $, openBlock as v, createElementVNode as H, createVNode as w, createBlock as A, createCommentVNode as M, unref as r, mergeProps as ye, toDisplayString as W, renderSlot as Ne, resolveComponent as je, normalizeProps as We, guardReactiveProps as Qe, withCtx as O, createTextVNode as Je, Fragment as ue, renderList as ce, ref as k, onMounted as G, normalizeClass as Q, watch as K, resolveDynamicComponent as Y, nextTick as oe, markRaw as U, getCurrentInstance as Be, withDirectives as Ce, vShow as Se, useSlots as Ke } from "vue";
+import { defineComponent as T, createElementBlock as I, openBlock as v, createElementVNode as H, createVNode as $, createBlock as A, createCommentVNode as M, unref as r, mergeProps as ye, toDisplayString as W, renderSlot as Ne, resolveComponent as je, normalizeProps as We, guardReactiveProps as Qe, withCtx as O, createTextVNode as Je, Fragment as ue, renderList as ce, ref as k, onMounted as G, normalizeClass as Q, watch as K, resolveDynamicComponent as Y, nextTick as oe, markRaw as U, getCurrentInstance as Be, withDirectives as Ce, vShow as Se, useSlots as Ke } from "vue";
 import { QBtn as Z, QIcon as de, QItem as Xe, QItemSection as Ze, QItemLabel as et, QInput as pe, QPopupProxy as be, QDate as Oe, QTime as tt, QCheckbox as nt, QSelect as _e, date as R } from "quasar";
 const ot = { class: "flex column" }, at = { class: "flex row items-center no-wrap q-pt-sm q-gutter-x-sm" }, rt = /* @__PURE__ */ T({
   __name: "DefaultActionComponent",
@@ -22,9 +22,9 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
         noCaps: !0
       };
     }
-    return (a, n) => (v(), $("div", ot, [
+    return (a, n) => (v(), I("div", ot, [
       H("div", at, [
-        w(r(Z), ye(t(), {
+        $(r(Z), ye(t(), {
           label: "Enregistrer",
           loading: e.isLoadingSubmit,
           onClick: e.submit
@@ -50,7 +50,7 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
   },
   setup(o) {
     const e = o;
-    return (t, a) => (v(), $("div", null, [
+    return (t, a) => (v(), I("div", null, [
       H("div", it, [
         e.sectionApi.section.icon ? (v(), A(r(de), {
           key: 0,
@@ -92,9 +92,9 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
     const e = o;
     return (t, a) => (v(), A(r(Xe), We(Qe(e.itemProps)), {
       default: O(() => [
-        w(r(Ze), null, {
+        $(r(Ze), null, {
           default: O(() => [
-            w(r(et), null, {
+            $(r(et), null, {
               default: O(() => [
                 Je(W(e.entry.label), 1)
               ]),
@@ -115,8 +115,8 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
   },
   setup(o) {
     const e = o;
-    return (t, a) => (v(), $("div", ft, [
-      (v(!0), $(ue, null, ce(e.orphanErrors, (n, u) => (v(), $("div", {
+    return (t, a) => (v(), I("div", ft, [
+      (v(!0), I(ue, null, ce(e.orphanErrors, (n, u) => (v(), I("div", {
         key: u,
         class: "q-field--error q-field__bottom text-negative"
       }, W(u) + " : " + W(n.join(",")), 1))), 128))
@@ -453,14 +453,14 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       onClear: e.clear
     }, {
       append: O(() => [
-        w(r(de), {
+        $(r(de), {
           size: "sm",
           color: "primary",
           name: "event",
           class: "cursor-pointer"
         }, {
           default: O(() => [
-            w(r(be), {
+            $(r(be), {
               ref_key: "popupProxyRef",
               ref: l,
               cover: "",
@@ -468,14 +468,14 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
               "transition-hide": "scale"
             }, {
               default: O(() => [
-                w(r(Oe), {
+                $(r(Oe), {
                   "model-value": e.modelValue,
                   "onUpdate:modelValue": D[0] || (D[0] = (E) => e.modelValueOnUpdate(E)),
                   mask: r(t).formSettings.dateFormat
                 }, {
                   default: O(() => [
                     H("div", ht, [
-                      w(r(Z), {
+                      $(r(Z), {
                         onClick: i,
                         label: "Fermer",
                         color: "secondary",
@@ -556,14 +556,14 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       onClear: e.clear
     }, {
       append: O(() => [
-        w(r(de), {
+        $(r(de), {
           size: "sm",
           color: "primary",
           name: "event",
           class: "cursor-pointer"
         }, {
           default: O(() => [
-            w(r(be), {
+            $(r(be), {
               ref_key: "datePopupProxyRef",
               ref: l,
               cover: "",
@@ -571,14 +571,14 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
               "transition-hide": "scale"
             }, {
               default: O(() => [
-                w(r(Oe), {
+                $(r(Oe), {
                   "model-value": e.modelValue,
                   "onUpdate:modelValue": x[0] || (x[0] = (V) => e.modelValueOnUpdate(V)),
                   mask: r(t).formSettings.datetimeFormat
                 }, {
                   default: O(() => [
                     H("div", yt, [
-                      w(r(Z), {
+                      $(r(Z), {
                         onClick: c,
                         label: "Fermer",
                         color: "secondary",
@@ -595,14 +595,14 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
           ]),
           _: 1
         }),
-        w(r(de), {
+        $(r(de), {
           size: "sm",
           color: "primary",
           name: "access_time",
           class: "cursor-pointer"
         }, {
           default: O(() => [
-            w(r(be), {
+            $(r(be), {
               ref_key: "timePopupProxyRef",
               ref: s,
               cover: "",
@@ -610,7 +610,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
               "transition-hide": "scale"
             }, {
               default: O(() => [
-                w(r(tt), {
+                $(r(tt), {
                   "model-value": e.modelValue,
                   "onUpdate:modelValue": x[1] || (x[1] = (V) => e.modelValueOnUpdate(V)),
                   mask: r(t).formSettings.datetimeFormat,
@@ -618,7 +618,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
                 }, {
                   default: O(() => [
                     H("div", bt, [
-                      w(r(Z), {
+                      $(r(Z), {
                         onClick: m,
                         label: "Fermer",
                         color: "secondary",
@@ -679,8 +679,8 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       }
     ), G(() => {
       e.registerBehaviourCallbacks(u, l, s);
-    }), (i, c) => (v(), $("div", St, [
-      w(r(nt), {
+    }), (i, c) => (v(), I("div", St, [
+      $(r(nt), {
         "model-value": e.modelValue,
         "onUpdate:modelValue": c[0] || (c[0] = (m) => e.modelValueOnUpdate(m)),
         label: e.field.label,
@@ -689,8 +689,8 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
         "aria-readonly": e.field.readonly,
         class: Q([e.field.cssClass, "q-pb-md"])
       }, null, 8, ["model-value", "label", "dense", "color", "aria-readonly", "class"]),
-      e.field.hint ? (v(), $("div", _t, W(e.field.hint), 1)) : M("", !0),
-      t.value !== !0 ? (v(), $("div", Ft, W(t.value), 1)) : M("", !0)
+      e.field.hint ? (v(), I("div", _t, W(e.field.hint), 1)) : M("", !0),
+      t.value !== !0 ? (v(), I("div", Ft, W(t.value), 1)) : M("", !0)
     ]));
   }
 }), xt = /* @__PURE__ */ T({
@@ -735,8 +735,8 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
         return;
       }
       V(() => {
-        const I = x.toLowerCase();
-        a.value = t.value.filter((g) => g.label.toLowerCase().includes(I));
+        const q = x.toLowerCase();
+        a.value = t.value.filter((g) => g.label.toLowerCase().includes(q));
       });
     }
     function m() {
@@ -762,7 +762,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       ref_key: "fieldRef",
       ref: n,
       "model-value": e.modelValue,
-      "onUpdate:modelValue": V[0] || (V[0] = (I) => e.modelValueOnUpdate(I)),
+      "onUpdate:modelValue": V[0] || (V[0] = (q) => e.modelValueOnUpdate(q)),
       type: e.field.componentOptions.regularFieldType,
       label: e.field.label,
       hint: e.field.hint,
@@ -825,15 +825,15 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       }
       const F = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
-      const q = e.formApi.form;
+      const w = e.formApi.form;
       i.value.isLoading = !0, F({
-        resourceName: q.resourceName,
-        resourceId: q.resourceId,
+        resourceName: w.resourceName,
+        resourceId: w.resourceId,
         associationName: e.field.metadata.field_association_name,
         limit: i.value.limit,
         offset: (i.value.nextPage - 1) * i.value.limit,
         labelFilter: p,
-        context: q.context
+        context: w.context
       }).then((z) => {
         _(() => {
           s.value = z.rows, i.value.lastPage = Math.ceil(
@@ -865,14 +865,14 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
     function V() {
       c.value && c.value.resetValidation();
     }
-    function I() {
+    function q() {
       e.clear(), s.value = [];
     }
     function g(p) {
       const _ = s.value.length - 1;
       if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === _ && _ > i.value.limit - 1) {
-        const F = e.formApi.form, q = e.formApi.getAssociationDataCallback();
-        i.value.isLoading = !0, q({
+        const F = e.formApi.form, w = e.formApi.getAssociationDataCallback();
+        i.value.isLoading = !0, w({
           resourceName: F.resourceName,
           resourceId: F.resourceId,
           associationName: e.field.metadata.field_association_name,
@@ -918,7 +918,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       mapOptions: !0,
       emitValue: !0,
       useInput: !0,
-      onClear: I,
+      onClear: q,
       onFilter: y,
       onVirtualScroll: g
     }, {
@@ -969,15 +969,15 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       }
       const F = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
-      const q = e.formApi.form;
+      const w = e.formApi.form;
       i.value.isLoading = !0, F({
-        resourceName: q.resourceName,
-        resourceId: q.resourceId,
+        resourceName: w.resourceName,
+        resourceId: w.resourceId,
         associationName: e.field.metadata.field_association_name,
         limit: i.value.limit,
         offset: (i.value.nextPage - 1) * i.value.limit,
         labelFilter: p,
-        context: q.context
+        context: w.context
       }).then((z) => {
         _(() => {
           s.value = z.rows, i.value.lastPage = Math.ceil(
@@ -1009,14 +1009,14 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
     function V() {
       c.value && c.value.resetValidation();
     }
-    function I() {
+    function q() {
       e.clear(), s.value = [];
     }
     function g(p) {
       const _ = s.value.length - 1;
       if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === _ && _ > i.value.limit - 1) {
-        const F = e.formApi.form, q = e.formApi.getAssociationDataCallback();
-        i.value.isLoading = !0, q({
+        const F = e.formApi.form, w = e.formApi.getAssociationDataCallback();
+        i.value.isLoading = !0, w({
           resourceName: F.resourceName,
           resourceId: F.resourceId,
           associationName: e.field.metadata.field_association_name,
@@ -1065,7 +1065,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       useInput: !0,
       multiple: !0,
       "use-chips": !0,
-      onClear: I,
+      onClear: q,
       onFilter: y,
       onVirtualScroll: g
     }, {
@@ -1268,10 +1268,13 @@ class X {
             regularFieldType: X.getRegularFieldTypeByFieldType(
               y.field_type
             )
-          }, I = {
+          };
+          let q = y.label;
+          this.formSettings.requiredFieldsHasAsterisk && y.rules.find((p) => p.type === "required") && q.concat("*");
+          const g = {
             type: y.field_type,
             metadata: Object.freeze(y),
-            label: `${y.label}${this.formSettings.requiredFieldsHasAsterisk ? "*" : ""}`,
+            label: q,
             hint: y.hint ?? void 0,
             prefix: y.prefix ?? void 0,
             suffix: y.suffix ?? void 0,
@@ -1288,7 +1291,7 @@ class X {
             events: t.fields[y.field_name] ?? {},
             componentOptions: V
           };
-          s.push(I);
+          s.push(g);
         });
         const i = this.dynamicComponentRecord[`section-${u.name ?? l}-before`], c = this.sectionComponent, m = this.dynamicComponentRecord[`section-${u.name ?? l}-after`], C = {
           label: u.label ?? void 0,
@@ -1849,7 +1852,7 @@ const sn = {
     function V() {
       return C(r(s));
     }
-    function I(f) {
+    function q(f) {
       i.value = f;
     }
     function g() {
@@ -1876,7 +1879,7 @@ const sn = {
       );
       b && (b.hint = f);
     }
-    function q(f) {
+    function w(f) {
       const b = t.privateFormApi.getFieldRef(
         t.field.metadata.field_name
       );
@@ -1923,10 +1926,10 @@ const sn = {
       resetValidation: ie,
       getValueDeserialized: V,
       getValueSerialized: x,
-      setupBackendErrors: I,
+      setupBackendErrors: q,
       setReadonlyState: _,
       setHint: F,
-      setCssClass: q,
+      setCssClass: w,
       setSuffix: z,
       setPrefix: ee,
       setLabel: ge,
@@ -1951,7 +1954,7 @@ const sn = {
         t.field.metadata.field_name,
         f
       );
-    }), (f, b) => Ce((v(), $("div", null, [
+    }), (f, b) => Ce((v(), I("div", null, [
       t.field.beforeComponent ? (v(), A(Y(t.field.beforeComponent), {
         key: 0,
         formApi: t.formApi,
@@ -1975,8 +1978,8 @@ const sn = {
         formApi: t.formApi,
         fieldApi: te
       }, null, 8, ["formApi"])) : M("", !0),
-      i.value.length > 0 ? (v(), $("div", un, [
-        (v(!0), $(ue, null, ce(i.value, (ne, ve) => (v(), $("div", {
+      i.value.length > 0 ? (v(), I("div", un, [
+        (v(!0), I(ue, null, ce(i.value, (ne, ve) => (v(), I("div", {
           index: ve,
           class: "flex column"
         }, W(ne), 9, cn))), 256))
@@ -2005,7 +2008,7 @@ const sn = {
       setReadonlyState: E,
       setCssClass: x,
       setIcon: V,
-      setLabel: I,
+      setLabel: q,
       section: t.section
     };
     function u() {
@@ -2084,7 +2087,7 @@ const sn = {
       );
       p && (p.icon = g);
     }
-    function I(g) {
+    function q(g) {
       const p = t.privateFormApi.getSectionRef(
         t.section.name
       );
@@ -2104,7 +2107,7 @@ const sn = {
       ), oe(() => {
         u();
       });
-    }), (g, p) => Ce((v(), $("div", fn, [
+    }), (g, p) => Ce((v(), I("div", fn, [
       t.section.beforeComponent ? (v(), A(Y(t.section.beforeComponent), {
         key: 0,
         formApi: t.formApi,
@@ -2151,7 +2154,7 @@ const sn = {
     const t = o;
     let a = null, n = "", u = 0, l = 0;
     const s = Ke(), i = /* @__PURE__ */ new Map(), c = /* @__PURE__ */ new Map(), m = k(X.getEmptyFormBeforeInit()), C = k(!1), y = k(!1), D = k(!1), E = k(!1), x = k("create"), V = k({});
-    async function I() {
+    async function q() {
       a = await t.getMetadataAndData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
@@ -2264,7 +2267,7 @@ const sn = {
         }
       }), B((h = m.value) == null ? void 0 : h.events.onValidated), d;
     }
-    function q() {
+    function w() {
       let d = !0;
       return i.forEach((h) => {
         if (!h.isValid()) {
@@ -2382,7 +2385,7 @@ const sn = {
       getFieldByName: f,
       getFields: b,
       validate: F,
-      isFormValid: q,
+      isFormValid: w,
       reset: z,
       clear: ee,
       resetValidation: ge,
@@ -2405,7 +2408,7 @@ const sn = {
     ), K(
       () => {
         var d;
-        return (d = m.value) != null && d.events.onIsValid ? q() : null;
+        return (d = m.value) != null && d.events.onIsValid ? w() : null;
       },
       () => {
         var d;
@@ -2421,14 +2424,14 @@ const sn = {
         B((d = m.value) == null ? void 0 : d.events.onUpdate);
       }
     ), G(async () => {
-      ve(), await I(), oe(() => {
+      ve(), await q(), oe(() => {
         n = JSON.stringify(_());
       });
-    }), (d, h) => Ce((v(), $("div", pn, [
+    }), (d, h) => Ce((v(), I("div", pn, [
       H("div", {
         class: Q(m.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (v(!0), $(ue, null, ce(m.value.sections, (N) => (v(), A(mn, {
+        (v(!0), I(ue, null, ce(m.value.sections, (N) => (v(), A(mn, {
           key: N.name,
           section: N,
           context: t.context,
@@ -2437,7 +2440,7 @@ const sn = {
           registerRef: Fe
         }, {
           default: O(() => [
-            (v(!0), $(ue, null, ce(N.fields, (L) => (v(), A(dn, {
+            (v(!0), I(ue, null, ce(N.fields, (L) => (v(), A(dn, {
               key: L.metadata.field_name,
               field: L,
               context: t.context,
