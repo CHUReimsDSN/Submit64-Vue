@@ -120,7 +120,7 @@ class FormEvent {
                 return {
                     target: "section",
                     targetName: this.data.sectionName,
-                    key: "onReset",
+                    key: "onIsValid",
                 };
             case "Section is hidden":
                 return {

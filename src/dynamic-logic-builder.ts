@@ -185,7 +185,7 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
         return {
           target: "section",
           targetName: (this.data as TWhenArgs["Section is valid"]).sectionName,
-          key: "onReset",
+          key: "onIsValid",
         };
       case "Section is hidden":
         return {
