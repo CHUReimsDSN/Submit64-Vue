@@ -96,13 +96,13 @@ async function submit(): Promise<void> {
   if (!newData.success) {
     orphanErrors.value = {};
     const parentedKeys: string[] = [];
-    fieldWrapperRefs.value.entries().forEach((entry) => {
-      const entryBackendErrors = newData.errors[entry[0]];
+    for (const [fieldName, fieldApi] of fieldWrapperRefs.value) {
+      const entryBackendErrors = newData.errors[fieldName];
       if (entryBackendErrors) {
-        entry[1].setupBackendErrors(entryBackendErrors);
-        parentedKeys.push(entry[0]);
+        fieldApi.setupBackendErrors(entryBackendErrors);
+        parentedKeys.push(fieldName);
       }
-    });
+    }
     Object.entries(newData.errors).forEach((errorEntry) => {
       if (parentedKeys.includes(errorEntry[0])) {
         return;
@@ -182,16 +182,16 @@ function getOverridedComponents() {
 }
 function getValuesFormDeserialized(): Record<string, unknown> {
   const resourceData: Record<string, unknown> = {};
-  fieldWrapperRefs.value.entries().forEach((entry) => {
-    resourceData[entry[0]] = entry[1].getValueDeserialized();
-  });
+  for (const [fieldName, fieldApi] of fieldWrapperRefs.value) {
+    resourceData[fieldName] = fieldApi.getValueDeserialized();
+  }
   return resourceData;
 }
 function getValuesFormSerialized(): Record<string, unknown> {
   const resourceData: Record<string, unknown> = {};
-  fieldWrapperRefs.value.entries().forEach((entry) => {
-    resourceData[entry[0]] = entry[1].getValueSerialized();
-  });
+  for (const [fieldName, fieldApi] of fieldWrapperRefs.value) {
+    resourceData[fieldName] = fieldApi.getValueSerialized();
+  }
   return resourceData;
 }
 function validate() {
