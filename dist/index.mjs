@@ -2490,7 +2490,7 @@ const yn = {
       form: et
     };
     e(K);
-    const tt = ke(() => (console.log("is valids computed"), Z())), nt = ke(() => te()), ot = ke(() => be());
+    const tt = ke(() => Z()), nt = ke(() => te()), ot = ke(() => be());
     return G(
       () => y.value && B.value,
       (f) => {
@@ -2517,7 +2517,7 @@ const yn = {
       (f) => {
         i == null || i(), i = null, f && (i = G(nt, (g) => {
           var F;
-          g || R((F = m.value) == null ? void 0 : F.events.onIsInvalid);
+          g && R((F = m.value) == null ? void 0 : F.events.onIsInvalid);
         }));
       },
       { immediate: !0 }

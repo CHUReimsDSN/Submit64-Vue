@@ -386,7 +386,6 @@ defineExpose<TSubmit64FormApi>(formApi);
 
 // computeds
 const isValidComputed = computed(() => {
-  console.log('is valids computed')
   return isValid();
 });
 const isInvalidComputed = computed(() => {
@@ -428,7 +427,7 @@ watch(
     stopWatchIsInvalid = null;
     if (callExist) {
       stopWatchIsInvalid = watch(isInvalidComputed, (newValue) => {
-        if (!newValue) {
+        if (newValue) {
           callAllEvents(form.value?.events.onIsInvalid);
         }
       });
