@@ -2490,7 +2490,7 @@ const yn = {
       form: et
     };
     e(K);
-    const tt = ke(() => Z()), nt = ke(() => te()), ot = ke(() => be());
+    const tt = ke(() => Z()), nt = ke(() => te()), ot = ke(() => (console.log("computed"), be()));
     return G(
       () => y.value && B.value,
       (f) => {

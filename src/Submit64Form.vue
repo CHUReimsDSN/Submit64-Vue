@@ -392,6 +392,7 @@ const isInvalidComputed = computed(() => {
   return isInvalid();
 });
 const isUpdatedComputed = computed(() => {
+  console.log('computed')
   return getValuesFormSerialized();
 });
 
