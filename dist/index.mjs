@@ -419,7 +419,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       return s.value ? s.value.validate() : !1;
     }
     function m() {
-      return s.value ? s.value.hasError : !1;
+      return s.value ? !s.value.hasError : !1;
     }
     function C() {
       s.value && s.value.resetValidation();
@@ -522,7 +522,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       return i.value ? i.value.validate() : !1;
     }
     function y() {
-      return i.value ? i.value.hasError : !1;
+      return i.value ? !i.value.hasError : !1;
     }
     function R() {
       i.value && i.value.resetValidation();
@@ -748,7 +748,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       return n.value ? n.value.validate() : !1;
     }
     function y() {
-      return n.value ? n.value.hasError : !1;
+      return n.value ? !n.value.hasError : !1;
     }
     function R() {
       n.value && n.value.resetValidation();
@@ -882,7 +882,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       return c.value ? c.value.validate() : !1;
     }
     function V() {
-      return c.value ? c.value.hasError : !1;
+      return c.value ? !c.value.hasError : !1;
     }
     function D() {
       c.value && c.value.resetValidation();
@@ -1041,7 +1041,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       return c.value ? c.value.validate() : !1;
     }
     function V() {
-      return c.value ? c.value.hasError : !1;
+      return c.value ? !c.value.hasError : !1;
     }
     function D() {
       c.value && c.value.resetValidation();
@@ -1156,7 +1156,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       return l.value ? l.value.validate() : !1;
     }
     function i() {
-      return l.value ? l.value.hasError : !1;
+      return l.value ? !l.value.hasError : !1;
     }
     function c() {
       l.value && l.value.resetValidation();
@@ -1212,7 +1212,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       return l.value ? l.value.validate() : !1;
     }
     function i() {
-      return l.value ? l.value.hasError : !1;
+      return l.value ? !l.value.hasError : !1;
     }
     function c() {
       l.value && l.value.resetValidation();
@@ -1811,10 +1811,10 @@ const sn = {
     let a = () => !0, n = () => !0, u = () => {
     };
     const l = R(), s = x(), i = x([]);
-    function c() {
+    function c(f = !0) {
       s.value = t.formApi.getInitialValueByFieldName(
         t.field.metadata.field_name
-      ), s.value = m(s.value), B(t.field.events.onReset), ne(() => {
+      ), s.value = m(s.value), f && B(t.field.events.onReset), ne(() => {
         re();
       });
     }
@@ -2002,7 +2002,7 @@ const sn = {
       }
     ), G(() => {
       var b;
-      c();
+      c(!1);
       const f = (b = we()) == null ? void 0 : b.exposed;
       f && t.formApi && t.privateFormApi.registerFieldWrapperRef(
         t.field.metadata.field_name,

@@ -34,12 +34,14 @@ const modelValue = ref<unknown>();
 const backendErrors = ref<string[]>([]);
 
 // functions
-function reset() {
+function reset(triggerCallback = true) {
   modelValue.value = propsComponent.formApi.getInitialValueByFieldName(
     propsComponent.field.metadata.field_name
   );
   modelValue.value = formModelSerializeByType(modelValue.value);
-  callAllEvents(propsComponent.field.events.onReset);
+  if (triggerCallback) {
+    callAllEvents(propsComponent.field.events.onReset);
+  }
   void nextTick(() => {
     resetValidation();
   });
@@ -279,7 +281,7 @@ watch(
 
 // lifeCycle
 onMounted(() => {
-  reset();
+  reset(false);
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef && propsComponent.formApi) {
     propsComponent.privateFormApi.registerFieldWrapperRef(

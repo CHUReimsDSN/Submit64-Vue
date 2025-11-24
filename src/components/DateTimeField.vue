@@ -40,7 +40,7 @@ function isValid() {
   if (!fieldRef.value) {
     return false
   }
-  return fieldRef.value.hasError
+  return !fieldRef.value.hasError
 }
 function resetValidation() {
   if (!fieldRef.value) {
