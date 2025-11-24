@@ -273,6 +273,7 @@ watch(
 watch(
   () => (propsComponent.field.events.onIsValid ? isValid() : null),
   (newValue) => {
+    console.log(newValue)
     if (newValue) {
       callAllEvents(propsComponent.field.events.onIsValid);
     }

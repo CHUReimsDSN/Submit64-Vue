@@ -1998,7 +1998,7 @@ const sn = {
     ), K(
       () => t.field.events.onIsValid ? ae() : null,
       (f) => {
-        f && B(t.field.events.onIsValid);
+        console.log(f), f && B(t.field.events.onIsValid);
       }
     ), G(() => {
       var b;
