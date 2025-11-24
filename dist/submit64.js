@@ -32,7 +32,7 @@ export class Submit64 {
             fieldSquare: false,
             fieldClass: "",
             fieldColor: "primary",
-            fieldBgColor: "white",
+            fieldBgColor: "",
         };
         this._actionComponent = DefaultActionComponent;
         this._orphanErrorsComponent = DefaultOrphanErrorsComponent;

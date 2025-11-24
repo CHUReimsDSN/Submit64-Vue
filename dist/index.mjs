@@ -149,7 +149,7 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
       fieldSquare: !1,
       fieldClass: "",
       fieldColor: "primary",
-      fieldBgColor: "white"
+      fieldBgColor: ""
     }, this._actionComponent = rt, this._orphanErrorsComponent = mt, this._sectionComponent = ut, this._wrapperResetComponent = ct, this._associationDisplayComponent = dt;
   }
   static registerGlobalFormSetting(e) {
