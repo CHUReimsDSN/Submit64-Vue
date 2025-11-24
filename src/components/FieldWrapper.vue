@@ -129,7 +129,6 @@ function clear() {
       modelValue.value = undefined;
       break;
   }
-  console.log(propsComponent.field.events)
   callAllEvents(propsComponent.field.events.onClear);
 }
 function getComputedRules() {
@@ -157,6 +156,7 @@ function hide() {
   );
   if (fieldRef) {
     fieldRef.hidden = true;
+    callAllEvents(propsComponent.field.events.onHide)
   }
 }
 function unhide() {
@@ -165,6 +165,7 @@ function unhide() {
   );
   if (fieldRef) {
     fieldRef.hidden = false;
+    callAllEvents(propsComponent.field.events.onUnhide)
   }
 }
 function setReadonlyState(state: boolean) {
