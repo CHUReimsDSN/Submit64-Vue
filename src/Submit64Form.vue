@@ -7,9 +7,9 @@ import {
   defineComponent,
   nextTick,
   watch,
-  Ref,
   computed,
-  WatchStopHandle,
+  type Ref,
+  type WatchStopHandle,
 } from "vue";
 import type {
   TForm,

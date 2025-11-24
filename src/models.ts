@@ -387,6 +387,7 @@ export type TFormSectionEvent = {
   onValidated?: TSubmit64Event;
   onHide?: TSubmit64Event;
   onUnhide?: TSubmit64Event;
+  onUpdate?: TSubmit64Event;
   onIsValid?: TSubmit64Event;
   onIsInvalid?: TSubmit64Event;
 };

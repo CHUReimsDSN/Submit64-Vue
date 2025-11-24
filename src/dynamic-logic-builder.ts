@@ -101,6 +101,7 @@ type TWhenArgs = {
   "Field is unhidden": { fieldName: string };
   "Section is valid": { sectionName: string };
   "Section is invalid": { sectionName: string };
+  "Section is updated": { sectionName: string };
   "Section is validated": { sectionName: string };
   "Section is hidden": { sectionName: string };
   "Section is unhidden": { sectionName: string };
@@ -237,7 +238,13 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
             .sectionName,
           key: "onValidated",
         };
-
+      case "Section is updated":
+        return {
+          target: "section",
+          targetName: (this.data as TWhenArgs["Section is updated"])
+            .sectionName,
+          key: "onUpdate",
+        };
       case "Form is ready":
         return {
           target: "form",

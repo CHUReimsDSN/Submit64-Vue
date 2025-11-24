@@ -169,6 +169,13 @@ class FormEvent {
                         .sectionName,
                     key: "onValidated",
                 };
+            case "Section is updated":
+                return {
+                    target: "section",
+                    targetName: this.data
+                        .sectionName,
+                    key: "onUpdate",
+                };
             case "Form is ready":
                 return {
                     target: "form",

@@ -42,6 +42,9 @@ type TWhenArgs = {
     "Section is invalid": {
         sectionName: string;
     };
+    "Section is updated": {
+        sectionName: string;
+    };
     "Section is validated": {
         sectionName: string;
     };
