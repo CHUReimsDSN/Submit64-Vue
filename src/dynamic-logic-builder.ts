@@ -41,37 +41,37 @@ export class DynamicLogicBuilder {
       const targetDefinition = event.getTarget();
       switch (targetDefinition.target) {
         case "field":
-          if (!allEventObject.fields[targetDefinition.target]) {
-            allEventObject.fields[targetDefinition.target] = {};
+          if (!allEventObject.fields[targetDefinition.targetName]) {
+            allEventObject.fields[targetDefinition.targetName] = {};
           }
           if (
-            !allEventObject.fields[targetDefinition.target][
+            !allEventObject.fields[targetDefinition.targetName][
               targetDefinition.key
             ]
           ) {
-            allEventObject.fields[targetDefinition.target][
+            allEventObject.fields[targetDefinition.targetName][
               targetDefinition.key
             ] = [];
           }
-          allEventObject.fields[targetDefinition.target][
+          allEventObject.fields[targetDefinition.targetName][
             targetDefinition.key
           ]!.push(event.getActionCallback());
           break;
 
         case "section":
-          if (!allEventObject.sections[targetDefinition.target]) {
-            allEventObject.sections[targetDefinition.target] = {};
+          if (!allEventObject.sections[targetDefinition.targetName]) {
+            allEventObject.sections[targetDefinition.targetName] = {};
           }
           if (
-            !allEventObject.sections[targetDefinition.target][
+            !allEventObject.sections[targetDefinition.targetName][
               targetDefinition.key
             ]
           ) {
-            allEventObject.sections[targetDefinition.target][
+            allEventObject.sections[targetDefinition.targetName][
               targetDefinition.key
             ] = [];
           }
-          allEventObject.sections[targetDefinition.target][
+          allEventObject.sections[targetDefinition.targetName][
             targetDefinition.key
           ]!.push(event.getActionCallback());
           break;
@@ -92,13 +92,15 @@ export class DynamicLogicBuilder {
 type TWhenArgs = {
   "Field is updated": { fieldName: string };
   "Field is valid": { fieldName: string };
+  "Field is invalid": { fieldName: string };
   "Field is validated": { fieldName: string };
   "Field is cleared": { fieldName: string };
   "Field is reseted": { fieldName: string };
-  //"Field confirm value statement": { fieldName: string; statement: () => void };
   "Field is hidden": { fieldName: string };
   "Field is unhidden": { fieldName: string };
   "Section is valid": { sectionName: string };
+  "Section is invalid": { sectionName: string };
+  "Section is updated": { sectionName: string };
   "Section is validated": { sectionName: string };
   "Section is hidden": { sectionName: string };
   "Section is unhidden": { sectionName: string };
@@ -112,6 +114,7 @@ type TWhenArgs = {
   "Form is cleared": undefined;
   "Form is reseted": undefined;
   "Form is valid": undefined;
+  "Form is invalid": undefined;
   "Form is validated": undefined;
 };
 
@@ -140,6 +143,12 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
           target: "field",
           targetName: (this.data as TWhenArgs["Field is valid"]).fieldName,
           key: "onIsValid",
+        };
+      case "Field is invalid":
+        return {
+          target: "field",
+          targetName: (this.data as TWhenArgs["Field is invalid"]).fieldName,
+          key: "onIsInvalid",
         };
       case "Field is validated":
         return {
@@ -185,7 +194,14 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
         return {
           target: "section",
           targetName: (this.data as TWhenArgs["Section is valid"]).sectionName,
-          key: "onReset",
+          key: "onIsValid",
+        };
+      case "Section is invalid":
+        return {
+          target: "section",
+          targetName: (this.data as TWhenArgs["Section is invalid"])
+            .sectionName,
+          key: "onIsInvalid",
         };
       case "Section is hidden":
         return {
@@ -221,7 +237,13 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
             .sectionName,
           key: "onValidated",
         };
-
+      case "Section is updated":
+        return {
+          target: "section",
+          targetName: (this.data as TWhenArgs["Section is updated"])
+            .sectionName,
+          key: "onUpdate",
+        };
       case "Form is ready":
         return {
           target: "form",
@@ -234,14 +256,14 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
         };
       case "Form submit is successful":
         return {
-          target: 'form',
-          key: 'onSubmitSuccess'
-        }
-        case "Form submit is unsuccessful":
+          target: "form",
+          key: "onSubmitSuccess",
+        };
+      case "Form submit is unsuccessful":
         return {
-          target: 'form',
-          key: 'onSubmitUnsuccess'
-        }
+          target: "form",
+          key: "onSubmitUnsuccess",
+        };
       case "Form is updated":
         return {
           target: "form",
@@ -261,6 +283,11 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
         return {
           target: "form",
           key: "onIsValid",
+        };
+      case "Form is invalid":
+        return {
+          target: "form",
+          key: "onIsInvalid",
         };
       case "Form is validated":
         return {

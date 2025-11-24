@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { getCurrentInstance, nextTick, onMounted, watch } from "vue";
+import {
+  computed,
+  getCurrentInstance,
+  nextTick,
+  onMounted,
+  ref,
+  watch,
+  type WatchStopHandle,
+} from "vue";
 import type {
   TSubmit64FieldApi,
   TSubmit64SectionApi,
@@ -10,13 +18,18 @@ import { callAllEvents } from "../utils";
 // props
 const propsComponent = defineProps<TSubmit64SectionWrapperProps>();
 
+// vars
+let stopWatchIsValid: WatchStopHandle | null = null;
+let stopWatchIsInvalid: WatchStopHandle | null = null;
+let stopWatchIsUpdated: WatchStopHandle | null = null;
+
 // consts
-const fields: Map<string, TSubmit64FieldApi> = new Map();
 const sectionApi: TSubmit64SectionApi = {
   reset,
   clear,
   validate,
   isValid,
+  isInvalid,
   hide,
   unhide,
   resetValidation,
@@ -28,6 +41,9 @@ const sectionApi: TSubmit64SectionApi = {
   section: propsComponent.section,
 };
 
+// refs
+const fields = ref<Map<string, TSubmit64FieldApi>>(new Map());
+
 // functions
 function setupFields() {
   propsComponent.section.fields.forEach((field) => {
@@ -36,17 +52,17 @@ function setupFields() {
     if (!fieldFound) {
       return;
     }
-    fields.set(fieldName, fieldFound);
+    fields.value.set(fieldName, fieldFound);
   });
 }
 function reset() {
-  fields.forEach((field) => {
+  fields.value.forEach((field) => {
     field.reset();
   });
   callAllEvents(propsComponent.section.events.onReset);
 }
 function clear() {
-  fields.forEach((field) => {
+  fields.value.forEach((field) => {
     field.clear();
   });
   callAllEvents(propsComponent.section.events.onClear);
@@ -58,7 +74,7 @@ function hide() {
   if (!sectionRef) {
     return;
   }
-  fields.forEach((field) => {
+  fields.value.forEach((field) => {
     field.hide();
   });
   sectionRef.hidden = true;
@@ -71,7 +87,7 @@ function unhide() {
   if (!sectionRef) {
     return;
   }
-  fields.forEach((field) => {
+  fields.value.forEach((field) => {
     field.unhide();
   });
   sectionRef.hidden = false;
@@ -79,7 +95,7 @@ function unhide() {
 }
 function validate() {
   let isValid = true;
-  fields.forEach((field) => {
+  fields.value.forEach((field) => {
     if (!field.validate()) {
       isValid = false;
       return;
@@ -90,7 +106,7 @@ function validate() {
 }
 function isValid() {
   let isValid = true;
-  fields.forEach((field) => {
+  fields.value.forEach((field) => {
     if (!field.isValid()) {
       isValid = false;
       return;
@@ -98,13 +114,16 @@ function isValid() {
   });
   return isValid;
 }
+function isInvalid() {
+  return !isValid();
+}
 function resetValidation() {
-  fields.forEach((field) => {
+  fields.value.forEach((field) => {
     field.resetValidation();
   });
 }
 function getFields() {
-  return fields;
+  return fields.value;
 }
 function setReadonlyState(state: boolean) {
   const sectionRef = propsComponent.privateFormApi.getSectionRef(
@@ -138,18 +157,75 @@ function setLabel(label: string) {
     sectionRef.label = label;
   }
 }
+function getValuesFormSerialized() {
+  const resourceData: Record<string, unknown> = {};
+  for (const [fieldName, fieldApi] of fields.value) {
+    resourceData[fieldName] = fieldApi.getValueSerialized();
+  }
+  return resourceData;
+}
 
 // exposes
 defineExpose(sectionApi);
 
+// computeds
+const isValidComputed = computed(() => {
+  return isValid();
+});
+const isInvalidComputed = computed(() => {
+  return isInvalid();
+});
+const isUpdatedComputed = computed(() => {
+  return getValuesFormSerialized();
+});
+
 // watchs
 watch(
-  () => (propsComponent.section.events.onIsValid ? isValid() : null),
-  (newValue) => {
-    if (newValue) {
-      callAllEvents(propsComponent.section.events.onIsValid);
+  () => propsComponent.section?.events.onIsValid,
+  (callExist) => {
+    stopWatchIsValid?.();
+    stopWatchIsValid = null;
+    if (callExist) {
+      stopWatchIsValid = watch(isValidComputed, (newValue) => {
+        if (newValue) {
+          callAllEvents(propsComponent.section.events.onIsValid);
+        }
+      });
     }
-  }
+  },
+  { immediate: true }
+);
+watch(
+  () => propsComponent.section?.events.onIsInvalid,
+  (callExist) => {
+    stopWatchIsInvalid?.();
+    stopWatchIsInvalid = null;
+    if (callExist) {
+      stopWatchIsInvalid = watch(isInvalidComputed, (newValue) => {
+        if (newValue) {
+          callAllEvents(propsComponent.section?.events.onIsInvalid);
+        }
+      });
+    }
+  },
+  { immediate: true }
+);
+watch(
+  () => propsComponent.section?.events.onUpdate,
+  (callExist) => {
+    stopWatchIsUpdated?.();
+    stopWatchIsUpdated = null;
+    if (callExist) {
+      stopWatchIsUpdated = watch(
+        isUpdatedComputed,
+        () => {
+          callAllEvents(propsComponent.section?.events.onUpdate);
+        },
+        { immediate: true }
+      );
+    }
+  },
+  { immediate: true }
 );
 
 // lifeCycle

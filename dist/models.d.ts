@@ -149,7 +149,8 @@ export type TSubmit64FormApi = {
     getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
     getFields: () => Map<string, TSubmit64FieldApi>;
     validate: () => boolean;
-    isFormValid: () => boolean;
+    isValid: () => boolean;
+    isInvalid: () => boolean;
     reset: () => void;
     clear: () => void;
     resetValidation: () => void;
@@ -175,6 +176,7 @@ export type TSubmit64SectionApi = {
     clear: () => void;
     validate: () => boolean;
     isValid: () => boolean;
+    isInvalid: () => boolean;
     hide: () => void;
     unhide: () => void;
     resetValidation: () => void;
@@ -190,6 +192,7 @@ export type TSubmit64FieldApi = {
     clear: () => void;
     validate: () => boolean;
     isValid: () => boolean;
+    isInvalid: () => boolean;
     hide: () => void;
     unhide: () => void;
     resetValidation: () => void;
@@ -247,7 +250,7 @@ export type TSubmit64FieldProps = {
     clear: () => void;
     getValueSerialized: () => unknown;
     getValueDeserialized: () => unknown;
-    registerBehaviourCallbacks: (registerValidationArg: () => boolean, registerIsValidArg: () => boolean, registerResetValidationArg: () => void) => void;
+    registerBehaviourCallbacks: (registerValidationArg: () => boolean, registerIsValidArg: () => boolean, registerResetValidationArg: () => void, registerOnResetArg?: () => void) => void;
 };
 export type TSubmit64FieldWrapperResetProps = {
     reset: () => void;
@@ -327,6 +330,7 @@ export type TFormEvent = {
     onClear?: TSubmit64Event;
     onReset?: TSubmit64Event;
     onIsValid?: TSubmit64Event;
+    onIsInvalid?: TSubmit64Event;
     onValidated?: TSubmit64Event;
 };
 export type TFormSectionEvent = {
@@ -335,11 +339,14 @@ export type TFormSectionEvent = {
     onValidated?: TSubmit64Event;
     onHide?: TSubmit64Event;
     onUnhide?: TSubmit64Event;
+    onUpdate?: TSubmit64Event;
     onIsValid?: TSubmit64Event;
+    onIsInvalid?: TSubmit64Event;
 };
 export type TFormFieldEvent = {
     onUpdate?: TSubmit64Event;
     onIsValid?: TSubmit64Event;
+    onIsInvalid?: TSubmit64Event;
     onValidated?: TSubmit64Event;
     onClear?: TSubmit64Event;
     onReset?: TSubmit64Event;

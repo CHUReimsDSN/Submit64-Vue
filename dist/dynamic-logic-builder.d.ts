@@ -18,6 +18,9 @@ type TWhenArgs = {
     "Field is valid": {
         fieldName: string;
     };
+    "Field is invalid": {
+        fieldName: string;
+    };
     "Field is validated": {
         fieldName: string;
     };
@@ -34,6 +37,12 @@ type TWhenArgs = {
         fieldName: string;
     };
     "Section is valid": {
+        sectionName: string;
+    };
+    "Section is invalid": {
+        sectionName: string;
+    };
+    "Section is updated": {
         sectionName: string;
     };
     "Section is validated": {
@@ -59,6 +68,7 @@ type TWhenArgs = {
     "Form is cleared": undefined;
     "Form is reseted": undefined;
     "Form is valid": undefined;
+    "Form is invalid": undefined;
     "Form is validated": undefined;
 };
 declare class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {

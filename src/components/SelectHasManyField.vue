@@ -73,21 +73,19 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
     });
 }
 function setupDefaultSelectValue() {
-  void nextTick(() => {
-    const value = propsComponent.getValueSerialized();
-    if (!value || !propsComponent.field.associationData) {
-      return;
-    }
-    selectOptionsFiltered.value = (
-      value as TSubmit64AssociationRowEntry["value"][]
-    ).map((valueMap, valueMapIndex) => {
-      return {
-        label:
-          propsComponent.field.associationData!.label[valueMapIndex] ?? "???",
-        value: valueMap,
-        data: propsComponent.field.associationData!.data[valueMapIndex],
-      };
-    });
+  const value = propsComponent.getValueSerialized();
+  if (!value || !propsComponent.field.associationData) {
+    return;
+  }
+  selectOptionsFiltered.value = (
+    value as TSubmit64AssociationRowEntry["value"][]
+  ).map((valueMap, valueMapIndex) => {
+    return {
+      label:
+        propsComponent.field.associationData!.label[valueMapIndex] ?? "???",
+      value: valueMap,
+      data: propsComponent.field.associationData!.data[valueMapIndex],
+    };
   });
 }
 function validate() {
@@ -100,7 +98,7 @@ function isValid() {
   if (!fieldRef.value) {
     return false;
   }
-  return fieldRef.value.hasError;
+  return !fieldRef.value.hasError;
 }
 function resetValidation() {
   if (!fieldRef.value) {
@@ -110,7 +108,7 @@ function resetValidation() {
 }
 function clear() {
   propsComponent.clear();
-  selectOptionsScrollPagination.value = getDefaultPagination()
+  selectOptionsScrollPagination.value = getDefaultPagination();
   selectOptionsFiltered.value = [];
 }
 function onVirtualScroll(scrollArgs: {
@@ -122,7 +120,8 @@ function onVirtualScroll(scrollArgs: {
     selectOptionsScrollPagination.value.isLoading !== true &&
     selectOptionsScrollPagination.value.nextPage <
       selectOptionsScrollPagination.value.lastPage &&
-    scrollArgs.to === lastIndex && lastIndex !== -1
+    scrollArgs.to === lastIndex &&
+    lastIndex !== -1
   ) {
     const form = propsComponent.formApi.form;
     const callback = propsComponent.formApi.getAssociationDataCallback();
@@ -155,8 +154,15 @@ function onVirtualScroll(scrollArgs: {
 
 // lifeCycle
 onMounted(() => {
-  setupDefaultSelectValue();
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
+  void nextTick(() => {
+    setupDefaultSelectValue();
+  });
+  propsComponent.registerBehaviourCallbacks(
+    validate,
+    isValid,
+    resetValidation,
+    setupDefaultSelectValue
+  );
 });
 </script>
 

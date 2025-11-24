@@ -26,22 +26,22 @@ export class DynamicLogicBuilder {
             const targetDefinition = event.getTarget();
             switch (targetDefinition.target) {
                 case "field":
-                    if (!allEventObject.fields[targetDefinition.target]) {
-                        allEventObject.fields[targetDefinition.target] = {};
+                    if (!allEventObject.fields[targetDefinition.targetName]) {
+                        allEventObject.fields[targetDefinition.targetName] = {};
                     }
-                    if (!allEventObject.fields[targetDefinition.target][targetDefinition.key]) {
-                        allEventObject.fields[targetDefinition.target][targetDefinition.key] = [];
+                    if (!allEventObject.fields[targetDefinition.targetName][targetDefinition.key]) {
+                        allEventObject.fields[targetDefinition.targetName][targetDefinition.key] = [];
                     }
-                    allEventObject.fields[targetDefinition.target][targetDefinition.key].push(event.getActionCallback());
+                    allEventObject.fields[targetDefinition.targetName][targetDefinition.key].push(event.getActionCallback());
                     break;
                 case "section":
-                    if (!allEventObject.sections[targetDefinition.target]) {
-                        allEventObject.sections[targetDefinition.target] = {};
+                    if (!allEventObject.sections[targetDefinition.targetName]) {
+                        allEventObject.sections[targetDefinition.targetName] = {};
                     }
-                    if (!allEventObject.sections[targetDefinition.target][targetDefinition.key]) {
-                        allEventObject.sections[targetDefinition.target][targetDefinition.key] = [];
+                    if (!allEventObject.sections[targetDefinition.targetName][targetDefinition.key]) {
+                        allEventObject.sections[targetDefinition.targetName][targetDefinition.key] = [];
                     }
-                    allEventObject.sections[targetDefinition.target][targetDefinition.key].push(event.getActionCallback());
+                    allEventObject.sections[targetDefinition.targetName][targetDefinition.key].push(event.getActionCallback());
                     break;
                 case "form":
                     if (!allEventObject.form[targetDefinition.key]) {
@@ -78,6 +78,12 @@ class FormEvent {
                     target: "field",
                     targetName: this.data.fieldName,
                     key: "onIsValid",
+                };
+            case "Field is invalid":
+                return {
+                    target: "field",
+                    targetName: this.data.fieldName,
+                    key: "onIsInvalid",
                 };
             case "Field is validated":
                 return {
@@ -120,7 +126,14 @@ class FormEvent {
                 return {
                     target: "section",
                     targetName: this.data.sectionName,
-                    key: "onReset",
+                    key: "onIsValid",
+                };
+            case "Section is invalid":
+                return {
+                    target: "section",
+                    targetName: this.data
+                        .sectionName,
+                    key: "onIsInvalid",
                 };
             case "Section is hidden":
                 return {
@@ -156,6 +169,13 @@ class FormEvent {
                         .sectionName,
                     key: "onValidated",
                 };
+            case "Section is updated":
+                return {
+                    target: "section",
+                    targetName: this.data
+                        .sectionName,
+                    key: "onUpdate",
+                };
             case "Form is ready":
                 return {
                     target: "form",
@@ -168,13 +188,13 @@ class FormEvent {
                 };
             case "Form submit is successful":
                 return {
-                    target: 'form',
-                    key: 'onSubmitSuccess'
+                    target: "form",
+                    key: "onSubmitSuccess",
                 };
             case "Form submit is unsuccessful":
                 return {
-                    target: 'form',
-                    key: 'onSubmitUnsuccess'
+                    target: "form",
+                    key: "onSubmitUnsuccess",
                 };
             case "Form is updated":
                 return {
@@ -195,6 +215,11 @@ class FormEvent {
                 return {
                     target: "form",
                     key: "onIsValid",
+                };
+            case "Form is invalid":
+                return {
+                    target: "form",
+                    key: "onIsInvalid",
                 };
             case "Form is validated":
                 return {

@@ -25,6 +25,9 @@ let isValidCallback: () => boolean = () => {
 let resetValidationCallback: () => void = () => {
   return;
 };
+let resetCallback: () => void = () => {
+  return;
+};
 
 // consts
 const rules = getComputedRules();
@@ -34,12 +37,15 @@ const modelValue = ref<unknown>();
 const backendErrors = ref<string[]>([]);
 
 // functions
-function reset() {
+function reset(triggerCallback = true) {
   modelValue.value = propsComponent.formApi.getInitialValueByFieldName(
     propsComponent.field.metadata.field_name
   );
   modelValue.value = formModelSerializeByType(modelValue.value);
-  callAllEvents(propsComponent.field.events.onReset);
+  if (triggerCallback) {
+    callAllEvents(propsComponent.field.events.onReset);
+  }
+  resetCallback()
   void nextTick(() => {
     resetValidation();
   });
@@ -156,6 +162,7 @@ function hide() {
   );
   if (fieldRef) {
     fieldRef.hidden = true;
+    callAllEvents(propsComponent.field.events.onHide)
   }
 }
 function unhide() {
@@ -164,6 +171,7 @@ function unhide() {
   );
   if (fieldRef) {
     fieldRef.hidden = false;
+    callAllEvents(propsComponent.field.events.onUnhide)
   }
 }
 function setReadonlyState(state: boolean) {
@@ -223,17 +231,24 @@ function isValid() {
   const isValid = isValidCallback();
   return isValid;
 }
+function isInvalid() {
+  return !isValid()
+}
 function resetValidation() {
   return resetValidationCallback();
 }
 function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,
   registerIsValidArg: () => boolean,
-  registerResetValidationArg: () => void
+  registerResetValidationArg: () => void,
+  registerOnResetArg?: () => void,
 ) {
   validationCallback = registerValidationArg;
   isValidCallback = registerIsValidArg;
   resetValidationCallback = registerResetValidationArg;
+  if (registerOnResetArg) {
+    resetCallback = registerOnResetArg;
+  }
 }
 
 // expose
@@ -242,6 +257,7 @@ const api: TSubmit64FieldApi = {
   clear,
   validate,
   isValid,
+  isInvalid,
   hide,
   unhide,
   resetValidation,
@@ -267,18 +283,19 @@ watch(
   }
 );
 watch(
-  () => (propsComponent.field.events.onIsValid ? isValid() : null),
+  () => (propsComponent.field.events.onIsValid || propsComponent.field.events.onIsInvalid ? modelValue.value : null),
   (newValue) => {
     if (newValue) {
       callAllEvents(propsComponent.field.events.onIsValid);
+    } else {
+      callAllEvents(propsComponent.field.events.onIsInvalid)
     }
   }
 );
-// TODO confirm statement
 
 // lifeCycle
 onMounted(() => {
-  reset();
+  reset(false);
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef && propsComponent.formApi) {
     propsComponent.privateFormApi.registerFieldWrapperRef(

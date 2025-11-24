@@ -73,19 +73,17 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
     });
 }
 function setupDefaultSelectValue() {
-  void nextTick(() => {
-    const value = propsComponent.getValueSerialized();
-    if (!value || !propsComponent.field.associationData) {
-      return;
-    }
-    selectOptionsFiltered.value = [
-      {
-        label: propsComponent.field.associationData.label[0] ?? "???",
-        value: value as TSubmit64AssociationRowEntry["value"],
-        data: propsComponent.field.associationData.data[0],
-      },
-    ];
-  });
+  const value = propsComponent.getValueSerialized();
+  if (!value || !propsComponent.field.associationData) {
+    return;
+  }
+  selectOptionsFiltered.value = [
+    {
+      label: propsComponent.field.associationData.label[0] ?? "???",
+      value: value as TSubmit64AssociationRowEntry["value"],
+      data: propsComponent.field.associationData.data[0],
+    },
+  ];
 }
 function validate() {
   if (!fieldRef.value) {
@@ -97,7 +95,7 @@ function isValid() {
   if (!fieldRef.value) {
     return false;
   }
-  return fieldRef.value.hasError;
+  return !fieldRef.value.hasError;
 }
 function resetValidation() {
   if (!fieldRef.value) {
@@ -107,7 +105,7 @@ function resetValidation() {
 }
 function clear() {
   propsComponent.clear();
-  selectOptionsScrollPagination.value = getDefaultPagination()
+  selectOptionsScrollPagination.value = getDefaultPagination();
   selectOptionsFiltered.value = [];
 }
 function onVirtualScroll(scrollArgs: {
@@ -153,8 +151,15 @@ function onVirtualScroll(scrollArgs: {
 
 // lifeCycle
 onMounted(() => {
-  setupDefaultSelectValue();
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
+  void nextTick(() => {
+    setupDefaultSelectValue();
+  });
+  propsComponent.registerBehaviourCallbacks(
+    validate,
+    isValid,
+    resetValidation,
+    setupDefaultSelectValue
+  );
 });
 </script>
 

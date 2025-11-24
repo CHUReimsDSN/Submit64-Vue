@@ -7,7 +7,9 @@ import {
   defineComponent,
   nextTick,
   watch,
-  Ref,
+  computed,
+  type Ref,
+  type WatchStopHandle,
 } from "vue";
 import type {
   TForm,
@@ -35,11 +37,12 @@ let formMetadataAndData: TResourceFormMetadataAndData | null = null;
 let stringyfiedValues = "";
 let sectionCount = 0;
 let fieldCount = 0;
+let stopWatchIsValid: WatchStopHandle | null = null;
+let stopWatchIsInvalid: WatchStopHandle | null = null;
+let stopWatchIsUpdated: WatchStopHandle | null = null;
 
 // consts
 const slots = useSlots();
-const fieldWrapperRefs: Map<string, TSubmit64FieldApi> = new Map();
-const sectionsWrapperRefs: Map<string, TSubmit64SectionApi> = new Map();
 
 // refs
 const form = ref<TForm>(FormFactory.getEmptyFormBeforeInit());
@@ -49,6 +52,8 @@ const setupIsDone = ref(false);
 const isLoadingSubmit = ref(false);
 const mode = ref<TSubmit64FormMode>("create");
 const orphanErrors = ref<Record<string, string[]>>({});
+const sectionsWrapperRefs = ref<Map<string, TSubmit64SectionApi>>(new Map());
+const fieldWrapperRefs = ref<Map<string, TSubmit64FieldApi>>(new Map());
 
 // functions
 async function setupMetadatasAndForm() {
@@ -78,6 +83,7 @@ async function submit(): Promise<void> {
   if (!validate()) {
     return;
   }
+  callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = true;
   clearBackendErrors();
   const resourceData = getValuesFormDeserialized();
@@ -90,13 +96,13 @@ async function submit(): Promise<void> {
   if (!newData.success) {
     orphanErrors.value = {};
     const parentedKeys: string[] = [];
-    [...fieldWrapperRefs].forEach((entry) => {
-      const entryBackendErrors = newData.errors[entry[0]];
+    for (const [fieldName, fieldApi] of fieldWrapperRefs.value) {
+      const entryBackendErrors = newData.errors[fieldName];
       if (entryBackendErrors) {
-        entry[1].setupBackendErrors(entryBackendErrors);
-        parentedKeys.push(entry[0]);
+        fieldApi.setupBackendErrors(entryBackendErrors);
+        parentedKeys.push(fieldName);
       }
-    });
+    }
     Object.entries(newData.errors).forEach((errorEntry) => {
       if (parentedKeys.includes(errorEntry[0])) {
         return;
@@ -119,7 +125,7 @@ async function submit(): Promise<void> {
       getOverridedComponents(),
       {
         form: newData.form!,
-        resource_data: newData.resource_data!
+        resource_data: newData.resource_data!,
       },
       propsComponent.formSettings,
       propsComponent.formStyle,
@@ -129,7 +135,6 @@ async function submit(): Promise<void> {
     );
     callAllEvents(form.value?.events.onSubmitSuccess);
   }
-  callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = false;
 }
 function getOverridedComponents() {
@@ -177,14 +182,21 @@ function getOverridedComponents() {
 }
 function getValuesFormDeserialized(): Record<string, unknown> {
   const resourceData: Record<string, unknown> = {};
-  [...fieldWrapperRefs].forEach((entry) => {
-    resourceData[entry[0]] = entry[1].getValueDeserialized();
-  });
+  for (const [fieldName, fieldApi] of fieldWrapperRefs.value) {
+    resourceData[fieldName] = fieldApi.getValueDeserialized();
+  }
+  return resourceData;
+}
+function getValuesFormSerialized(): Record<string, unknown> {
+  const resourceData: Record<string, unknown> = {};
+  for (const [fieldName, fieldApi] of fieldWrapperRefs.value) {
+    resourceData[fieldName] = fieldApi.getValueSerialized();
+  }
   return resourceData;
 }
 function validate() {
   let formValid = true;
-  fieldWrapperRefs.forEach((fieldRef) => {
+  fieldWrapperRefs.value.forEach((fieldRef) => {
     if (!fieldRef.validate()) {
       formValid = false;
       return;
@@ -193,9 +205,9 @@ function validate() {
   callAllEvents(form.value?.events.onValidated);
   return formValid;
 }
-function isFormValid() {
+function isValid() {
   let formValid = true;
-  fieldWrapperRefs.forEach((fieldRef) => {
+  fieldWrapperRefs.value.forEach((fieldRef) => {
     if (!fieldRef.isValid()) {
       formValid = false;
       return;
@@ -203,25 +215,28 @@ function isFormValid() {
   });
   return formValid;
 }
+function isInvalid() {
+  return !isValid();
+}
 function reset() {
-  fieldWrapperRefs.forEach((fieldRef) => {
+  fieldWrapperRefs.value.forEach((fieldRef) => {
     fieldRef.reset();
   });
   callAllEvents(form.value?.events.onReset);
 }
 function clear() {
-  fieldWrapperRefs.forEach((fieldRef) => {
+  fieldWrapperRefs.value.forEach((fieldRef) => {
     fieldRef.clear();
   });
   callAllEvents(form.value?.events.onClear);
 }
 function resetValidation() {
-  fieldWrapperRefs.forEach((fieldRef) => {
+  fieldWrapperRefs.value.forEach((fieldRef) => {
     fieldRef.resetValidation();
   });
 }
 function clearBackendErrors() {
-  fieldWrapperRefs.forEach((fieldRef) => {
+  fieldWrapperRefs.value.forEach((fieldRef) => {
     fieldRef.setupBackendErrors([]);
   });
 }
@@ -232,19 +247,19 @@ function getInitialValueByFieldName(fieldName: string) {
   return formMetadataAndData.resource_data[fieldName];
 }
 function getSectionByName(sectionName: string) {
-  return sectionsWrapperRefs.get(sectionName);
+  return sectionsWrapperRefs.value.get(sectionName);
 }
 function getSectionByIndex(sectionIndex: number) {
-  return [...sectionsWrapperRefs.values()].at(sectionIndex);
+  return [...sectionsWrapperRefs.value.values()].at(sectionIndex);
 }
 function getSections() {
-  return sectionsWrapperRefs;
+  return sectionsWrapperRefs.value;
 }
 function getFieldByName(fieldName: string) {
-  return fieldWrapperRefs.get(fieldName);
+  return fieldWrapperRefs.value.get(fieldName);
 }
 function getFields() {
-  return fieldWrapperRefs;
+  return fieldWrapperRefs.value;
 }
 function getAssociationDataCallback() {
   return (
@@ -315,8 +330,8 @@ function registerSectionWrapperRef(
   sectionName: string,
   sectionComponent: TSubmit64SectionApi
 ) {
-  sectionsWrapperRefs.set(sectionName, sectionComponent);
-  if (sectionCount === sectionsWrapperRefs.size) {
+  sectionsWrapperRefs.value.set(sectionName, sectionComponent);
+  if (sectionCount === sectionsWrapperRefs.value.size) {
     setupSectionsIsDone.value = true;
   }
 }
@@ -324,8 +339,8 @@ function registerFieldWrapperRef(
   fieldName: string,
   fieldComponent: TSubmit64FieldApi
 ) {
-  fieldWrapperRefs.set(fieldName, fieldComponent);
-  if (fieldCount === fieldWrapperRefs.size) {
+  fieldWrapperRefs.value.set(fieldName, fieldComponent);
+  if (fieldCount === fieldWrapperRefs.value.size) {
     setupFieldsIsDone.value = true;
   }
 }
@@ -352,7 +367,8 @@ const formApi: TSubmit64FormApi = {
   getFieldByName,
   getFields,
   validate,
-  isFormValid,
+  isValid,
+  isInvalid,
   reset,
   clear,
   resetValidation,
@@ -368,6 +384,17 @@ const formApi: TSubmit64FormApi = {
 };
 defineExpose<TSubmit64FormApi>(formApi);
 
+// computeds
+const isValidComputed = computed(() => {
+  return isValid();
+});
+const isInvalidComputed = computed(() => {
+  return isInvalid();
+});
+const isUpdatedComputed = computed(() => {
+  return getValuesFormSerialized();
+});
+
 // watchs
 watch(
   () => setupSectionsIsDone.value && setupFieldsIsDone.value,
@@ -379,16 +406,51 @@ watch(
   }
 );
 watch(
-  () => (form.value?.events.onIsValid ? isFormValid() : null),
-  () => {
-    callAllEvents(form.value?.events.onIsValid);
-  }
+  () => form.value?.events.onIsValid,
+  (callExist) => {
+    stopWatchIsValid?.();
+    stopWatchIsValid = null;
+    if (callExist) {
+      stopWatchIsValid = watch(isValidComputed, (newValue) => {
+        if (newValue) {
+          callAllEvents(form.value?.events.onIsValid);
+        }
+      });
+    }
+  },
+  { immediate: true }
 );
 watch(
-  () => (form.value?.events.onUpdate ? getValuesFormDeserialized() : null),
-  () => {
-    callAllEvents(form.value?.events.onUpdate);
-  }
+  () => form.value?.events.onIsInvalid,
+  (callExist) => {
+    stopWatchIsInvalid?.();
+    stopWatchIsInvalid = null;
+    if (callExist) {
+      stopWatchIsInvalid = watch(isInvalidComputed, (newValue) => {
+        if (newValue) {
+          callAllEvents(form.value?.events.onIsInvalid);
+        }
+      });
+    }
+  },
+  { immediate: true }
+);
+watch(
+  () => form.value?.events.onUpdate,
+  (callExist) => {
+    stopWatchIsUpdated?.();
+    stopWatchIsUpdated = null;
+    if (callExist) {
+      stopWatchIsUpdated = watch(
+        isUpdatedComputed,
+        () => {
+          callAllEvents(form.value?.events.onUpdate);
+        },
+        { immediate: true }
+      );
+    }
+  },
+  { immediate: true }
 );
 
 // lifeCycle
