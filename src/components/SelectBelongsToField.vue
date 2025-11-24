@@ -159,7 +159,6 @@ onMounted(() => {
     v-on:update:model-value="
       (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
-    :type="propsComponent.field.componentOptions.regularFieldType"
     :label="propsComponent.field.label"
     :outlined="styleConfig.fieldOutlined"
     :filled="styleConfig.fieldFilled"

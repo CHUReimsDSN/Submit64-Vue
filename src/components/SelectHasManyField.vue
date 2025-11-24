@@ -162,7 +162,6 @@ onMounted(() => {
     v-on:update:model-value="
       (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
-    :type="propsComponent.field.componentOptions.regularFieldType"
     :label="propsComponent.field.label"
     :hint="propsComponent.field.hint"
     :outlined="styleConfig.fieldOutlined"
@@ -190,7 +189,6 @@ onMounted(() => {
     :use-chips="true"
     @clear="clear"
     @filter="onFilter"
-    @virtual-scroll="onVirtualScroll"
   >
     <template v-slot:option="scope">
       <component
