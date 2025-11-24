@@ -37,6 +37,7 @@ function getDefaultPagination() {
   return pagination;
 }
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
+  console.log('filter')
   if (val === lastLabelFilter.value) {
     return;
   }
@@ -111,12 +112,14 @@ function onVirtualScroll(scrollArgs: {
   to: number;
   ref: InstanceType<typeof QSelect>;
 }) {
+  console.log('scroll')
   const lastIndex = selectOptionsFiltered.value.length - 1;
   if (
     selectOptionsScrollPagination.value.isLoading !== true &&
     selectOptionsScrollPagination.value.nextPage <
       selectOptionsScrollPagination.value.lastPage &&
-    scrollArgs.to === lastIndex && lastIndex > selectOptionsScrollPagination.value.limit - 1
+    scrollArgs.to === lastIndex &&
+    lastIndex > selectOptionsScrollPagination.value.limit - 1
   ) {
     const form = propsComponent.formApi.form;
     const callback = propsComponent.formApi.getAssociationDataCallback();
@@ -185,6 +188,11 @@ onMounted(() => {
     @filter="onFilter"
     @virtual-scroll="onVirtualScroll"
   >
+    <template v-slot:no-option>
+      <div>
+        {{ propsComponent.formApi.form.formSettings.associationEmptyMessage }}
+      </div>
+    </template>
     <template v-slot:option="scope">
       <component
         :is="displayComponent"

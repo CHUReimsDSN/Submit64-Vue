@@ -37,6 +37,7 @@ function getDefaultPagination() {
   return pagination;
 }
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
+    console.log('filter')
   if (val === lastLabelFilter.value) {
     return;
   }
@@ -114,6 +115,7 @@ function onVirtualScroll(scrollArgs: {
   to: number;
   ref: InstanceType<typeof QSelect>;
 }) {
+  console.log('scroll')
   const lastIndex = selectOptionsFiltered.value.length - 1;
   if (
     selectOptionsScrollPagination.value.isLoading !== true &&
@@ -189,7 +191,11 @@ onMounted(() => {
     :use-chips="true"
     @clear="clear"
     @filter="onFilter"
+    @virtual-scroll="onVirtualScroll"
   >
+  <template v-slot:no-option>
+    <div>{{ propsComponent.formApi.form.formSettings.associationEmptyMessage }}</div>
+  </template>
     <template v-slot:option="scope">
       <component
         :is="displayComponent"

@@ -69,6 +69,7 @@ export type TFormSettings = {
     dateFormat?: string | undefined;
     datetimeFormat?: string | undefined;
     renderBackendHint?: boolean | undefined;
+    associationEmptyMessage?: string | undefined;
 };
 export type TFormStyle = {
     fieldFilled?: boolean | undefined;
@@ -220,12 +221,7 @@ export type TSubmit64FormProps = {
     eventManager?: (eventManager: DynamicLogicBuilder) => void;
     context?: TContext | undefined;
 };
-export type TFormSettingsProps = {
-    rulesBehaviour?: "lazy" | "ondemand" | undefined;
-    dateFormat?: string | undefined;
-    datetimeFormat?: string | undefined;
-    renderBackendHint?: boolean | undefined;
-};
+export type TFormSettingsProps = Omit<TFormSettings, 'backendDateFormat' | 'backendDatetimeFormat'>;
 export type TSubmit64SectionWrapperProps = {
     section: TFormSection;
     formApi: TSubmit64FormApi;
