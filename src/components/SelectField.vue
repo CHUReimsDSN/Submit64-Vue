@@ -2,6 +2,7 @@
 import { QSelect } from "quasar";
 import { TSubmit64FieldProps, TSubmit64StaticSelectOptions } from "../models";
 import { onMounted, ref } from "vue";
+import { QItemLabel, QItem, QItemSection } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -12,7 +13,7 @@ const selectOptionsFiltered = ref<TSubmit64StaticSelectOptions[]>([]);
 const fieldRef = ref<InstanceType<typeof QSelect>>();
 
 // consts
-const form = propsComponent.formApi.form
+const form = propsComponent.formApi.form;
 const formSetting = form.formSettings;
 const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
@@ -47,9 +48,9 @@ function validate() {
 }
 function isValid() {
   if (!fieldRef.value) {
-    return false
+    return false;
   }
-  return fieldRef.value.hasError
+  return fieldRef.value.hasError;
 }
 function resetValidation() {
   if (!fieldRef.value) {
@@ -102,5 +103,13 @@ onMounted(() => {
     :useInput="true"
     @clear="clear"
     @filter="inputFilter"
-  />
+  >
+    <q-item :dense="styleConfig.fieldDense">
+      <q-item-section>
+        <q-item-label>{{
+          propsComponent.formApi.form.formSettings.associationEmptyMessage
+        }}</q-item-label>
+      </q-item-section>
+    </q-item>
+  </q-select>
 </template>

@@ -55,7 +55,7 @@ export type TSubmit64AssociationData = {
 };
 export type TSubmit64AssociationRowEntry = {
   label: string;
-  value: unknown;
+  value: TRecord['id'];
   data: TRecord;
 };
 export type TSubmit64SubmitSubmitData = {
@@ -75,6 +75,7 @@ export type TFormSettings = {
   datetimeFormat?: string | undefined;
   renderBackendHint?: boolean | undefined;
   associationEmptyMessage?: string | undefined;
+  requiredFieldsHasAsterisk?: boolean | undefined;
 };
 export type TFormStyle = {
   fieldFilled?: boolean | undefined;

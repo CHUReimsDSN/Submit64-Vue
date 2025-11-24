@@ -1,8 +1,61 @@
 ---
-title: Définition
+title: Définitions
 ---
 
-# Définition
+# Définitions
+
+## TFormSettingsProps
+
+```typescript
+type TFormSettingsProps = {
+  /*
+  * Comportement des règles, validation à chaque saisie ou à la soummission du formulaire
+  */
+  rulesBehaviour?: "lazy" | "ondemand";
+
+  /*
+  * Format des dates à afficher/editer
+  */
+  dateFormat?: string;
+
+  /*
+  * Format des datetimes à afficher/editer
+  */
+  datetimeFormat?: string;
+
+  /*
+  * Affiche les indices déclarés coté serveur
+  */
+  renderBackendHint?: boolean;
+
+  /*
+  * Message affiché lors d'une recherche vide sur les champs d'associations
+  */
+  associationEmptyMessage: 'Empty',
+
+  /*
+  * Affiche les libelles des champs requis avec un astérisque
+  */
+  requiredFieldsHasAsterisk: true
+};
+```
+
+## TFormStyle
+```typescript
+type TFormStyle = {
+  fieldFilled?: boolean;
+  fieldOutlined?: boolean;
+  fieldStandout?: boolean;
+  fieldBorderless?: boolean;
+  fieldRounded?: boolean;
+  fieldSquare?: boolean;
+  fieldDense?: boolean;
+  fieldHideBottomSpace?: boolean;
+  fieldColor?: string;
+  fieldBgColor?: string;
+  fieldClass?: string;
+};
+```
 
 ## TSubmit64FormApi
 

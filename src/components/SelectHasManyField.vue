@@ -6,6 +6,7 @@ import type {
   TSubmit64FieldProps,
 } from "../models";
 import { nextTick, onMounted, ref } from "vue";
+import { QItemLabel, QItem, QItemSection } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -39,6 +40,7 @@ function getDefaultPagination() {
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   if (val === lastLabelFilter.value) {
     update(() => {});
+    return;
   }
   const callback = propsComponent.formApi.getAssociationDataCallback();
   selectOptionsScrollPagination.value = getDefaultPagination();
@@ -76,16 +78,16 @@ function setupDefaultSelectValue() {
     if (!value || !propsComponent.field.associationData) {
       return;
     }
-    selectOptionsFiltered.value = (value as unknown[]).map(
-      (valueMap, valueMapIndex) => {
-        return {
-          label:
-            propsComponent.field.associationData!.label[valueMapIndex] ?? "???",
-          value: valueMap,
-          data: propsComponent.field.associationData!.data[valueMapIndex],
-        };
-      }
-    );
+    selectOptionsFiltered.value = (
+      value as TSubmit64AssociationRowEntry["value"][]
+    ).map((valueMap, valueMapIndex) => {
+      return {
+        label:
+          propsComponent.field.associationData!.label[valueMapIndex] ?? "???",
+        value: valueMap,
+        data: propsComponent.field.associationData!.data[valueMapIndex],
+      };
+    });
   });
 }
 function validate() {
@@ -108,6 +110,7 @@ function resetValidation() {
 }
 function clear() {
   propsComponent.clear();
+  selectOptionsScrollPagination.value = getDefaultPagination()
   selectOptionsFiltered.value = [];
 }
 function onVirtualScroll(scrollArgs: {
@@ -119,8 +122,7 @@ function onVirtualScroll(scrollArgs: {
     selectOptionsScrollPagination.value.isLoading !== true &&
     selectOptionsScrollPagination.value.nextPage <
       selectOptionsScrollPagination.value.lastPage &&
-    scrollArgs.to === lastIndex &&
-    lastIndex > selectOptionsScrollPagination.value.limit - 1
+    scrollArgs.to === lastIndex && lastIndex !== -1
   ) {
     const form = propsComponent.formApi.form;
     const callback = propsComponent.formApi.getAssociationDataCallback();
@@ -142,7 +144,9 @@ function onVirtualScroll(scrollArgs: {
       selectOptionsScrollPagination.value.lastPage = Math.ceil(
         response.row_count / selectOptionsScrollPagination.value.limit
       );
-      selectOptionsScrollPagination.value.nextPage++;
+      if (response.row_count >= selectOptionsScrollPagination.value.limit) {
+        selectOptionsScrollPagination.value.nextPage++;
+      }
       selectOptionsScrollPagination.value.isLoading = false;
       scrollArgs.ref.refresh();
     });
@@ -193,9 +197,13 @@ onMounted(() => {
     @virtual-scroll="onVirtualScroll"
   >
     <template v-slot:no-option>
-      <div>
-        {{ propsComponent.formApi.form.formSettings.associationEmptyMessage }}
-      </div>
+      <q-item :dense="styleConfig.fieldDense">
+        <q-item-section>
+          <q-item-label>{{
+            propsComponent.formApi.form.formSettings.associationEmptyMessage
+          }}</q-item-label>
+        </q-item-section>
+      </q-item>
     </template>
     <template v-slot:option="scope">
       <component
