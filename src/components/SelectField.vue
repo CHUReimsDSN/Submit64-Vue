@@ -2,6 +2,7 @@
 import { QSelect } from "quasar";
 import { TSubmit64FieldProps, TSubmit64StaticSelectOptions } from "../models";
 import { onMounted, ref } from "vue";
+import { QItemLabel, QItem, QItemSection } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();

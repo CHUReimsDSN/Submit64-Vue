@@ -6,6 +6,7 @@ import type {
   TSubmit64FieldProps,
 } from "../models";
 import { nextTick, onMounted, ref } from "vue";
+import { QItemLabel, QItem, QItemSection } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
