@@ -945,7 +945,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
   setup(o) {
     const e = o, t = e.field.componentOptions.associationDisplayComponent, a = e.formApi.form, n = a.formSettings, u = a.formStyle, l = n.rulesBehaviour === "lazy", s = F([]), i = F(
       C()
-    ), c = F(), m = F("");
+    ), c = F(), m = F("__init");
     function C() {
       return {
         limit: 30,
@@ -955,7 +955,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       };
     }
     function y(p, V) {
-      if (p === m.value)
+      if (console.log("filter"), p === m.value)
         return;
       const _ = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
@@ -1003,6 +1003,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       e.clear(), s.value = [];
     }
     function g(p) {
+      console.log("scroll");
       const V = s.value.length - 1;
       if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === V) {
         const _ = e.formApi.form, q = e.formApi.getAssociationDataCallback();

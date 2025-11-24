@@ -24,7 +24,7 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>(
   getDefaultPagination()
 );
 const fieldRef = ref<InstanceType<typeof QSelect>>();
-const lastLabelFilter = ref("");
+const lastLabelFilter = ref("__init");
 
 // functions
 function getDefaultPagination() {
@@ -37,6 +37,7 @@ function getDefaultPagination() {
   return pagination;
 }
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
+  console.log('filter')
   if (val === lastLabelFilter.value) {
     return;
   }
@@ -114,6 +115,7 @@ function onVirtualScroll(scrollArgs: {
   to: number;
   ref: InstanceType<typeof QSelect>;
 }) {
+    console.log('scroll')
   const lastIndex = selectOptionsFiltered.value.length - 1;
   if (
     selectOptionsScrollPagination.value.isLoading !== true &&
