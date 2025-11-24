@@ -55,7 +55,7 @@ export type TSubmit64AssociationData = {
 };
 export type TSubmit64AssociationRowEntry = {
   label: string;
-  value: unknown;
+  value: TRecord['id'];
   data: TRecord;
 };
 export type TSubmit64SubmitSubmitData = {

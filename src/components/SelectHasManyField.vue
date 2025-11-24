@@ -145,6 +145,7 @@ function onVirtualScroll(scrollArgs: {
       selectOptionsScrollPagination.value.nextPage++;
       selectOptionsScrollPagination.value.isLoading = false;
       scrollArgs.ref.refresh();
+      console.log(selectOptionsFiltered.value.length, new Set([...selectOptionsFiltered.value.map(v => v.value)]).size)
     });
   }
 }
