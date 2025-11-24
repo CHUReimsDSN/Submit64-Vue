@@ -39,6 +39,7 @@ function getDefaultPagination() {
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   if (val === lastLabelFilter.value) {
     update(() => {})
+    return
   }
   const callback = propsComponent.formApi.getAssociationDataCallback();
   selectOptionsScrollPagination.value = getDefaultPagination();
@@ -79,7 +80,7 @@ function setupDefaultSelectValue() {
     selectOptionsFiltered.value = [
       {
         label: propsComponent.field.associationData.label[0] ?? "???",
-        value,
+        value: value as TSubmit64AssociationRowEntry['value'],
         data: propsComponent.field.associationData.data[0],
       },
     ];

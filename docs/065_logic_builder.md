@@ -30,7 +30,7 @@ function formEventManager(eventBuilder: DynamicLogicBuilder) {
 ```
 
 {: .important }
-Consulter les [Définitions]({% link 120_definitions.md %}) pour savoir quels événements (TWhenArgs) sont disponibles.
+Consulter les [Définitions]({% link 120_definitions.md %}) pour connaitre les événements disponibles (TWhenArgs).
 
 {: .note }
 Le premier paramètre de la fonction `when` sera toujours un string, laisser vous guider par l'intellisence pour voir les évenements disponibles

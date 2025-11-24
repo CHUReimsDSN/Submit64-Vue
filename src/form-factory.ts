@@ -162,7 +162,7 @@ export class FormFactory {
           const field: TFormField = {
             type: columnMetadata.field_type,
             metadata: Object.freeze(columnMetadata),
-            label: columnMetadata.label,
+            label: `${columnMetadata.label}${this.formSettings.requiredFieldsHasAsterisk ? '*' : ''}`,
             hint: columnMetadata.hint ?? undefined,
             prefix: columnMetadata.prefix ?? undefined,
             suffix: columnMetadata.suffix ?? undefined,

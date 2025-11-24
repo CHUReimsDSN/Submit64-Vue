@@ -75,6 +75,7 @@ export type TFormSettings = {
   datetimeFormat?: string | undefined;
   renderBackendHint?: boolean | undefined;
   associationEmptyMessage?: string | undefined;
+  requiredFieldsHasAsterisk?: boolean | undefined;
 };
 export type TFormStyle = {
   fieldFilled?: boolean | undefined;

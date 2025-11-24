@@ -18,7 +18,8 @@ export class Submit64 {
             dateFormat: "DD/MM/YYYY",
             datetimeFormat: "DD/MM/YYYY HH:mm",
             renderBackendHint: true,
-            associationEmptyMessage: 'Empty'
+            associationEmptyMessage: 'Empty',
+            requiredFieldsHasAsterisk: true
         };
         this._formStyle = {
             fieldOutlined: false,

@@ -20,35 +20,14 @@ Il existe deux types possibles de surcharge :
 - Surcharge globale : effective dans toute l'application, concerne tout les formulaires de Submit64  
 - Surcharge locale : effective uniquement sur un formulaire ciblé
 
+
+{: .important }
+Consulter les [Définitions]({% link 120_definitions.md %}) pour connaitre les différents attributs des types lors des surcharges.
+
+
 <br /><br /> 
 
 ## Surcharge des options du formulaire
-Options disponibles :  
-```typescript
-type TFormSettings = {
-  /*
-  * Comportement des règles, validation à chaque saisie ou à la soummission du formulaire
-  */
-  rulesBehaviour?: "lazy" | "ondemand";
-
-  /*
-  * Format des dates à afficher/editer
-  */
-  dateFormat?: string;
-
-  /*
-  * Format des datetimes à afficher/editer
-  */
-  datetimeFormat?: string;
-
-  /*
-  * Affiche les indices déclarés coté serveur
-  */
-  renderBackendHint?: boolean;
-};
-```
-
-
 Surcharge globale :   
 ```typescript
 import { Submit64 } from "submit64-vue";
@@ -63,9 +42,9 @@ Surcharge locale :
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from "submit64-vue";
-import type { TFormSettings } from "submit64-vue";
+import type { TFormSettingsProps } from "submit64-vue";
 
-const formSettings: TFormSettings = {
+const formSettings: TFormSettingsProps = {
   dateFormat: "DD-MM-YYYY",
   datetimeFormat: "DD-MM-YYYY HH:mm",
 };
@@ -79,26 +58,6 @@ const formSettings: TFormSettings = {
 <br /><br /> 
 
 ## Surcharge du style des champs
-Styles disponibles :  
-```typescript
-/*
-* Style provenant de Quasar
-*/
-type TFormStyle = {
-  fieldFilled?: boolean;
-  fieldOutlined?: boolean;
-  fieldStandout?: boolean;
-  fieldBorderless?: boolean;
-  fieldRounded?: boolean;
-  fieldSquare?: boolean;
-  fieldDense?: boolean;
-  fieldHideBottomSpace?: boolean;
-  fieldColor?: string;
-  fieldBgColor?: string;
-  fieldClass?: string;
-};
-```
-
 Surcharge globale : 
 ```typescript
 import { Submit64 } from 'submit64-vue';

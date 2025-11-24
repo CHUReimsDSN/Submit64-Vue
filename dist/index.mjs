@@ -136,7 +136,8 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
       dateFormat: "DD/MM/YYYY",
       datetimeFormat: "DD/MM/YYYY HH:mm",
       renderBackendHint: !0,
-      associationEmptyMessage: "Empty"
+      associationEmptyMessage: "Empty",
+      requiredFieldsHasAsterisk: !0
     }, this._formStyle = {
       fieldOutlined: !1,
       fieldDense: !0,
@@ -817,8 +818,11 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       };
     }
     function y(p, _) {
-      p === m.value && _(() => {
-      });
+      if (p === m.value) {
+        _(() => {
+        });
+        return;
+      }
       const F = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
       const q = e.formApi.form;
@@ -958,8 +962,11 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       };
     }
     function y(p, _) {
-      p === m.value && _(() => {
-      });
+      if (p === m.value) {
+        _(() => {
+        });
+        return;
+      }
       const F = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
       const q = e.formApi.form;
@@ -1264,7 +1271,7 @@ class X {
           }, I = {
             type: y.field_type,
             metadata: Object.freeze(y),
-            label: y.label,
+            label: `${y.label}${this.formSettings.requiredFieldsHasAsterisk ? "*" : ""}`,
             hint: y.hint ?? void 0,
             prefix: y.prefix ?? void 0,
             suffix: y.suffix ?? void 0,
