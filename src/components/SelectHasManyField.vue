@@ -39,7 +39,7 @@ function getDefaultPagination() {
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   if (val === lastLabelFilter.value) {
     update(() => {});
-    return
+    return;
   }
   const callback = propsComponent.formApi.getAssociationDataCallback();
   selectOptionsScrollPagination.value = getDefaultPagination();
@@ -77,16 +77,16 @@ function setupDefaultSelectValue() {
     if (!value || !propsComponent.field.associationData) {
       return;
     }
-    selectOptionsFiltered.value = (value as TSubmit64AssociationRowEntry['value'][]).map(
-      (valueMap, valueMapIndex) => {
-        return {
-          label:
-            propsComponent.field.associationData!.label[valueMapIndex] ?? "???",
-          value: valueMap,
-          data: propsComponent.field.associationData!.data[valueMapIndex],
-        };
-      }
-    );
+    selectOptionsFiltered.value = (
+      value as TSubmit64AssociationRowEntry["value"][]
+    ).map((valueMap, valueMapIndex) => {
+      return {
+        label:
+          propsComponent.field.associationData!.label[valueMapIndex] ?? "???",
+        value: valueMap,
+        data: propsComponent.field.associationData!.data[valueMapIndex],
+      };
+    });
   });
 }
 function validate() {
@@ -146,7 +146,10 @@ function onVirtualScroll(scrollArgs: {
       selectOptionsScrollPagination.value.nextPage++;
       selectOptionsScrollPagination.value.isLoading = false;
       scrollArgs.ref.refresh();
-      console.log(selectOptionsFiltered.value.length, new Set([...selectOptionsFiltered.value.map(v => v.value)]).size)
+      console.log(
+        selectOptionsFiltered.value.length,
+        new Set([...selectOptionsFiltered.value.map((v) => v.value)]).size
+      );
     });
   }
 }
@@ -195,9 +198,13 @@ onMounted(() => {
     @virtual-scroll="onVirtualScroll"
   >
     <template v-slot:no-option>
-      <div>
-        {{ propsComponent.formApi.form.formSettings.associationEmptyMessage }}
-      </div>
+      <q-item :dense="styleConfig.fieldDense">
+        <q-item-section>
+          <q-item-label>{{
+            propsComponent.formApi.form.formSettings.associationEmptyMessage
+          }}</q-item-label>
+        </q-item-section>
+      </q-item>
     </template>
     <template v-slot:option="scope">
       <component

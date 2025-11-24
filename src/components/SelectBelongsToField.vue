@@ -38,8 +38,8 @@ function getDefaultPagination() {
 }
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   if (val === lastLabelFilter.value) {
-    update(() => {})
-    return
+    update(() => {});
+    return;
   }
   const callback = propsComponent.formApi.getAssociationDataCallback();
   selectOptionsScrollPagination.value = getDefaultPagination();
@@ -80,7 +80,7 @@ function setupDefaultSelectValue() {
     selectOptionsFiltered.value = [
       {
         label: propsComponent.field.associationData.label[0] ?? "???",
-        value: value as TSubmit64AssociationRowEntry['value'],
+        value: value as TSubmit64AssociationRowEntry["value"],
         data: propsComponent.field.associationData.data[0],
       },
     ];
@@ -188,9 +188,13 @@ onMounted(() => {
     @virtual-scroll="onVirtualScroll"
   >
     <template v-slot:no-option>
-      <div>
-        {{ propsComponent.formApi.form.formSettings.associationEmptyMessage }}
-      </div>
+      <q-item :dense="styleConfig.fieldDense">
+        <q-item-section>
+          <q-item-label>{{
+            propsComponent.formApi.form.formSettings.associationEmptyMessage
+          }}</q-item-label>
+        </q-item-section>
+      </q-item>
     </template>
     <template v-slot:option="scope">
       <component
