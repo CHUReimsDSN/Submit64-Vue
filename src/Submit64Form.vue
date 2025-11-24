@@ -8,6 +8,8 @@ import {
   nextTick,
   watch,
   Ref,
+  computed,
+  WatchStopHandle,
 } from "vue";
 import type {
   TForm,
@@ -35,6 +37,9 @@ let formMetadataAndData: TResourceFormMetadataAndData | null = null;
 let stringyfiedValues = "";
 let sectionCount = 0;
 let fieldCount = 0;
+let stopWatchIsValid: WatchStopHandle | null = null
+let stopWatchIsInvalid: WatchStopHandle | null = null
+let stopWatchIsUpdated: WatchStopHandle | null = null
 
 // consts
 const slots = useSlots();
@@ -182,6 +187,13 @@ function getValuesFormDeserialized(): Record<string, unknown> {
   });
   return resourceData;
 }
+function getValuesFormSerialized(): Record<string, unknown> {
+  const resourceData: Record<string, unknown> = {};
+  [...fieldWrapperRefs].forEach((entry) => {
+    resourceData[entry[0]] = entry[1].getValueSerialized();
+  });
+  return resourceData;
+}
 function validate() {
   let formValid = true;
   fieldWrapperRefs.forEach((fieldRef) => {
@@ -193,7 +205,7 @@ function validate() {
   callAllEvents(form.value?.events.onValidated);
   return formValid;
 }
-function isFormValid() {
+function isValid() {
   let formValid = true;
   fieldWrapperRefs.forEach((fieldRef) => {
     if (!fieldRef.isValid()) {
@@ -202,6 +214,9 @@ function isFormValid() {
     }
   });
   return formValid;
+}
+function isInvalid() {
+  return !isValid()
 }
 function reset() {
   fieldWrapperRefs.forEach((fieldRef) => {
@@ -352,7 +367,8 @@ const formApi: TSubmit64FormApi = {
   getFieldByName,
   getFields,
   validate,
-  isFormValid,
+  isValid,
+  isInvalid,
   reset,
   clear,
   resetValidation,
@@ -368,6 +384,17 @@ const formApi: TSubmit64FormApi = {
 };
 defineExpose<TSubmit64FormApi>(formApi);
 
+// computeds
+const isValidComputed = computed(() => {
+  return isValid()
+})
+const isInvalidComputed = computed(() => {
+  return isInvalid()
+})
+const isUpdatedComputed = computed(() => {
+  return getValuesFormSerialized()
+})
+
 // watchs
 watch(
   () => setupSectionsIsDone.value && setupFieldsIsDone.value,
@@ -379,20 +406,50 @@ watch(
   }
 );
 watch(
-  () => (form.value?.events.onIsValid ? ref(isFormValid()) : null),
-  (newValue) => {
-    if (newValue) {
-      callAllEvents(form.value?.events.onIsValid);
+  () => (form.value?.events.onIsValid),
+  (callExist) => {
+    if (callExist) {
+      stopWatchIsValid = watch(isValidComputed, (newValue) => {
+        if (newValue) {
+          callAllEvents(form.value?.events.onIsValid);
+        }
+      })
     } else {
-      callAllEvents(form.value?.events.onIsInvalid)
+      stopWatchIsValid?.()
+      stopWatchIsValid = null
     }
-  }
+  },
+  { immediate: true }
 );
 watch(
-  () => (form.value?.events.onUpdate ? ref(getValuesFormDeserialized()) : null),
-  () => {
-    callAllEvents(form.value?.events.onUpdate);
-  }
+  () => (form.value?.events.onIsInvalid),
+  (callExist) => {
+    if (callExist) {
+      stopWatchIsInvalid = watch(isInvalidComputed, (newValue) => {
+        if (!newValue) {
+          callAllEvents(form.value?.events.onIsInvalid);
+        }
+      })
+    } else {
+      stopWatchIsInvalid?.()
+      stopWatchIsInvalid = null
+    }
+  },
+  { immediate: true }
+);
+watch(
+  () => (form.value?.events.onUpdate),
+  (callExist) => {
+    if (callExist) {
+      stopWatchIsUpdated = watch(isUpdatedComputed, () => {
+        callAllEvents(form.value?.events.onUpdate);
+      })
+    } else {
+      stopWatchIsUpdated?.()
+      stopWatchIsUpdated = null
+    }
+  },
+  { immediate: true }
 );
 
 // lifeCycle

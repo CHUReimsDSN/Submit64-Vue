@@ -17,6 +17,7 @@ const sectionApi: TSubmit64SectionApi = {
   clear,
   validate,
   isValid,
+  isInvalid,
   hide,
   unhide,
   resetValidation,
@@ -97,6 +98,9 @@ function isValid() {
     }
   });
   return isValid;
+}
+function isInvalid() {
+  return !isValid()
 }
 function resetValidation() {
   fields.forEach((field) => {

@@ -227,6 +227,9 @@ function isValid() {
   const isValid = isValidCallback();
   return isValid;
 }
+function isInvalid() {
+  return !isValid()
+}
 function resetValidation() {
   return resetValidationCallback();
 }
@@ -246,6 +249,7 @@ const api: TSubmit64FieldApi = {
   clear,
   validate,
   isValid,
+  isInvalid,
   hide,
   unhide,
   resetValidation,
