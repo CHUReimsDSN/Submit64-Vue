@@ -96,7 +96,6 @@ type TWhenArgs = {
   "Field is validated": { fieldName: string };
   "Field is cleared": { fieldName: string };
   "Field is reseted": { fieldName: string };
-  //"Field confirm value statement": { fieldName: string; statement: () => void };
   "Field is hidden": { fieldName: string };
   "Field is unhidden": { fieldName: string };
   "Section is valid": { sectionName: string };

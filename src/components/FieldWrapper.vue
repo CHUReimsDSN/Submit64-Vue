@@ -25,6 +25,9 @@ let isValidCallback: () => boolean = () => {
 let resetValidationCallback: () => void = () => {
   return;
 };
+let resetCallback: () => void = () => {
+  return;
+};
 
 // consts
 const rules = getComputedRules();
@@ -42,6 +45,7 @@ function reset(triggerCallback = true) {
   if (triggerCallback) {
     callAllEvents(propsComponent.field.events.onReset);
   }
+  resetCallback()
   void nextTick(() => {
     resetValidation();
   });
@@ -236,11 +240,13 @@ function resetValidation() {
 function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,
   registerIsValidArg: () => boolean,
-  registerResetValidationArg: () => void
+  registerResetValidationArg: () => void,
+  registerOnResetArg: () => void,
 ) {
   validationCallback = registerValidationArg;
   isValidCallback = registerIsValidArg;
   resetValidationCallback = registerResetValidationArg;
+  resetCallback = registerOnResetArg;
 }
 
 // expose

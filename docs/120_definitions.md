@@ -344,6 +344,7 @@ type TWhenArgs = {
   "Field is unhidden": { fieldName: string };
   "Section is valid": { sectionName: string };
   "Section is invalid": { sectionName: string };
+  "Section is updated": { sectionName: string };
   "Section is validated": { sectionName: string };
   "Section is hidden": { sectionName: string };
   "Section is unhidden": { sectionName: string };

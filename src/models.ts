@@ -293,7 +293,8 @@ export type TSubmit64FieldProps = {
   registerBehaviourCallbacks: (
     registerValidationArg: () => boolean,
     registerIsValidArg: () => boolean,
-    registerResetValidationArg: () => void
+    registerResetValidationArg: () => void,
+    registerOnResetArg?: () => void,
   ) => void;
 };
 export type TSubmit64FieldWrapperResetProps = {

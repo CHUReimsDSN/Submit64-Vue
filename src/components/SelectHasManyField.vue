@@ -156,7 +156,7 @@ function onVirtualScroll(scrollArgs: {
 // lifeCycle
 onMounted(() => {
   setupDefaultSelectValue();
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, setupDefaultSelectValue);
 });
 </script>
 

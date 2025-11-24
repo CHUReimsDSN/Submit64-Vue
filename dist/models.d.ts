@@ -250,7 +250,7 @@ export type TSubmit64FieldProps = {
     clear: () => void;
     getValueSerialized: () => unknown;
     getValueDeserialized: () => unknown;
-    registerBehaviourCallbacks: (registerValidationArg: () => boolean, registerIsValidArg: () => boolean, registerResetValidationArg: () => void) => void;
+    registerBehaviourCallbacks: (registerValidationArg: () => boolean, registerIsValidArg: () => boolean, registerResetValidationArg: () => void, registerOnResetArg?: () => void) => void;
 };
 export type TSubmit64FieldWrapperResetProps = {
     reset: () => void;
