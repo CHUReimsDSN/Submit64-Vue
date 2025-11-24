@@ -241,12 +241,14 @@ function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,
   registerIsValidArg: () => boolean,
   registerResetValidationArg: () => void,
-  registerOnResetArg: () => void,
+  registerOnResetArg?: () => void,
 ) {
   validationCallback = registerValidationArg;
   isValidCallback = registerIsValidArg;
   resetValidationCallback = registerResetValidationArg;
-  resetCallback = registerOnResetArg;
+  if (registerOnResetArg) {
+    resetCallback = registerOnResetArg;
+  }
 }
 
 // expose
