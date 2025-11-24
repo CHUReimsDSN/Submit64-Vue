@@ -375,6 +375,7 @@ export type TFormEvent = {
   onClear?: TSubmit64Event;
   onReset?: TSubmit64Event;
   onIsValid?: TSubmit64Event;
+  onIsInvalid?: TSubmit64Event;
   onValidated?: TSubmit64Event;
 };
 export type TFormSectionEvent = {
@@ -384,10 +385,12 @@ export type TFormSectionEvent = {
   onHide?: TSubmit64Event;
   onUnhide?: TSubmit64Event;
   onIsValid?: TSubmit64Event;
+  onIsInvalid?: TSubmit64Event;
 };
 export type TFormFieldEvent = {
   onUpdate?: TSubmit64Event;
   onIsValid?: TSubmit64Event;
+  onIsInvalid?: TSubmit64Event;
   onValidated?: TSubmit64Event;
   onClear?: TSubmit64Event;
   onReset?: TSubmit64Event;

@@ -271,10 +271,12 @@ watch(
   }
 );
 watch(
-  () => (propsComponent.field.events.onIsValid ? modelValue.value : null),
+  () => (propsComponent.field.events.onIsValid || propsComponent.field.events.onIsInvalid ? modelValue.value : null),
   (newValue) => {
     if (newValue) {
       callAllEvents(propsComponent.field.events.onIsValid);
+    } else {
+      callAllEvents(propsComponent.field.events.onIsInvalid)
     }
   }
 );

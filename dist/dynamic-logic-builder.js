@@ -79,6 +79,12 @@ class FormEvent {
                     targetName: this.data.fieldName,
                     key: "onIsValid",
                 };
+            case "Field is invalid":
+                return {
+                    target: "field",
+                    targetName: this.data.fieldName,
+                    key: "onIsInvalid",
+                };
             case "Field is validated":
                 return {
                     target: "field",
@@ -121,6 +127,13 @@ class FormEvent {
                     target: "section",
                     targetName: this.data.sectionName,
                     key: "onIsValid",
+                };
+            case "Section is invalid":
+                return {
+                    target: "section",
+                    targetName: this.data
+                        .sectionName,
+                    key: "onIsInvalid",
                 };
             case "Section is hidden":
                 return {
@@ -168,13 +181,13 @@ class FormEvent {
                 };
             case "Form submit is successful":
                 return {
-                    target: 'form',
-                    key: 'onSubmitSuccess'
+                    target: "form",
+                    key: "onSubmitSuccess",
                 };
             case "Form submit is unsuccessful":
                 return {
-                    target: 'form',
-                    key: 'onSubmitUnsuccess'
+                    target: "form",
+                    key: "onSubmitUnsuccess",
                 };
             case "Form is updated":
                 return {
@@ -195,6 +208,11 @@ class FormEvent {
                 return {
                     target: "form",
                     key: "onIsValid",
+                };
+            case "Form is invalid":
+                return {
+                    target: "form",
+                    key: "onIsInvalid",
                 };
             case "Form is validated":
                 return {

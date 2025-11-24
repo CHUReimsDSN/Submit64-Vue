@@ -78,6 +78,7 @@ async function submit(): Promise<void> {
   if (!validate()) {
     return;
   }
+  callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = true;
   clearBackendErrors();
   const resourceData = getValuesFormDeserialized();
@@ -129,7 +130,6 @@ async function submit(): Promise<void> {
     );
     callAllEvents(form.value?.events.onSubmitSuccess);
   }
-  callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = false;
 }
 function getOverridedComponents() {
@@ -379,13 +379,17 @@ watch(
   }
 );
 watch(
-  () => (form.value?.events.onIsValid ? isFormValid() : null),
-  () => {
-    callAllEvents(form.value?.events.onIsValid);
+  () => (form.value?.events.onIsValid ? ref(isFormValid()) : null),
+  (newValue) => {
+    if (newValue) {
+      callAllEvents(form.value?.events.onIsValid);
+    } else {
+      callAllEvents(form.value?.events.onIsInvalid)
+    }
   }
 );
 watch(
-  () => (form.value?.events.onUpdate ? getValuesFormDeserialized() : null),
+  () => (form.value?.events.onUpdate ? ref(getValuesFormDeserialized()) : null),
   () => {
     callAllEvents(form.value?.events.onUpdate);
   }

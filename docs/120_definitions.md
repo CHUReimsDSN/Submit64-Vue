@@ -336,12 +336,14 @@ type TSubmit64FieldApi = {
 type TWhenArgs = {
   "Field is updated": { fieldName: string };
   "Field is valid": { fieldName: string };
+  "Field is invalid": { fieldName: string };
   "Field is validated": { fieldName: string };
   "Field is cleared": { fieldName: string };
   "Field is reseted": { fieldName: string };
   "Field is hidden": { fieldName: string };
   "Field is unhidden": { fieldName: string };
   "Section is valid": { sectionName: string };
+  "Section is invalid": { sectionName: string };
   "Section is validated": { sectionName: string };
   "Section is hidden": { sectionName: string };
   "Section is unhidden": { sectionName: string };
@@ -355,6 +357,7 @@ type TWhenArgs = {
   "Form is cleared": undefined;
   "Form is reseted": undefined;
   "Form is valid": undefined;
+  "Form is invalid": undefined;
   "Form is validated": undefined;
 };
 ```
