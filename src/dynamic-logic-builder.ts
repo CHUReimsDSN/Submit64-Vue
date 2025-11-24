@@ -41,37 +41,37 @@ export class DynamicLogicBuilder {
       const targetDefinition = event.getTarget();
       switch (targetDefinition.target) {
         case "field":
-          if (!allEventObject.fields[targetDefinition.target]) {
-            allEventObject.fields[targetDefinition.target] = {};
+          if (!allEventObject.fields[targetDefinition.targetName]) {
+            allEventObject.fields[targetDefinition.targetName] = {};
           }
           if (
-            !allEventObject.fields[targetDefinition.target][
+            !allEventObject.fields[targetDefinition.targetName][
               targetDefinition.key
             ]
           ) {
-            allEventObject.fields[targetDefinition.target][
+            allEventObject.fields[targetDefinition.targetName][
               targetDefinition.key
             ] = [];
           }
-          allEventObject.fields[targetDefinition.target][
+          allEventObject.fields[targetDefinition.targetName][
             targetDefinition.key
           ]!.push(event.getActionCallback());
           break;
 
         case "section":
-          if (!allEventObject.sections[targetDefinition.target]) {
-            allEventObject.sections[targetDefinition.target] = {};
+          if (!allEventObject.sections[targetDefinition.targetName]) {
+            allEventObject.sections[targetDefinition.targetName] = {};
           }
           if (
-            !allEventObject.sections[targetDefinition.target][
+            !allEventObject.sections[targetDefinition.targetName][
               targetDefinition.key
             ]
           ) {
-            allEventObject.sections[targetDefinition.target][
+            allEventObject.sections[targetDefinition.targetName][
               targetDefinition.key
             ] = [];
           }
-          allEventObject.sections[targetDefinition.target][
+          allEventObject.sections[targetDefinition.targetName][
             targetDefinition.key
           ]!.push(event.getActionCallback());
           break;

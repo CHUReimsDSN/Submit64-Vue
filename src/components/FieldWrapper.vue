@@ -129,6 +129,7 @@ function clear() {
       modelValue.value = undefined;
       break;
   }
+  console.log(propsComponent.field.events)
   callAllEvents(propsComponent.field.events.onClear);
 }
 function getComputedRules() {
@@ -274,7 +275,6 @@ watch(
     }
   }
 );
-// TODO confirm statement
 
 // lifeCycle
 onMounted(() => {
