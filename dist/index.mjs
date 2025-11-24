@@ -1,7 +1,7 @@
 var Qe = Object.defineProperty;
 var Je = (o, e, t) => e in o ? Qe(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var _ = (o, e, t) => Je(o, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as q, createElementBlock as I, openBlock as v, createElementVNode as Q, createVNode as A, createBlock as N, createCommentVNode as H, unref as r, mergeProps as Se, toDisplayString as Y, renderSlot as qe, resolveComponent as Ke, normalizeProps as Xe, guardReactiveProps as Ze, withCtx as F, createTextVNode as pe, Fragment as ue, renderList as ce, ref as x, onMounted as G, normalizeClass as W, watch as K, resolveDynamicComponent as M, nextTick as oe, markRaw as U, getCurrentInstance as we, withDirectives as ke, vShow as xe, useSlots as et } from "vue";
+import { defineComponent as q, createElementBlock as z, openBlock as v, createElementVNode as Q, createVNode as A, createBlock as N, createCommentVNode as H, unref as r, mergeProps as Se, toDisplayString as Y, renderSlot as qe, resolveComponent as Ke, normalizeProps as Xe, guardReactiveProps as Ze, withCtx as F, createTextVNode as pe, Fragment as ue, renderList as ce, ref as x, onMounted as G, normalizeClass as W, watch as K, resolveDynamicComponent as M, nextTick as oe, markRaw as U, getCurrentInstance as we, withDirectives as ke, vShow as xe, useSlots as et } from "vue";
 import { QBtn as Z, QIcon as de, QItem as ge, QItemSection as he, QItemLabel as ve, QInput as ye, QPopupProxy as Fe, QDate as $e, QTime as tt, QCheckbox as nt, QSelect as Ve, date as E } from "quasar";
 const ot = { class: "flex column" }, at = { class: "flex row items-center no-wrap q-pt-sm q-gutter-x-sm" }, rt = /* @__PURE__ */ q({
   __name: "DefaultActionComponent",
@@ -22,7 +22,7 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
         noCaps: !0
       };
     }
-    return (a, n) => (v(), I("div", ot, [
+    return (a, n) => (v(), z("div", ot, [
       Q("div", at, [
         A(r(Z), Se(t(), {
           label: "Enregistrer",
@@ -50,7 +50,7 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
   },
   setup(o) {
     const e = o;
-    return (t, a) => (v(), I("div", null, [
+    return (t, a) => (v(), z("div", null, [
       Q("div", it, [
         e.sectionApi.section.icon ? (v(), N(r(de), {
           key: 0,
@@ -115,8 +115,8 @@ const ot = { class: "flex column" }, at = { class: "flex row items-center no-wra
   },
   setup(o) {
     const e = o;
-    return (t, a) => (v(), I("div", ft, [
-      (v(!0), I(ue, null, ce(e.orphanErrors, (n, u) => (v(), I("div", {
+    return (t, a) => (v(), z("div", ft, [
+      (v(!0), z(ue, null, ce(e.orphanErrors, (n, u) => (v(), z("div", {
         key: u,
         class: "q-field--error q-field__bottom text-negative"
       }, Y(u) + " : " + Y(n.join(",")), 1))), 128))
@@ -679,7 +679,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       }
     ), G(() => {
       e.registerBehaviourCallbacks(u, s, l);
-    }), (i, c) => (v(), I("div", _t, [
+    }), (i, c) => (v(), z("div", _t, [
       A(r(nt), {
         "model-value": e.modelValue,
         "onUpdate:modelValue": c[0] || (c[0] = (m) => e.modelValueOnUpdate(m)),
@@ -689,8 +689,8 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
         "aria-readonly": e.field.readonly,
         class: W([e.field.cssClass, "q-pb-md"])
       }, null, 8, ["model-value", "label", "dense", "color", "aria-readonly", "class"]),
-      e.field.hint ? (v(), I("div", St, Y(e.field.hint), 1)) : H("", !0),
-      t.value !== !0 ? (v(), I("div", Ft, Y(t.value), 1)) : H("", !0)
+      e.field.hint ? (v(), z("div", St, Y(e.field.hint), 1)) : H("", !0),
+      t.value !== !0 ? (v(), z("div", Ft, Y(t.value), 1)) : H("", !0)
     ]));
   }
 }), xt = /* @__PURE__ */ q({
@@ -847,19 +847,19 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       }
       const k = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
-      const $ = e.formApi.form;
+      const I = e.formApi.form;
       i.value.isLoading = !0, k({
-        resourceName: $.resourceName,
-        resourceId: $.resourceId,
+        resourceName: I.resourceName,
+        resourceId: I.resourceId,
         associationName: e.field.metadata.field_association_name,
         limit: i.value.limit,
         offset: (i.value.nextPage - 1) * i.value.limit,
         labelFilter: p,
-        context: $.context
-      }).then((z) => {
+        context: I.context
+      }).then(($) => {
         S(() => {
-          l.value = z.rows, i.value.lastPage = Math.ceil(
-            z.row_count / i.value.limit
+          l.value = $.rows, i.value.lastPage = Math.ceil(
+            $.row_count / i.value.limit
           ), i.value.isLoading = !1;
         });
       }).catch(() => {
@@ -892,9 +892,9 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
     }
     function g(p) {
       const S = l.value.length - 1;
-      if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === S && S > i.value.limit - 1) {
-        const k = e.formApi.form, $ = e.formApi.getAssociationDataCallback();
-        i.value.isLoading = !0, $({
+      if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === S && S !== -1) {
+        const k = e.formApi.form, I = e.formApi.getAssociationDataCallback();
+        i.value.isLoading = !0, I({
           resourceName: k.resourceName,
           resourceId: k.resourceId,
           associationName: e.field.metadata.field_association_name,
@@ -902,12 +902,12 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
           offset: (i.value.nextPage - 1) * i.value.limit,
           labelFilter: m.value,
           context: k.context
-        }).then((z) => {
+        }).then(($) => {
           l.value = l.value.concat(
-            z.rows
+            $.rows
           ), i.value.lastPage = Math.ceil(
-            z.row_count / i.value.limit
-          ), i.value.nextPage++, i.value.isLoading = !1, p.ref.refresh();
+            $.row_count / i.value.limit
+          ), $.row_count >= i.value.limit && i.value.nextPage++, i.value.isLoading = !1, p.ref.refresh();
         });
       }
     }
@@ -1008,19 +1008,19 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
       }
       const k = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
-      const $ = e.formApi.form;
+      const I = e.formApi.form;
       i.value.isLoading = !0, k({
-        resourceName: $.resourceName,
-        resourceId: $.resourceId,
+        resourceName: I.resourceName,
+        resourceId: I.resourceId,
         associationName: e.field.metadata.field_association_name,
         limit: i.value.limit,
         offset: (i.value.nextPage - 1) * i.value.limit,
         labelFilter: p,
-        context: $.context
-      }).then((z) => {
+        context: I.context
+      }).then(($) => {
         S(() => {
-          l.value = z.rows, i.value.lastPage = Math.ceil(
-            z.row_count / i.value.limit
+          l.value = $.rows, i.value.lastPage = Math.ceil(
+            $.row_count / i.value.limit
           ), i.value.isLoading = !1;
         });
       }).catch(() => {
@@ -1051,9 +1051,9 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
     }
     function g(p) {
       const S = l.value.length - 1;
-      if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === S && S > i.value.limit - 1) {
-        const k = e.formApi.form, $ = e.formApi.getAssociationDataCallback();
-        i.value.isLoading = !0, $({
+      if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === S && S !== -1) {
+        const k = e.formApi.form, I = e.formApi.getAssociationDataCallback();
+        i.value.isLoading = !0, I({
           resourceName: k.resourceName,
           resourceId: k.resourceId,
           associationName: e.field.metadata.field_association_name,
@@ -1061,12 +1061,12 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ q({
           offset: (i.value.nextPage - 1) * i.value.limit,
           labelFilter: m.value,
           context: k.context
-        }).then((z) => {
+        }).then(($) => {
           l.value = l.value.concat(
-            z.rows
+            $.rows
           ), i.value.lastPage = Math.ceil(
-            z.row_count / i.value.limit
-          ), i.value.nextPage++, i.value.isLoading = !1, p.ref.refresh(), console.log(
+            $.row_count / i.value.limit
+          ), $.row_count >= i.value.limit && i.value.nextPage++, i.value.isLoading = !1, p.ref.refresh(), console.log(
             l.value.length,
             (/* @__PURE__ */ new Set([...l.value.map((ee) => ee.value)])).size
           );
@@ -1936,13 +1936,13 @@ const sn = {
       );
       b && (b.hint = f);
     }
-    function $(f) {
+    function I(f) {
       const b = t.privateFormApi.getFieldRef(
         t.field.metadata.field_name
       );
       b && (b.cssClass = f);
     }
-    function z(f) {
+    function $(f) {
       const b = t.privateFormApi.getFieldRef(
         t.field.metadata.field_name
       );
@@ -1986,8 +1986,8 @@ const sn = {
       setupBackendErrors: w,
       setReadonlyState: S,
       setHint: k,
-      setCssClass: $,
-      setSuffix: z,
+      setCssClass: I,
+      setSuffix: $,
       setPrefix: ee,
       setLabel: be,
       setValue: B,
@@ -2011,7 +2011,7 @@ const sn = {
         t.field.metadata.field_name,
         f
       );
-    }), (f, b) => ke((v(), I("div", null, [
+    }), (f, b) => ke((v(), z("div", null, [
       t.field.beforeComponent ? (v(), N(M(t.field.beforeComponent), {
         key: 0,
         formApi: t.formApi,
@@ -2035,8 +2035,8 @@ const sn = {
         formApi: t.formApi,
         fieldApi: te
       }, null, 8, ["formApi"])) : H("", !0),
-      i.value.length > 0 ? (v(), I("div", un, [
-        (v(!0), I(ue, null, ce(i.value, (ne, _e) => (v(), I("div", {
+      i.value.length > 0 ? (v(), z("div", un, [
+        (v(!0), z(ue, null, ce(i.value, (ne, _e) => (v(), z("div", {
           index: _e,
           class: "flex column"
         }, Y(ne), 9, cn))), 256))
@@ -2164,7 +2164,7 @@ const sn = {
       ), oe(() => {
         u();
       });
-    }), (g, p) => ke((v(), I("div", fn, [
+    }), (g, p) => ke((v(), z("div", fn, [
       t.section.beforeComponent ? (v(), N(M(t.section.beforeComponent), {
         key: 0,
         formApi: t.formApi,
@@ -2324,7 +2324,7 @@ const sn = {
         }
       }), T((h = m.value) == null ? void 0 : h.events.onValidated), d;
     }
-    function $() {
+    function I() {
       let d = !0;
       return i.forEach((h) => {
         if (!h.isValid()) {
@@ -2333,7 +2333,7 @@ const sn = {
         }
       }), d;
     }
-    function z() {
+    function $() {
       var d;
       i.forEach((h) => {
         h.reset();
@@ -2442,8 +2442,8 @@ const sn = {
       getFieldByName: f,
       getFields: b,
       validate: k,
-      isFormValid: $,
-      reset: z,
+      isFormValid: I,
+      reset: $,
       clear: ee,
       resetValidation: be,
       submit: g,
@@ -2465,7 +2465,7 @@ const sn = {
     ), K(
       () => {
         var d;
-        return (d = m.value) != null && d.events.onIsValid ? $() : null;
+        return (d = m.value) != null && d.events.onIsValid ? I() : null;
       },
       () => {
         var d;
@@ -2484,11 +2484,11 @@ const sn = {
       _e(), await w(), oe(() => {
         n = JSON.stringify(S());
       });
-    }), (d, h) => ke((v(), I("div", pn, [
+    }), (d, h) => ke((v(), z("div", pn, [
       Q("div", {
         class: W(m.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (v(!0), I(ue, null, ce(m.value.sections, (O) => (v(), N(mn, {
+        (v(!0), z(ue, null, ce(m.value.sections, (O) => (v(), N(mn, {
           key: O.name,
           section: O,
           context: t.context,
@@ -2497,7 +2497,7 @@ const sn = {
           registerRef: De
         }, {
           default: F(() => [
-            (v(!0), I(ue, null, ce(O.fields, (L) => (v(), N(dn, {
+            (v(!0), z(ue, null, ce(O.fields, (L) => (v(), N(dn, {
               key: L.metadata.field_name,
               field: L,
               context: t.context,

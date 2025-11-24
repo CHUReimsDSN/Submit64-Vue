@@ -121,8 +121,7 @@ function onVirtualScroll(scrollArgs: {
     selectOptionsScrollPagination.value.isLoading !== true &&
     selectOptionsScrollPagination.value.nextPage <
       selectOptionsScrollPagination.value.lastPage &&
-    scrollArgs.to === lastIndex &&
-    lastIndex > selectOptionsScrollPagination.value.limit - 1
+    scrollArgs.to === lastIndex && lastIndex !== -1
   ) {
     const form = propsComponent.formApi.form;
     const callback = propsComponent.formApi.getAssociationDataCallback();
@@ -144,7 +143,9 @@ function onVirtualScroll(scrollArgs: {
       selectOptionsScrollPagination.value.lastPage = Math.ceil(
         response.row_count / selectOptionsScrollPagination.value.limit
       );
-      selectOptionsScrollPagination.value.nextPage++;
+      if (response.row_count >= selectOptionsScrollPagination.value.limit) {
+        selectOptionsScrollPagination.value.nextPage++;
+      }
       selectOptionsScrollPagination.value.isLoading = false;
       scrollArgs.ref.refresh();
       console.log(
