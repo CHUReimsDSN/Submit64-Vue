@@ -816,13 +816,13 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
         isLoading: !1
       };
     }
-    function y(p, F) {
-      if (console.log("filter"), p === m.value)
-        return;
-      const _ = e.formApi.getAssociationDataCallback();
+    function y(p, _) {
+      p === m.value && _(() => {
+      });
+      const F = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
       const q = e.formApi.form;
-      i.value.isLoading = !0, _({
+      i.value.isLoading = !0, F({
         resourceName: q.resourceName,
         resourceId: q.resourceId,
         associationName: e.field.metadata.field_association_name,
@@ -831,7 +831,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
         labelFilter: p,
         context: q.context
       }).then((z) => {
-        F(() => {
+        _(() => {
           s.value = z.rows, i.value.lastPage = Math.ceil(
             z.row_count / i.value.limit
           ), i.value.isLoading = !1;
@@ -865,18 +865,17 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       e.clear(), s.value = [];
     }
     function g(p) {
-      console.log("scroll");
-      const F = s.value.length - 1;
-      if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === F && F > i.value.limit - 1) {
-        const _ = e.formApi.form, q = e.formApi.getAssociationDataCallback();
+      const _ = s.value.length - 1;
+      if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === _ && _ > i.value.limit - 1) {
+        const F = e.formApi.form, q = e.formApi.getAssociationDataCallback();
         i.value.isLoading = !0, q({
-          resourceName: _.resourceName,
-          resourceId: _.resourceId,
+          resourceName: F.resourceName,
+          resourceId: F.resourceId,
           associationName: e.field.metadata.field_association_name,
           limit: i.value.limit,
           offset: (i.value.nextPage - 1) * i.value.limit,
           labelFilter: m.value,
-          context: _.context
+          context: F.context
         }).then((z) => {
           s.value = s.value.concat(
             z.rows
@@ -888,11 +887,11 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
     }
     return G(() => {
       D(), e.registerBehaviourCallbacks(E, x, V);
-    }), (p, F) => (v(), A(r(_e), {
+    }), (p, _) => (v(), A(r(_e), {
       ref_key: "fieldRef",
       ref: c,
       "model-value": e.modelValue,
-      "onUpdate:modelValue": F[0] || (F[0] = (_) => e.modelValueOnUpdate(_)),
+      "onUpdate:modelValue": _[0] || (_[0] = (F) => e.modelValueOnUpdate(F)),
       label: e.field.label,
       outlined: r(u).fieldOutlined,
       filled: r(u).fieldFilled,
@@ -922,11 +921,11 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       "no-option": O(() => [
         H("div", null, W(e.formApi.form.formSettings.associationEmptyMessage), 1)
       ]),
-      option: O((_) => [
+      option: O((F) => [
         (v(), A(Y(r(t)), {
           associationName: e.field.metadata.field_association_name,
-          entry: _.opt,
-          itemProps: _.itemProps
+          entry: F.opt,
+          itemProps: F.itemProps
         }, null, 8, ["associationName", "entry", "itemProps"]))
       ]),
       _: 1
@@ -958,13 +957,13 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
         isLoading: !1
       };
     }
-    function y(p, F) {
-      if (console.log("filter"), p === m.value)
-        return;
-      const _ = e.formApi.getAssociationDataCallback();
+    function y(p, _) {
+      p === m.value && _(() => {
+      });
+      const F = e.formApi.getAssociationDataCallback();
       i.value = C(), m.value = p;
       const q = e.formApi.form;
-      i.value.isLoading = !0, _({
+      i.value.isLoading = !0, F({
         resourceName: q.resourceName,
         resourceId: q.resourceId,
         associationName: e.field.metadata.field_association_name,
@@ -973,7 +972,7 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
         labelFilter: p,
         context: q.context
       }).then((z) => {
-        F(() => {
+        _(() => {
           s.value = z.rows, i.value.lastPage = Math.ceil(
             z.row_count / i.value.limit
           ), i.value.isLoading = !1;
@@ -986,10 +985,10 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       ne(() => {
         const p = e.getValueSerialized();
         !p || !e.field.associationData || (s.value = p.map(
-          (F, _) => ({
-            label: e.field.associationData.label[_] ?? "???",
-            value: F,
-            data: e.field.associationData.data[_]
+          (_, F) => ({
+            label: e.field.associationData.label[F] ?? "???",
+            value: _,
+            data: e.field.associationData.data[F]
           })
         ));
       });
@@ -1007,18 +1006,17 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       e.clear(), s.value = [];
     }
     function g(p) {
-      console.log("scroll");
-      const F = s.value.length - 1;
-      if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === F && F > i.value.limit - 1) {
-        const _ = e.formApi.form, q = e.formApi.getAssociationDataCallback();
+      const _ = s.value.length - 1;
+      if (i.value.isLoading !== !0 && i.value.nextPage < i.value.lastPage && p.to === _ && _ > i.value.limit - 1) {
+        const F = e.formApi.form, q = e.formApi.getAssociationDataCallback();
         i.value.isLoading = !0, q({
-          resourceName: _.resourceName,
-          resourceId: _.resourceId,
+          resourceName: F.resourceName,
+          resourceId: F.resourceId,
           associationName: e.field.metadata.field_association_name,
           limit: i.value.limit,
           offset: (i.value.nextPage - 1) * i.value.limit,
           labelFilter: m.value,
-          context: _.context
+          context: F.context
         }).then((z) => {
           s.value = s.value.concat(
             z.rows
@@ -1030,11 +1028,11 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
     }
     return G(() => {
       D(), e.registerBehaviourCallbacks(E, x, V);
-    }), (p, F) => (v(), A(r(_e), {
+    }), (p, _) => (v(), A(r(_e), {
       ref_key: "fieldRef",
       ref: c,
       "model-value": e.modelValue,
-      "onUpdate:modelValue": F[0] || (F[0] = (_) => e.modelValueOnUpdate(_)),
+      "onUpdate:modelValue": _[0] || (_[0] = (F) => e.modelValueOnUpdate(F)),
       label: e.field.label,
       hint: e.field.hint,
       outlined: r(u).fieldOutlined,
@@ -1067,11 +1065,11 @@ const ht = { class: "row items-center justify-end" }, vt = /* @__PURE__ */ T({
       "no-option": O(() => [
         H("div", null, W(e.formApi.form.formSettings.associationEmptyMessage), 1)
       ]),
-      option: O((_) => [
+      option: O((F) => [
         (v(), A(Y(r(t)), {
           associationName: e.field.metadata.field_association_name,
-          entry: _.opt,
-          itemProps: _.itemProps
+          entry: F.opt,
+          itemProps: F.itemProps
         }, null, 8, ["associationName", "entry", "itemProps"]))
       ]),
       _: 1
@@ -1859,13 +1857,13 @@ const sn = {
       );
       f && (f.hidden = !1);
     }
-    function F(f) {
+    function _(f) {
       const b = t.privateFormApi.getFieldRef(
         t.field.metadata.field_name
       );
       b && (b.readonly = f);
     }
-    function _(f) {
+    function F(f) {
       const b = t.privateFormApi.getFieldRef(
         t.field.metadata.field_name
       );
@@ -1919,8 +1917,8 @@ const sn = {
       getValueDeserialized: V,
       getValueSerialized: x,
       setupBackendErrors: I,
-      setReadonlyState: F,
-      setHint: _,
+      setReadonlyState: _,
+      setHint: F,
       setCssClass: q,
       setSuffix: z,
       setPrefix: pe,
@@ -2005,8 +2003,8 @@ const sn = {
     };
     function u() {
       t.section.fields.forEach((g) => {
-        const p = g.metadata.field_name, F = t.formApi.getFieldByName(p);
-        F && a.set(p, F);
+        const p = g.metadata.field_name, _ = t.formApi.getFieldByName(p);
+        _ && a.set(p, _);
       });
     }
     function l() {
@@ -2165,17 +2163,17 @@ const sn = {
     }
     async function g() {
       var N, L, ie;
-      if (!_())
+      if (!F())
         return;
       E.value = !0, oe();
-      const d = F(), h = await t.getSubmitFormData({
+      const d = _(), h = await t.getSubmitFormData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
         resourceData: d,
         context: t.context
       });
       if (h.success)
-        V.value = {}, x.value === "create" && (x.value = "edit"), a && h.resource_data && (a.resource_data = h.resource_data), n = JSON.stringify(F()), m.value = X.getForm(
+        V.value = {}, x.value === "create" && (x.value = "edit"), a && h.resource_data && (a.resource_data = h.resource_data), n = JSON.stringify(_()), m.value = X.getForm(
           t.resourceName,
           t.resourceId,
           p(),
@@ -2243,13 +2241,13 @@ const sn = {
       }
       return d;
     }
-    function F() {
+    function _() {
       const d = {};
       return [...i].forEach((h) => {
         d[h[0]] = h[1].getValueDeserialized();
       }), d;
     }
-    function _() {
+    function F() {
       var h;
       let d = !0;
       return i.forEach((N) => {
@@ -2327,7 +2325,7 @@ const sn = {
       return r(x);
     }
     function we() {
-      return n !== JSON.stringify(F());
+      return n !== JSON.stringify(_());
     }
     function $e(d) {
       m.value && (m.value.context = d);
@@ -2376,7 +2374,7 @@ const sn = {
       getSections: ee,
       getFieldByName: f,
       getFields: b,
-      validate: _,
+      validate: F,
       isFormValid: q,
       reset: z,
       clear: pe,
@@ -2409,7 +2407,7 @@ const sn = {
     ), K(
       () => {
         var d;
-        return (d = m.value) != null && d.events.onUpdate ? F() : null;
+        return (d = m.value) != null && d.events.onUpdate ? _() : null;
       },
       () => {
         var d;
@@ -2417,7 +2415,7 @@ const sn = {
       }
     ), G(async () => {
       ve(), await I(), ne(() => {
-        n = JSON.stringify(F());
+        n = JSON.stringify(_());
       });
     }), (d, h) => Ce((v(), $("div", pn, [
       H("div", {

@@ -37,9 +37,8 @@ function getDefaultPagination() {
   return pagination;
 }
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
-  console.log('filter')
   if (val === lastLabelFilter.value) {
-    return;
+    update(() => {})
   }
   const callback = propsComponent.formApi.getAssociationDataCallback();
   selectOptionsScrollPagination.value = getDefaultPagination();
@@ -112,7 +111,6 @@ function onVirtualScroll(scrollArgs: {
   to: number;
   ref: InstanceType<typeof QSelect>;
 }) {
-  console.log('scroll')
   const lastIndex = selectOptionsFiltered.value.length - 1;
   if (
     selectOptionsScrollPagination.value.isLoading !== true &&
