@@ -1270,7 +1270,7 @@ class X {
             )
           };
           let q = y.label;
-          this.formSettings.requiredFieldsHasAsterisk && y.rules.find((p) => p.type === "required") && q.concat("*");
+          this.formSettings.requiredFieldsHasAsterisk && y.rules.find((p) => p.type === "required") && (q = q.concat("*"));
           const g = {
             type: y.field_type,
             metadata: Object.freeze(y),

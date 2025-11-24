@@ -161,7 +161,7 @@ export class FormFactory {
           };
           let fieldLabel = columnMetadata.label
           if (this.formSettings.requiredFieldsHasAsterisk && columnMetadata.rules.find(rule => rule.type === 'required')) {
-            fieldLabel.concat('*')
+            fieldLabel = fieldLabel.concat('*')
           }
           const field: TFormField = {
             type: columnMetadata.field_type,
