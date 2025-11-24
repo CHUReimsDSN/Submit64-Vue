@@ -110,6 +110,7 @@ function resetValidation() {
 }
 function clear() {
   propsComponent.clear();
+  selectOptionsScrollPagination.value = getDefaultPagination()
   selectOptionsFiltered.value = [];
 }
 function onVirtualScroll(scrollArgs: {
@@ -148,10 +149,6 @@ function onVirtualScroll(scrollArgs: {
       }
       selectOptionsScrollPagination.value.isLoading = false;
       scrollArgs.ref.refresh();
-      console.log(
-        selectOptionsFiltered.value.length,
-        new Set([...selectOptionsFiltered.value.map((v) => v.value)]).size
-      );
     });
   }
 }

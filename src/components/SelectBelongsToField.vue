@@ -107,6 +107,7 @@ function resetValidation() {
 }
 function clear() {
   propsComponent.clear();
+  selectOptionsScrollPagination.value = getDefaultPagination()
   selectOptionsFiltered.value = [];
 }
 function onVirtualScroll(scrollArgs: {
