@@ -31,7 +31,7 @@ const lastLabelFilter = ref("__init");
 function getDefaultPagination() {
   const pagination: TSelectOptionPagination = {
     limit: 30,
-    nextPage: 2,
+    nextPage: 1,
     lastPage: 2,
     isLoading: false,
   };
