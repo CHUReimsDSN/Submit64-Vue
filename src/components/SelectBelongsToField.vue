@@ -61,6 +61,7 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
     .then((response) => {
       update(() => {
         selectOptionsFiltered.value = response.rows;
+        selectOptionsScrollPagination.value.nextPage = 2;
         selectOptionsScrollPagination.value.lastPage = Math.ceil(
           response.row_count / selectOptionsScrollPagination.value.limit
         );

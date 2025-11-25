@@ -881,7 +881,7 @@ const Vt = { class: "row items-center justify-end" }, Dt = /* @__PURE__ */ z({
         context: $.context
       }).then((w) => {
         E(() => {
-          u.value = w.rows, i.value.lastPage = Math.ceil(
+          u.value = w.rows, i.value.nextPage = 2, i.value.lastPage = Math.ceil(
             w.row_count / i.value.limit
           ), i.value.isLoading = !1;
         });
@@ -1023,8 +1023,8 @@ const Vt = { class: "row items-center justify-end" }, Dt = /* @__PURE__ */ z({
     function f() {
       return {
         limit: 30,
-        nextPage: 2,
-        lastPage: 2,
+        nextPage: 1,
+        lastPage: 100,
         isLoading: !1
       };
     }
@@ -1047,7 +1047,7 @@ const Vt = { class: "row items-center justify-end" }, Dt = /* @__PURE__ */ z({
         context: $.context
       }).then((w) => {
         E(() => {
-          u.value = w.rows, i.value.lastPage = Math.ceil(
+          u.value = w.rows, i.value.nextPage = 2, i.value.lastPage = Math.ceil(
             w.row_count / i.value.limit
           ), i.value.isLoading = !1;
         });
