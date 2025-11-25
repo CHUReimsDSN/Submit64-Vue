@@ -857,7 +857,7 @@ const Vt = { class: "row items-center justify-end" }, Dt = /* @__PURE__ */ z({
     function f() {
       return {
         limit: 30,
-        nextPage: 2,
+        nextPage: 1,
         lastPage: 2,
         isLoading: !1
       };
