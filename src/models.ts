@@ -34,6 +34,7 @@ export type TResourceFormSectionMetadata = {
 export type TResourceFieldMetadata = {
   field_name: string;
   field_type: TFormField["type"];
+  field_extra_type?: TFormField['extraType'];
   label: string;
   field_association_name: string | null;
   field_association_class: string | null;
@@ -137,6 +138,7 @@ export type TFormField = {
     | "number"
     | "object"
   >;
+  extraType?: Readonly<'color'> | undefined;
   metadata: Readonly<TResourceFieldMetadata>;
   label?: string;
   hint?: string;

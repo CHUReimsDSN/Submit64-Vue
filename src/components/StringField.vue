@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { TSubmit64FieldProps } from "../models";
-import { QInput } from "quasar";
+import { QInput, QIcon, QPopupProxy, QColor } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -13,32 +13,32 @@ const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs
-const fieldRef = ref<InstanceType<typeof QInput>>()
+const fieldRef = ref<InstanceType<typeof QInput>>();
 
 // functions
 function validate() {
   if (!fieldRef.value) {
-    return false
+    return false;
   }
-  return fieldRef.value.validate() as boolean
+  return fieldRef.value.validate() as boolean;
 }
 function isValid() {
   if (!fieldRef.value) {
-    return false
+    return false;
   }
-  return !fieldRef.value.hasError
+  return !fieldRef.value.hasError;
 }
 function resetValidation() {
   if (!fieldRef.value) {
-    return
+    return;
   }
-  fieldRef.value.resetValidation()
+  fieldRef.value.resetValidation();
 }
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation)
-})
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
+});
 </script>
 
 <template>
@@ -70,5 +70,18 @@ onMounted(() => {
     :autogrow="true"
     :rules="propsComponent.rules"
     @clear="propsComponent.clear"
-  />
+  >
+    <template v-if="propsComponent.field.extraType === 'color'" v-slot:append>
+      <q-icon name="colorize" class="cursor-pointer">
+        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+          <q-color
+            :model-value="(propsComponent.modelValue as string)"
+            v-on:update:model-value="
+      (value: unknown) => propsComponent.modelValueOnUpdate(value)
+    "
+          />
+        </q-popup-proxy>
+      </q-icon>
+    </template>
+  </q-input>
 </template>
