@@ -101,6 +101,7 @@ export class FormFactory {
                 }
                 const field = {
                     type: columnMetadata.field_type,
+                    extraType: columnMetadata.field_extra_type,
                     metadata: Object.freeze(columnMetadata),
                     label: fieldLabel,
                     hint: columnMetadata.hint ?? undefined,

@@ -103,13 +103,6 @@ class FormEvent {
                     targetName: this.data.fieldName,
                     key: "onReset",
                 };
-            // case "Field confirm value statement":
-            //   return {
-            //     target: "field",
-            //     targetName: (this.data as TWhenArgs["Field confirm value statement"])
-            //       .fieldName,
-            //     key: "onConfirmStatement",
-            //   };
             case "Field is hidden":
                 return {
                     target: "field",
