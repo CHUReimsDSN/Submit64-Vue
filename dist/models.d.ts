@@ -32,7 +32,7 @@ export type TResourceFormSectionMetadata = {
 export type TResourceFieldMetadata = {
     field_name: string;
     field_type: TFormField["type"];
-    field_extra_type?: TFormField['extraType'];
+    field_extra_type?: TFormField["extraType"];
     label: string;
     field_association_name: string | null;
     field_association_class: string | null;
@@ -54,15 +54,21 @@ export type TSubmit64AssociationData = {
 };
 export type TSubmit64AssociationRowEntry = {
     label: string;
-    value: TRecord['id'];
+    value: TRecord["id"];
     data: TRecord;
 };
-export type TSubmit64SubmitSubmitData = {
+export type TSubmit64SubmitData = {
     success: boolean;
     errors: Record<string, string[]>;
     resource_id: TRecord["id"] | null;
     resource_data: TResourceData | null;
     form: TResourceFormMetadata | null;
+    bulk_data: {
+        sucess: boolean;
+        errors: Record<string, string[]>;
+        resource_id: TRecord["id"] | null;
+        resource_data: TResourceData | null;
+    }[] | null;
 };
 export type TFormSettings = {
     backendDateFormat: string;
@@ -119,8 +125,8 @@ export type TFormSection = {
     events: Readonly<TFormSectionEvent>;
 };
 export type TFormField = {
-    type: Readonly<"string" | "text" | "date" | "datetime" | "selectString" | "selectBelongsTo" | "selectHasMany" | "selectHasOne" | 'selectHasAndBelongsToMany' | "checkbox" | "number" | "object">;
-    extraType?: Readonly<'color' | 'wysiwyg'> | undefined;
+    type: Readonly<"string" | "text" | "date" | "datetime" | "selectString" | "selectBelongsTo" | "selectHasMany" | "selectHasOne" | "selectHasAndBelongsToMany" | "checkbox" | "number" | "object">;
+    extraType?: Readonly<"color" | "wysiwyg"> | undefined;
     metadata: Readonly<TResourceFieldMetadata>;
     label?: string;
     hint?: string;
@@ -159,6 +165,7 @@ export type TSubmit64FormApi = {
     clear: () => void;
     resetValidation: () => void;
     submit: () => Promise<void>;
+    submitBulk: (count: number) => Promise<void>;
     valuesHasChanged: () => boolean;
     getInitialValueByFieldName: (fieldName: string) => unknown;
     getAssociationDataCallback: () => (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
@@ -166,6 +173,7 @@ export type TSubmit64FormApi = {
     setCssClass: (cssClass: string) => void;
     setReadonlyState: (state: boolean) => void;
     isReady: () => boolean;
+    getBulkSubmitData: () => TSubmit64SubmitData['bulk_data'];
     form: TForm;
 };
 export type TSubmit64FormPrivateApi = {
@@ -215,7 +223,7 @@ export type TSubmit64FieldApi = {
 export type TSubmit64FormProps = {
     resourceName: string;
     getMetadataAndData: (submit64Params: TSubmit64GetMetadataAndData) => Promise<TResourceFormMetadataAndData>;
-    getSubmitFormData: (submit64Params: TSubmit64GetSubmitData) => Promise<TSubmit64SubmitSubmitData>;
+    getSubmitFormData: (submit64Params: TSubmit64GetSubmitData) => Promise<TSubmit64SubmitData>;
     getAssociationData?: ((submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>) | undefined;
     resourceId?: TRecord["id"] | undefined;
     formSettings?: TFormSettingsProps | undefined;
@@ -229,7 +237,7 @@ export type TSubmit64FormProps = {
     eventManager?: (eventManager: DynamicLogicBuilder) => void;
     context?: TContext | undefined;
 };
-export type TFormSettingsProps = Omit<TFormSettings, 'backendDateFormat' | 'backendDatetimeFormat'>;
+export type TFormSettingsProps = Omit<TFormSettings, "backendDateFormat" | "backendDatetimeFormat">;
 export type TSubmit64SectionWrapperProps = {
     section: TFormSection;
     formApi: TSubmit64FormApi;
@@ -298,6 +306,7 @@ export type TSubmit64GetSubmitData = {
     resourceName: string;
     resourceData: Record<string, unknown>;
     resourceId?: TRecord["id"];
+    bulkCount?: number;
     context?: TContext;
 };
 export type TContext = Record<string, unknown>;

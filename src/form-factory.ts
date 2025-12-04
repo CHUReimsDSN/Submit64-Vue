@@ -16,7 +16,6 @@ import { Submit64 } from "./submit64";
 import DateField from "./components/DateField.vue";
 import DateTimeField from "./components/DateTimeField.vue";
 import CheckboxField from "./components/CheckboxField.vue";
-import ObjectField from "./components/ObjectField.vue";
 import SelectField from "./components/SelectField.vue";
 import SelectBelongsToField from "./components/SelectBelongsToField.vue";
 import SelectHasManyField from "./components/SelectHasManyField.vue";
@@ -25,6 +24,7 @@ import NumberField from "./components/NumberField.vue";
 import { DynamicLogicBuilder } from "./dynamic-logic-builder";
 import ColorField from "./components/ColorField.vue";
 import WysiwygField from "./components/WysiwygField.vue";
+import JsonField from "./components/JsonField.vue";
 
 export class FormFactory {
   resourceName: string;
@@ -298,7 +298,7 @@ export class FormFactory {
       case "checkbox":
         return CheckboxField;
       case "object":
-        ObjectField;
+        return JsonField;
       default:
         return StringField;
     }

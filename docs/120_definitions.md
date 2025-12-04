@@ -39,6 +39,7 @@ type TFormSettingsProps = {
   requiredFieldsHasAsterisk: true
 };
 ```
+<br /><br /> 
 
 ## TFormStyle
 ```typescript
@@ -56,6 +57,8 @@ type TFormStyle = {
   fieldClass?: string;
 };
 ```
+
+<br /><br /> 
 
 ## TSubmit64FormApi
 
@@ -90,6 +93,17 @@ type TSubmit64FormApi = {
   * Soumet le formulaire
   */
   submit: () => Promise<void>;
+
+  /*
+  * Soumet le formulaire pour création multiple
+  * Doit avoir activé :allow_bulk dans la définition du formulaire
+  */
+  submitBulk: (count: number) => Promise<void>;
+
+  /*
+  * Renvoi les données de la dernière soumission de masse
+  */
+  getBulkSubmitData: () => TSubmit64SubmitData['bulk_data'];
 
   /*
   * Renvoi si le formulaire à été modifier ou non
@@ -165,6 +179,8 @@ type TSubmit64FormApi = {
 };
 ```
 
+<br /><br /> 
+
 ## TSubmit64SectionApi
 ```typescript
 type TSubmit64SectionApi = {
@@ -234,6 +250,8 @@ type TSubmit64SectionApi = {
   section: TFormSection;
 };
 ```
+
+<br /><br /> 
 
 ## TSubmit64FieldApi
 ```typescript
@@ -331,6 +349,8 @@ type TSubmit64FieldApi = {
 };
 ```
 
+<br /><br /> 
+
 ## TWhenArgs
 ```typescript
 type TWhenArgs = {
@@ -362,3 +382,143 @@ type TWhenArgs = {
   "Form is validated": undefined;
 };
 ```
+
+<br /><br /> 
+
+## DefaultActionComponent
+
+```vue
+<script setup lang="ts">
+import { QBtn, type QBtnProps } from "quasar";
+import type { TSubmit64ActionFormProps } from "../models";
+
+// props
+const propsComponent = defineProps<TSubmit64ActionFormProps>();
+
+// functions
+function getButtonBindStyle(): QBtnProps {
+  const formStyle =
+    propsComponent.formApi.form.formStyle;
+  return {
+    outline: formStyle.fieldOutlined,
+    rounded: formStyle.fieldRounded,
+    square: formStyle.fieldSquare,
+    dense: formStyle.fieldDense,
+    color: formStyle.fieldColor,
+    noCaps: true
+  };
+}
+</script>
+
+<template>
+  <div class="flex column">
+    <div class="flex row items-center no-wrap q-pt-sm q-gutter-x-sm">
+      <q-btn
+        v-bind="getButtonBindStyle()"
+        label="Enregistrer"
+        :loading="propsComponent.isLoadingSubmit"
+        @click="propsComponent.formApi.submit"
+      />
+      <q-btn
+        v-if="propsComponent.formApi.reset"
+        v-bind="getButtonBindStyle()"
+        :loading="propsComponent.isLoadingSubmit"
+        label="Réinitialiser"
+        @click="propsComponent.formApi.reset"
+      />
+      <q-btn
+        v-if="propsComponent.formApi.clear"
+        v-bind="getButtonBindStyle()"
+        :loading="propsComponent.isLoadingSubmit"
+        label="Vider"
+        @click="propsComponent.formApi.clear"
+      />
+    </div>
+  </div>
+</template>
+```
+
+<br /><br /> 
+
+## DefaultAssociationDisplayComponent
+
+```vue
+<script setup lang="ts">
+import { QItemLabel, QItem, QItemSection } from "quasar";
+import type { TSubmit64AssociationDisplayProps } from "../models";
+
+// props
+const propsComponent = defineProps<TSubmit64AssociationDisplayProps>();
+</script>
+
+<template>
+  <q-item v-bind="propsComponent.itemProps">
+    <q-item-section>
+      <q-item-label>{{ propsComponent.entry.label }}</q-item-label>
+    </q-item-section>
+  </q-item>
+</template>
+```
+
+<br /><br /> 
+
+## DefaultOrphanErrorsComponent
+
+```vue
+<script setup lang="ts">
+import type { TSubmit64OrphanErrorFormProps } from '../models';
+
+// props
+const propsComponent = defineProps<TSubmit64OrphanErrorFormProps>()
+</script>
+
+<template>
+    <div class="flex column">
+      <div
+        v-for="(errorList, errorKey) in propsComponent.orphanErrors"
+        :key="errorKey"
+        class="q-field--error q-field__bottom text-negative"
+      >
+        {{ errorKey }} : {{ errorList.join(",") }}
+      </div>
+    </div>
+</template>
+```
+
+<br /><br /> 
+
+## DefaultSectionComponent
+
+```vue
+<script setup lang="ts">
+import { QIcon } from "quasar";
+import type { TSubmit64SectionProps } from "../models";
+
+// props
+const propsComponent = defineProps<TSubmit64SectionProps>();
+</script>
+
+<template>
+  <div>
+    <div class="flex row items-center">
+      <q-icon
+        v-if="propsComponent.sectionApi.section.icon"
+        :name="propsComponent.sectionApi.section.icon"
+        size="sm"
+        :color="propsComponent.formApi.form.formStyle.fieldColor"
+      />
+      <div class="text-body1 text-weight-medium">
+        {{ propsComponent.sectionApi.section.label }}
+      </div>
+    </div>
+
+    <div class="flex column q-gutter-md">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+
+
+```
+
+<br /><br /> 
