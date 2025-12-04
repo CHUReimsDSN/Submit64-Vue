@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { TSubmit64FieldProps } from "../models";
-import { QInput } from "quasar";
+import { QInput, QIcon, QPopupProxy, QColor } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -70,5 +70,18 @@ onMounted(() => {
     :autogrow="true"
     :rules="propsComponent.rules"
     @clear="propsComponent.clear"
-  />
+  >
+    <template v-slot:append>
+      <q-icon name="colorize" class="cursor-pointer">
+        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+          <q-color
+            :model-value="(propsComponent.modelValue as string)"
+            v-on:update:model-value="
+      (value: unknown) => propsComponent.modelValueOnUpdate(value)
+    "
+          />
+        </q-popup-proxy>
+      </q-icon>
+    </template>
+  </q-input>
 </template>

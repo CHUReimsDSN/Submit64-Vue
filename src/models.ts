@@ -140,7 +140,7 @@ export type TFormField = {
     | "number"
     | "object"
   >;
-  extraType?: Readonly<'color'> | undefined;
+  extraType?: Readonly<'color' | 'wysiwyg'> | undefined;
   metadata: Readonly<TResourceFieldMetadata>;
   label?: string;
   hint?: string;
