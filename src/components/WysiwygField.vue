@@ -70,6 +70,16 @@ const toolbar: QEditorProps["toolbar"] = [
   ["undo", "redo"],
   ["viewsource"],
 ];
+const fonts: QEditorProps["fonts"] = {
+  arial: "Arial",
+  arial_black: "Arial Black",
+  comic_sans: "Comic Sans MS",
+  courier_new: "Courier New",
+  impact: "Impact",
+  lucida_grande: "Lucida Grande",
+  times_new_roman: "Times New Roman",
+  verdana: "Verdana",
+};
 
 // refs
 const fieldRef = ref<InstanceType<typeof QEditor>>();
@@ -99,12 +109,14 @@ onMounted(() => {
 
 <template>
   <q-editor
+    v-if="propsComponent.modelValue"
     ref="fieldRef"
     :model-value="(propsComponent.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.modelValueOnUpdate(value)
     "
     :toolbar="toolbar"
+    :fonts="fonts"
     :placeholder="propsComponent.field.label"
     :square="styleConfig.fieldSquare"
     :dense="styleConfig.fieldDense"
