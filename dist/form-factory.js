@@ -10,6 +10,8 @@ import SelectHasManyField from "./components/SelectHasManyField.vue";
 import StringField from "./components/StringField.vue";
 import NumberField from "./components/NumberField.vue";
 import { DynamicLogicBuilder } from "./dynamic-logic-builder";
+import ColorField from "./components/ColorField.vue";
+import WysiwygField from "./components/WysiwygField.vue";
 export class FormFactory {
     resourceName;
     resourceId;
@@ -74,7 +76,7 @@ export class FormFactory {
             orphanErrorsComponent: markRaw(Submit64.getGlobalOrphanErrorComponent()),
             wrapperResetComponent: markRaw(Submit64.getGlobalWrapperResetComponent()),
             dynamicComponentRecord: {},
-            allowBulk: false
+            allowBulk: false,
         };
     }
     static getForm(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager) {
@@ -90,15 +92,16 @@ export class FormFactory {
             const fields = [];
             sectionMetadata.fields.forEach((columnMetadata) => {
                 const beforeComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-before`];
-                const mainComponent = FormFactory.getFieldComponentByFormFieldType(columnMetadata.field_type);
+                const mainComponent = FormFactory.getFieldComponentByFormFieldType(columnMetadata);
                 const afterComponent = this.dynamicComponentRecord[`field-${columnMetadata.field_name}-after`];
                 const componentOptions = {
                     associationDisplayComponent: markRaw(this.associationDisplayComponent),
                     regularFieldType: FormFactory.getRegularFieldTypeByFieldType(columnMetadata.field_type),
                 };
                 let fieldLabel = columnMetadata.label;
-                if (this.formSettings.requiredFieldsHasAsterisk && columnMetadata.rules.find(rule => rule.type === 'required')) {
-                    fieldLabel = fieldLabel.concat('*');
+                if (this.formSettings.requiredFieldsHasAsterisk &&
+                    columnMetadata.rules.find((rule) => rule.type === "required")) {
+                    fieldLabel = fieldLabel.concat("*");
                 }
                 const field = {
                     type: columnMetadata.field_type,
@@ -179,20 +182,41 @@ export class FormFactory {
         };
         return mapping[fieldType] || undefined;
     }
-    static getFieldComponentByFormFieldType(fieldType) {
-        return {
-            string: StringField,
-            text: StringField,
-            number: NumberField,
-            date: DateField,
-            datetime: DateTimeField,
-            selectString: SelectField,
-            selectBelongsTo: SelectBelongsToField,
-            selectHasMany: SelectHasManyField,
-            selectHasAndBelongsToMany: SelectHasManyField,
-            selectHasOne: SelectBelongsToField,
-            checkbox: CheckboxField,
-            object: ObjectField,
-        }[fieldType];
+    static getFieldComponentByFormFieldType(field) {
+        switch (field.field_type) {
+            case "string":
+                switch (field.field_extra_type) {
+                    case "color":
+                        return ColorField;
+                    case "wysiwyg":
+                        return WysiwygField;
+                    default:
+                        return StringField;
+                }
+            case "text":
+                return StringField;
+            case "number":
+                return NumberField;
+            case "date":
+                return DateField;
+            case "datetime":
+                return DateTimeField;
+            case "selectString":
+                return SelectField;
+            case "selectBelongsTo":
+                return SelectBelongsToField;
+            case "selectHasMany":
+                return SelectHasManyField;
+            case "selectHasAndBelongsToMany":
+                return SelectHasManyField;
+            case "selectHasOne":
+                return SelectBelongsToField;
+            case "checkbox":
+                return CheckboxField;
+            case "object":
+                ObjectField;
+            default:
+                return StringField;
+        }
     }
 }
