@@ -140,10 +140,9 @@ async function submit(): Promise<void> {
   isLoadingSubmit.value = false;
 }
 async function submitBulk(count: number): Promise<void> {
-  if (!form.value.allowBulk) {
-    console.warn(
-      "Submit64 : you tried to submitBulk but form does not allow submitBulk."
-    );
+  if (!form.value.allowBulk || mode.value === "edit") {
+    console.warn("Submit64 : you are not allowed to submitBulk");
+    return;
   }
   if (!validate()) {
     return;

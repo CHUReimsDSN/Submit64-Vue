@@ -2,7 +2,7 @@ var dt = Object.defineProperty;
 var ft = (o, e, t) => e in o ? dt(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var x = (o, e, t) => ft(o, typeof e != "symbol" ? e + "" : e, t);
 import { defineComponent as I, createElementBlock as L, openBlock as h, createElementVNode as ae, createVNode as B, createBlock as w, createCommentVNode as W, unref as a, mergeProps as Ae, toDisplayString as Z, renderSlot as Le, resolveComponent as mt, normalizeProps as pt, guardReactiveProps as gt, withCtx as V, createTextVNode as Fe, Fragment as ye, renderList as be, ref as k, onMounted as j, normalizeClass as J, watch as P, nextTick as me, resolveDynamicComponent as X, markRaw as Y, getCurrentInstance as Ge, withDirectives as Ne, vShow as Be, computed as se, useSlots as vt } from "vue";
-import { QBtn as ue, QIcon as fe, QItem as ke, QItemSection as Ve, QItemLabel as xe, QInput as pe, QPopupProxy as Ce, QDate as He, QTime as ht, QCheckbox as yt, QSelect as Ee, QColor as bt, useQuasar as Ct, QEditor as _t, date as O } from "quasar";
+import { QBtn as ue, QIcon as fe, QItem as ke, QItemSection as Ve, QItemLabel as xe, QInput as pe, QPopupProxy as Ce, QDate as He, QTime as ht, QCheckbox as yt, QSelect as Ee, QColor as bt, useQuasar as Ct, QEditor as _t, date as T } from "quasar";
 const St = { class: "flex column" }, Ft = { class: "flex row items-center no-wrap q-pt-sm q-gutter-x-sm" }, kt = /* @__PURE__ */ I({
   __name: "DefaultActionComponent",
   props: {
@@ -36,7 +36,7 @@ const St = { class: "flex column" }, Ft = { class: "flex row items-center no-wra
         }), null, 16, ["loading", "onClick"])) : W("", !0),
         e.formApi.clear ? (h(), w(a(ue), Ae({ key: 1 }, t(), {
           loading: e.isLoadingSubmit,
-          label: "Vider",
+          label: "Effacer",
           onClick: e.formApi.clear
         }), null, 16, ["loading", "onClick"])) : W("", !0)
       ])
@@ -740,8 +740,8 @@ const Tt = { class: "row items-center justify-end" }, qt = /* @__PURE__ */ I({
         return;
       }
       N(() => {
-        const T = R.toLowerCase();
-        r.value = t.value.filter((z) => z.label.toLowerCase().includes(T));
+        const O = R.toLowerCase();
+        r.value = t.value.filter((z) => z.label.toLowerCase().includes(O));
       });
     }
     function _() {
@@ -767,7 +767,7 @@ const Tt = { class: "row items-center justify-end" }, qt = /* @__PURE__ */ I({
       ref_key: "fieldRef",
       ref: n,
       "model-value": e.modelValue,
-      "onUpdate:modelValue": N[0] || (N[0] = (T) => e.modelValueOnUpdate(T)),
+      "onUpdate:modelValue": N[0] || (N[0] = (O) => e.modelValueOnUpdate(O)),
       type: e.field.componentOptions.regularFieldType,
       label: e.field.label,
       hint: e.field.hint,
@@ -890,7 +890,7 @@ const Tt = { class: "row items-center justify-end" }, qt = /* @__PURE__ */ I({
     function N() {
       c.value && c.value.resetValidation();
     }
-    function T() {
+    function O() {
       e.clear(), i.value = y(), u.value = [], _.value = Ie;
     }
     function z(S) {
@@ -950,7 +950,7 @@ const Tt = { class: "row items-center justify-end" }, qt = /* @__PURE__ */ I({
       mapOptions: !0,
       emitValue: !0,
       useInput: !0,
-      onClear: T,
+      onClear: O,
       onFilter: d,
       onVirtualScroll: z
     }, {
@@ -1054,7 +1054,7 @@ const Tt = { class: "row items-center justify-end" }, qt = /* @__PURE__ */ I({
     function N() {
       c.value && c.value.resetValidation();
     }
-    function T() {
+    function O() {
       e.clear(), i.value = y(), u.value = [], _.value = $e;
     }
     function z(S) {
@@ -1117,7 +1117,7 @@ const Tt = { class: "row items-center justify-end" }, qt = /* @__PURE__ */ I({
       useInput: !0,
       multiple: !0,
       "use-chips": !0,
-      onClear: T,
+      onClear: O,
       onFilter: d,
       onVirtualScroll: z
     }, {
@@ -1544,13 +1544,13 @@ class ne {
               d.field_type
             )
           };
-          let T = d.label;
-          this.formSettings.requiredFieldsHasAsterisk && d.rules.find((S) => S.type === "required") && (T = T.concat("*"));
+          let O = d.label;
+          this.formSettings.requiredFieldsHasAsterisk && d.rules.find((S) => S.type === "required") && (O = O.concat("*"));
           const z = {
             type: d.field_type,
             extraType: d.field_extra_type,
             metadata: Object.freeze(d),
-            label: T,
+            label: O,
             hint: d.hint ?? void 0,
             prefix: d.prefix ?? void 0,
             suffix: d.suffix ?? void 0,
@@ -1656,8 +1656,8 @@ function Wt(o, e, t) {
     var y;
     return ((y = t.getFieldByName(i.compare_to)) == null ? void 0 : y.getValueSerialized()) ?? "Submit64 error : missing comparator definition";
   } : () => "", s = (i) => String(
-    O.formatDate(
-      O.extractDate(i, r.formSettings.backendDateFormat),
+    T.formatDate(
+      T.extractDate(i, r.formSettings.backendDateFormat),
       r.formSettings.dateFormat
     )
   ), l = [], u = [];
@@ -1995,38 +1995,38 @@ function _n(o) {
 }
 function Sn(o, e) {
   return (t) => {
-    const r = o(), n = O.extractDate(String(t), e), s = O.extractDate(r, e);
+    const r = o(), n = T.extractDate(String(t), e), s = T.extractDate(r, e);
     return n <= s || `Inf. ou égal à ${r}`;
   };
 }
 function Fn(o, e) {
   return (t) => {
-    const r = o(), n = O.extractDate(String(t), e), s = O.extractDate(r, e);
+    const r = o(), n = T.extractDate(String(t), e), s = T.extractDate(r, e);
     return n < s || `Inf. à ${r}`;
   };
 }
 function kn(o, e) {
   return (t) => {
-    const r = o(), n = O.extractDate(String(t), e), s = O.extractDate(r, e);
+    const r = o(), n = T.extractDate(String(t), e), s = T.extractDate(r, e);
     return n >= s || `Sup. ou égal à ${r}`;
   };
 }
 function Vn(o, e) {
   return (t) => {
-    const r = o(), n = O.extractDate(String(t), e), s = O.extractDate(r, e);
+    const r = o(), n = T.extractDate(String(t), e), s = T.extractDate(r, e);
     return n > s || `Sup. à ${r}`;
   };
 }
 function xn(o, e) {
   return (t) => {
-    const r = o(), n = O.extractDate(String(t), e), s = O.extractDate(r, e);
+    const r = o(), n = T.extractDate(String(t), e), s = T.extractDate(r, e);
     return n === s || `Égale à ${n}`;
   };
 }
 function Dn(o, e) {
   return (t) => {
     const r = o();
-    return O.extractDate(String(t), e) !== O.extractDate(r, e) || `Doit être différent de ${r}`;
+    return T.extractDate(String(t), e) !== T.extractDate(r, e) || `Doit être différent de ${r}`;
   };
 }
 function Pe(o) {
@@ -2035,8 +2035,8 @@ function Pe(o) {
 function An(o, e) {
   if (typeof o != "string" || !o.trim())
     return !1;
-  const t = O.extractDate(o, e);
-  return !(t instanceof Date) || isNaN(t.getTime()) ? !1 : O.formatDate(t, e) === o;
+  const t = T.extractDate(o, e);
+  return !(t instanceof Date) || isNaN(t.getTime()) ? !1 : T.formatDate(t, e) === o;
 }
 const Rn = {
   computeServerRules: Wt
@@ -2069,13 +2069,13 @@ const Rn = {
         case "checkbox":
           return m == null || m === "" ? !1 : m;
         case "date":
-          return m == null || m === "" ? null : O.formatDate(
-            O.extractDate(String(m), F.formSettings.backendDateFormat),
+          return m == null || m === "" ? null : T.formatDate(
+            T.extractDate(String(m), F.formSettings.backendDateFormat),
             F.formSettings.dateFormat
           );
         case "datetime":
-          return m == null || m === "" ? null : O.formatDate(
-            O.extractDate(
+          return m == null || m === "" ? null : T.formatDate(
+            T.extractDate(
               String(m),
               F.formSettings.backendDatetimeFormat
             ),
@@ -2088,13 +2088,13 @@ const Rn = {
       const F = t.formApi.form;
       switch (t.field.type) {
         case "date":
-          return m == null || m === "" ? null : O.formatDate(
-            O.extractDate(String(m), F.formSettings.dateFormat),
+          return m == null || m === "" ? null : T.formatDate(
+            T.extractDate(String(m), F.formSettings.dateFormat),
             F.formSettings.backendDateFormat
           );
         case "datetime":
-          return m == null || m === "" ? null : O.formatDate(
-            O.extractDate(String(m), F.formSettings.datetimeFormat),
+          return m == null || m === "" ? null : T.formatDate(
+            T.extractDate(String(m), F.formSettings.datetimeFormat),
             F.formSettings.backendDatetimeFormat
           );
       }
@@ -2148,7 +2148,7 @@ const Rn = {
     function N() {
       return a(i);
     }
-    function T() {
+    function O() {
       return d(a(i));
     }
     function z(m) {
@@ -2227,7 +2227,7 @@ const Rn = {
       hide: S,
       unhide: C,
       resetValidation: ve,
-      getValueDeserialized: T,
+      getValueDeserialized: O,
       getValueSerialized: N,
       setupBackendErrors: z,
       setReadonlyState: D,
@@ -2270,7 +2270,7 @@ const Rn = {
         rules: a(u),
         reset: _,
         clear: E,
-        getValueDeserialized: T,
+        getValueDeserialized: O,
         getValueSerialized: N,
         validate: v,
         modelValueOnUpdate: R,
@@ -2310,7 +2310,7 @@ const Rn = {
       hide: y,
       unhide: d,
       resetValidation: N,
-      getFields: T,
+      getFields: O,
       setReadonlyState: z,
       setCssClass: S,
       setIcon: C,
@@ -2375,7 +2375,7 @@ const Rn = {
         p.resetValidation();
       });
     }
-    function T() {
+    function O() {
       return u.value;
     }
     function z(p) {
@@ -2504,7 +2504,7 @@ const Rn = {
   setup(o, { expose: e }) {
     const t = o;
     let r = null, n = "", s = 0, l = 0, u = null, i = null, c = null, _ = null;
-    const y = vt(), d = k(ne.getEmptyFormBeforeInit()), E = k(!1), q = k(!1), R = k(!1), N = k(!1), T = k("create"), z = k({}), S = k(/* @__PURE__ */ new Map()), C = k(/* @__PURE__ */ new Map());
+    const y = vt(), d = k(ne.getEmptyFormBeforeInit()), E = k(!1), q = k(!1), R = k(!1), N = k(!1), O = k("create"), z = k({}), S = k(/* @__PURE__ */ new Map()), C = k(/* @__PURE__ */ new Map());
     async function D() {
       r = await t.getMetadataAndData({
         resourceName: t.resourceName,
@@ -2520,7 +2520,7 @@ const Rn = {
         t.context,
         ee,
         t.eventManager
-      ), s = d.value.sections.length, l = d.value.sections.map((f) => f.fields).flat().length, t.resourceId && (T.value = "edit");
+      ), s = d.value.sections.length, l = d.value.sections.map((f) => f.fields).flat().length, t.resourceId && (O.value = "edit");
     }
     async function U() {
       var b, H, re;
@@ -2534,7 +2534,7 @@ const Rn = {
         context: t.context
       });
       if (g.success)
-        z.value = {}, T.value === "create" && (T.value = "edit"), r && g.resource_data && (r.resource_data = g.resource_data), n = JSON.stringify(K()), d.value = ne.getForm(
+        z.value = {}, O.value === "create" && (O.value = "edit"), r && g.resource_data && (r.resource_data = g.resource_data), n = JSON.stringify(K()), d.value = ne.getForm(
           t.resourceName,
           t.resourceId,
           oe(),
@@ -2563,9 +2563,11 @@ const Rn = {
     }
     async function $(f) {
       var H, re, ie;
-      if (d.value.allowBulk || console.warn(
-        "Submit64 : you tried to submitBulk but form does not allow submitBulk."
-      ), !v())
+      if (!d.value.allowBulk || O.value === "edit") {
+        console.warn("Submit64 : you are not allowed to submitBulk");
+        return;
+      }
+      if (!v())
         return;
       A((H = d.value) == null ? void 0 : H.events.onSubmit), N.value = !0, m();
       const g = K(), b = await t.getSubmitFormData({
@@ -2576,7 +2578,7 @@ const Rn = {
         context: t.context
       });
       if (_ = b.bulk_data, b.success)
-        z.value = {}, T.value === "create" && (T.value = "edit"), r && b.resource_data && (r.resource_data = b.resource_data), n = JSON.stringify(K()), d.value = ne.getForm(
+        z.value = {}, O.value === "create" && (O.value = "edit"), r && b.resource_data && (r.resource_data = b.resource_data), n = JSON.stringify(K()), d.value = ne.getForm(
           t.resourceName,
           t.resourceId,
           oe(),
@@ -2735,7 +2737,7 @@ const Rn = {
       });
     }
     function Ke() {
-      return a(T);
+      return a(O);
     }
     function Xe() {
       return n !== JSON.stringify(K());

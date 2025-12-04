@@ -66,14 +66,7 @@ export type TSubmit64SubmitData = {
   resource_id: TRecord["id"] | null;
   resource_data: TResourceData | null;
   form: TResourceFormMetadata | null;
-  bulk_data:
-    | {
-        sucess: boolean;
-        errors: Record<string, string[]>;
-        resource_id: TRecord["id"] | null;
-        resource_data: TResourceData | null;
-      }[]
-    | null;
+  bulk_data: TResourceData[] | null;
 };
 
 // singleton

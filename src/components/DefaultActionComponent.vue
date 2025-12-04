@@ -40,7 +40,7 @@ function getButtonBindStyle(): QBtnProps {
         v-if="propsComponent.formApi.clear"
         v-bind="getButtonBindStyle()"
         :loading="propsComponent.isLoadingSubmit"
-        label="Vider"
+        label="Effacer"
         @click="propsComponent.formApi.clear"
       />
     </div>
