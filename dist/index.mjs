@@ -1,7 +1,7 @@
 var lt = Object.defineProperty;
 var st = (o, e, t) => e in o ? lt(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var k = (o, e, t) => st(o, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as z, createElementBlock as L, openBlock as y, createElementVNode as Z, createVNode as D, createBlock as E, createCommentVNode as W, unref as a, mergeProps as xe, toDisplayString as K, renderSlot as Ue, resolveComponent as ut, normalizeProps as ct, guardReactiveProps as dt, withCtx as F, createTextVNode as Ce, Fragment as ge, renderList as ve, ref as S, onMounted as M, normalizeClass as j, watch as P, nextTick as ce, resolveDynamicComponent as J, markRaw as H, getCurrentInstance as Pe, withDirectives as Ae, vShow as Re, computed as oe, useSlots as ft } from "vue";
+import { defineComponent as z, createElementBlock as L, openBlock as y, createElementVNode as Z, createVNode as D, createBlock as E, createCommentVNode as j, unref as a, mergeProps as xe, toDisplayString as K, renderSlot as Ue, resolveComponent as ut, normalizeProps as ct, guardReactiveProps as dt, withCtx as F, createTextVNode as Ce, Fragment as ge, renderList as ve, ref as S, onMounted as M, normalizeClass as W, watch as P, nextTick as ce, resolveDynamicComponent as J, markRaw as H, getCurrentInstance as Pe, withDirectives as Ae, vShow as Re, computed as oe, useSlots as ft } from "vue";
 import { QBtn as re, QIcon as ue, QItem as _e, QItemSection as Se, QItemLabel as Fe, QInput as de, QPopupProxy as he, QDate as Le, QTime as mt, QCheckbox as pt, QSelect as Ne, QColor as gt, useQuasar as vt, QEditor as ht, date as O } from "quasar";
 const yt = { class: "flex column" }, bt = { class: "flex row items-center no-wrap q-pt-sm q-gutter-x-sm" }, Ct = /* @__PURE__ */ z({
   __name: "DefaultActionComponent",
@@ -33,12 +33,12 @@ const yt = { class: "flex column" }, bt = { class: "flex row items-center no-wra
           loading: e.isLoadingSubmit,
           label: "Réinitialiser",
           onClick: e.formApi.reset
-        }), null, 16, ["loading", "onClick"])) : W("", !0),
+        }), null, 16, ["loading", "onClick"])) : j("", !0),
         e.formApi.clear ? (y(), E(a(re), xe({ key: 1 }, t(), {
           loading: e.isLoadingSubmit,
           label: "Vider",
           onClick: e.formApi.clear
-        }), null, 16, ["loading", "onClick"])) : W("", !0)
+        }), null, 16, ["loading", "onClick"])) : j("", !0)
       ])
     ]));
   }
@@ -57,7 +57,7 @@ const yt = { class: "flex column" }, bt = { class: "flex row items-center no-wra
           name: e.sectionApi.section.icon,
           size: "sm",
           color: e.formApi.form.formStyle.fieldColor
-        }, null, 8, ["name", "color"])) : W("", !0),
+        }, null, 8, ["name", "color"])) : j("", !0),
         Z("div", St, K(e.sectionApi.section.label), 1)
       ]),
       Z("div", Ft, [
@@ -466,7 +466,7 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       "lazy-rules": s,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -569,7 +569,7 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       "lazy-rules": s,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -710,10 +710,10 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
         dense: a(n).fieldDense,
         color: a(n).fieldColor,
         "aria-readonly": e.field.readonly,
-        class: j([e.field.cssClass, "q-pb-md"])
+        class: W([e.field.cssClass, "q-pb-md"])
       }, null, 8, ["model-value", "label", "dense", "color", "aria-readonly", "class"]),
-      e.field.hint ? (y(), L("div", It, K(e.field.hint), 1)) : W("", !0),
-      t.value !== !0 ? (y(), L("div", zt, K(t.value), 1)) : W("", !0)
+      e.field.hint ? (y(), L("div", It, K(e.field.hint), 1)) : j("", !0),
+      t.value !== !0 ? (y(), L("div", zt, K(t.value), 1)) : j("", !0)
     ]));
   }
 }), Ut = /* @__PURE__ */ z({
@@ -781,7 +781,7 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       hideBottomSpace: a(u).fieldHideBottomSpace,
       color: a(u).fieldColor,
       bgColor: a(u).fieldBgColor,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       "lazy-rules": i,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -939,7 +939,7 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       hideBottomSpace: a(s).fieldHideBottomSpace,
       color: a(s).fieldColor,
       bgColor: a(s).fieldBgColor,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       "lazy-rules": l,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -1104,7 +1104,7 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       hideBottomSpace: a(s).fieldHideBottomSpace,
       color: a(s).fieldColor,
       bgColor: a(s).fieldBgColor,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       "lazy-rules": l,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -1196,7 +1196,7 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       "lazy-rules": s,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -1252,7 +1252,7 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       "lazy-rules": s,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -1307,7 +1307,7 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       "lazy-rules": s,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -1436,7 +1436,8 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
     }
     return M(() => {
       e.registerBehaviourCallbacks(i, c, C);
-    }), console.log(e.modelValue), (f, v) => (y(), E(a(ht), {
+    }), (f, v) => e.modelValue ? (y(), E(a(ht), {
+      key: 0,
       ref_key: "fieldRef",
       ref: u,
       "model-value": e.modelValue,
@@ -1446,9 +1447,9 @@ const Bt = { class: "row items-center justify-end" }, Et = /* @__PURE__ */ z({
       placeholder: e.field.label,
       square: a(n).fieldSquare,
       dense: a(n).fieldDense,
-      class: j(e.field.cssClass),
+      class: W(e.field.cssClass),
       readonly: e.field.readonly
-    }, null, 8, ["model-value", "placeholder", "square", "dense", "class", "readonly"]));
+    }, null, 8, ["model-value", "placeholder", "square", "dense", "class", "readonly"])) : j("", !0);
   }
 });
 class te {
@@ -2242,7 +2243,7 @@ const kn = {
         key: 0,
         formApi: t.formApi,
         fieldApi: le
-      }, null, 8, ["formApi"])) : W("", !0),
+      }, null, 8, ["formApi"])) : j("", !0),
       (y(), E(J(t.field.mainComponent), {
         modelValue: i.value,
         field: t.field,
@@ -2260,13 +2261,13 @@ const kn = {
         key: 1,
         formApi: t.formApi,
         fieldApi: le
-      }, null, 8, ["formApi"])) : W("", !0),
+      }, null, 8, ["formApi"])) : j("", !0),
       c.value.length > 0 ? (y(), L("div", Vn, [
         (y(!0), L(ge, null, ve(c.value, (se, ae) => (y(), L("div", {
           index: ae,
           class: "flex column"
         }, K(se), 9, xn))), 256))
-      ])) : W("", !0)
+      ])) : j("", !0)
     ], 512)), [
       [Re, t.field.hidden !== !0]
     ]);
@@ -2443,7 +2444,7 @@ const kn = {
         key: 0,
         formApi: t.formApi,
         sectionApi: l
-      }, null, 8, ["formApi"])) : W("", !0),
+      }, null, 8, ["formApi"])) : j("", !0),
       (y(), E(J(t.section.mainComponent), {
         sectionApi: l,
         formApi: t.formApi
@@ -2457,7 +2458,7 @@ const kn = {
         key: 1,
         formApi: t.formApi,
         sectionApi: l
-      }, null, 8, ["formApi"])) : W("", !0)
+      }, null, 8, ["formApi"])) : j("", !0)
     ], 512)), [
       [Re, t.section.hidden !== !0]
     ]);
@@ -2795,7 +2796,7 @@ const kn = {
       });
     }), (d, g) => Ae((y(), L("div", Nn, [
       Z("div", {
-        class: j(f.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
+        class: W(f.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
         (y(!0), L(ge, null, ve(f.value.sections, (x) => (y(), E(Rn, {
           key: x.name,

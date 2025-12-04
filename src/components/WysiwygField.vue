@@ -105,11 +105,11 @@ function resetValidation() {
 onMounted(() => {
   propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
 });
-console.log(propsComponent.modelValue)
 </script>
 
 <template>
   <q-editor
+    v-if="propsComponent.modelValue"
     ref="fieldRef"
     :model-value="(propsComponent.modelValue as string)"
     v-on:update:model-value="
