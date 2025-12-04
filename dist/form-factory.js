@@ -74,6 +74,7 @@ export class FormFactory {
             orphanErrorsComponent: markRaw(Submit64.getGlobalOrphanErrorComponent()),
             wrapperResetComponent: markRaw(Submit64.getGlobalWrapperResetComponent()),
             dynamicComponentRecord: {},
+            allowBulk: false
         };
     }
     static getForm(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager) {
@@ -162,6 +163,7 @@ export class FormFactory {
             resetable: this.formMetadataAndData.form.resetable ?? undefined,
             clearable: this.formMetadataAndData.form.clearable ?? undefined,
             readonly: this.formMetadataAndData.form.readonly ?? undefined,
+            allowBulk: this.formMetadataAndData.form.allow_bulk ?? false,
             events: events.form,
             actionComponent: markRaw(this.actionComponent),
             orphanErrorsComponent: markRaw(this.orphanErrorsComponent),

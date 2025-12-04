@@ -19,6 +19,7 @@ export type TResourceFormMetadata = {
     clearable: boolean | null;
     css_class: string | null;
     readonly: boolean | null;
+    allow_bulk: boolean | null;
 };
 export type TResourceFormSectionMetadata = {
     fields: TResourceFieldMetadata[];
@@ -101,6 +102,7 @@ export type TForm = {
     orphanErrorsComponent: Readonly<Component>;
     wrapperResetComponent: Readonly<Component>;
     dynamicComponentRecord: Readonly<Record<string, Component>>;
+    allowBulk: boolean;
     context?: TContext;
 };
 export type TFormSection = {
