@@ -18,6 +18,7 @@ const form = propsComponent.formApi.form;
 const formSetting = form.formSettings;
 const styleConfig = form.formStyle;
 const lazyRules = formSetting.rulesBehaviour === "lazy";
+const defaultLabelFilter = '__init'
 
 // refs
 const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
@@ -25,7 +26,7 @@ const selectOptionsScrollPagination = ref<TSelectOptionPagination>(
   getDefaultPagination()
 );
 const fieldRef = ref<InstanceType<typeof QSelect>>();
-const lastLabelFilter = ref("__init");
+const lastLabelFilter = ref(defaultLabelFilter);
 
 // functions
 function getDefaultPagination() {
@@ -111,6 +112,7 @@ function clear() {
   propsComponent.clear();
   selectOptionsScrollPagination.value = getDefaultPagination();
   selectOptionsFiltered.value = [];
+  lastLabelFilter.value = defaultLabelFilter
 }
 function onVirtualScroll(scrollArgs: {
   to: number;
