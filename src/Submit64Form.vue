@@ -23,6 +23,7 @@ import type {
   TSubmit64SectionApi,
   TContext,
   TSubmit64FormPrivateApi,
+  TSubmit64SubmitData,
 } from "./models";
 import { FormFactory } from "./form-factory";
 import { callAllEvents } from "./utils";
@@ -40,6 +41,7 @@ let fieldCount = 0;
 let stopWatchIsValid: WatchStopHandle | null = null;
 let stopWatchIsInvalid: WatchStopHandle | null = null;
 let stopWatchIsUpdated: WatchStopHandle | null = null;
+let bulkSubmitData: TSubmit64SubmitData["bulk_data"] = null;
 
 // consts
 const slots = useSlots();
@@ -93,6 +95,70 @@ async function submit(): Promise<void> {
     resourceData,
     context: propsComponent.context,
   });
+  if (!newData.success) {
+    orphanErrors.value = {};
+    const parentedKeys: string[] = [];
+    for (const [fieldName, fieldApi] of fieldWrapperRefs.value) {
+      const entryBackendErrors = newData.errors[fieldName];
+      if (entryBackendErrors) {
+        fieldApi.setupBackendErrors(entryBackendErrors);
+        parentedKeys.push(fieldName);
+      }
+    }
+    Object.entries(newData.errors).forEach((errorEntry) => {
+      if (parentedKeys.includes(errorEntry[0])) {
+        return;
+      }
+      orphanErrors.value[errorEntry[0]] = errorEntry[1];
+    });
+    callAllEvents(form.value?.events.onSubmitUnsuccess);
+  } else {
+    orphanErrors.value = {};
+    if (mode.value === "create") {
+      mode.value = "edit";
+    }
+    if (formMetadataAndData && newData.resource_data) {
+      formMetadataAndData.resource_data = newData.resource_data;
+    }
+    stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
+    form.value = FormFactory.getForm(
+      propsComponent.resourceName,
+      propsComponent.resourceId,
+      getOverridedComponents(),
+      {
+        form: newData.form!,
+        resource_data: newData.resource_data!,
+      },
+      propsComponent.formSettings,
+      propsComponent.formStyle,
+      propsComponent.context,
+      formApi,
+      propsComponent.eventManager
+    );
+    callAllEvents(form.value?.events.onSubmitSuccess);
+  }
+  isLoadingSubmit.value = false;
+}
+async function submitBulk(count: number): Promise<void> {
+  if (!form.value.allowBulk || mode.value === "edit") {
+    console.warn("Submit64 : you are not allowed to submitBulk");
+    return;
+  }
+  if (!validate()) {
+    return;
+  }
+  callAllEvents(form.value?.events.onSubmit);
+  isLoadingSubmit.value = true;
+  clearBackendErrors();
+  const resourceData = getValuesFormDeserialized();
+  const newData = await propsComponent.getSubmitFormData({
+    resourceName: propsComponent.resourceName,
+    resourceId: propsComponent.resourceId,
+    resourceData,
+    bulkCount: count,
+    context: propsComponent.context,
+  });
+  bulkSubmitData = newData.bulk_data;
   if (!newData.success) {
     orphanErrors.value = {};
     const parentedKeys: string[] = [];
@@ -308,6 +374,9 @@ function setReadonlyState(state: boolean) {
 function isReady() {
   return setupIsDone.value;
 }
+function getBulkSubmitData() {
+  return bulkSubmitData;
+}
 
 // private api
 function getFormRef() {
@@ -373,6 +442,7 @@ const formApi: TSubmit64FormApi = {
   clear,
   resetValidation,
   submit,
+  submitBulk,
   valuesHasChanged,
   getInitialValueByFieldName,
   getAssociationDataCallback,
@@ -380,6 +450,7 @@ const formApi: TSubmit64FormApi = {
   setCssClass,
   setReadonlyState,
   isReady,
+  getBulkSubmitData,
   form: formReactive as unknown as TForm,
 };
 defineExpose<TSubmit64FormApi>(formApi);
