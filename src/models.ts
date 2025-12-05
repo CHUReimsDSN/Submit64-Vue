@@ -230,6 +230,11 @@ export type TSubmit64FormApi = {
   submit: () => Promise<void>;
 
   /*
+   * Renvoi les données de la dernière soumission
+   */
+  getSubmitData: () => TSubmit64SubmitData["resource_data"];
+
+  /*
    * Soumet le formulaire pour création multiple
    * Doit avoir activé :allow_bulk dans la définition du formulaire
    */

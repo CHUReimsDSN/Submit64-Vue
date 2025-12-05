@@ -154,6 +154,7 @@ export type TSubmit64FormApi = {
     clear: () => void;
     resetValidation: () => void;
     submit: () => Promise<void>;
+    getSubmitData: () => TSubmit64SubmitData["resource_data"];
     submitBulk: (count: number) => Promise<void>;
     getBulkSubmitData: () => TSubmit64SubmitData["bulk_data"];
     valuesHasChanged: () => boolean;
