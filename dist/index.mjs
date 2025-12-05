@@ -795,7 +795,7 @@ const Tt = { class: "row items-center justify-end" }, qt = /* @__PURE__ */ I({
       onClear: q,
       onFilter: c
     }, {
-      default: V(() => [
+      "no-option": V(() => [
         B(a(ke), {
           dense: a(u).fieldDense
         }, {
@@ -1627,7 +1627,7 @@ class ne {
         return qt;
       case "datetime":
         return $t;
-      case "selectString":
+      case "select":
         return Ht;
       case "selectBelongsTo":
         return ze;

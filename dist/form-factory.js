@@ -201,7 +201,7 @@ export class FormFactory {
                 return DateField;
             case "datetime":
                 return DateTimeField;
-            case "selectString":
+            case "select":
                 return SelectField;
             case "selectBelongsTo":
                 return SelectBelongsToField;

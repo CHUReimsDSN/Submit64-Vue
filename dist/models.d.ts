@@ -120,7 +120,7 @@ export type TFormSection = {
     events: Readonly<TFormSectionEvent>;
 };
 export type TFormField = {
-    type: Readonly<"string" | "text" | "date" | "datetime" | "selectString" | "selectBelongsTo" | "selectHasMany" | "selectHasOne" | "selectHasAndBelongsToMany" | "checkbox" | "number" | "object">;
+    type: Readonly<"string" | "text" | "date" | "datetime" | "select" | "selectBelongsTo" | "selectHasMany" | "selectHasOne" | "selectHasAndBelongsToMany" | "checkbox" | "number" | "object">;
     extraType?: Readonly<"color" | "wysiwyg"> | undefined;
     metadata: Readonly<TResourceFieldMetadata>;
     label?: string;
