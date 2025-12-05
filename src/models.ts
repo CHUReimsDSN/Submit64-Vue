@@ -132,7 +132,7 @@ export type TFormField = {
     | "text"
     | "date"
     | "datetime"
-    | "selectString"
+    | "select"
     | "selectBelongsTo"
     | "selectHasMany"
     | "selectHasOne"

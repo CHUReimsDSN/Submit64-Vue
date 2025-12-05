@@ -50,7 +50,7 @@ function isValid() {
   if (!fieldRef.value) {
     return false;
   }
-  return !fieldRef.value.hasError
+  return !fieldRef.value.hasError;
 }
 function resetValidation() {
   if (!fieldRef.value) {
@@ -104,12 +104,14 @@ onMounted(() => {
     @clear="clear"
     @filter="inputFilter"
   >
-    <q-item :dense="styleConfig.fieldDense">
-      <q-item-section>
-        <q-item-label>{{
-          propsComponent.formApi.form.formSettings.associationEmptyMessage
-        }}</q-item-label>
-      </q-item-section>
-    </q-item>
+    <template v-slot:no-option>
+      <q-item :dense="styleConfig.fieldDense">
+        <q-item-section>
+          <q-item-label>{{
+            propsComponent.formApi.form.formSettings.associationEmptyMessage
+          }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </template>
   </q-select>
 </template>
