@@ -97,12 +97,12 @@ export type TFormSettings = {
   /*
    * Message affiché lors d'une recherche vide sur les champs d'associations
    */
-  associationEmptyMessage: string | undefined;
+  associationEmptyMessage?: string | undefined;
 
   /*
    * Affiche les libelles des champs requis avec un astérisque
    */
-  requiredFieldsHasAsterisk: true | undefined;
+  requiredFieldsHasAsterisk?: boolean | undefined;
 };
 export type TFormStyle = {
   fieldFilled?: boolean | undefined;
