@@ -9,8 +9,8 @@ import {
 } from "vue";
 import type { TSubmit64FieldApi, TSubmit64FieldWrapperProps } from "../models";
 import { Submit64Rules } from "../rules";
-import { date } from "quasar";
 import { callAllEvents } from "../utils";
+import { date } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldWrapperProps>();
@@ -37,15 +37,19 @@ const modelValue = ref<unknown>();
 const backendErrors = ref<string[]>([]);
 
 // functions
-function reset(triggerCallback = true) {
+function softReset() {
   modelValue.value = propsComponent.formApi.getInitialValueByFieldName(
     propsComponent.field.metadata.field_name
   );
   modelValue.value = formModelSerializeByType(modelValue.value);
-  if (triggerCallback) {
-    callAllEvents(propsComponent.field.events.onReset);
-  }
-  resetCallback()
+}
+function reset() {
+  modelValue.value = propsComponent.formApi.getInitialValueByFieldName(
+    propsComponent.field.metadata.field_name
+  );
+  modelValue.value = formModelSerializeByType(modelValue.value);
+  callAllEvents(propsComponent.field.events.onReset);
+  resetCallback();
   void nextTick(() => {
     resetValidation();
   });
@@ -119,7 +123,7 @@ function clear() {
     case "number":
       modelValue.value = null;
       break;
-    case "selectString":
+    case "select":
       modelValue.value = undefined;
       break;
     case "text":
@@ -162,7 +166,7 @@ function hide() {
   );
   if (fieldRef) {
     fieldRef.hidden = true;
-    callAllEvents(propsComponent.field.events.onHide)
+    callAllEvents(propsComponent.field.events.onHide);
   }
 }
 function unhide() {
@@ -171,7 +175,7 @@ function unhide() {
   );
   if (fieldRef) {
     fieldRef.hidden = false;
-    callAllEvents(propsComponent.field.events.onUnhide)
+    callAllEvents(propsComponent.field.events.onUnhide);
   }
 }
 function setReadonlyState(state: boolean) {
@@ -232,7 +236,7 @@ function isValid() {
   return isValid;
 }
 function isInvalid() {
-  return !isValid()
+  return !isValid();
 }
 function resetValidation() {
   return resetValidationCallback();
@@ -241,7 +245,7 @@ function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,
   registerIsValidArg: () => boolean,
   registerResetValidationArg: () => void,
-  registerOnResetArg?: () => void,
+  registerOnResetArg?: () => void
 ) {
   validationCallback = registerValidationArg;
   isValidCallback = registerIsValidArg;
@@ -253,6 +257,7 @@ function registerBehaviourCallbacks(
 
 // expose
 const api: TSubmit64FieldApi = {
+  softReset,
   reset,
   clear,
   validate,
@@ -283,19 +288,23 @@ watch(
   }
 );
 watch(
-  () => (propsComponent.field.events.onIsValid || propsComponent.field.events.onIsInvalid ? modelValue.value : null),
+  () =>
+    propsComponent.field.events.onIsValid ||
+    propsComponent.field.events.onIsInvalid
+      ? modelValue.value
+      : null,
   (newValue) => {
     if (newValue) {
       callAllEvents(propsComponent.field.events.onIsValid);
     } else {
-      callAllEvents(propsComponent.field.events.onIsInvalid)
+      callAllEvents(propsComponent.field.events.onIsInvalid);
     }
   }
 );
 
 // lifeCycle
 onMounted(() => {
-  reset(false);
+  softReset();
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef && propsComponent.formApi) {
     propsComponent.privateFormApi.registerFieldWrapperRef(
