@@ -72,8 +72,8 @@ export type TFormSettings = {
     dateFormat?: string | undefined;
     datetimeFormat?: string | undefined;
     renderBackendHint?: boolean | undefined;
-    associationEmptyMessage?: string | undefined;
-    requiredFieldsHasAsterisk?: boolean | undefined;
+    associationEmptyMessage: string | undefined;
+    requiredFieldsHasAsterisk: true | undefined;
 };
 export type TFormStyle = {
     fieldFilled?: boolean | undefined;
@@ -148,27 +148,28 @@ export type TFormField = {
 };
 export type TSubmit64FormApi = {
     getMode: () => TSubmit64FormMode;
+    validate: () => boolean;
+    reset: () => void;
+    softReset: () => void;
+    clear: () => void;
+    resetValidation: () => void;
+    submit: () => Promise<void>;
+    submitBulk: (count: number) => Promise<void>;
+    getBulkSubmitData: () => TSubmit64SubmitData["bulk_data"];
+    valuesHasChanged: () => boolean;
+    isValid: () => boolean;
+    isInvalid: () => boolean;
+    isReady: () => boolean;
     getSectionByName: (sectionName: string) => TSubmit64SectionApi | undefined;
     getSectionByIndex: (sectionIndex: number) => TSubmit64SectionApi | undefined;
     getSections: () => Map<string, TSubmit64SectionApi>;
     getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
     getFields: () => Map<string, TSubmit64FieldApi>;
-    validate: () => boolean;
-    isValid: () => boolean;
-    isInvalid: () => boolean;
-    reset: () => void;
-    clear: () => void;
-    resetValidation: () => void;
-    submit: () => Promise<void>;
-    submitBulk: (count: number) => Promise<void>;
-    valuesHasChanged: () => boolean;
     getInitialValueByFieldName: (fieldName: string) => unknown;
     getAssociationDataCallback: () => (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
     setContext: (context: TContext) => void;
     setCssClass: (cssClass: string) => void;
     setReadonlyState: (state: boolean) => void;
-    isReady: () => boolean;
-    getBulkSubmitData: () => TSubmit64SubmitData['bulk_data'];
     form: TForm;
 };
 export type TSubmit64FormPrivateApi = {
@@ -180,6 +181,7 @@ export type TSubmit64FormPrivateApi = {
 };
 export type TSubmit64SectionApi = {
     reset: () => void;
+    softReset: () => void;
     clear: () => void;
     validate: () => boolean;
     isValid: () => boolean;
@@ -196,6 +198,7 @@ export type TSubmit64SectionApi = {
 };
 export type TSubmit64FieldApi = {
     reset: () => void;
+    softReset: () => void;
     clear: () => void;
     validate: () => boolean;
     isValid: () => boolean;

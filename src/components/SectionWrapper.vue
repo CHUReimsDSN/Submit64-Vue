@@ -25,6 +25,7 @@ let stopWatchIsUpdated: WatchStopHandle | null = null;
 
 // consts
 const sectionApi: TSubmit64SectionApi = {
+  softReset,
   reset,
   clear,
   validate,
@@ -54,6 +55,11 @@ function setupFields() {
     }
     fields.value.set(fieldName, fieldFound);
   });
+}
+function softReset() {
+  fields.value.forEach((field) => {
+    field.softReset();
+  })
 }
 function reset() {
   fields.value.forEach((field) => {

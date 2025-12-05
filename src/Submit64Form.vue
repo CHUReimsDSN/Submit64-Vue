@@ -135,6 +135,7 @@ async function submit(): Promise<void> {
       formApi,
       propsComponent.eventManager
     );
+    softReset()
     callAllEvents(form.value?.events.onSubmitSuccess);
   }
   isLoadingSubmit.value = false;
@@ -199,6 +200,7 @@ async function submitBulk(count: number): Promise<void> {
       formApi,
       propsComponent.eventManager
     );
+    softReset()
     callAllEvents(form.value?.events.onSubmitSuccess);
   }
   isLoadingSubmit.value = false;
@@ -283,6 +285,11 @@ function isValid() {
 }
 function isInvalid() {
   return !isValid();
+}
+function softReset() {
+  sectionsWrapperRefs.value.forEach((section) => {
+    section.softReset();
+  });
 }
 function reset() {
   fieldWrapperRefs.value.forEach((fieldRef) => {
@@ -414,7 +421,7 @@ function registerFieldWrapperRef(
   }
 }
 
-// api
+// apis
 const privateFormApi: TSubmit64FormPrivateApi = {
   getFormRef,
   getSectionRef,
@@ -438,6 +445,7 @@ const formApi: TSubmit64FormApi = {
   validate,
   isValid,
   isInvalid,
+  softReset,
   reset,
   clear,
   resetValidation,

@@ -73,12 +73,36 @@ export type TSubmit64SubmitData = {
 export type TFormSettings = {
   backendDateFormat: string;
   backendDatetimeFormat: string;
+
+  /*
+   * Comportement des règles, validation à chaque saisie ou à la soummission du formulaire
+   */
   rulesBehaviour?: "lazy" | "ondemand" | undefined;
+
+  /*
+   * Format des dates à afficher/editer
+   */
   dateFormat?: string | undefined;
+
+  /*
+   * Format des datetimes à afficher/editer
+   */
   datetimeFormat?: string | undefined;
+
+  /*
+   * Affiche les indices déclarés coté serveur
+   */
   renderBackendHint?: boolean | undefined;
-  associationEmptyMessage?: string | undefined;
-  requiredFieldsHasAsterisk?: boolean | undefined;
+
+  /*
+   * Message affiché lors d'une recherche vide sur les champs d'associations
+   */
+  associationEmptyMessage: string | undefined;
+
+  /*
+   * Affiche les libelles des champs requis avec un astérisque
+   */
+  requiredFieldsHasAsterisk: true | undefined;
 };
 export type TFormStyle = {
   fieldFilled?: boolean | undefined;
@@ -169,30 +193,128 @@ export type TFormField = {
 
 // apis
 export type TSubmit64FormApi = {
+  /*
+   * Obtient le mode du formulaire, edition ou création
+   */
   getMode: () => TSubmit64FormMode;
-  getSectionByName: (sectionName: string) => TSubmit64SectionApi | undefined;
-  getSectionByIndex: (sectionIndex: number) => TSubmit64SectionApi | undefined;
-  getSections: () => Map<string, TSubmit64SectionApi>;
-  getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
-  getFields: () => Map<string, TSubmit64FieldApi>;
+
+  /*
+   * Valide le formulaire, déclenchant toutes les validations de chaque champ
+   */
   validate: () => boolean;
-  isValid: () => boolean;
-  isInvalid: () => boolean;
+
+  /*
+   * Réinitialise tous les champs à leurs valeurs d’origine
+   */
   reset: () => void;
+
+  /*
+   * Réinitialise tous les champs à leurs valeurs d’origine
+   * Ne déclanche pas les évenements, ni la réinitialisation des validations
+   */
+  softReset: () => void;
+
+  /*
+   * Efface tout les champs
+   */
   clear: () => void;
+
+  /*
+   * Réinitialise les validations
+   */
   resetValidation: () => void;
+
+  /*
+   * Soumet le formulaire
+   */
   submit: () => Promise<void>;
+
+  /*
+   * Soumet le formulaire pour création multiple
+   * Doit avoir activé :allow_bulk dans la définition du formulaire
+   */
   submitBulk: (count: number) => Promise<void>;
+
+  /*
+   * Renvoi les données de la dernière soumission de masse
+   */
+  getBulkSubmitData: () => TSubmit64SubmitData["bulk_data"];
+
+  /*
+   * Renvoi si le formulaire à été modifier ou non
+   */
   valuesHasChanged: () => boolean;
+
+  /*
+   * Renvoi si le formulaire est valide, déclanche toutes les validations
+   */
+  isValid: () => boolean;
+
+  /*
+   * Renvoi si le formulaire est invalide, déclanche toutes les validations
+   */
+  isInvalid: () => boolean;
+
+  /*
+   * Renvoi si le formulaire est prêt
+   */
+  isReady: () => boolean;
+
+  /*
+   * Renvoi une section par son nom
+   */
+  getSectionByName: (sectionName: string) => TSubmit64SectionApi | undefined;
+
+  /*
+   * Renvoi une section par index
+   */
+  getSectionByIndex: (sectionIndex: number) => TSubmit64SectionApi | undefined;
+
+  /*
+   * Renvoi toutes les sections
+   */
+  getSections: () => Map<string, TSubmit64SectionApi>;
+
+  /*
+   * Renvoi un champ par son nom
+   */
+  getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
+
+  /*
+   * Renvoi tout les champs
+   */
+  getFields: () => Map<string, TSubmit64FieldApi>;
+
+  /*
+   * Renvoi la valeur désérialisée d'un champ par le nom de celui-ci (valeur avant interopérabilité)
+   */
   getInitialValueByFieldName: (fieldName: string) => unknown;
+
+  /*
+   * Renvoi la fonction d'association
+   */
   getAssociationDataCallback: () => (
     submit64Params: TSubmit64GetAssociationData
   ) => Promise<TSubmit64AssociationData>;
+
+  /*
+   * Met à jour le context
+   */
   setContext: (context: TContext) => void;
+
+  /*
+   * Met à jour la classe css du formulaire
+   */
   setCssClass: (cssClass: string) => void;
+
+  /*
+   * Met à jour l'état de lecture seule
+   */
   setReadonlyState: (state: boolean) => void;
-  isReady: () => boolean;
-  getBulkSubmitData: () => TSubmit64SubmitData['bulk_data'];
+
+  /*
+   * Accés au données du formulaire en mode lecture seule
+   */
   form: TForm;
 };
 export type TSubmit64FormPrivateApi = {
@@ -209,40 +331,182 @@ export type TSubmit64FormPrivateApi = {
   ) => void;
 };
 export type TSubmit64SectionApi = {
+  /*
+   * Réinitialise les champs de la section
+   */
   reset: () => void;
+
+  /*
+   * Réinitialise les champs de la section
+   * Ne déclenche pas les évenements, ni la réinitialisation des validations
+   */
+  softReset: () => void;
+
+  /*
+   * Efface les champs de la section
+   */
   clear: () => void;
+
+  /*
+   * Valide les champs de la section
+   */
   validate: () => boolean;
+
+  /*
+   * Renvoi si les champs de la section sont valides. Déclanche la validation
+   */
   isValid: () => boolean;
+
+  /*
+   * Renvoi si les champs de la section sont invalides. Déclanche la validation
+   */
   isInvalid: () => boolean;
+
+  /*
+   * Cache la section et ses champs
+   */
   hide: () => void;
+
+  /*
+   * Affiche la section et ses champs
+   */
   unhide: () => void;
+
+  /*
+   * Réinitialise les validations des champs de la section
+   */
   resetValidation: () => void;
+
+  /*
+   * Renvoi les champs de la section
+   */
   getFields: () => Map<string, TSubmit64FieldApi>;
+
+  /*
+   * Met à jour l'état de lecture seule des champs de la section
+   */
   setReadonlyState: (state: boolean) => void;
+
+  /*
+   * Met à jour la classe css de la section
+   */
   setCssClass: (cssClass: string) => void;
+
+  /*
+   * Met à jour l'icon de la section
+   */
   setIcon: (icon: string) => void;
+
+  /*
+   * Met à jour le libelle de la section
+   */
   setLabel: (label: string) => void;
+
+  /*
+   * Accés au donnée de la section en lecture seule
+   */
   section: TFormSection;
 };
 export type TSubmit64FieldApi = {
+  /*
+   * Réinitialise le champ
+   */
   reset: () => void;
+
+  /*
+   * Réinitialise le champ
+   * Ne déclenche pas les évenements, ni la réinitialisation des validations
+   */
+  softReset: () => void;
+
+  /*
+   * Vide le champ
+   */
   clear: () => void;
+
+  /*
+   * Valide le champ
+   */
   validate: () => boolean;
+
+  /*
+   * Renvoi si le champ est valide
+   */
   isValid: () => boolean;
+
+  /*
+   * Renvoi si le champ est invalide
+   */
   isInvalid: () => boolean;
+
+  /*
+   * Cache le champ
+   */
   hide: () => void;
+
+  /*
+   * Affiche le champ
+   */
   unhide: () => void;
+
+  /*
+   * Réinitialise les validations du champ
+   */
   resetValidation: () => void;
+
+  /*
+   * Renvoi la valeur serialisée du champ
+   */
   getValueSerialized: () => unknown;
+
+  /*
+   * Renvoi la valeur déserialisée du champ
+   */
   getValueDeserialized: () => unknown;
+
+  /*
+   * Met à jour les erreurs provenant de l'intéroperabilité
+   */
   setupBackendErrors: (errors: string[]) => void;
+
+  /*
+   * Met à jour l'état de lecture seule
+   */
   setReadonlyState: (state: boolean) => void;
+
+  /*
+   * Met à jour l'indice du champ
+   */
   setHint: (hint: string) => void;
+
+  /*
+   * Met à jour la classe css du champ
+   */
   setCssClass: (cssClass: string) => void;
+
+  /*
+   * Met à jour le suffix du champ
+   */
   setSuffix: (suffix: string) => void;
+
+  /*
+   * Met à jour le prefix du champ
+   */
   setPrefix: (prefix: string) => void;
+
+  /*
+   * Met à jour le libelle du champ
+   */
   setLabel: (label: string) => void;
+
+  /*
+   * Met à jour la valeur du champ
+   */
   setValue: (value: unknown) => void;
+
+  /*
+   * Accès au données du champs en lecture seule
+   */
   field: TFormField;
 };
 
