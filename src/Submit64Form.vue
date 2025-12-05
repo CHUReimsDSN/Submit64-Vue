@@ -41,6 +41,7 @@ let fieldCount = 0;
 let stopWatchIsValid: WatchStopHandle | null = null;
 let stopWatchIsInvalid: WatchStopHandle | null = null;
 let stopWatchIsUpdated: WatchStopHandle | null = null;
+let submitData: TSubmit64SubmitData["resource_data"] | null = null;
 let bulkSubmitData: TSubmit64SubmitData["bulk_data"] = null;
 
 // consts
@@ -95,6 +96,7 @@ async function submit(): Promise<void> {
     resourceData,
     context: propsComponent.context,
   });
+  submitData = newData.resource_data;
   if (!newData.success) {
     orphanErrors.value = {};
     const parentedKeys: string[] = [];
@@ -135,7 +137,7 @@ async function submit(): Promise<void> {
       formApi,
       propsComponent.eventManager
     );
-    softReset()
+    softReset();
     callAllEvents(form.value?.events.onSubmitSuccess);
   }
   isLoadingSubmit.value = false;
@@ -200,7 +202,7 @@ async function submitBulk(count: number): Promise<void> {
       formApi,
       propsComponent.eventManager
     );
-    softReset()
+    softReset();
     callAllEvents(form.value?.events.onSubmitSuccess);
   }
   isLoadingSubmit.value = false;
@@ -381,6 +383,9 @@ function setReadonlyState(state: boolean) {
 function isReady() {
   return setupIsDone.value;
 }
+function getSubmitData() {
+  return submitData;
+}
 function getBulkSubmitData() {
   return bulkSubmitData;
 }
@@ -458,6 +463,7 @@ const formApi: TSubmit64FormApi = {
   setCssClass,
   setReadonlyState,
   isReady,
+  getSubmitData,
   getBulkSubmitData,
   form: formReactive as unknown as TForm,
 };

@@ -86,7 +86,7 @@ declare class BuilderOperator {
     constructor(formEvent: FormEvent);
     then(customAction: TThenCustomCallback): BuilderOperator;
 }
-type TThenCustomCallback = (formApi: TSubmit64FormApi) => void;
+type TThenCustomCallback = (formApi: TSubmit64FormApi) => void | Promise<void>;
 type TFormEventTarget = {
     target: "field";
     targetName: string;

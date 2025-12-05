@@ -318,7 +318,7 @@ class BuilderOperator {
     return this;
   }
 }
-type TThenCustomCallback = (formApi: TSubmit64FormApi) => void;
+type TThenCustomCallback = (formApi: TSubmit64FormApi) => void | Promise<void>;
 type TFormEventTarget =
   | {
       target: "field";
