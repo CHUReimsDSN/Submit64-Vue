@@ -86,6 +86,7 @@ export class FormFactory {
     generateFormDef() {
         const eventBuilderInstance = DynamicLogicBuilder.create(this.formApi);
         this.registerEventCallback(eventBuilderInstance);
+        const fieldNames = new Set();
         const events = DynamicLogicBuilder.getEventsObjectFromInstance(eventBuilderInstance);
         const sections = [];
         this.formMetadataAndData.form.sections.forEach((sectionMetadata, sectionIndex) => {
@@ -132,6 +133,7 @@ export class FormFactory {
                     componentOptions,
                 };
                 fields.push(field);
+                fieldNames.add(columnMetadata.field_name);
             });
             const beforeComponent = this.dynamicComponentRecord[`section-${sectionMetadata.name ?? sectionIndex}-before`];
             const mainComponent = this.sectionComponent;
@@ -174,6 +176,11 @@ export class FormFactory {
             dynamicComponentRecord: this.dynamicComponentRecord,
             context: this.context,
         };
+        if (fieldNames.size < this.formMetadataAndData.form.sections.reduce(((acc, section) => {
+            return acc + section.fields.length;
+        }), 0)) {
+            console.warn('Submit64 -> Found fields with the same name');
+        }
         return form;
     }
     static getRegularFieldTypeByFieldType(fieldType) {

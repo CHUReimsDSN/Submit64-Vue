@@ -28,6 +28,9 @@ let resetValidationCallback: () => void = () => {
 let resetCallback: () => void = () => {
   return;
 };
+let clearCallback: () => void = () => {
+  return;
+}
 
 // consts
 const rules = getComputedRules();
@@ -139,6 +142,7 @@ function clear() {
       modelValue.value = undefined;
       break;
   }
+  clearCallback();
   callAllEvents(propsComponent.field.events.onClear);
 }
 function getComputedRules() {
@@ -245,13 +249,17 @@ function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,
   registerIsValidArg: () => boolean,
   registerResetValidationArg: () => void,
-  registerOnResetArg?: () => void
+  registerOnResetArg?: () => void,
+  registerOnClearArg?: () => void,
 ) {
   validationCallback = registerValidationArg;
   isValidCallback = registerIsValidArg;
   resetValidationCallback = registerResetValidationArg;
   if (registerOnResetArg) {
     resetCallback = registerOnResetArg;
+  }
+  if (registerOnClearArg) {
+    clearCallback = registerOnClearArg
   }
 }
 

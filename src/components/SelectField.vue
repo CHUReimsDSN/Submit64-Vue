@@ -59,14 +59,13 @@ function resetValidation() {
   fieldRef.value.resetValidation();
 }
 function clear() {
-  propsComponent.clear();
   selectOptionsFiltered.value = [];
 }
 
 // lifeCycle
 onMounted(() => {
   setupSelectOptions();
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, undefined, clear);
 });
 </script>
 
@@ -101,7 +100,7 @@ onMounted(() => {
     :mapOptions="true"
     :emitValue="true"
     :useInput="true"
-    @clear="clear"
+    @clear="propsComponent.clear"
     @filter="inputFilter"
   >
     <template v-slot:no-option>

@@ -136,6 +136,7 @@ export class FormFactory {
   private generateFormDef(): TForm {
     const eventBuilderInstance = DynamicLogicBuilder.create(this.formApi);
     this.registerEventCallback(eventBuilderInstance);
+    const fieldNames = new Set<string>()
     const events =
       DynamicLogicBuilder.getEventsObjectFromInstance(eventBuilderInstance);
     const sections: TFormSection[] = [];
@@ -198,6 +199,7 @@ export class FormFactory {
             componentOptions,
           };
           fields.push(field);
+          fieldNames.add(columnMetadata.field_name)
         });
         const beforeComponent =
           this.dynamicComponentRecord[
@@ -249,6 +251,11 @@ export class FormFactory {
       dynamicComponentRecord: this.dynamicComponentRecord,
       context: this.context,
     };
+    if (fieldNames.size < this.formMetadataAndData.form.sections.reduce(((acc, section) => {
+      return acc + section.fields.length
+    }), 0)) {
+      console.warn('Submit64 -> Found fields with the same name')
+    }
     return form;
   }
 
