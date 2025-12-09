@@ -122,7 +122,6 @@ async function submit(): Promise<void> {
     if (formMetadataAndData && newData.resource_data) {
       formMetadataAndData.resource_data = newData.resource_data;
     }
-    stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
     form.value = FormFactory.getForm(
       propsComponent.resourceName,
       propsComponent.resourceId,
@@ -138,6 +137,7 @@ async function submit(): Promise<void> {
       propsComponent.eventManager
     );
     softReset();
+    stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
     callAllEvents(form.value?.events.onSubmitSuccess);
   }
   isLoadingSubmit.value = false;
@@ -187,7 +187,6 @@ async function submitBulk(count: number): Promise<void> {
     if (formMetadataAndData && newData.resource_data) {
       formMetadataAndData.resource_data = newData.resource_data;
     }
-    stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
     form.value = FormFactory.getForm(
       propsComponent.resourceName,
       propsComponent.resourceId,
@@ -203,6 +202,7 @@ async function submitBulk(count: number): Promise<void> {
       propsComponent.eventManager
     );
     softReset();
+    stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
     callAllEvents(form.value?.events.onSubmitSuccess);
   }
   isLoadingSubmit.value = false;

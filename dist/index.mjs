@@ -2551,7 +2551,7 @@ const En = {
         context: t.context
       });
       if (S = g.resource_data, g.success)
-        _.value = {}, T.value === "create" && (T.value = "edit"), r && g.resource_data && (r.resource_data = g.resource_data), n = JSON.stringify(K()), d.value = ne.getForm(
+        _.value = {}, T.value === "create" && (T.value = "edit"), r && g.resource_data && (r.resource_data = g.resource_data), d.value = ne.getForm(
           t.resourceName,
           t.resourceId,
           oe(),
@@ -2564,7 +2564,7 @@ const En = {
           t.context,
           ee,
           t.eventManager
-        ), fe(), R((re = d.value) == null ? void 0 : re.events.onSubmitSuccess);
+        ), fe(), n = JSON.stringify(K()), R((re = d.value) == null ? void 0 : re.events.onSubmitSuccess);
       else {
         _.value = {};
         const ie = [];
@@ -2595,7 +2595,7 @@ const En = {
         context: t.context
       });
       if (y = C.bulk_data, C.success)
-        _.value = {}, T.value === "create" && (T.value = "edit"), r && C.resource_data && (r.resource_data = C.resource_data), n = JSON.stringify(K()), d.value = ne.getForm(
+        _.value = {}, T.value === "create" && (T.value = "edit"), r && C.resource_data && (r.resource_data = C.resource_data), d.value = ne.getForm(
           t.resourceName,
           t.resourceId,
           oe(),
@@ -2608,7 +2608,7 @@ const En = {
           t.context,
           ee,
           t.eventManager
-        ), fe(), R((ie = d.value) == null ? void 0 : ie.events.onSubmitSuccess);
+        ), fe(), n = JSON.stringify(K()), R((ie = d.value) == null ? void 0 : ie.events.onSubmitSuccess);
       else {
         _.value = {};
         const Q = [];
