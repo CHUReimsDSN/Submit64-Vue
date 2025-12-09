@@ -46,6 +46,7 @@ export type TResourceFieldMetadata = {
   rules: TSubmit64Rule[];
   static_select_options: TSubmit64StaticSelectOptions[];
   css_class: string | null;
+  unlinked: boolean;
   field_association_data?: {
     label: string[];
     data: TRecord[];
