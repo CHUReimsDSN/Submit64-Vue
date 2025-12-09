@@ -109,7 +109,6 @@ function resetValidation() {
   fieldRef.value.resetValidation();
 }
 function clear() {
-  propsComponent.clear();
   selectOptionsScrollPagination.value = getDefaultPagination();
   selectOptionsFiltered.value = [];
   lastLabelFilter.value = defaultLabelFilter
@@ -164,7 +163,8 @@ onMounted(() => {
     validate,
     isValid,
     resetValidation,
-    setupDefaultSelectValue
+    setupDefaultSelectValue,
+    clear
   );
 });
 </script>
@@ -201,7 +201,7 @@ onMounted(() => {
     :useInput="true"
     :multiple="true"
     :use-chips="true"
-    @clear="clear"
+    @clear="propsComponent.clear"
     @filter="onFilter"
     @virtual-scroll="onVirtualScroll"
   >

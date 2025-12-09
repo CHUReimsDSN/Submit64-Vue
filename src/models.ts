@@ -524,11 +524,9 @@ export type TSubmit64FormProps = {
   getSubmitFormData: (
     submit64Params: TSubmit64GetSubmitData
   ) => Promise<TSubmit64SubmitData>;
-  getAssociationData?:
-    | ((
-        submit64Params: TSubmit64GetAssociationData
-      ) => Promise<TSubmit64AssociationData>)
-    | undefined;
+  getAssociationData?: (
+    submit64Params: TSubmit64GetAssociationData
+  ) => Promise<TSubmit64AssociationData>;
   resourceId?: TRecord["id"] | undefined;
   formSettings?: TFormSettingsProps | undefined;
   formStyle?: TFormStyle | undefined;
@@ -573,7 +571,8 @@ export type TSubmit64FieldProps = {
     registerValidationArg: () => boolean,
     registerIsValidArg: () => boolean,
     registerResetValidationArg: () => void,
-    registerOnResetArg?: () => void
+    registerOnResetArg?: () => void,
+    registerOnClearArg?: () => void,
   ) => void;
 };
 export type TSubmit64FieldWrapperResetProps = {
