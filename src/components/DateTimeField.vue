@@ -52,7 +52,7 @@ function resetValidation() {
 // lifeCycle
 onMounted(() => {
   propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation)
-  if (lazyRules) {
+  if (!lazyRules) {
     void nextTick(() => {
       fieldRef.value?.resetValidation()
     })
