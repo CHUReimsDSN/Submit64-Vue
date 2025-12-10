@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TSubmit64FieldProps } from "../models";
 import { QInput, QIcon, QPopupProxy, QDate, QTime, QBtn } from "quasar";
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
@@ -52,6 +52,11 @@ function resetValidation() {
 // lifeCycle
 onMounted(() => {
   propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation)
+  if (!lazyRules) {
+    void nextTick(() => {
+      fieldRef.value?.resetValidation()
+    })
+  }
 });
 </script>
 
