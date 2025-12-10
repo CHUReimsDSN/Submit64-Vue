@@ -448,7 +448,7 @@ const zt = { class: "row items-center justify-end" }, $t = /* @__PURE__ */ z({
       u.value && u.value.resetValidation();
     }
     return j(() => {
-      e.registerBehaviourCallbacks(l, S, y), c && le(() => {
+      e.registerBehaviourCallbacks(l, S, y), c || le(() => {
         var x;
         (x = u.value) == null || x.resetValidation();
       });
