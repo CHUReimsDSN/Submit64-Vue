@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { QUploader } from "quasar";
+import { QUploader, QBtn, QUploaderAddTrigger, QList, QItem, QItemSection, QItemLabel, QSeparator } from "quasar";
 import type { TFormField, TSubmit64FieldProps, TSubmit64FileDataValue, TSubmit64FilePending } from "../models";
 import { humanStorageSize } from "../utils";
 
@@ -103,11 +103,10 @@ onMounted(() => {
     @removed="removePendingFile" style="width: inherit;">
     <template v-slot:header="scope">
       <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
-        <q-spinner v-if="scope.isUploading" class="q-uploader__spinner" />
         <div class="col">
           <div class="q-uploader__title">{{ propsComponent.field.label }}</div>
           <div v-if="propsComponent.field.hint" class="caption">{{ propsComponent.field.hint }}</div>
-        </div>{{ scope.canAddFiles }}
+        </div>
         <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>
           <q-uploader-add-trigger />
         </q-btn>
@@ -138,6 +137,7 @@ onMounted(() => {
       </div>
 
       <q-separator v-if="!attachmentDataIsEmpty && scope.files.length > 0" />
+
       <div v-if="scope.files.length > 0" class="flex column">
         <div>Fichiers à télécharger</div>
         <q-list separator>
