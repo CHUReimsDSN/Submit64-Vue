@@ -350,10 +350,10 @@ export type TSubmit64FileDataValue = {
 };
 export type TSubmit64FilePending = File & {
     key: string;
-    sizeLabel: string;
+    size: number;
     filename: string;
     type: string;
-    binary: string;
+    base64: string;
 };
 export type TFormEvent = {
     onReady?: TSubmit64Event;

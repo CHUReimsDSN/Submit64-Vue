@@ -52,20 +52,40 @@ function resetValidation() {
   }
   // TODO
 }
-function addPendingFile(files: readonly any[]) {
-  const properFile = files[0] as TSubmit64FilePending | undefined;
-  if (!properFile) {
-    return;
+async function arrayBufferToBase64(buffer: ArrayBuffer) {
+  return new Promise((resolve) => {
+    const blob = new Blob([buffer]);
+    const reader = new FileReader();
+    reader.onload = (event: ProgressEvent<FileReader>) => {
+      const dataUrl = (event.target?.result ?? '') as string;
+      const [_, base64] = dataUrl.split(',')
+      resolve(base64);
+    }
+    reader.readAsDataURL(blob)
+  })
+}
+async function quasarFileToSubmit64File(file: any) {
+  return <TSubmit64FilePending>{
+    key: file.__key,
+    size: file.__size,
+    type: file.__type,
+    base64: await arrayBufferToBase64(await file.arrayBuffer())
   }
+}
+async function addPendingFile(files: readonly any[]) {
+  if (!files[0]) {
+    return
+  }
+  const properFile = await quasarFileToSubmit64File(files[0]);
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
   modelValue.add.push(properFile)
   propsComponent.modelValueOnUpdate(modelValue)
 }
-function removePendingFile(files: readonly any[]) {
-  const properFile = files[0] as TSubmit64FilePending | undefined;
-  if (!properFile) {
+async function removePendingFile(files: readonly any[]) {
+  if (!files[0]) {
     return;
   }
+  const properFile = await quasarFileToSubmit64File(files[0]);
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
   modelValue.add = modelValue.add.filter((file) => {
     return file.key !== properFile.key
@@ -83,6 +103,11 @@ function keepUploadedFile(uploadedAttachment: TUploadedAttachment) {
     return attachmentId !== uploadedAttachment.id;
   })
   propsComponent.modelValueOnUpdate(modelValue)
+}
+function modelValueDeleteIncludesFile(file: TUploadedAttachment) {
+  return (propsComponent.modelValue as TSubmit64FileDataValue).delete.findIndex((deleteFile) => {
+    return deleteFile === file.id
+  }) !== -1
 }
 
 // computeds
@@ -129,8 +154,11 @@ onMounted(() => {
             </q-item-section>
 
             <q-item-section top side>
-              <q-btn class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round icon="delete"
+              <q-btn v-if="!modelValueDeleteIncludesFile(file)" class="gt-xs" size="12px"
+                :disable="propsComponent.field.readonly" flat dense round icon="delete"
                 @click="removeUploadedFile(file)" />
+              <q-btn v-else class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round
+                icon="refresh" @click="keepUploadedFile(file)" />
             </q-item-section>
           </q-item>
         </q-list>
