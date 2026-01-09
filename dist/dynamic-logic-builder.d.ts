@@ -36,6 +36,9 @@ type TWhenArgs = {
     "Field is unhidden": {
         fieldName: string;
     };
+    "Field is ready": {
+        fieldName: string;
+    };
     "Section is valid": {
         sectionName: string;
     };
@@ -58,6 +61,9 @@ type TWhenArgs = {
         sectionName: string;
     };
     "Section is reseted": {
+        sectionName: string;
+    };
+    "Section is ready": {
         sectionName: string;
     };
     "Form is ready": undefined;

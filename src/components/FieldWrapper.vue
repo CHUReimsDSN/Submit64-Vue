@@ -7,7 +7,7 @@ import {
   unref,
   watch,
 } from "vue";
-import type { TSubmit64FieldApi, TSubmit64FieldWrapperProps } from "../models";
+import type { TSubmit64FieldApi, TSubmit64FieldWrapperProps, TSubmit64FileDataValue } from "../models";
 import { Submit64Rules } from "../rules";
 import { callAllEvents } from "../utils";
 import { date } from "quasar";
@@ -84,6 +84,12 @@ function formModelSerializeByType(value: unknown) {
         ),
         form.formSettings.datetimeFormat
       );
+    case "attachmentHasOne":
+    case "attachmentHasMany":
+      return <TSubmit64FileDataValue>{
+        add: [],
+        delete: []
+      }
   }
   return value;
 }
@@ -140,6 +146,19 @@ function clear() {
       break;
     case "selectHasMany":
       modelValue.value = undefined;
+      break;
+    case "selectHasAndBelongsToMany":
+      modelValue.value = undefined;
+      break;
+    case "selectHasOne":
+      modelValue.value = undefined;
+      break;
+    case "attachmentHasOne":
+    case "attachmentHasMany":
+      modelValue.value = <TSubmit64FileDataValue>{
+        add: [],
+        delete: []
+      }
       break;
   }
   clearCallback();
@@ -298,7 +317,7 @@ watch(
 watch(
   () =>
     propsComponent.field.events.onIsValid ||
-    propsComponent.field.events.onIsInvalid
+      propsComponent.field.events.onIsInvalid
       ? modelValue.value
       : null,
   (newValue) => {
@@ -320,46 +339,22 @@ onMounted(() => {
       proxyInstanceRef as TSubmit64FieldApi
     );
   }
+  callAllEvents(propsComponent.field?.events.onReady);
 });
 </script>
 
 <template>
   <div v-show="propsComponent.field.hidden !== true">
-    <Component
-      v-if="propsComponent.field.beforeComponent"
-      :is="propsComponent.field.beforeComponent"
-      :formApi="propsComponent.formApi"
-      :fieldApi="api"
-    />
-    <Component
-      :is="propsComponent.field.mainComponent"
-      :modelValue="modelValue"
-      :field="propsComponent.field"
-      :formApi="propsComponent.formApi"
-      :rules="rules"
-      :reset="reset"
-      :clear="clear"
-      :getValueDeserialized="getValueDeserialized"
-      :getValueSerialized="getValueSerialized"
-      :validate="validate"
-      :modelValueOnUpdate="modelValueOnUpdate"
-      :registerBehaviourCallbacks="registerBehaviourCallbacks"
-    />
-    <Component
-      v-if="propsComponent.field.afterComponent"
-      :is="propsComponent.field.afterComponent"
-      :formApi="propsComponent.formApi"
-      :fieldApi="api"
-    />
-    <div
-      v-if="backendErrors.length > 0"
-      class="q-field__bottom text-negative q-pt-none"
-    >
-      <div
-        v-for="(backendError, index) in backendErrors"
-        :index="index"
-        class="flex column"
-      >
+    <Component v-if="propsComponent.field.beforeComponent" :is="propsComponent.field.beforeComponent"
+      :formApi="propsComponent.formApi" :fieldApi="api" />
+    <Component :is="propsComponent.field.mainComponent" :modelValue="modelValue" :field="propsComponent.field"
+      :formApi="propsComponent.formApi" :rules="rules" :reset="reset" :clear="clear"
+      :getValueDeserialized="getValueDeserialized" :getValueSerialized="getValueSerialized" :validate="validate"
+      :modelValueOnUpdate="modelValueOnUpdate" :registerBehaviourCallbacks="registerBehaviourCallbacks" />
+    <Component v-if="propsComponent.field.afterComponent" :is="propsComponent.field.afterComponent"
+      :formApi="propsComponent.formApi" :fieldApi="api" />
+    <div v-if="backendErrors.length > 0" class="q-field__bottom text-negative q-pt-none">
+      <div v-for="(backendError, index) in backendErrors" :index="index" class="flex column">
         {{ backendError }}
       </div>
     </div>

@@ -115,6 +115,12 @@ class FormEvent {
                     targetName: this.data.fieldName,
                     key: "onUnhide",
                 };
+            case "Field is ready":
+                return {
+                    target: "field",
+                    targetName: this.data.fieldName,
+                    key: "onReady",
+                };
             case "Section is valid":
                 return {
                     target: "section",
@@ -168,6 +174,12 @@ class FormEvent {
                     targetName: this.data
                         .sectionName,
                     key: "onUpdate",
+                };
+            case "Section is ready":
+                return {
+                    target: "section",
+                    targetName: this.data.sectionName,
+                    key: "onReady",
                 };
             case "Form is ready":
                 return {

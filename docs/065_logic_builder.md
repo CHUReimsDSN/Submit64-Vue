@@ -1,8 +1,8 @@
 ---
-title: Gestionnaire d'évenements
+title: Gestionnaire d'événements
 ---
 
-# Gestionnaire d'évenements
+# Gestionnaire d'événements
 
 Submit64 propose un gestionnaire d'événement centralisé défini sous forme de fonction passer en props au composant `Submit64Form`.  
 Cette fonction aura accès à un paramètre mis à disposition par Submit64 qui represente la reférence du composant.  
@@ -33,6 +33,6 @@ function formEventManager(eventBuilder: DynamicLogicBuilder) {
 Consulter les [Définitions]({% link 120_definitions.md %}) pour connaitre les événements disponibles (TWhenArgs).
 
 {: .note }
-Le premier paramètre de la fonction `when` sera toujours un string, laisser vous guider par l'intellisence pour voir les évenements disponibles
+Le premier paramètre de la fonction `when` sera toujours un string, laisser vous guider par l'intellisence pour voir les événements disponibles
 et leurs paramètres !
 
