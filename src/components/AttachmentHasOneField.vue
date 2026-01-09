@@ -140,7 +140,7 @@ onMounted(() => {
 
     <template v-slot:list="scope">
       <div v-if="!attachmentDataIsEmpty" class="flex column">
-        <div>Fichiers actuels</div>
+        <div>Fichier en ligne</div>
         <q-list separator>
           <q-item v-for="file in propsComponent.field.attachmentData ?? []" :key="file.id">
             <q-item-section>
@@ -167,7 +167,7 @@ onMounted(() => {
       <q-separator v-if="!attachmentDataIsEmpty && scope.files.length > 0" />
 
       <div v-if="scope.files.length > 0" class="flex column">
-        <div>Fichiers à télécharger</div>
+        <div>Fichier à télécharger</div>
         <q-list separator>
           <q-item v-for="file in scope.files" :key="file.__key">
             <q-item-section>

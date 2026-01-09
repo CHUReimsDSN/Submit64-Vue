@@ -1631,7 +1631,7 @@ const an = { class: "row no-wrap items-center q-pa-sm q-gutter-xs" }, on = { cla
       ]),
       list: g((h) => [
         z.value ? H("", !0) : (v(), U("div", sn, [
-          m[0] || (m[0] = M("div", null, "Fichiers actuels", -1)),
+          m[0] || (m[0] = M("div", null, "Fichier en ligne", -1)),
           S(a(Pe), { separator: "" }, {
             default: g(() => [
               (v(!0), U(fe, null, me(e.field.attachmentData ?? [], (p) => (v(), A(a(_e), {
@@ -1693,7 +1693,7 @@ const an = { class: "row no-wrap items-center q-pa-sm q-gutter-xs" }, on = { cla
         ])),
         !z.value && h.files.length > 0 ? (v(), A(a(At), { key: 1 })) : H("", !0),
         h.files.length > 0 ? (v(), U("div", un, [
-          m[1] || (m[1] = M("div", null, "Fichiers à télécharger", -1)),
+          m[1] || (m[1] = M("div", null, "Fichier à télécharger", -1)),
           S(a(Pe), { separator: "" }, {
             default: g(() => [
               (v(!0), U(fe, null, me(h.files, (p) => (v(), A(a(_e), {
