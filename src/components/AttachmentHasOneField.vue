@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { QUploader } from "quasar";
 import type { TFormField, TSubmit64FieldProps, TSubmit64FileDataValue, TSubmit64FilePending } from "../models";
 import { humanStorageSize } from "../utils";
@@ -85,6 +85,11 @@ function keepUploadedFile(uploadedAttachment: TUploadedAttachment) {
   propsComponent.modelValueOnUpdate(modelValue)
 }
 
+// computeds
+const attachmentDataIsEmpty = computed(() => {
+  return (propsComponent.field.attachmentData ?? []).length === 0
+})
+
 // lifeCycle
 onMounted(() => {
   propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, reset, clear)
@@ -95,60 +100,65 @@ onMounted(() => {
   <q-uploader ref="fieldRef" hide-upload-btn :multiple="false" :label="propsComponent.field.label"
     :bordered="styleConfig.fieldBorderless !== true" :square="styleConfig.fieldSquare" :color="styleConfig.fieldColor"
     :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly" @added="addPendingFile"
-    @removed="removePendingFile">
+    @removed="removePendingFile" style="width: inherit;">
     <template v-slot:header="scope">
       <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
         <q-spinner v-if="scope.isUploading" class="q-uploader__spinner" />
         <div class="col">
           <div class="q-uploader__title">{{ propsComponent.field.label }}</div>
-        </div>
+          <div v-if="propsComponent.field.hint" class="caption">{{ propsComponent.field.hint }}</div>
+        </div>{{ scope.canAddFiles }}
         <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>
           <q-uploader-add-trigger />
         </q-btn>
       </div>
     </template>
 
-
     <template v-slot:list="scope">
-      <div>Déjà upload</div>
-      <q-list separator>
-        <q-item v-for="file in propsComponent.field.attachmentData ?? []" :key="file.id">
-          <q-item-section>
-            <q-item-label class="full-width ellipsis">
-              {{ file.filename }}
-            </q-item-label>
+      <div v-if="!attachmentDataIsEmpty" class="flex column">
+        <div>Fichiers actuels</div>
+        <q-list separator>
+          <q-item v-for="file in propsComponent.field.attachmentData ?? []" :key="file.id">
+            <q-item-section>
+              <q-item-label class="full-width ellipsis">
+                {{ file.filename }}
+              </q-item-label>
 
-            <q-item-label caption>
-              {{ humanStorageSize(file.size) }}
-            </q-item-label>
-          </q-item-section>
+              <q-item-label caption>
+                {{ humanStorageSize(file.size) }}
+              </q-item-label>
+            </q-item-section>
 
-          <q-item-section top side>
-            <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="removeUploadedFile(file)" />
-          </q-item-section>
-        </q-item>
-      </q-list>
+            <q-item-section top side>
+              <q-btn class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round icon="delete"
+                @click="removeUploadedFile(file)" />
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
 
-      <q-separator />
+      <q-separator v-if="!attachmentDataIsEmpty && scope.files.length > 0" />
+      <div v-if="scope.files.length > 0" class="flex column">
+        <div>Fichiers à télécharger</div>
+        <q-list separator>
+          <q-item v-for="file in scope.files" :key="file.__key">
+            <q-item-section>
+              <q-item-label class="full-width ellipsis">
+                {{ file.name }}
+              </q-item-label>
 
-      <div>Pending</div>
-      <q-list separator>
-        <q-item v-for="file in scope.files" :key="file.__key">
-          <q-item-section>
-            <q-item-label class="full-width ellipsis">
-              {{ file.name }}
-            </q-item-label>
+              <q-item-label caption>
+                {{ file.__sizeLabel }}
+              </q-item-label>
+            </q-item-section>
 
-            <q-item-label caption>
-              {{ file.__sizeLabel }}
-            </q-item-label>
-          </q-item-section>
-
-          <q-item-section top side>
-            <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="scope.removeFile(file)" />
-          </q-item-section>
-        </q-item>
-      </q-list>
+            <q-item-section top side>
+              <q-btn class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round icon="delete"
+                @click="scope.removeFile(file)" />
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
 
     </template>
   </q-uploader>
