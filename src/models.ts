@@ -668,11 +668,11 @@ export type TSubmit64FileDataValue = {
   add: TSubmit64FilePending[];
   delete: Required<TFormField>["attachmentData"][number]["id"][];
 };
-export type TSubmit64FilePending = File & {
+export type TSubmit64FilePending = {
   key: string;
   size: number;
   filename: string;
-  type: string;
+  contentType: string;
   base64: string;
 };
 

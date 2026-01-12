@@ -52,7 +52,7 @@ function resetValidation() {
   }
   // TODO
 }
-async function arrayBufferToBase64(buffer: ArrayBuffer) {
+async function arrayBufferToBase64(buffer: ArrayBuffer): Promise<string> {
   return new Promise((resolve) => {
     const blob = new Blob([buffer]);
     const reader = new FileReader();
@@ -64,13 +64,15 @@ async function arrayBufferToBase64(buffer: ArrayBuffer) {
     reader.readAsDataURL(blob)
   })
 }
-async function quasarFileToSubmit64File(file: any) {
-  return <TSubmit64FilePending>{
-    key: file.__key,
-    size: file.__size,
-    type: file.__type,
-    base64: await arrayBufferToBase64(await file.arrayBuffer())
+async function quasarFileToSubmit64File(quasarFile: any) {
+  const file: TSubmit64FilePending = {
+    key: quasarFile.__key,
+    size: quasarFile.__size,
+    filename: quasarFile.__name,
+    contentType: quasarFile.__type,
+    base64: await arrayBufferToBase64(await quasarFile.arrayBuffer())
   }
+  return file;
 }
 async function addPendingFile(files: readonly any[]) {
   if (!files[0]) {

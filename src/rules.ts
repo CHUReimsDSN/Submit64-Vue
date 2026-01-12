@@ -1,5 +1,11 @@
 import { date } from "quasar";
-import { TFormField, TSubmit64FormApi, TSubmit64ValidationRule } from "./models";
+import {
+  TFormField,
+  TSubmit64FileDataValue,
+  TSubmit64FormApi,
+  TSubmit64ValidationRule,
+} from "./models";
+import { humanStorageSize } from "./utils";
 
 export type TSubmit64Rule = {
   type: // general
@@ -42,7 +48,18 @@ export type TSubmit64Rule = {
     | "greaterThanDate"
     | "equalToDate"
     | "otherThanDate"
-    | "validDate";
+    | "validDate"
+
+    // file
+    | "allowFileContentType"
+    | "lessThanOrEqualFileLength"
+    | "greaterThanOrEqualFileLength"
+    | "equalToFileLength"
+    | "lessThanOrEqualFileCount"
+    | "greaterThanOrEqualFileCount"
+    | "lessThanOrEqualTotalFileSize"
+    | "greaterThanOrEqualTotalFileSize"
+    | "equalToTotalFileSize";
 
   backend_hint?: string;
 };
@@ -79,7 +96,9 @@ function computeServerRules(
     }
     if (rule.compare_to) {
       return () =>
-        formApi.getFieldByName(rule.compare_to as string)?.getValueSerialized() ??
+        formApi
+          .getFieldByName(rule.compare_to as string)
+          ?.getValueSerialized() ??
         "Submit64 error : missing comparator definition";
     }
     return () => "";
@@ -247,6 +266,9 @@ function computeServerRules(
         break;
 
       // date
+      case "validDate":
+        rules.push(validDate(form.formSettings.dateFormat));
+        break;
       case "lessThanOrEqualDate":
         rules.push(
           lessThanOrEqualDate(
@@ -292,6 +314,78 @@ function computeServerRules(
           otherThanDate(
             getCompareToValueRule(rule, "other_than", true) as () => string,
             form.formSettings.dateFormat
+          )
+        );
+        break;
+
+      // file
+      case "allowFileContentType":
+        rules.push(
+          allowFileContentType(
+            getCompareToValueRule(rule, "including") as () => string[]
+          )
+        );
+        break;
+
+      case "equalToFileLength":
+        rules.push(
+          equalsToFileLength(
+            getCompareToValueRule(rule, "equal_to") as () => number
+          )
+        );
+        break;
+
+      case "greaterThanOrEqualFileLength":
+        rules.push(
+          greaterThanOrEqualFileLength(
+            getCompareToValueRule(rule, "greater_than") as () => number
+          )
+        );
+        break;
+
+      case "lessThanOrEqualFileLength":
+        rules.push(
+          lowerThanOrEqualFileLength(
+            getCompareToValueRule(rule, "less_than") as () => number
+          )
+        );
+        break;
+
+      case "lessThanOrEqualFileCount":
+        rules.push(
+          lessThanOrEqualFileCount(
+            getCompareToValueRule(rule, "less_than") as () => number
+          )
+        );
+        break;
+
+      case "greaterThanOrEqualFileCount":
+        rules.push(
+          greaterThanOrEqualFileCount(
+            getCompareToValueRule(rule, "greater_than") as () => number
+          )
+        );
+        break;
+
+      case "lessThanOrEqualTotalFileSize":
+        rules.push(
+          lessThanOrEqualTotalFileSize(
+            getCompareToValueRule(rule, "less_than") as () => number
+          )
+        );
+
+      case "greaterThanOrEqualTotalFileSize":
+        rules.push(
+          greaterThanOrEqualTotalFileSize(
+            getCompareToValueRule(rule, "greater_than") as () => number
+          )
+        );
+        break;
+
+      case "equalToTotalFileSize":
+        rules.push(
+          equalTotalFileSize(
+            getCompareToValueRule(rule, "equal_to") as () => number
           )
         );
         break;
@@ -563,7 +657,6 @@ function validDate(format: string) {
     return isStrictDate(val, format) || `Date invalide. Format : ${format}`;
   };
 }
-
 function isStrictDate(val: unknown, format: string) {
   if (typeof val !== "string" || !val.trim()) {
     return false;
@@ -574,6 +667,138 @@ function isStrictDate(val: unknown, format: string) {
   }
   const reformatted = date.formatDate(extractedDate, format);
   return reformatted === val;
+}
+
+// file
+function allowFileContentType(contentTypes: () => string[]) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const contentTypesValue = contentTypes();
+    let valid = true;
+    fileValue.add.forEach((attachment) => {
+      if (!valid) {
+        return;
+      }
+      if (!contentTypesValue.includes(attachment.contentType)) {
+        valid = false;
+      }
+    });
+    const multipleTypes = contentTypes.length > 1;
+    return (
+      valid ||
+      `Type${multipleTypes ? "s" : ""} autorisé${
+        multipleTypes ? "s" : ""
+      } : ${contentTypesValue.join(",")}`
+    );
+  };
+}
+function equalsToFileLength(fileLength: () => number) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const fileLengthValue = fileLength();
+    let valid = true;
+    fileValue.add.forEach((attachment) => {
+      if (!valid) {
+        return;
+      }
+      if (fileLengthValue !== attachment.size) {
+        valid = false;
+      }
+    });
+    return valid || `Taille par fichier ${humanStorageSize(fileLengthValue)}`;
+  };
+}
+function greaterThanOrEqualFileLength(fileLength: () => number) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const fileLengthValue = fileLength();
+    let valid = true;
+    fileValue.add.forEach((attachment) => {
+      if (!valid) {
+        return;
+      }
+      if (fileLengthValue > attachment.size) {
+        valid = false;
+      }
+    });
+    return (
+      valid || `Taille par fichier min. ${humanStorageSize(fileLengthValue)}`
+    );
+  };
+}
+function lowerThanOrEqualFileLength(fileLength: () => number) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const fileLengthValue = fileLength();
+    let valid = true;
+    fileValue.add.forEach((attachment) => {
+      if (!valid) {
+        return;
+      }
+      if (fileLengthValue > attachment.size) {
+        valid = false;
+      }
+    });
+    return (
+      valid || `Taille par fichier max. ${humanStorageSize(fileLengthValue)}`
+    );
+  };
+}
+function lessThanOrEqualFileCount(fileCount: () => number) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const fileCountValue = fileCount();
+    const valid = fileValue.add.length <= fileCountValue;
+    return (
+      valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} max.`
+    );
+  };
+}
+function greaterThanOrEqualFileCount(fileCount: () => number) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const fileCountValue = fileCount();
+    const valid = fileValue.add.length >= fileCountValue;
+    return (
+      valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} min.`
+    );
+  };
+}
+function lessThanOrEqualTotalFileSize(totalFileSize: () => number) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const totalFileSizeValue = totalFileSize();
+    const valid =
+      fileValue.add.reduce((acc, fileValueMap) => {
+        acc += fileValueMap.size;
+        return acc;
+      }, 0) <= totalFileSizeValue;
+    return valid || `${humanStorageSize(totalFileSizeValue)} max.`;
+  };
+}
+function greaterThanOrEqualTotalFileSize(totalFileSize: () => number) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const totalFileSizeValue = totalFileSize();
+    const valid =
+      fileValue.add.reduce((acc, fileValueMap) => {
+        acc += fileValueMap.size;
+        return acc;
+      }, 0) >= totalFileSizeValue;
+    return valid || `${humanStorageSize(totalFileSizeValue)} min.`;
+  };
+}
+function equalTotalFileSize(totalFileSize: () => number) {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    const totalFileSizeValue = totalFileSize();
+    const valid =
+      fileValue.add.reduce((acc, fileValueMap) => {
+        acc += fileValueMap.size;
+        return acc;
+      }, 0) === totalFileSizeValue;
+    return valid || `Taille totale ${humanStorageSize(totalFileSizeValue)}`;
+  };
 }
 
 export const Submit64Rules = {
