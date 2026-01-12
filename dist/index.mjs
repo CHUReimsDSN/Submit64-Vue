@@ -1560,7 +1560,7 @@ const an = { class: "row no-wrap items-center q-pa-sm q-gutter-xs" }, on = { cla
       return {
         key: _.__key,
         size: _.__size,
-        filename: _.__name,
+        filename: _.name,
         contentType: _.__type,
         base64: await V(await _.arrayBuffer())
       };

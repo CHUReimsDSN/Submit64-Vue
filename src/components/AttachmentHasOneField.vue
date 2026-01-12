@@ -68,7 +68,7 @@ async function quasarFileToSubmit64File(quasarFile: any) {
   const file: TSubmit64FilePending = {
     key: quasarFile.__key,
     size: quasarFile.__size,
-    filename: quasarFile.__name,
+    filename: quasarFile.name,
     contentType: quasarFile.__type,
     base64: await arrayBufferToBase64(await quasarFile.arrayBuffer())
   }
