@@ -102,11 +102,7 @@ function keepUploadedFile(uploadedAttachment: TUploadedAttachment) {
   propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
-function modelValueDeleteIncludesFile(file: TUploadedAttachment) {
-  return (propsComponent.modelValue as TSubmit64FileDataValue).delete.findIndex((deleteFile) => {
-    return deleteFile === file.id
-  }) !== -1
-}
+
 function applyRules() {
   errorFromRules.value = null
   for (const rule of propsComponent.rules as TSubmit64ValidationRule[]) {
@@ -164,10 +160,10 @@ onMounted(() => {
               </q-item-section>
 
               <q-item-section top side>
-                <q-btn v-if="!modelValueDeleteIncludesFile(file)" class="gt-xs" size="12px"
+                <q-btn  class="gt-xs" size="12px"
                   :disable="propsComponent.field.readonly" flat dense round icon="delete"
                   @click="removeUploadedFile(file)" />
-                <q-btn v-else class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round
+                <q-btn class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round
                   icon="refresh" @click="keepUploadedFile(file)" />
               </q-item-section>
             </q-item>
