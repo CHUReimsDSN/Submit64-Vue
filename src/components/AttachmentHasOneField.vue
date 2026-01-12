@@ -102,11 +102,6 @@ function keepUploadedFile(uploadedAttachment: TUploadedAttachment) {
   propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
-function modelValueDeleteIncludesFile(file: TUploadedAttachment) {
-  return (propsComponent.modelValue as TSubmit64FileDataValue).delete.findIndex((deleteFile) => {
-    return deleteFile === file.id
-  }) !== -1
-}
 function applyRules() {
   errorFromRules.value = null
   for (const rule of propsComponent.rules as TSubmit64ValidationRule[]) {
@@ -121,6 +116,19 @@ function applyRules() {
 // computeds
 const attachmentDataIsEmpty = computed(() => {
   return (propsComponent.field.attachmentData ?? []).length === 0
+})
+const modelValueDeleteIds = computed(() => {
+  if (!propsComponent.modelValue) {
+    return []
+  }
+  return (propsComponent.modelValue as TSubmit64FileDataValue).delete
+})
+const alreadyUploadedFileEmpty = computed(() => {
+  if (!propsComponent.modelValue) {
+    return true
+  }
+  return ((propsComponent.field.attachmentData?.length ?? 0) === 0) 
+  || ((propsComponent.field.attachmentData?.length ?? 1 === 1) && (propsComponent.modelValue as TSubmit64FileDataValue).delete.length === 1)
 })
 
 // lifeCycle
@@ -142,7 +150,8 @@ onMounted(() => {
             <div class="q-uploader__title">{{ propsComponent.field.label }}</div>
             <div v-if="propsComponent.field.hint" class="caption">{{ propsComponent.field.hint }}</div>
           </div>
-          <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>
+          <q-btn v-if="scope.canAddFiles && alreadyUploadedFileEmpty" type="a" icon="add_box" @click="scope.pickFiles"
+            round dense flat>
             <q-uploader-add-trigger />
           </q-btn>
         </div>
@@ -164,7 +173,7 @@ onMounted(() => {
               </q-item-section>
 
               <q-item-section v-if="propsComponent.modelValue" top side>
-                <q-btn v-if="modelValueDeleteIncludesFile(file)" class="gt-xs" size="12px"
+                <q-btn v-if="!modelValueDeleteIds.includes(file.id)" class="gt-xs" size="12px"
                   :disable="propsComponent.field.readonly" flat dense round icon="delete"
                   @click="removeUploadedFile(file)" />
                 <q-btn v-else class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round

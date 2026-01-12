@@ -335,18 +335,19 @@ function computeServerRules(
         );
         break;
 
-      case "greaterThanOrEqualFileLength":
-        rules.push(
-          greaterThanOrEqualFileLength(
-            getCompareToValueRule(rule, "greater_than") as () => number
-          )
-        );
-        break;
-
       case "lessThanOrEqualFileLength":
         rules.push(
           lowerThanOrEqualFileLength(
             getCompareToValueRule(rule, "less_than") as () => number
+          )
+        );
+        break;
+
+
+      case "greaterThanOrEqualFileLength":
+        rules.push(
+          greaterThanOrEqualFileLength(
+            getCompareToValueRule(rule, "greater_than") as () => number
           )
         );
         break;
@@ -717,7 +718,7 @@ function greaterThanOrEqualFileLength(fileLength: () => number) {
       if (!valid) {
         return;
       }
-      if (fileLengthValue > attachment.size) {
+      if (attachment.size < fileLengthValue) {
         valid = false;
       }
     });
@@ -735,7 +736,7 @@ function lowerThanOrEqualFileLength(fileLength: () => number) {
       if (!valid) {
         return;
       }
-      if (fileLengthValue > attachment.size) {
+      if (attachment.size > fileLengthValue) {
         valid = false;
       }
     });

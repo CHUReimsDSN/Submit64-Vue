@@ -145,11 +145,11 @@ function computeServerRules(metadataRules, fieldType, formApi) {
             case "equalToFileLength":
                 rules.push(equalsToFileLength(getCompareToValueRule(rule, "equal_to")));
                 break;
-            case "greaterThanOrEqualFileLength":
-                rules.push(greaterThanOrEqualFileLength(getCompareToValueRule(rule, "greater_than")));
-                break;
             case "lessThanOrEqualFileLength":
                 rules.push(lowerThanOrEqualFileLength(getCompareToValueRule(rule, "less_than")));
+                break;
+            case "greaterThanOrEqualFileLength":
+                rules.push(greaterThanOrEqualFileLength(getCompareToValueRule(rule, "greater_than")));
                 break;
             case "lessThanOrEqualFileCount":
                 rules.push(lessThanOrEqualFileCount(getCompareToValueRule(rule, "less_than")));
@@ -448,7 +448,7 @@ function greaterThanOrEqualFileLength(fileLength) {
             if (!valid) {
                 return;
             }
-            if (fileLengthValue > attachment.size) {
+            if (attachment.size < fileLengthValue) {
                 valid = false;
             }
         });
@@ -464,7 +464,7 @@ function lowerThanOrEqualFileLength(fileLength) {
             if (!valid) {
                 return;
             }
-            if (fileLengthValue > attachment.size) {
+            if (attachment.size > fileLengthValue) {
                 valid = false;
             }
         });
