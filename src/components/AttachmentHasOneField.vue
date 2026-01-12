@@ -102,7 +102,11 @@ function keepUploadedFile(uploadedAttachment: TUploadedAttachment) {
   propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
-
+function modelValueDeleteIncludesFile(file: TUploadedAttachment) {
+  return (propsComponent.modelValue as TSubmit64FileDataValue).delete.findIndex((deleteFile) => {
+    return deleteFile === file.id
+  }) !== -1
+}
 function applyRules() {
   errorFromRules.value = null
   for (const rule of propsComponent.rules as TSubmit64ValidationRule[]) {
@@ -146,7 +150,7 @@ onMounted(() => {
 
       <template v-slot:list="scope">
         <div v-if="!attachmentDataIsEmpty" class="flex column">
-          <div>Fichier en ligne</div>
+          <div class="text-weight-medium text-body2">Fichier en ligne</div>
           <q-list separator>
             <q-item v-for="file in propsComponent.field.attachmentData ?? []" :key="file.id">
               <q-item-section>
@@ -159,11 +163,11 @@ onMounted(() => {
                 </q-item-label>
               </q-item-section>
 
-              <q-item-section top side>
-                <q-btn  class="gt-xs" size="12px"
+              <q-item-section v-if="propsComponent.modelValue" top side>
+                <q-btn v-if="modelValueDeleteIncludesFile(file)" class="gt-xs" size="12px"
                   :disable="propsComponent.field.readonly" flat dense round icon="delete"
                   @click="removeUploadedFile(file)" />
-                <q-btn class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round
+                <q-btn v-else class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round
                   icon="refresh" @click="keepUploadedFile(file)" />
               </q-item-section>
             </q-item>
@@ -173,7 +177,7 @@ onMounted(() => {
         <q-separator v-if="!attachmentDataIsEmpty && scope.files.length > 0" />
 
         <div v-if="scope.files.length > 0" class="flex column">
-          <div>Fichier à télécharger</div>
+          <div class="text-weight-medium text-body2">Fichier à télécharger</div>
           <q-list separator>
             <q-item v-for="file in scope.files" :key="file.__key">
               <q-item-section>
