@@ -64,16 +64,15 @@ async function arrayBufferToBase64(buffer: ArrayBuffer): Promise<string> {
     reader.readAsDataURL(blob)
   })
 }
-async function quasarFileToSubmit64File(quasarFile: any) {
-  console.log(quasarFile)
-  const file: TSubmit64FilePending = {
-    key: quasarFile.__key,
-    size: quasarFile.__size,
-    filename: quasarFile.name,
-    contentType: quasarFile.__type,
-    base64: await arrayBufferToBase64(await quasarFile.arrayBuffer())
+async function quasarFileToSubmit64File(file: File) {
+  const pendingFile: TSubmit64FilePending = {
+    key: `${file.lastModified}${file.name}`,
+    size: file.size,
+    filename: file.name,
+    contentType: file.type,
+    base64: await arrayBufferToBase64(await file.arrayBuffer())
   }
-  return file;
+  return pendingFile;
 }
 async function addPendingFile(files: readonly any[]) {
   if (!files[0]) {
