@@ -127,8 +127,8 @@ const alreadyUploadedFileEmpty = computed(() => {
   if (!propsComponent.modelValue) {
     return true
   }
-  return ((propsComponent.field.attachmentData?.length ?? 0) === 0) 
-  || ((propsComponent.field.attachmentData?.length ?? 1 === 1) && (propsComponent.modelValue as TSubmit64FileDataValue).delete.length === 1)
+  return ((propsComponent.field.attachmentData?.length ?? 0) === 0)
+    || ((propsComponent.field.attachmentData?.length ?? 1 === 1) && (propsComponent.modelValue as TSubmit64FileDataValue).delete.length === 1)
 })
 
 // lifeCycle
@@ -176,8 +176,10 @@ onMounted(() => {
                 <q-btn v-if="!modelValueDeleteIds.includes(file.id)" class="gt-xs" size="12px"
                   :disable="propsComponent.field.readonly" flat dense round icon="delete"
                   @click="removeUploadedFile(file)" />
-                <q-btn v-else class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round
-                  icon="refresh" @click="keepUploadedFile(file)" />
+                <q-btn
+                  v-if="modelValueDeleteIds.includes(file.id) && (propsComponent.modelValue as TSubmit64FileDataValue).add.length === 0"
+                  class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round icon="refresh"
+                  @click="keepUploadedFile(file)" />
               </q-item-section>
             </q-item>
           </q-list>
