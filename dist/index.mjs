@@ -1557,7 +1557,7 @@ const an = { class: "row no-wrap items-center q-pa-sm q-gutter-xs" }, on = { cla
       });
     }
     async function F(_) {
-      return {
+      return console.log(_), {
         key: _.__key,
         size: _.__size,
         filename: _.name,
