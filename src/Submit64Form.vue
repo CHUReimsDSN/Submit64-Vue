@@ -412,7 +412,6 @@ function registerSectionWrapperRef(
   sectionComponent: TSubmit64SectionApi
 ) {
   sectionsWrapperRefs.value.set(sectionName, sectionComponent);
-  console.log(sectionCount, sectionsWrapperRefs.value.size)
   if (sectionCount === sectionsWrapperRefs.value.size) {
     setupSectionsIsDone.value = true;
   }
@@ -422,6 +421,7 @@ function registerFieldWrapperRef(
   fieldComponent: TSubmit64FieldApi
 ) {
   fieldWrapperRefs.value.set(fieldName, fieldComponent);
+  console.log(fieldCount, fieldWrapperRefs.value.size)
   if (fieldCount === fieldWrapperRefs.value.size) {
     setupFieldsIsDone.value = true;
   }
