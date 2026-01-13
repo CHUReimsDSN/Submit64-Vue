@@ -25,4 +25,3 @@ const propsComponent = defineProps<TSubmit64SectionProps>();
     </div>
   </div>
 </template>
-

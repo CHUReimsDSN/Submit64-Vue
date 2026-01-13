@@ -27,7 +27,6 @@ import type {
 } from "./models";
 import { FormFactory } from "./form-factory";
 import { callAllEvents } from "./utils";
-import FieldWrapper from "./components/FieldWrapper.vue";
 import SectionWrapper from "./components/SectionWrapper.vue";
 
 // props
@@ -225,8 +224,8 @@ function getOverridedComponents() {
             slot({
               ...props,
               ...attrs,
-              slots: innerSlots,
-            });
+            },
+          innerSlots);
         },
       });
       switch (key) {
@@ -555,21 +554,9 @@ onMounted(async () => {
         v-for="section in form.sections"
         :key="section.name"
         :section="section"
-        :context="propsComponent.context"
         :formApi="formApi"
         :privateFormApi="privateFormApi"
-        :registerRef="registerSectionWrapperRef"
-      >
-        <FieldWrapper
-          v-for="field in section.fields"
-          :key="field.metadata.field_name"
-          :field="field"
-          :context="propsComponent.context"
-          :formApi="formApi"
-          :privateFormApi="privateFormApi"
-          :registerRef="registerFieldWrapperRef"
-        />
-      </SectionWrapper>
+      />
     </div>
     <component
       :is="form.orphanErrorsComponent"
