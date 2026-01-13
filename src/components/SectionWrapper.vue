@@ -5,6 +5,7 @@ import {
   nextTick,
   onMounted,
   ref,
+  useSlots,
   watch,
   type WatchStopHandle,
 } from "vue";
@@ -14,7 +15,6 @@ import type {
   TSubmit64SectionWrapperProps,
 } from "../models";
 import { callAllEvents } from "../utils";
-import FieldWrapper from "./FieldWrapper.vue";
 
 // props
 const propsComponent = defineProps<TSubmit64SectionWrapperProps>();
@@ -25,6 +25,7 @@ let stopWatchIsInvalid: WatchStopHandle | null = null;
 let stopWatchIsUpdated: WatchStopHandle | null = null;
 
 // consts
+const slots = useSlots();
 const sectionApi: TSubmit64SectionApi = {
   softReset,
   reset,
@@ -171,6 +172,9 @@ function getValuesFormSerialized() {
   }
   return resourceData;
 }
+function setFieldComponentWithSlot() {
+  propsComponent.privateFormApi
+}
 
 // exposes
 defineExpose(sectionApi);
@@ -237,6 +241,7 @@ watch(
 
 // lifeCycle
 onMounted(() => {
+  setFieldComponentWithSlot()
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef) {
     propsComponent.privateFormApi.registerSectionWrapperRef(
@@ -255,10 +260,7 @@ onMounted(() => {
   <div v-show="propsComponent.section.hidden !== true" class="flex column">
     <Component v-if="propsComponent.section.beforeComponent" :is="propsComponent.section.beforeComponent"
       :formApi="propsComponent.formApi" :sectionApi="sectionApi" />
-    <Component :is="propsComponent.section.mainComponent" :sectionApi="sectionApi" :formApi="propsComponent.formApi">
-      <FieldWrapper v-for="field in section.fields" :key="field.metadata.field_name" :field="field" :formApi="formApi"
-        :privateFormApi="privateFormApi" />
-    </Component>
+    <Component :is="propsComponent.section.mainComponent" :sectionApi="sectionApi" :formApi="propsComponent.formApi" />
     <Component v-if="propsComponent.section.afterComponent" :is="propsComponent.section.afterComponent"
       :formApi="propsComponent.formApi" :sectionApi="sectionApi" />
   </div>

@@ -122,6 +122,7 @@ export type TFormSection = {
     readonly?: boolean;
     beforeComponent?: Readonly<Component> | undefined;
     mainComponent: Readonly<Component>;
+    fieldsComponent: Readonly<Component>;
     afterComponent?: Readonly<Component> | undefined;
     events: Readonly<TFormSectionEvent>;
 };
@@ -190,6 +191,7 @@ export type TSubmit64FormPrivateApi = {
     getFieldRef: (fieldName: string) => TFormField | undefined;
     registerSectionWrapperRef: (sectionName: string, sectionComponent: TSubmit64SectionApi) => void;
     registerFieldWrapperRef: (fieldName: string, fieldComponent: TSubmit64FieldApi) => void;
+    setSectionFieldComponent: (section: TFormSection, component: Component) => void;
 };
 export type TSubmit64SectionApi = {
     reset: () => void;
