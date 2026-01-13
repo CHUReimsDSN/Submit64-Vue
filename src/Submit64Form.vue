@@ -232,7 +232,6 @@ function getOverridedComponents() {
       switch (key) {
         case "sections":
           overridedComponents.sectionComponent = component;
-          console.log('agagou')
           break;
         case "actions":
           overridedComponents.actionComponent = component;
@@ -413,6 +412,7 @@ function registerSectionWrapperRef(
   sectionComponent: TSubmit64SectionApi
 ) {
   sectionsWrapperRefs.value.set(sectionName, sectionComponent);
+  console.log(sectionCount, sectionsWrapperRefs.value.size)
   if (sectionCount === sectionsWrapperRefs.value.size) {
     setupSectionsIsDone.value = true;
   }

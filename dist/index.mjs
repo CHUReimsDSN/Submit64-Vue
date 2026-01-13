@@ -3282,7 +3282,7 @@ const la = {
           });
           switch (b) {
             case "sections":
-              f.sectionComponent = W, console.log("agagou");
+              f.sectionComponent = W;
               break;
             case "actions":
               f.actionComponent = W;
@@ -3431,7 +3431,7 @@ const la = {
       return (b = d.value) == null ? void 0 : b.sections.map((R) => R.fields).flat().find((R) => R.metadata.field_name === f);
     }
     function Ie(f, b) {
-      p.value.set(f, b), u === p.value.size && (N.value = !0);
+      p.value.set(f, b), console.log(u, p.value.size), u === p.value.size && (N.value = !0);
     }
     function Ue(f, b) {
       m.value.set(f, b), l === m.value.size && (A.value = !0);
