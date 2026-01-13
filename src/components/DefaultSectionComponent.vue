@@ -7,8 +7,8 @@ const propsComponent = defineProps<TSubmit64SectionProps>();
 </script>
 
 <template>
-  <div>
-    <div class="flex row items-center" :class="propsComponent.sectionApi.section.cssClass">
+  <div :class="propsComponent.sectionApi.section.cssClass">
+    <div class="flex row items-center">
       <q-icon
         v-if="propsComponent.sectionApi.section.icon"
         :name="propsComponent.sectionApi.section.icon"
