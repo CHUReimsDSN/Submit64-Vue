@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   computed,
+  defineComponent,
   getCurrentInstance,
   nextTick,
   onMounted,
@@ -173,7 +174,23 @@ function getValuesFormSerialized() {
   return resourceData;
 }
 function setFieldComponentWithSlot() {
-  propsComponent.privateFormApi
+  const defaultSlot = slots['default']
+  if (!defaultSlot) {
+    console.error("Submit64 : did not found fields slot for section " + propsComponent.section.name)
+    return
+  }
+  const component = defineComponent({
+    inheritAttrs: false,
+    setup(props, { attrs, slots: innerSlots }) {
+      return () =>
+        defaultSlot({
+          ...props,
+          ...attrs,
+        },
+          innerSlots);
+    },
+  });
+  propsComponent.privateFormApi.setSectionFieldComponent(propsComponent.section, component)
 }
 
 // exposes
