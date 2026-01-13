@@ -238,6 +238,7 @@ watch(
 onMounted(() => {
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef) {
+    console.log(propsComponent.section.name)
     propsComponent.privateFormApi.registerSectionWrapperRef(
       propsComponent.section.name,
       proxyInstanceRef as TSubmit64SectionApi

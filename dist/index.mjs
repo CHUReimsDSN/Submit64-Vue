@@ -3105,10 +3105,10 @@ const la = {
     ), Y(() => {
       var k;
       const y = (k = We()) == null ? void 0 : k.exposed;
-      y && t.privateFormApi.registerSectionWrapperRef(
+      y && (console.log(t.section.name), t.privateFormApi.registerSectionWrapperRef(
         t.section.name,
         y
-      ), ye(() => {
+      )), ye(() => {
         var M;
         s(), w((M = t.section) == null ? void 0 : M.events.onReady);
       });
@@ -3282,7 +3282,7 @@ const la = {
           });
           switch (b) {
             case "sections":
-              f.sectionComponent = W;
+              f.sectionComponent = W, console.log("agagou");
               break;
             case "actions":
               f.actionComponent = W;

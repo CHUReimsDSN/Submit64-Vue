@@ -232,6 +232,7 @@ function getOverridedComponents() {
       switch (key) {
         case "sections":
           overridedComponents.sectionComponent = component;
+          console.log('agagou')
           break;
         case "actions":
           overridedComponents.actionComponent = component;
