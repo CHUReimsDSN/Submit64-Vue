@@ -3278,11 +3278,13 @@ const la = {
           const te = H({
             inheritAttrs: !1,
             setup(he, { attrs: ve, slots: ne }) {
-              return () => R({
-                ...he,
-                ...ve,
-                slots: ne
-              });
+              return () => R(
+                {
+                  ...he,
+                  ...ve
+                },
+                ne
+              );
             }
           });
           switch (b) {
@@ -3439,7 +3441,7 @@ const la = {
       p.value.set(f, b), u === p.value.size && (N.value = !0);
     }
     function ct(f, b) {
-      m.value.set(f, b), console.log(l, m.value.size), l === m.value.size && (A.value = !0);
+      m.value.set(f, b), l === m.value.size && (A.value = !0);
     }
     const ft = {
       getFormRef: it,

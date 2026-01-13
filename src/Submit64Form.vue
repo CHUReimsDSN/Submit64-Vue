@@ -224,8 +224,8 @@ function getOverridedComponents() {
             slot({
               ...props,
               ...attrs,
-              slots: innerSlots,
-            });
+            },
+          innerSlots);
         },
       });
       switch (key) {
@@ -420,7 +420,6 @@ function registerFieldWrapperRef(
   fieldComponent: TSubmit64FieldApi
 ) {
   fieldWrapperRefs.value.set(fieldName, fieldComponent);
-  console.log(fieldCount, fieldWrapperRefs.value.size)
   if (fieldCount === fieldWrapperRefs.value.size) {
     setupFieldsIsDone.value = true;
   }
