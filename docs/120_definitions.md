@@ -81,7 +81,7 @@ type TSubmit64FormApi = {
 
   /*
    * Réinitialise tous les champs à leurs valeurs d’origine
-   * Ne déclanche pas les évenements, ni la réinitialisation des validations
+   * Ne déclanche pas les événements, ni la réinitialisation des validations
    */
   softReset: () => void;
 
@@ -208,7 +208,7 @@ type TSubmit64SectionApi = {
 
   /*
    * Réinitialise les champs de la section
-   * Ne déclenche pas les évenements, ni la réinitialisation des validations
+   * Ne déclenche pas les événements, ni la réinitialisation des validations
    */
   softReset: () => void;
 
@@ -291,7 +291,7 @@ type TSubmit64FieldApi = {
 
   /*
    * Réinitialise le champ
-   * Ne déclenche pas les évenements, ni la réinitialisation des validations
+   * Ne déclenche pas les événements, ni la réinitialisation des validations
    */
   softReset: () => void;
 
@@ -538,7 +538,7 @@ const propsComponent = defineProps<TSubmit64SectionProps>();
 
 <template>
   <div>
-    <div class="flex row items-center">
+    <div class="flex row items-center" :class="propsComponent.sectionApi.section.cssClass">
       <q-icon
         v-if="propsComponent.sectionApi.section.icon"
         :name="propsComponent.sectionApi.section.icon"

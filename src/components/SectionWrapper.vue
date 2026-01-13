@@ -245,6 +245,7 @@ onMounted(() => {
   }
   void nextTick(() => {
     setupFields();
+    callAllEvents(propsComponent.section?.events.onReady);
   });
 });
 </script>

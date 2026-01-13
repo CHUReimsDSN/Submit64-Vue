@@ -48,9 +48,14 @@ export type TResourceFieldMetadata = {
   css_class: string | null;
   unlinked: boolean;
   field_association_data?: {
-    label: string[];
-    data: TRecord[];
-  };
+    label: string;
+    data: TRecord;
+  }[];
+  field_attachment_data?: {
+    id: TRecord["id"];
+    filename: string;
+    size: number;
+  }[];
 };
 export type TSubmit64AssociationData = {
   rows: TSubmit64AssociationRowEntry[];
@@ -165,6 +170,8 @@ export type TFormField = {
     | "checkbox"
     | "number"
     | "object"
+    | "attachmentHasOne"
+    | "attachmentHasMany"
   >;
   extraType?: Readonly<"color" | "wysiwyg"> | undefined;
   metadata: Readonly<TResourceFieldMetadata>;
@@ -178,9 +185,14 @@ export type TFormField = {
   clearable?: boolean;
   hidden: boolean;
   associationData?: {
-    label: string[];
-    data: TRecord[];
-  };
+    label: string;
+    data: TRecord;
+  }[];
+  attachmentData?: {
+    id: TRecord["id"];
+    filename: string;
+    size: number;
+  }[];
   staticSelectOptions?: TSubmit64StaticSelectOptions[];
   beforeComponent?: Readonly<Component> | undefined;
   mainComponent: Readonly<Component>;
@@ -211,7 +223,7 @@ export type TSubmit64FormApi = {
 
   /*
    * Réinitialise tous les champs à leurs valeurs d’origine
-   * Ne déclanche pas les évenements, ni la réinitialisation des validations
+   * Ne déclanche pas les événements, ni la réinitialisation des validations
    */
   softReset: () => void;
 
@@ -344,7 +356,7 @@ export type TSubmit64SectionApi = {
 
   /*
    * Réinitialise les champs de la section
-   * Ne déclenche pas les évenements, ni la réinitialisation des validations
+   * Ne déclenche pas les événements, ni la réinitialisation des validations
    */
   softReset: () => void;
 
@@ -421,7 +433,7 @@ export type TSubmit64FieldApi = {
 
   /*
    * Réinitialise le champ
-   * Ne déclenche pas les évenements, ni la réinitialisation des validations
+   * Ne déclenche pas les événements, ni la réinitialisation des validations
    */
   softReset: () => void;
 
@@ -573,7 +585,7 @@ export type TSubmit64FieldProps = {
     registerIsValidArg: () => boolean,
     registerResetValidationArg: () => void,
     registerOnResetArg?: () => void,
-    registerOnClearArg?: () => void,
+    registerOnClearArg?: () => void
   ) => void;
 };
 export type TSubmit64FieldWrapperResetProps = {
@@ -650,6 +662,21 @@ export type TSubmit64OverridedComponents = Partial<{
   associationDisplayComponent: Component;
   dynamicComponentRecord: Record<string, Component>;
 }>;
+
+// files
+export type TSubmit64FileDataValue = {
+  add: TSubmit64FilePending[];
+  delete: Required<TFormField>["attachmentData"][number]["id"][];
+};
+export type TSubmit64FilePending = {
+  key: string;
+  size: number;
+  filename: string;
+  contentType: string;
+  base64: string;
+};
+
+// events
 export type TFormEvent = {
   onReady?: TSubmit64Event;
   onSubmit?: TSubmit64Event;
@@ -663,6 +690,7 @@ export type TFormEvent = {
   onValidated?: TSubmit64Event;
 };
 export type TFormSectionEvent = {
+  onReady?: TSubmit64Event;
   onReset?: TSubmit64Event;
   onClear?: TSubmit64Event;
   onValidated?: TSubmit64Event;
@@ -673,6 +701,7 @@ export type TFormSectionEvent = {
   onIsInvalid?: TSubmit64Event;
 };
 export type TFormFieldEvent = {
+  onReady?: TSubmit64Event;
   onUpdate?: TSubmit64Event;
   onIsValid?: TSubmit64Event;
   onIsInvalid?: TSubmit64Event;

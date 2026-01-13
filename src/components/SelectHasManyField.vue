@@ -40,7 +40,7 @@ function getDefaultPagination() {
 }
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   if (val === lastLabelFilter.value) {
-    update(() => {});
+    update(() => { });
     return;
   }
   const callback = propsComponent.formApi.getAssociationDataCallback();
@@ -84,9 +84,9 @@ function setupDefaultSelectValue() {
   ).map((valueMap, valueMapIndex) => {
     return {
       label:
-        propsComponent.field.associationData!.label[valueMapIndex] ?? "???",
+        propsComponent.field.associationData![valueMapIndex].label ?? "???",
       value: valueMap,
-      data: propsComponent.field.associationData!.data[valueMapIndex],
+      data: propsComponent.field.associationData![valueMapIndex].data,
     };
   });
 }
@@ -121,7 +121,7 @@ function onVirtualScroll(scrollArgs: {
   if (
     selectOptionsScrollPagination.value.isLoading !== true &&
     selectOptionsScrollPagination.value.nextPage <
-      selectOptionsScrollPagination.value.lastPage &&
+    selectOptionsScrollPagination.value.lastPage &&
     scrollArgs.to === lastIndex &&
     lastIndex !== -1
   ) {
@@ -156,9 +156,6 @@ function onVirtualScroll(scrollArgs: {
 
 // lifeCycle
 onMounted(() => {
-  void nextTick(() => {
-    setupDefaultSelectValue();
-  });
   propsComponent.registerBehaviourCallbacks(
     validate,
     isValid,
@@ -166,45 +163,24 @@ onMounted(() => {
     setupDefaultSelectValue,
     clear
   );
+  void nextTick(() => {
+    setupDefaultSelectValue();
+  });
 });
 </script>
 
 <template>
-  <q-select
-    ref="fieldRef"
-    :model-value="(propsComponent.modelValue as string)"
-    v-on:update:model-value="
-      (value: unknown) => propsComponent.modelValueOnUpdate(value)
-    "
-    :label="propsComponent.field.label"
-    :hint="propsComponent.field.hint"
-    :outlined="styleConfig.fieldOutlined"
-    :filled="styleConfig.fieldFilled"
-    :standout="styleConfig.fieldStandout"
-    :borderless="styleConfig.fieldBorderless"
-    :rounded="styleConfig.fieldRounded"
-    :square="styleConfig.fieldSquare"
-    :dense="styleConfig.fieldDense"
-    :hideBottomSpace="styleConfig.fieldHideBottomSpace"
-    :color="styleConfig.fieldColor"
-    :bgColor="styleConfig.fieldBgColor"
-    :class="propsComponent.field.cssClass"
-    :lazy-rules="lazyRules"
-    :clearable="propsComponent.field.clearable"
-    :prefix="propsComponent.field.prefix"
-    :suffix="propsComponent.field.suffix"
-    :readonly="propsComponent.field.readonly"
-    :rules="propsComponent.rules"
-    :options="selectOptionsFiltered"
-    :mapOptions="true"
-    :emitValue="true"
-    :useInput="true"
-    :multiple="true"
-    :use-chips="true"
-    @clear="propsComponent.clear"
-    @filter="onFilter"
-    @virtual-scroll="onVirtualScroll"
-  >
+  <q-select ref="fieldRef" :model-value="(propsComponent.modelValue as string)" v-on:update:model-value="
+    (value: unknown) => propsComponent.modelValueOnUpdate(value)
+  " :label="propsComponent.field.label" :hint="propsComponent.field.hint" :outlined="styleConfig.fieldOutlined"
+    :filled="styleConfig.fieldFilled" :standout="styleConfig.fieldStandout" :borderless="styleConfig.fieldBorderless"
+    :rounded="styleConfig.fieldRounded" :square="styleConfig.fieldSquare" :dense="styleConfig.fieldDense"
+    :hideBottomSpace="styleConfig.fieldHideBottomSpace" :color="styleConfig.fieldColor"
+    :bgColor="styleConfig.fieldBgColor" :class="propsComponent.field.cssClass" :lazy-rules="lazyRules"
+    :clearable="propsComponent.field.clearable" :prefix="propsComponent.field.prefix"
+    :suffix="propsComponent.field.suffix" :readonly="propsComponent.field.readonly" :rules="propsComponent.rules"
+    :options="selectOptionsFiltered" :mapOptions="true" :emitValue="true" :useInput="true" :multiple="true"
+    :use-chips="true" @clear="propsComponent.clear" @filter="onFilter" @virtual-scroll="onVirtualScroll">
     <template v-slot:no-option>
       <q-item :dense="styleConfig.fieldDense">
         <q-item-section>
@@ -215,12 +191,8 @@ onMounted(() => {
       </q-item>
     </template>
     <template v-slot:option="scope">
-      <component
-        :is="displayComponent"
-        :associationName="propsComponent.field.metadata.field_association_name"
-        :entry="scope.opt"
-        :itemProps="scope.itemProps"
-      />
+      <component :is="displayComponent" :associationName="propsComponent.field.metadata.field_association_name"
+        :entry="scope.opt" :itemProps="scope.itemProps" />
     </template>
   </q-select>
 </template>

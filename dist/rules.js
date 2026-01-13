@@ -1,4 +1,5 @@
 import { date } from "quasar";
+import { humanStorageSize } from "./utils";
 function computeServerRules(metadataRules, fieldType, formApi) {
     const form = formApi.form;
     const getCompareToValueRule = (rule, operateTo, dateMode) => {
@@ -9,7 +10,9 @@ function computeServerRules(metadataRules, fieldType, formApi) {
             return () => computedRuleDateFormatToFormFactoryFormat(rule[operateTo]);
         }
         if (rule.compare_to) {
-            return () => formApi.getFieldByName(rule.compare_to)?.getValueSerialized() ??
+            return () => formApi
+                .getFieldByName(rule.compare_to)
+                ?.getValueSerialized() ??
                 "Submit64 error : missing comparator definition";
         }
         return () => "";
@@ -114,6 +117,9 @@ function computeServerRules(metadataRules, fieldType, formApi) {
                 rules.push(otherThanString(getCompareToValueRule(rule, "other_than")));
                 break;
             // date
+            case "validDate":
+                rules.push(validDate(form.formSettings.dateFormat));
+                break;
             case "lessThanOrEqualDate":
                 rules.push(lessThanOrEqualDate(getCompareToValueRule(rule, "less_than", true), form.formSettings.dateFormat));
                 break;
@@ -131,6 +137,33 @@ function computeServerRules(metadataRules, fieldType, formApi) {
                 break;
             case "otherThanDate":
                 rules.push(otherThanDate(getCompareToValueRule(rule, "other_than", true), form.formSettings.dateFormat));
+                break;
+            // file
+            case "allowFileContentType":
+                rules.push(allowFileContentType(getCompareToValueRule(rule, "including")));
+                break;
+            case "equalToFileLength":
+                rules.push(equalsToFileLength(getCompareToValueRule(rule, "equal_to")));
+                break;
+            case "lessThanOrEqualFileLength":
+                rules.push(lowerThanOrEqualFileLength(getCompareToValueRule(rule, "less_than")));
+                break;
+            case "greaterThanOrEqualFileLength":
+                rules.push(greaterThanOrEqualFileLength(getCompareToValueRule(rule, "greater_than")));
+                break;
+            case "lessThanOrEqualFileCount":
+                rules.push(lessThanOrEqualFileCount(getCompareToValueRule(rule, "less_than")));
+                break;
+            case "greaterThanOrEqualFileCount":
+                rules.push(greaterThanOrEqualFileCount(getCompareToValueRule(rule, "greater_than")));
+                break;
+            case "lessThanOrEqualTotalFileSize":
+                rules.push(lessThanOrEqualTotalFileSize(getCompareToValueRule(rule, "less_than")));
+            case "greaterThanOrEqualTotalFileSize":
+                rules.push(greaterThanOrEqualTotalFileSize(getCompareToValueRule(rule, "greater_than")));
+                break;
+            case "equalToTotalFileSize":
+                rules.push(equalTotalFileSize(getCompareToValueRule(rule, "equal_to")));
                 break;
         }
     });
@@ -370,6 +403,122 @@ function isStrictDate(val, format) {
     }
     const reformatted = date.formatDate(extractedDate, format);
     return reformatted === val;
+}
+// file
+function allowFileContentType(contentTypes) {
+    return (val) => {
+        const fileValue = val;
+        const contentTypesValue = contentTypes();
+        let valid = true;
+        fileValue.add.forEach((attachment) => {
+            if (!valid) {
+                return;
+            }
+            if (!contentTypesValue.includes(attachment.contentType)) {
+                valid = false;
+            }
+        });
+        const multipleTypes = contentTypes.length > 1;
+        return (valid ||
+            `Type${multipleTypes ? "s" : ""} autorisé${multipleTypes ? "s" : ""} : ${contentTypesValue.join(",")}`);
+    };
+}
+function equalsToFileLength(fileLength) {
+    return (val) => {
+        const fileValue = val;
+        const fileLengthValue = fileLength();
+        let valid = true;
+        fileValue.add.forEach((attachment) => {
+            if (!valid) {
+                return;
+            }
+            if (fileLengthValue !== attachment.size) {
+                valid = false;
+            }
+        });
+        return valid || `Taille par fichier ${humanStorageSize(fileLengthValue)}`;
+    };
+}
+function greaterThanOrEqualFileLength(fileLength) {
+    return (val) => {
+        const fileValue = val;
+        const fileLengthValue = fileLength();
+        let valid = true;
+        fileValue.add.forEach((attachment) => {
+            if (!valid) {
+                return;
+            }
+            if (attachment.size < fileLengthValue) {
+                valid = false;
+            }
+        });
+        return (valid || `Taille par fichier min. ${humanStorageSize(fileLengthValue)}`);
+    };
+}
+function lowerThanOrEqualFileLength(fileLength) {
+    return (val) => {
+        const fileValue = val;
+        const fileLengthValue = fileLength();
+        let valid = true;
+        fileValue.add.forEach((attachment) => {
+            if (!valid) {
+                return;
+            }
+            if (attachment.size > fileLengthValue) {
+                valid = false;
+            }
+        });
+        return (valid || `Taille par fichier max. ${humanStorageSize(fileLengthValue)}`);
+    };
+}
+function lessThanOrEqualFileCount(fileCount) {
+    return (val) => {
+        const fileValue = val;
+        const fileCountValue = fileCount();
+        const valid = fileValue.add.length <= fileCountValue;
+        return (valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} max.`);
+    };
+}
+function greaterThanOrEqualFileCount(fileCount) {
+    return (val) => {
+        const fileValue = val;
+        const fileCountValue = fileCount();
+        const valid = fileValue.add.length >= fileCountValue;
+        return (valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} min.`);
+    };
+}
+function lessThanOrEqualTotalFileSize(totalFileSize) {
+    return (val) => {
+        const fileValue = val;
+        const totalFileSizeValue = totalFileSize();
+        const valid = fileValue.add.reduce((acc, fileValueMap) => {
+            acc += fileValueMap.size;
+            return acc;
+        }, 0) <= totalFileSizeValue;
+        return valid || `${humanStorageSize(totalFileSizeValue)} max.`;
+    };
+}
+function greaterThanOrEqualTotalFileSize(totalFileSize) {
+    return (val) => {
+        const fileValue = val;
+        const totalFileSizeValue = totalFileSize();
+        const valid = fileValue.add.reduce((acc, fileValueMap) => {
+            acc += fileValueMap.size;
+            return acc;
+        }, 0) >= totalFileSizeValue;
+        return valid || `${humanStorageSize(totalFileSizeValue)} min.`;
+    };
+}
+function equalTotalFileSize(totalFileSize) {
+    return (val) => {
+        const fileValue = val;
+        const totalFileSizeValue = totalFileSize();
+        const valid = fileValue.add.reduce((acc, fileValueMap) => {
+            acc += fileValueMap.size;
+            return acc;
+        }, 0) === totalFileSizeValue;
+        return valid || `Taille totale ${humanStorageSize(totalFileSizeValue)}`;
+    };
 }
 export const Submit64Rules = {
     computeServerRules,

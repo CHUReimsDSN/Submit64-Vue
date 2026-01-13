@@ -12,6 +12,8 @@ import { DynamicLogicBuilder } from "./dynamic-logic-builder";
 import ColorField from "./components/ColorField.vue";
 import WysiwygField from "./components/WysiwygField.vue";
 import JsonField from "./components/JsonField.vue";
+import AttachmentHasOneField from "./components/AttachmentHasOneField.vue";
+import AttachmentHasManyField from "./components/AttachmentHasManyField.vue";
 export class FormFactory {
     resourceName;
     resourceId;
@@ -119,6 +121,7 @@ export class FormFactory {
                     cssClass: columnMetadata.css_class ?? undefined,
                     staticSelectOptions: columnMetadata.static_select_options,
                     associationData: columnMetadata.field_association_data,
+                    attachmentData: columnMetadata.field_attachment_data,
                     rules: columnMetadata.rules,
                     clearable: this.formMetadataAndData.form.clearable ?? undefined,
                     hidden: false,
@@ -176,10 +179,11 @@ export class FormFactory {
             dynamicComponentRecord: this.dynamicComponentRecord,
             context: this.context,
         };
-        if (fieldNames.size < this.formMetadataAndData.form.sections.reduce(((acc, section) => {
-            return acc + section.fields.length;
-        }), 0)) {
-            console.warn('Submit64 -> Found fields with the same name');
+        if (fieldNames.size <
+            this.formMetadataAndData.form.sections.reduce((acc, section) => {
+                return acc + section.fields.length;
+            }, 0)) {
+            console.warn("Submit64 -> Found fields with the same name");
         }
         return form;
     }
@@ -222,6 +226,10 @@ export class FormFactory {
                 return CheckboxField;
             case "object":
                 return JsonField;
+            case "attachmentHasOne":
+                return AttachmentHasOneField;
+            case "attachmentHasMany":
+                return AttachmentHasManyField;
             default:
                 return StringField;
         }

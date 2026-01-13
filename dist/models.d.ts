@@ -45,9 +45,14 @@ export type TResourceFieldMetadata = {
     css_class: string | null;
     unlinked: boolean;
     field_association_data?: {
-        label: string[];
-        data: TRecord[];
-    };
+        label: string;
+        data: TRecord;
+    }[];
+    field_attachment_data?: {
+        id: TRecord["id"];
+        filename: string;
+        size: number;
+    }[];
 };
 export type TSubmit64AssociationData = {
     rows: TSubmit64AssociationRowEntry[];
@@ -121,7 +126,7 @@ export type TFormSection = {
     events: Readonly<TFormSectionEvent>;
 };
 export type TFormField = {
-    type: Readonly<"string" | "text" | "date" | "datetime" | "select" | "selectBelongsTo" | "selectHasMany" | "selectHasOne" | "selectHasAndBelongsToMany" | "checkbox" | "number" | "object">;
+    type: Readonly<"string" | "text" | "date" | "datetime" | "select" | "selectBelongsTo" | "selectHasMany" | "selectHasOne" | "selectHasAndBelongsToMany" | "checkbox" | "number" | "object" | "attachmentHasOne" | "attachmentHasMany">;
     extraType?: Readonly<"color" | "wysiwyg"> | undefined;
     metadata: Readonly<TResourceFieldMetadata>;
     label?: string;
@@ -134,9 +139,14 @@ export type TFormField = {
     clearable?: boolean;
     hidden: boolean;
     associationData?: {
-        label: string[];
-        data: TRecord[];
-    };
+        label: string;
+        data: TRecord;
+    }[];
+    attachmentData?: {
+        id: TRecord["id"];
+        filename: string;
+        size: number;
+    }[];
     staticSelectOptions?: TSubmit64StaticSelectOptions[];
     beforeComponent?: Readonly<Component> | undefined;
     mainComponent: Readonly<Component>;
@@ -334,6 +344,17 @@ export type TSubmit64OverridedComponents = Partial<{
     associationDisplayComponent: Component;
     dynamicComponentRecord: Record<string, Component>;
 }>;
+export type TSubmit64FileDataValue = {
+    add: TSubmit64FilePending[];
+    delete: Required<TFormField>["attachmentData"][number]["id"][];
+};
+export type TSubmit64FilePending = {
+    key: string;
+    size: number;
+    filename: string;
+    contentType: string;
+    base64: string;
+};
 export type TFormEvent = {
     onReady?: TSubmit64Event;
     onSubmit?: TSubmit64Event;
@@ -347,6 +368,7 @@ export type TFormEvent = {
     onValidated?: TSubmit64Event;
 };
 export type TFormSectionEvent = {
+    onReady?: TSubmit64Event;
     onReset?: TSubmit64Event;
     onClear?: TSubmit64Event;
     onValidated?: TSubmit64Event;
@@ -357,6 +379,7 @@ export type TFormSectionEvent = {
     onIsInvalid?: TSubmit64Event;
 };
 export type TFormFieldEvent = {
+    onReady?: TSubmit64Event;
     onUpdate?: TSubmit64Event;
     onIsValid?: TSubmit64Event;
     onIsInvalid?: TSubmit64Event;
