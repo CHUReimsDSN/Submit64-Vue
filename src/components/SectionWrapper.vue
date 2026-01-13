@@ -14,6 +14,7 @@ import type {
   TSubmit64SectionWrapperProps,
 } from "../models";
 import { callAllEvents } from "../utils";
+import FieldWrapper from "./FieldWrapper.vue";
 
 // props
 const propsComponent = defineProps<TSubmit64SectionWrapperProps>();
@@ -238,7 +239,6 @@ watch(
 onMounted(() => {
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef) {
-    console.log(propsComponent.section.name)
     propsComponent.privateFormApi.registerSectionWrapperRef(
       propsComponent.section.name,
       proxyInstanceRef as TSubmit64SectionApi
@@ -253,24 +253,13 @@ onMounted(() => {
 
 <template>
   <div v-show="propsComponent.section.hidden !== true" class="flex column">
-    <Component
-      v-if="propsComponent.section.beforeComponent"
-      :is="propsComponent.section.beforeComponent"
-      :formApi="propsComponent.formApi"
-      :sectionApi="sectionApi"
-    />
-    <Component
-      :is="propsComponent.section.mainComponent"
-      :sectionApi="sectionApi"
-      :formApi="propsComponent.formApi"
-    >
-      <slot></slot>
+    <Component v-if="propsComponent.section.beforeComponent" :is="propsComponent.section.beforeComponent"
+      :formApi="propsComponent.formApi" :sectionApi="sectionApi" />
+    <Component :is="propsComponent.section.mainComponent" :sectionApi="sectionApi" :formApi="propsComponent.formApi">
+      <FieldWrapper v-for="field in section.fields" :key="field.metadata.field_name" :field="field" :formApi="formApi"
+        :privateFormApi="privateFormApi" />
     </Component>
-    <Component
-      v-if="propsComponent.section.afterComponent"
-      :is="propsComponent.section.afterComponent"
-      :formApi="propsComponent.formApi"
-      :sectionApi="sectionApi"
-    />
+    <Component v-if="propsComponent.section.afterComponent" :is="propsComponent.section.afterComponent"
+      :formApi="propsComponent.formApi" :sectionApi="sectionApi" />
   </div>
 </template>
