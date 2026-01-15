@@ -323,11 +323,7 @@ function computeServerRules(
       // file
       case "requiredFile":
         rules.push(
-          requiredFile(
-            () =>
-              formApi.getFieldByName(field.metadata.field_name)?.field
-                .attachmentData
-          )
+          requiredFile()
         );
         break;
       case "allowFileContentType":
@@ -673,14 +669,10 @@ function isStrictDate(val: unknown, format: string) {
 }
 
 // file
-function requiredFile(attachmentData: () => TFormField["attachmentData"]) {
+function requiredFile() {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
-    return (
-      fileValue.add.length > 0 ||
-      (attachmentData()?.length ?? 0) - fileValue.delete.length > 0 ||
-      "Ce champ est requis"
-    );
+    return fileValue.add.length > 0 || "Ce champ est requis";
   };
 }
 function allowFileContentType(contentTypes: () => string[]) {

@@ -142,8 +142,7 @@ function computeServerRules(field, formApi) {
                 break;
             // file
             case "requiredFile":
-                rules.push(requiredFile(() => formApi.getFieldByName(field.metadata.field_name)?.field
-                    .attachmentData));
+                rules.push(requiredFile());
                 break;
             case "allowFileContentType":
                 rules.push(allowFileContentType(getCompareToValueRule(rule, "including")));
@@ -411,12 +410,10 @@ function isStrictDate(val, format) {
     return reformatted === val;
 }
 // file
-function requiredFile(attachmentData) {
+function requiredFile() {
     return (val) => {
         const fileValue = val;
-        return (fileValue.add.length > 0 ||
-            (attachmentData()?.length ?? 0) - fileValue.delete.length > 0 ||
-            "Ce champ est requis");
+        return fileValue.add.length > 0 || "Ce champ est requis";
     };
 }
 function allowFileContentType(contentTypes) {

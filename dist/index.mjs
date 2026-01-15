@@ -2562,12 +2562,7 @@ function _n(o, e) {
         break;
       case "requiredFile":
         l.push(
-          Zn(
-            () => {
-              var S;
-              return (S = e.getFieldByName(o.metadata.field_name)) == null ? void 0 : S.field.attachmentData;
-            }
-          )
+          Zn()
         );
         break;
       case "allowFileContentType":
@@ -2817,12 +2812,8 @@ function Xn(o, e) {
   const t = U.extractDate(o, e);
   return !(t instanceof Date) || isNaN(t.getTime()) ? !1 : U.formatDate(t, e) === o;
 }
-function Zn(o) {
-  return (e) => {
-    var r;
-    const t = e;
-    return t.add.length > 0 || (((r = o()) == null ? void 0 : r.length) ?? 0) - t.delete.length > 0 || "Ce champ est requis";
-  };
+function Zn() {
+  return (o) => o.add.length > 0 || "Ce champ est requis";
 }
 function ea(o) {
   return (e) => {
