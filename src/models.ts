@@ -52,7 +52,8 @@ export type TResourceFieldMetadata = {
     data: TRecord;
   }[];
   field_attachment_data?: {
-    id: TRecord["id"];
+    blob_id: TRecord["id"];
+    attachment_id: TRecord["id"];
     filename: string;
     size: number;
   }[];
@@ -190,7 +191,8 @@ export type TFormField = {
     data: TRecord;
   }[];
   attachmentData?: {
-    id: TRecord["id"];
+    attachment_id: TRecord["id"];
+    blob_id: TRecord["id"];
     filename: string;
     size: number;
   }[];
@@ -671,7 +673,7 @@ export type TSubmit64OverridedComponents = Partial<{
 // files
 export type TSubmit64FileDataValue = {
   add: TSubmit64FilePending[];
-  delete: Required<TFormField>["attachmentData"][number]["id"][];
+  delete: Required<TFormField>["attachmentData"][number]["attachment_id"][];
 };
 export type TSubmit64FilePending = {
   key: string;
