@@ -3,6 +3,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  markRaw,
   nextTick,
   onMounted,
   ref,
@@ -190,7 +191,7 @@ function setFieldComponentWithSlot() {
           innerSlots);
     },
   });
-  propsComponent.privateFormApi.setSectionFieldComponent(propsComponent.section, component)
+  propsComponent.privateFormApi.setSectionFieldComponent(propsComponent.section, markRaw(component))
 }
 
 // exposes

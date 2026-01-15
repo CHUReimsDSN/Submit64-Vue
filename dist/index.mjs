@@ -1,7 +1,7 @@
 var bt = Object.defineProperty;
 var _t = (o, e, t) => e in o ? bt(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var O = (o, e, t) => _t(o, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as P, createElementBlock as I, openBlock as h, createElementVNode as j, createVNode as C, createBlock as q, createCommentVNode as H, unref as a, mergeProps as Ee, normalizeClass as K, toDisplayString as L, resolveDynamicComponent as ae, resolveComponent as le, normalizeProps as Ct, guardReactiveProps as St, withCtx as y, createTextVNode as Z, Fragment as pe, renderList as ge, ref as T, onMounted as Y, nextTick as _e, watch as Q, computed as ie, markRaw as X, useSlots as je, getCurrentInstance as Qe, withDirectives as we, vShow as ze } from "vue";
+import { defineComponent as P, createElementBlock as I, openBlock as h, createElementVNode as j, createVNode as C, createBlock as q, createCommentVNode as H, unref as a, mergeProps as Ee, normalizeClass as X, toDisplayString as L, resolveDynamicComponent as ae, resolveComponent as le, normalizeProps as Ct, guardReactiveProps as St, withCtx as y, createTextVNode as Z, Fragment as pe, renderList as ge, ref as T, onMounted as Y, nextTick as _e, watch as Q, computed as ie, markRaw as J, useSlots as je, getCurrentInstance as Qe, withDirectives as we, vShow as ze } from "vue";
 import { QBtn as re, QIcon as xe, QItem as Fe, QItemSection as ce, QItemLabel as fe, QInput as De, QPopupProxy as qe, QDate as Ye, QTime as Ft, QCheckbox as kt, QSelect as $e, QColor as Vt, useQuasar as xt, QEditor as Dt, QUploader as We, QList as Le, QSeparator as At, QUploaderAddTrigger as Rt, date as U } from "quasar";
 const qt = { class: "flex column" }, Bt = { class: "flex row items-center no-wrap q-pt-sm q-gutter-x-sm" }, Nt = /* @__PURE__ */ P({
   __name: "DefaultActionComponent",
@@ -51,7 +51,7 @@ const qt = { class: "flex column" }, Bt = { class: "flex row items-center no-wra
   setup(o) {
     const e = o;
     return (t, r) => (h(), I("div", {
-      class: K(e.sectionApi.section.cssClass)
+      class: X(e.sectionApi.section.cssClass)
     }, [
       j("div", Et, [
         e.sectionApi.section.icon ? (h(), q(a(xe), {
@@ -204,7 +204,7 @@ const qt = { class: "flex column" }, Bt = { class: "flex row items-center no-wra
   }
 };
 O(Ne, "_instance", new Ne());
-let J = Ne;
+let K = Ne;
 class Be {
   constructor(e) {
     O(this, "formApi");
@@ -483,7 +483,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       "lazy-rules": i,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -589,7 +589,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       "lazy-rules": i,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -730,7 +730,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
         dense: a(n).fieldDense,
         color: a(n).fieldColor,
         "aria-readonly": e.field.readonly,
-        class: K([e.field.cssClass, "q-pb-md"])
+        class: X([e.field.cssClass, "q-pb-md"])
       }, null, 8, ["model-value", "label", "dense", "color", "aria-readonly", "class"]),
       e.field.hint ? (h(), I("div", Wt, L(e.field.hint), 1)) : H("", !0),
       t.value !== !0 ? (h(), I("div", Jt, L(t.value), 1)) : H("", !0)
@@ -801,7 +801,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       hideBottomSpace: a(l).fieldHideBottomSpace,
       color: a(l).fieldColor,
       bgColor: a(l).fieldBgColor,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       "lazy-rules": s,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -961,7 +961,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       hideBottomSpace: a(i).fieldHideBottomSpace,
       color: a(i).fieldColor,
       bgColor: a(i).fieldBgColor,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       "lazy-rules": c,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -1127,7 +1127,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       hideBottomSpace: a(i).fieldHideBottomSpace,
       color: a(i).fieldColor,
       bgColor: a(i).fieldBgColor,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       "lazy-rules": c,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -1219,7 +1219,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       "lazy-rules": i,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -1275,7 +1275,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       "lazy-rules": i,
       clearable: e.field.clearable,
       prefix: e.field.prefix,
@@ -1330,7 +1330,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       hideBottomSpace: a(n).fieldHideBottomSpace,
       color: a(n).fieldColor,
       bgColor: a(n).fieldBgColor,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       "lazy-rules": i,
       prefix: e.field.prefix,
       suffix: e.field.suffix,
@@ -1470,7 +1470,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ P({
       placeholder: e.field.label,
       square: a(n).fieldSquare,
       dense: a(n).fieldDense,
-      class: K(e.field.cssClass),
+      class: X(e.field.cssClass),
       readonly: e.field.readonly
     }, null, 8, ["model-value", "placeholder", "square", "dense", "class", "readonly"])) : H("", !0);
   }
@@ -1616,7 +1616,7 @@ const an = { class: "flex column" }, on = { class: "row no-wrap items-center q-p
         bordered: a(r).fieldBorderless !== !0,
         square: a(r).fieldSquare,
         color: a(r).fieldColor,
-        class: K(e.field.cssClass),
+        class: X(e.field.cssClass),
         readonly: e.field.readonly,
         onAdded: A,
         onRemoved: u,
@@ -1830,7 +1830,7 @@ const an = { class: "flex column" }, on = { class: "row no-wrap items-center q-p
         bordered: a(r).fieldBorderless !== !0,
         square: a(r).fieldSquare,
         color: a(r).fieldColor,
-        class: K(e.field.cssClass),
+        class: X(e.field.cssClass),
         readonly: e.field.readonly,
         onAdded: m,
         onRemoved: S
@@ -1974,13 +1974,13 @@ class me {
     O(this, "registerEventCallback");
     this.dynamicComponentRecord = r.dynamicComponentRecord ?? {}, this.formMetadataAndData = n, this.resourceId = t, this.context = l, this.resourceName = e, this.formApi = s, this.formSettings = {
       ...i,
-      ...J.getGlobalFormSetting(),
+      ...K.getGlobalFormSetting(),
       backendDateFormat: n.form.backend_date_format,
       backendDatetimeFormat: n.form.backend_datetime_format
     }, this.formStyle = {
       ...c,
-      ...J.getGlobalFormStyle()
-    }, this.actionComponent = r.actionComponent ?? J.getGlobalActionComponent(), this.orphanErrorsComponent = r.orphanErrorsComponent ?? J.getGlobalOrphanErrorComponent(), this.sectionComponent = r.sectionComponent ?? J.getGlobalSectionComponent(), this.wrapperResetComponent = r.wrapperResetComponent ?? J.getGlobalWrapperResetComponent(), this.associationDisplayComponent = r.associationDisplayComponent ?? J.getGlobalAssociationDisplayComponent(), this.registerEventCallback = d ?? (() => {
+      ...K.getGlobalFormStyle()
+    }, this.actionComponent = r.actionComponent ?? K.getGlobalActionComponent(), this.orphanErrorsComponent = r.orphanErrorsComponent ?? K.getGlobalOrphanErrorComponent(), this.sectionComponent = r.sectionComponent ?? K.getGlobalSectionComponent(), this.wrapperResetComponent = r.wrapperResetComponent ?? K.getGlobalWrapperResetComponent(), this.associationDisplayComponent = r.associationDisplayComponent ?? K.getGlobalAssociationDisplayComponent(), this.registerEventCallback = d ?? (() => {
     });
   }
   static getEmptyFormBeforeInit() {
@@ -1988,15 +1988,15 @@ class me {
       resourceName: "",
       sections: [],
       formSettings: {
-        ...J.getGlobalFormSetting(),
+        ...K.getGlobalFormSetting(),
         backendDateFormat: "YYYY/MM/DD",
         backendDatetimeFormat: "YYYY/MM/DD HH:mm"
       },
-      formStyle: J.getGlobalFormStyle(),
+      formStyle: K.getGlobalFormStyle(),
       events: {},
-      actionComponent: X(J.getGlobalActionComponent()),
-      orphanErrorsComponent: X(J.getGlobalOrphanErrorComponent()),
-      wrapperResetComponent: X(J.getGlobalWrapperResetComponent()),
+      actionComponent: J(K.getGlobalActionComponent()),
+      orphanErrorsComponent: J(K.getGlobalOrphanErrorComponent()),
+      wrapperResetComponent: J(K.getGlobalWrapperResetComponent()),
       dynamicComponentRecord: {},
       allowBulk: !1
     };
@@ -2023,7 +2023,7 @@ class me {
         const s = [];
         c.fields.forEach((u) => {
           const B = this.dynamicComponentRecord[`field-${u.field_name}-before`], N = me.getFieldComponentByFormFieldType(u), V = this.dynamicComponentRecord[`field-${u.field_name}-after`], z = {
-            associationDisplayComponent: X(
+            associationDisplayComponent: J(
               this.associationDisplayComponent
             ),
             regularFieldType: me.getRegularFieldTypeByFieldType(
@@ -2048,9 +2048,9 @@ class me {
             rules: u.rules,
             clearable: this.formMetadataAndData.form.clearable ?? void 0,
             hidden: !1,
-            beforeComponent: B ? X(B) : void 0,
-            mainComponent: X(N),
-            afterComponent: V ? X(V) : void 0,
+            beforeComponent: B ? J(B) : void 0,
+            mainComponent: J(N),
+            afterComponent: V ? J(V) : void 0,
             events: r.fields[u.field_name] ?? {},
             componentOptions: z
           };
@@ -2064,10 +2064,10 @@ class me {
           name: c.name ?? l.toString(),
           readonly: this.formMetadataAndData.form.readonly ?? c.readonly ?? void 0,
           events: r.sections[c.name ?? l.toString()] ?? {},
-          beforeComponent: d ? X(d) : void 0,
-          mainComponent: X(m),
+          beforeComponent: d ? J(d) : void 0,
+          mainComponent: J(m),
           fieldsComponent: void 0,
-          afterComponent: S ? X(S) : void 0,
+          afterComponent: S ? J(S) : void 0,
           fields: s
         };
         n.push(A);
@@ -2085,9 +2085,9 @@ class me {
       readonly: this.formMetadataAndData.form.readonly ?? void 0,
       allowBulk: this.formMetadataAndData.form.allow_bulk ?? !1,
       events: r.form,
-      actionComponent: X(this.actionComponent),
-      orphanErrorsComponent: X(this.orphanErrorsComponent),
-      wrapperResetComponent: X(this.wrapperResetComponent),
+      actionComponent: J(this.actionComponent),
+      orphanErrorsComponent: J(this.orphanErrorsComponent),
+      wrapperResetComponent: J(this.wrapperResetComponent),
       dynamicComponentRecord: this.dynamicComponentRecord,
       context: this.context
     };
@@ -2281,7 +2281,7 @@ const yn = { class: "flex column" }, bn = /* @__PURE__ */ P({
           );
         }
       });
-      t.privateFormApi.setSectionFieldComponent(t.section, x);
+      t.privateFormApi.setSectionFieldComponent(t.section, J(x));
     }
     e(l);
     const te = ie(() => V()), ve = ie(() => z()), oe = ie(() => G());
@@ -2565,7 +2565,7 @@ function _n(o, e) {
           Zn(
             () => {
               var S;
-              return (S = e.getFieldByName(o.metadata.field_name)) == null ? void 0 : S.getValueSerialized();
+              return (S = e.getFieldByName(o.metadata.field_name)) == null ? void 0 : S.field.attachmentData;
             }
           )
         );
@@ -3566,7 +3566,7 @@ const ua = {
       });
     }), (f, _) => we((h(), I("div", ma, [
       j("div", {
-        class: K(u.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
+        class: X(u.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
         (h(!0), I(pe, null, ge(u.value.sections, (R) => (h(), q(bn, {
           key: R.name,
@@ -3600,6 +3600,6 @@ const ua = {
 });
 export {
   Be as DynamicLogicBuilder,
-  J as Submit64,
+  K as Submit64,
   va as Submit64Form
 };

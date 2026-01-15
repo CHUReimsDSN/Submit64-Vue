@@ -142,9 +142,8 @@ function computeServerRules(field, formApi) {
                 break;
             // file
             case "requiredFile":
-                rules.push(requiredFile(() => formApi
-                    .getFieldByName(field.metadata.field_name)
-                    ?.getValueSerialized()));
+                rules.push(requiredFile(() => formApi.getFieldByName(field.metadata.field_name)?.field
+                    .attachmentData));
                 break;
             case "allowFileContentType":
                 rules.push(allowFileContentType(getCompareToValueRule(rule, "including")));

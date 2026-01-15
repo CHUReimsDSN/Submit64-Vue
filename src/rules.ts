@@ -81,7 +81,7 @@ function computeServerRules(
   field: TFormField,
   formApi: TSubmit64FormApi
 ): TSubmit64ValidationRule[] {
-  const metadataRules = field.rules ?? []
+  const metadataRules = field.rules ?? [];
   const fieldType = field.type;
   const form = formApi.form;
   const getCompareToValueRule = (
@@ -325,9 +325,8 @@ function computeServerRules(
         rules.push(
           requiredFile(
             () =>
-              formApi
-                .getFieldByName(field.metadata.field_name)
-                ?.getValueSerialized() as TFormField["attachmentData"]
+              formApi.getFieldByName(field.metadata.field_name)?.field
+                .attachmentData
           )
         );
         break;
@@ -677,8 +676,8 @@ function isStrictDate(val: unknown, format: string) {
 function requiredFile(attachmentData: () => TFormField["attachmentData"]) {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
-    console.log(fileValue)
-    console.log(attachmentData())
+    console.log(fileValue);
+    console.log(attachmentData());
     return (
       fileValue.add.length > 0 ||
       (attachmentData()?.length ?? 0) - fileValue.delete.length === 0 ||
