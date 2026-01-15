@@ -133,7 +133,7 @@ onMounted(() => {
 <template>
   <div class="flex column">
 
-    <q-uploader hide-upload-btn :multiple="false" :label="propsComponent.field.label"
+    <q-uploader hide-upload-btn :multiple="true" :label="propsComponent.field.label"
       :bordered="styleConfig.fieldBorderless !== true" :square="styleConfig.fieldSquare" :color="styleConfig.fieldColor"
       :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly" @added="addPendingFile"
       @removed="removePendingFile" style="width: inherit;">

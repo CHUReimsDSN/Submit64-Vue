@@ -1867,7 +1867,7 @@ const an = { class: "flex column" }, on = { class: "row no-wrap items-center q-p
     }), (v, c) => (h(), q("div", mn, [
       S(a(Ye), {
         "hide-upload-btn": "",
-        multiple: !1,
+        multiple: !0,
         label: e.field.label,
         bordered: a(r).fieldBorderless !== !0,
         square: a(r).fieldSquare,
