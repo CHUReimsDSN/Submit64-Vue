@@ -1,6 +1,8 @@
 import { date } from "quasar";
 import { humanStorageSize } from "./utils";
-function computeServerRules(metadataRules, fieldType, formApi) {
+function computeServerRules(field, formApi) {
+    const metadataRules = field.rules ?? [];
+    const fieldType = field.type;
     const form = formApi.form;
     const getCompareToValueRule = (rule, operateTo, dateMode) => {
         if (rule[operateTo]) {
@@ -139,6 +141,11 @@ function computeServerRules(metadataRules, fieldType, formApi) {
                 rules.push(otherThanDate(getCompareToValueRule(rule, "other_than", true), form.formSettings.dateFormat));
                 break;
             // file
+            case "requiredFile":
+                rules.push(requiredFile(() => formApi
+                    .getFieldByName(field.metadata.field_name)
+                    ?.getValueSerialized()));
+                break;
             case "allowFileContentType":
                 rules.push(allowFileContentType(getCompareToValueRule(rule, "including")));
                 break;
@@ -405,6 +412,14 @@ function isStrictDate(val, format) {
     return reformatted === val;
 }
 // file
+function requiredFile(attachmentData) {
+    return (val) => {
+        const fileValue = val;
+        return (fileValue.add.length > 0 ||
+            (attachmentData()?.length ?? 0) - fileValue.delete.length === 0 ||
+            "Ce champ est requis");
+    };
+}
 function allowFileContentType(contentTypes) {
     return (val) => {
         const fileValue = val;

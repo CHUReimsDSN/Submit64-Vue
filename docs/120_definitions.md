@@ -400,6 +400,7 @@ type TWhenArgs = {
   "Field is reseted": { fieldName: string };
   "Field is hidden": { fieldName: string };
   "Field is unhidden": { fieldName: string };
+  "Field is ready": { fieldName: string };
   "Section is valid": { sectionName: string };
   "Section is invalid": { sectionName: string };
   "Section is updated": { sectionName: string };
@@ -408,6 +409,7 @@ type TWhenArgs = {
   "Section is unhidden": { sectionName: string };
   "Section is cleared": { sectionName: string };
   "Section is reseted": { sectionName: string };
+  "Section is ready": { sectionName: string };
   "Form is ready": undefined;
   "Form is submited": undefined;
   "Form submit is successful": undefined;
@@ -551,12 +553,10 @@ const propsComponent = defineProps<TSubmit64SectionProps>();
     </div>
 
     <div class="flex column q-gutter-md">
-      <slot></slot>
+      <component :is="propsComponent.sectionApi.section.fieldsComponent" />
     </div>
   </div>
 </template>
-
-
 ```
 
 <br /><br /> 

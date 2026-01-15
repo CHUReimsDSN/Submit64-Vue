@@ -159,7 +159,7 @@ onMounted(() => {
 
       <template v-slot:list="scope">
         <div v-if="!attachmentDataIsEmpty" class="flex column">
-          <div class="text-weight-medium text-body2">Fichier en ligne</div>
+          <div class="text-weight-medium text-body2">Fichier déjà en ligne</div>
           <q-list separator>
             <q-item v-for="file in propsComponent.field.attachmentData ?? []" :key="file.id">
               <q-item-section>

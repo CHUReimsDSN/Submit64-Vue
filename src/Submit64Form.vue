@@ -227,8 +227,8 @@ function getOverridedComponents() {
             slot({
               ...props,
               ...attrs,
-            },
-              innerSlots);
+              innerSlots
+            });
         },
       });
       switch (key) {

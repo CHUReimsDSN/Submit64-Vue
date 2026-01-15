@@ -114,7 +114,7 @@ import { Submit64Form } from "submit64-vue";
         </div>
 
         <div class="flex column items-start">
-          <component :is="propsSection.sectionApi.slots?.default" /> <!-- Render all fields -->
+          <component :is="propsComponent.sectionApi.section.fieldsComponent" /> <!-- Render all fields -->
         </div>
         
       </div>
@@ -152,7 +152,7 @@ const propsComponent = defineProps<TSubmit64SectionProps>()
     </div>
 
     <div class="flex column items-start">
-      <slot></slot> <!-- Render all fields -->
+      <component :is="propsComponent.sectionApi.section.fieldsComponent" /> <!-- Render all fields -->
     </div>
     
   </div>
@@ -166,11 +166,6 @@ type TSubmit64SectionProps = {
   formApi: TSubmit64FormApi;
   sectionApi: TSubmit64SectionApi;
 };
-```
-
-Slots disponibles :
-```typescript
-defaultSlot // Slot par défaut, affiche les champs
 ```
 
 <br /><br /> 
