@@ -677,6 +677,7 @@ function isStrictDate(val: unknown, format: string) {
 function requiredFile(attachmentData: () => TFormField["attachmentData"]) {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
+    console.log(fileValue)
     return (
       fileValue.add.length > 0 ||
       (attachmentData()?.length ?? 0) - fileValue.delete.length === 0 ||
