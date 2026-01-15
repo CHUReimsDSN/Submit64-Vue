@@ -49,7 +49,8 @@ export type TResourceFieldMetadata = {
         data: TRecord;
     }[];
     field_attachment_data?: {
-        id: TRecord["id"];
+        blob_id: TRecord["id"];
+        attachment_id: TRecord["id"];
         filename: string;
         size: number;
     }[];
@@ -122,6 +123,7 @@ export type TFormSection = {
     readonly?: boolean;
     beforeComponent?: Readonly<Component> | undefined;
     mainComponent: Readonly<Component>;
+    fieldsComponent: Readonly<Component>;
     afterComponent?: Readonly<Component> | undefined;
     events: Readonly<TFormSectionEvent>;
 };
@@ -143,7 +145,8 @@ export type TFormField = {
         data: TRecord;
     }[];
     attachmentData?: {
-        id: TRecord["id"];
+        attachment_id: TRecord["id"];
+        blob_id: TRecord["id"];
         filename: string;
         size: number;
     }[];
@@ -190,6 +193,7 @@ export type TSubmit64FormPrivateApi = {
     getFieldRef: (fieldName: string) => TFormField | undefined;
     registerSectionWrapperRef: (sectionName: string, sectionComponent: TSubmit64SectionApi) => void;
     registerFieldWrapperRef: (fieldName: string, fieldComponent: TSubmit64FieldApi) => void;
+    setSectionFieldComponent: (section: TFormSection, component: Component) => void;
 };
 export type TSubmit64SectionApi = {
     reset: () => void;
@@ -346,7 +350,7 @@ export type TSubmit64OverridedComponents = Partial<{
 }>;
 export type TSubmit64FileDataValue = {
     add: TSubmit64FilePending[];
-    delete: Required<TFormField>["attachmentData"][number]["id"][];
+    delete: Required<TFormField>["attachmentData"][number]["attachment_id"][];
 };
 export type TSubmit64FilePending = {
     key: string;

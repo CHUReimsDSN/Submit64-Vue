@@ -1,6 +1,8 @@
 import { date } from "quasar";
 import { humanStorageSize } from "./utils";
-function computeServerRules(metadataRules, fieldType, formApi) {
+function computeServerRules(field, formApi) {
+    const metadataRules = field.rules ?? [];
+    const fieldType = field.type;
     const form = formApi.form;
     const getCompareToValueRule = (rule, operateTo, dateMode) => {
         if (rule[operateTo]) {
@@ -139,6 +141,9 @@ function computeServerRules(metadataRules, fieldType, formApi) {
                 rules.push(otherThanDate(getCompareToValueRule(rule, "other_than", true), form.formSettings.dateFormat));
                 break;
             // file
+            case "requiredUploadFile":
+                rules.push(requiredUploadFile());
+                break;
             case "allowFileContentType":
                 rules.push(allowFileContentType(getCompareToValueRule(rule, "including")));
                 break;
@@ -405,6 +410,12 @@ function isStrictDate(val, format) {
     return reformatted === val;
 }
 // file
+function requiredUploadFile() {
+    return (val) => {
+        const fileValue = val;
+        return fileValue.add.length > 0 || "Ce champ est requis";
+    };
+}
 function allowFileContentType(contentTypes) {
     return (val) => {
         const fileValue = val;
@@ -471,10 +482,10 @@ function lowerThanOrEqualFileLength(fileLength) {
         return (valid || `Taille par fichier max. ${humanStorageSize(fileLengthValue)}`);
     };
 }
-function lessThanOrEqualFileCount(fileCount) {
+function lessThanOrEqualFileCount(fileCountAdd) {
     return (val) => {
         const fileValue = val;
-        const fileCountValue = fileCount();
+        const fileCountValue = fileCountAdd();
         const valid = fileValue.add.length <= fileCountValue;
         return (valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} max.`);
     };

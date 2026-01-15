@@ -166,8 +166,7 @@ function clear() {
 }
 function getComputedRules() {
   return Submit64Rules.computeServerRules(
-    propsComponent.field.rules ?? [],
-    propsComponent.field.type,
+    propsComponent.field,
     propsComponent.formApi
   );
 }

@@ -10,6 +10,7 @@ import {
   computed,
   type Ref,
   type WatchStopHandle,
+  type Component,
 } from "vue";
 import type {
   TForm,
@@ -24,10 +25,12 @@ import type {
   TContext,
   TSubmit64FormPrivateApi,
   TSubmit64SubmitData,
+  TFormSection,
 } from "./models";
 import { FormFactory } from "./form-factory";
 import { callAllEvents } from "./utils";
 import SectionWrapper from "./components/SectionWrapper.vue";
+import FieldWrapper from "./components/FieldWrapper.vue";
 
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
@@ -224,8 +227,8 @@ function getOverridedComponents() {
             slot({
               ...props,
               ...attrs,
-            },
-          innerSlots);
+              innerSlots
+            });
         },
       });
       switch (key) {
@@ -424,6 +427,12 @@ function registerFieldWrapperRef(
     setupFieldsIsDone.value = true;
   }
 }
+function setSectionFieldComponent(
+  section: TFormSection,
+  component: Component
+) {
+  section.fieldsComponent = component;
+}
 
 // apis
 const privateFormApi: TSubmit64FormPrivateApi = {
@@ -432,6 +441,7 @@ const privateFormApi: TSubmit64FormPrivateApi = {
   getFieldRef,
   registerSectionWrapperRef,
   registerFieldWrapperRef,
+  setSectionFieldComponent,
 };
 
 const formReactive = new Proxy({} as TForm, {
@@ -550,23 +560,14 @@ onMounted(async () => {
 <template>
   <div v-show="setupIsDone" class="flex column">
     <div :class="form.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
-      <SectionWrapper
-        v-for="section in form.sections"
-        :key="section.name"
-        :section="section"
-        :formApi="formApi"
-        :privateFormApi="privateFormApi"
-      />
+      <SectionWrapper v-for="section in form.sections" :key="section.name" :section="section" :formApi="formApi"
+        :privateFormApi="privateFormApi">
+
+        <FieldWrapper v-for="field in section.fields" :key="field.metadata.field_name" :field="field" :formApi="formApi"
+          :privateFormApi="privateFormApi" />
+      </SectionWrapper>
     </div>
-    <component
-      :is="form.orphanErrorsComponent"
-      :orphanErrors="orphanErrors"
-      :formApi="formApi"
-    />
-    <component
-      :is="form.actionComponent"
-      :isLoadingSubmit="isLoadingSubmit"
-      :formApi="formApi"
-    />
+    <component :is="form.orphanErrorsComponent" :orphanErrors="orphanErrors" :formApi="formApi" />
+    <component :is="form.actionComponent" :isLoadingSubmit="isLoadingSubmit" :formApi="formApi" />
   </div>
 </template>

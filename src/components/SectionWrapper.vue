@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import {
   computed,
+  defineComponent,
   getCurrentInstance,
+  markRaw,
   nextTick,
   onMounted,
   ref,
+  useSlots,
   watch,
   type WatchStopHandle,
 } from "vue";
@@ -14,7 +17,6 @@ import type {
   TSubmit64SectionWrapperProps,
 } from "../models";
 import { callAllEvents } from "../utils";
-import FieldWrapper from "./FieldWrapper.vue";
 
 // props
 const propsComponent = defineProps<TSubmit64SectionWrapperProps>();
@@ -25,6 +27,7 @@ let stopWatchIsInvalid: WatchStopHandle | null = null;
 let stopWatchIsUpdated: WatchStopHandle | null = null;
 
 // consts
+const slots = useSlots();
 const sectionApi: TSubmit64SectionApi = {
   softReset,
   reset,
@@ -171,6 +174,25 @@ function getValuesFormSerialized() {
   }
   return resourceData;
 }
+function setFieldComponentWithSlot() {
+  const defaultSlot = slots['default']
+  if (!defaultSlot) {
+    console.error("Submit64 : did not found fields slot for section " + propsComponent.section.name)
+    return
+  }
+  const component = defineComponent({
+    inheritAttrs: false,
+    setup(props, { attrs, slots: innerSlots }) {
+      return () =>
+        defaultSlot({
+          ...props,
+          ...attrs,
+        },
+          innerSlots);
+    },
+  });
+  propsComponent.privateFormApi.setSectionFieldComponent(propsComponent.section, markRaw(component))
+}
 
 // exposes
 defineExpose(sectionApi);
@@ -237,6 +259,7 @@ watch(
 
 // lifeCycle
 onMounted(() => {
+  setFieldComponentWithSlot()
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef) {
     propsComponent.privateFormApi.registerSectionWrapperRef(
@@ -255,10 +278,7 @@ onMounted(() => {
   <div v-show="propsComponent.section.hidden !== true" class="flex column">
     <Component v-if="propsComponent.section.beforeComponent" :is="propsComponent.section.beforeComponent"
       :formApi="propsComponent.formApi" :sectionApi="sectionApi" />
-    <Component :is="propsComponent.section.mainComponent" :sectionApi="sectionApi" :formApi="propsComponent.formApi">
-      <FieldWrapper v-for="field in section.fields" :key="field.metadata.field_name" :field="field" :formApi="formApi"
-        :privateFormApi="privateFormApi" />
-    </Component>
+    <Component :is="propsComponent.section.mainComponent" :sectionApi="sectionApi" :formApi="propsComponent.formApi" />
     <Component v-if="propsComponent.section.afterComponent" :is="propsComponent.section.afterComponent"
       :formApi="propsComponent.formApi" :sectionApi="sectionApi" />
   </div>

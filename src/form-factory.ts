@@ -230,6 +230,7 @@ export class FormFactory {
             ? markRaw(beforeComponent)
             : undefined,
           mainComponent: markRaw(mainComponent),
+          fieldsComponent: undefined as unknown as Component,
           afterComponent: afterComponent ? markRaw(afterComponent) : undefined,
           fields,
         };

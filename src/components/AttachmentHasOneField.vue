@@ -29,7 +29,7 @@ function clear() {
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
   modelValue.add = []
   modelValue.delete = propsComponent.field.attachmentData?.map((attachment) => {
-    return attachment.id
+    return attachment.attachment_id
   }) ?? []
   propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
@@ -72,33 +72,29 @@ async function addPendingFile(files: readonly any[]) {
   }
   const properFile = await quasarFileToSubmit64File(files[0]);
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.add.push(properFile)
+  modelValue.add = [properFile]
   propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
-async function removePendingFile(files: readonly any[]) {
+function removePendingFile(files: readonly any[]) {
   if (!files[0]) {
     return;
   }
-  const properFile = await quasarFileToSubmit64File(files[0]);
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.add = modelValue.add.filter((file) => {
-    return file.key !== properFile.key
-  })
+  modelValue.add = []
+  modelValue.delete = []
   propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
 function removeUploadedFile(uploadedAttachment: TUploadedAttachment) {
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.delete.push(uploadedAttachment.id)
+  modelValue.delete = [uploadedAttachment.attachment_id]
   propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
-function keepUploadedFile(uploadedAttachment: TUploadedAttachment) {
+function keepUploadedFile() {
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.delete = modelValue.delete.filter((attachmentId) => {
-    return attachmentId !== uploadedAttachment.id;
-  })
+  modelValue.delete = []
   propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
@@ -159,9 +155,9 @@ onMounted(() => {
 
       <template v-slot:list="scope">
         <div v-if="!attachmentDataIsEmpty" class="flex column">
-          <div class="text-weight-medium text-body2">Fichier en ligne</div>
+          <div class="text-weight-medium text-body2">Fichier déjà en ligne</div>
           <q-list separator>
-            <q-item v-for="file in propsComponent.field.attachmentData ?? []" :key="file.id">
+            <q-item v-for="file in propsComponent.field.attachmentData ?? []" :key="file.attachment_id">
               <q-item-section>
                 <q-item-label class="full-width ellipsis">
                   {{ file.filename }}
@@ -173,13 +169,13 @@ onMounted(() => {
               </q-item-section>
 
               <q-item-section v-if="propsComponent.modelValue" top side>
-                <q-btn v-if="!modelValueDeleteIds.includes(file.id)" class="gt-xs" size="12px"
+                <q-btn v-if="!modelValueDeleteIds.includes(file.attachment_id)" class="gt-xs" size="12px"
                   :disable="propsComponent.field.readonly" flat dense round icon="delete"
                   @click="removeUploadedFile(file)" />
                 <q-btn
-                  v-if="modelValueDeleteIds.includes(file.id) && (propsComponent.modelValue as TSubmit64FileDataValue).add.length === 0"
+                  v-if="modelValueDeleteIds.includes(file.attachment_id) && (propsComponent.modelValue as TSubmit64FileDataValue).add.length === 0"
                   class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round icon="refresh"
-                  @click="keepUploadedFile(file)" />
+                  @click="keepUploadedFile" />
               </q-item-section>
             </q-item>
           </q-list>
@@ -188,7 +184,7 @@ onMounted(() => {
         <q-separator v-if="!attachmentDataIsEmpty && scope.files.length > 0" />
 
         <div v-if="scope.files.length > 0" class="flex column">
-          <div class="text-weight-medium text-body2">Fichier à télécharger</div>
+          <div class="text-weight-medium text-body2">Fichier de remplacement</div>
           <q-list separator>
             <q-item v-for="file in scope.files" :key="file.__key">
               <q-item-section>

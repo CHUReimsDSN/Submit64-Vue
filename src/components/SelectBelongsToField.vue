@@ -117,7 +117,7 @@ function onVirtualScroll(scrollArgs: {
   const lastIndex = selectOptionsFiltered.value.length - 1;
   if (
     selectOptionsScrollPagination.value.isLoading !== true &&
-    selectOptionsScrollPagination.value.nextPage <
+    selectOptionsScrollPagination.value.nextPage <=
     selectOptionsScrollPagination.value.lastPage &&
     scrollArgs.to === lastIndex &&
     lastIndex !== -1

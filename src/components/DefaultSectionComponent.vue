@@ -21,7 +21,7 @@ const propsComponent = defineProps<TSubmit64SectionProps>();
     </div>
 
     <div class="flex column q-gutter-md">
-      <slot></slot>
+      <component :is="propsComponent.sectionApi.section.fieldsComponent" />
     </div>
   </div>
 </template>

@@ -51,6 +51,7 @@ export type TSubmit64Rule = {
     | "validDate"
 
     // file
+    | "requiredUploadFile"
     | "allowFileContentType"
     | "lessThanOrEqualFileLength"
     | "greaterThanOrEqualFileLength"
@@ -77,10 +78,11 @@ type TSubmit64RuleOperateTo = TSubmit64Rule & {
 };
 type TUpperRule = "allowNull" | "allowBlank";
 function computeServerRules(
-  metadataRules: TSubmit64Rule[],
-  fieldType: TFormField["type"],
+  field: TFormField,
   formApi: TSubmit64FormApi
 ): TSubmit64ValidationRule[] {
+  const metadataRules = field.rules ?? [];
+  const fieldType = field.type;
   const form = formApi.form;
   const getCompareToValueRule = (
     rule: TSubmit64RuleOperateTo,
@@ -319,6 +321,11 @@ function computeServerRules(
         break;
 
       // file
+      case "requiredUploadFile":
+        rules.push(
+          requiredUploadFile()
+        );
+        break;
       case "allowFileContentType":
         rules.push(
           allowFileContentType(
@@ -326,7 +333,6 @@ function computeServerRules(
           )
         );
         break;
-
       case "equalToFileLength":
         rules.push(
           equalsToFileLength(
@@ -334,7 +340,6 @@ function computeServerRules(
           )
         );
         break;
-
       case "lessThanOrEqualFileLength":
         rules.push(
           lowerThanOrEqualFileLength(
@@ -342,8 +347,6 @@ function computeServerRules(
           )
         );
         break;
-
-
       case "greaterThanOrEqualFileLength":
         rules.push(
           greaterThanOrEqualFileLength(
@@ -351,15 +354,13 @@ function computeServerRules(
           )
         );
         break;
-
       case "lessThanOrEqualFileCount":
         rules.push(
           lessThanOrEqualFileCount(
-            getCompareToValueRule(rule, "less_than") as () => number
+            getCompareToValueRule(rule, "less_than") as () => number,
           )
         );
         break;
-
       case "greaterThanOrEqualFileCount":
         rules.push(
           greaterThanOrEqualFileCount(
@@ -367,14 +368,12 @@ function computeServerRules(
           )
         );
         break;
-
       case "lessThanOrEqualTotalFileSize":
         rules.push(
           lessThanOrEqualTotalFileSize(
             getCompareToValueRule(rule, "less_than") as () => number
           )
         );
-
       case "greaterThanOrEqualTotalFileSize":
         rules.push(
           greaterThanOrEqualTotalFileSize(
@@ -382,7 +381,6 @@ function computeServerRules(
           )
         );
         break;
-
       case "equalToTotalFileSize":
         rules.push(
           equalTotalFileSize(
@@ -671,6 +669,12 @@ function isStrictDate(val: unknown, format: string) {
 }
 
 // file
+function requiredUploadFile() {
+  return (val: unknown) => {
+    const fileValue = val as TSubmit64FileDataValue;
+    return fileValue.add.length > 0 || "Ce champ est requis";
+  };
+}
 function allowFileContentType(contentTypes: () => string[]) {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
@@ -745,10 +749,10 @@ function lowerThanOrEqualFileLength(fileLength: () => number) {
     );
   };
 }
-function lessThanOrEqualFileCount(fileCount: () => number) {
+function lessThanOrEqualFileCount(fileCountAdd: () => number) {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
-    const fileCountValue = fileCount();
+    const fileCountValue = fileCountAdd();
     const valid = fileValue.add.length <= fileCountValue;
     return (
       valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} max.`
