@@ -141,8 +141,8 @@ function computeServerRules(field, formApi) {
                 rules.push(otherThanDate(getCompareToValueRule(rule, "other_than", true), form.formSettings.dateFormat));
                 break;
             // file
-            case "requiredFile":
-                rules.push(requiredFile());
+            case "requiredUploadFile":
+                rules.push(requiredUploadFile());
                 break;
             case "allowFileContentType":
                 rules.push(allowFileContentType(getCompareToValueRule(rule, "including")));
@@ -157,10 +157,10 @@ function computeServerRules(field, formApi) {
                 rules.push(greaterThanOrEqualFileLength(getCompareToValueRule(rule, "greater_than")));
                 break;
             case "lessThanOrEqualFileCount":
-                rules.push(lessThanOrEqualFileCount(getCompareToValueRule(rule, "less_than")));
+                rules.push(lessThanOrEqualFileCount(getCompareToValueRule(rule, "less_than"), () => field.attachmentData));
                 break;
             case "greaterThanOrEqualFileCount":
-                rules.push(greaterThanOrEqualFileCount(getCompareToValueRule(rule, "greater_than")));
+                rules.push(greaterThanOrEqualFileCount(getCompareToValueRule(rule, "greater_than"), () => field.attachmentData));
                 break;
             case "lessThanOrEqualTotalFileSize":
                 rules.push(lessThanOrEqualTotalFileSize(getCompareToValueRule(rule, "less_than")));
@@ -410,7 +410,7 @@ function isStrictDate(val, format) {
     return reformatted === val;
 }
 // file
-function requiredFile() {
+function requiredUploadFile() {
     return (val) => {
         const fileValue = val;
         return fileValue.add.length > 0 || "Ce champ est requis";
@@ -482,19 +482,21 @@ function lowerThanOrEqualFileLength(fileLength) {
         return (valid || `Taille par fichier max. ${humanStorageSize(fileLengthValue)}`);
     };
 }
-function lessThanOrEqualFileCount(fileCount) {
+function lessThanOrEqualFileCount(fileCountAdd, attachmentData) {
     return (val) => {
         const fileValue = val;
-        const fileCountValue = fileCount();
-        const valid = fileValue.add.length <= fileCountValue;
+        const fileCountValue = fileCountAdd();
+        const attachmentDataValue = attachmentData();
+        const valid = fileValue.add.length + (attachmentDataValue?.length ?? 0) - fileValue.delete.length <= fileCountValue;
         return (valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} max.`);
     };
 }
-function greaterThanOrEqualFileCount(fileCount) {
+function greaterThanOrEqualFileCount(fileCount, attachmentData) {
     return (val) => {
         const fileValue = val;
         const fileCountValue = fileCount();
-        const valid = fileValue.add.length >= fileCountValue;
+        const attachmentDataValue = attachmentData();
+        const valid = fileValue.add.length + (attachmentDataValue?.length ?? 0) - fileValue.delete.length >= fileCountValue;
         return (valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} min.`);
     };
 }

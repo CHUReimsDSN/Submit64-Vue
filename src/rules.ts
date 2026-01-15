@@ -51,7 +51,7 @@ export type TSubmit64Rule = {
     | "validDate"
 
     // file
-    | "requiredFile"
+    | "requiredUploadFile"
     | "allowFileContentType"
     | "lessThanOrEqualFileLength"
     | "greaterThanOrEqualFileLength"
@@ -321,9 +321,9 @@ function computeServerRules(
         break;
 
       // file
-      case "requiredFile":
+      case "requiredUploadFile":
         rules.push(
-          requiredFile()
+          requiredUploadFile()
         );
         break;
       case "allowFileContentType":
@@ -357,14 +357,16 @@ function computeServerRules(
       case "lessThanOrEqualFileCount":
         rules.push(
           lessThanOrEqualFileCount(
-            getCompareToValueRule(rule, "less_than") as () => number
+            getCompareToValueRule(rule, "less_than") as () => number,
+            () => field.attachmentData
           )
         );
         break;
       case "greaterThanOrEqualFileCount":
         rules.push(
           greaterThanOrEqualFileCount(
-            getCompareToValueRule(rule, "greater_than") as () => number
+            getCompareToValueRule(rule, "greater_than") as () => number,
+            () => field.attachmentData
           )
         );
         break;
@@ -669,7 +671,7 @@ function isStrictDate(val: unknown, format: string) {
 }
 
 // file
-function requiredFile() {
+function requiredUploadFile() {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
     return fileValue.add.length > 0 || "Ce champ est requis";
@@ -749,21 +751,23 @@ function lowerThanOrEqualFileLength(fileLength: () => number) {
     );
   };
 }
-function lessThanOrEqualFileCount(fileCount: () => number) {
+function lessThanOrEqualFileCount(fileCountAdd: () => number, attachmentData: () => TFormField['attachmentData']) {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
-    const fileCountValue = fileCount();
-    const valid = fileValue.add.length <= fileCountValue;
+    const fileCountValue = fileCountAdd();
+    const attachmentDataValue = attachmentData();
+    const valid = fileValue.add.length + (attachmentDataValue?.length ?? 0) - fileValue.delete.length <= fileCountValue;
     return (
       valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} max.`
     );
   };
 }
-function greaterThanOrEqualFileCount(fileCount: () => number) {
+function greaterThanOrEqualFileCount(fileCount: () => number, attachmentData: () => TFormField['attachmentData']) {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
     const fileCountValue = fileCount();
-    const valid = fileValue.add.length >= fileCountValue;
+    const attachmentDataValue = attachmentData();
+    const valid = fileValue.add.length + (attachmentDataValue?.length ?? 0) - fileValue.delete.length >= fileCountValue;
     return (
       valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} min.`
     );
