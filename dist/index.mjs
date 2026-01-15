@@ -916,7 +916,7 @@ const Ht = { class: "row items-center justify-end" }, Gt = /* @__PURE__ */ H({
     }
     function $(v) {
       const c = r.value.length - 1;
-      if (s.value.isLoading !== !0 && s.value.nextPage < s.value.lastPage && v.to === c && c !== -1) {
+      if (s.value.isLoading !== !0 && s.value.nextPage <= s.value.lastPage && v.to === c && c !== -1) {
         const d = e.formApi.form, x = e.formApi.getAssociationDataCallback();
         s.value.isLoading = !0, x({
           resourceName: d.resourceName,
