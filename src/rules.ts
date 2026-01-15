@@ -358,15 +358,13 @@ function computeServerRules(
         rules.push(
           lessThanOrEqualFileCount(
             getCompareToValueRule(rule, "less_than") as () => number,
-            () => field.attachmentData
           )
         );
         break;
       case "greaterThanOrEqualFileCount":
         rules.push(
           greaterThanOrEqualFileCount(
-            getCompareToValueRule(rule, "greater_than") as () => number,
-            () => field.attachmentData
+            getCompareToValueRule(rule, "greater_than") as () => number
           )
         );
         break;
@@ -751,23 +749,21 @@ function lowerThanOrEqualFileLength(fileLength: () => number) {
     );
   };
 }
-function lessThanOrEqualFileCount(fileCountAdd: () => number, attachmentData: () => TFormField['attachmentData']) {
+function lessThanOrEqualFileCount(fileCountAdd: () => number) {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
     const fileCountValue = fileCountAdd();
-    const attachmentDataValue = attachmentData();
-    const valid = fileValue.add.length + (attachmentDataValue?.length ?? 0) - fileValue.delete.length <= fileCountValue;
+    const valid = fileValue.add.length <= fileCountValue;
     return (
       valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} max.`
     );
   };
 }
-function greaterThanOrEqualFileCount(fileCount: () => number, attachmentData: () => TFormField['attachmentData']) {
+function greaterThanOrEqualFileCount(fileCount: () => number) {
   return (val: unknown) => {
     const fileValue = val as TSubmit64FileDataValue;
     const fileCountValue = fileCount();
-    const attachmentDataValue = attachmentData();
-    const valid = fileValue.add.length + (attachmentDataValue?.length ?? 0) - fileValue.delete.length >= fileCountValue;
+    const valid = fileValue.add.length >= fileCountValue;
     return (
       valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} min.`
     );

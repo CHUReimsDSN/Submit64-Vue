@@ -157,10 +157,10 @@ function computeServerRules(field, formApi) {
                 rules.push(greaterThanOrEqualFileLength(getCompareToValueRule(rule, "greater_than")));
                 break;
             case "lessThanOrEqualFileCount":
-                rules.push(lessThanOrEqualFileCount(getCompareToValueRule(rule, "less_than"), () => field.attachmentData));
+                rules.push(lessThanOrEqualFileCount(getCompareToValueRule(rule, "less_than")));
                 break;
             case "greaterThanOrEqualFileCount":
-                rules.push(greaterThanOrEqualFileCount(getCompareToValueRule(rule, "greater_than"), () => field.attachmentData));
+                rules.push(greaterThanOrEqualFileCount(getCompareToValueRule(rule, "greater_than")));
                 break;
             case "lessThanOrEqualTotalFileSize":
                 rules.push(lessThanOrEqualTotalFileSize(getCompareToValueRule(rule, "less_than")));
@@ -482,21 +482,19 @@ function lowerThanOrEqualFileLength(fileLength) {
         return (valid || `Taille par fichier max. ${humanStorageSize(fileLengthValue)}`);
     };
 }
-function lessThanOrEqualFileCount(fileCountAdd, attachmentData) {
+function lessThanOrEqualFileCount(fileCountAdd) {
     return (val) => {
         const fileValue = val;
         const fileCountValue = fileCountAdd();
-        const attachmentDataValue = attachmentData();
-        const valid = fileValue.add.length + (attachmentDataValue?.length ?? 0) - fileValue.delete.length <= fileCountValue;
+        const valid = fileValue.add.length <= fileCountValue;
         return (valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} max.`);
     };
 }
-function greaterThanOrEqualFileCount(fileCount, attachmentData) {
+function greaterThanOrEqualFileCount(fileCount) {
     return (val) => {
         const fileValue = val;
         const fileCountValue = fileCount();
-        const attachmentDataValue = attachmentData();
-        const valid = fileValue.add.length + (attachmentDataValue?.length ?? 0) - fileValue.delete.length >= fileCountValue;
+        const valid = fileValue.add.length >= fileCountValue;
         return (valid || `${fileCountValue} fichier${fileCountValue > 1 ? "s" : ""} min.`);
     };
 }
