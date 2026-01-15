@@ -67,25 +67,23 @@ async function quasarFileToSubmit64File(file: File) {
   return pendingFile;
 }
 async function addPendingFile(files: readonly any[]) {
-  if (!files[0]) {
-    return
+  for (const file of files) {
+    const properFile = await quasarFileToSubmit64File(file);
+    let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
+    modelValue.add.push(properFile)
+    propsComponent.modelValueOnUpdate(modelValue)
   }
-  const properFile = await quasarFileToSubmit64File(files[0]);
-  let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.add.push(properFile)
-  propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
 async function removePendingFile(files: readonly any[]) {
-  if (!files[0]) {
-    return;
+  for (const file of files) {
+    const properFile = await quasarFileToSubmit64File(file);
+    let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
+    modelValue.add = modelValue.add.filter((file) => {
+      return file.key !== properFile.key
+    })
+    propsComponent.modelValueOnUpdate(modelValue)
   }
-  const properFile = await quasarFileToSubmit64File(files[0]);
-  let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.add = modelValue.add.filter((file) => {
-    return file.key !== properFile.key
-  })
-  propsComponent.modelValueOnUpdate(modelValue)
   applyRules()
 }
 function removeUploadedFile(uploadedAttachment: TUploadedAttachment) {
@@ -143,8 +141,7 @@ onMounted(() => {
             <div class="q-uploader__title">{{ propsComponent.field.label }}</div>
             <div v-if="propsComponent.field.hint" class="caption">{{ propsComponent.field.hint }}</div>
           </div>
-          <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles"
-            round dense flat>
+          <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>
             <q-uploader-add-trigger />
           </q-btn>
         </div>
