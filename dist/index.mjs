@@ -2821,7 +2821,7 @@ function Zn(o) {
   return (e) => {
     var r;
     const t = e;
-    return console.log(t), console.log(o()), t.add.length > 0 || (((r = o()) == null ? void 0 : r.length) ?? 0) - t.delete.length === 0 || "Ce champ est requis";
+    return t.add.length > 0 || (((r = o()) == null ? void 0 : r.length) ?? 0) - t.delete.length > 0 || "Ce champ est requis";
   };
 }
 function ea(o) {

@@ -414,10 +414,8 @@ function isStrictDate(val, format) {
 function requiredFile(attachmentData) {
     return (val) => {
         const fileValue = val;
-        console.log(fileValue);
-        console.log(attachmentData());
         return (fileValue.add.length > 0 ||
-            (attachmentData()?.length ?? 0) - fileValue.delete.length === 0 ||
+            (attachmentData()?.length ?? 0) - fileValue.delete.length > 0 ||
             "Ce champ est requis");
     };
 }
