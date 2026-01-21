@@ -114,7 +114,7 @@ import { Submit64Form } from "submit64-vue";
         </div>
 
         <div class="flex column items-start">
-          <component :is="propsComponent.sectionApi.section.fieldsComponent" /> <!-- Render all fields -->
+          <component :is="propsSection.sectionApi.section.fieldsComponent" /> <!-- Render all fields -->
         </div>
         
       </div>

@@ -52,7 +52,6 @@ export type TResourceFieldMetadata = {
     data: TRecord;
   }[];
   field_attachment_data?: {
-    blob_id: TRecord["id"];
     attachment_id: TRecord["id"];
     filename: string;
     size: number;
@@ -192,7 +191,6 @@ export type TFormField = {
   }[];
   attachmentData?: {
     attachment_id: TRecord["id"];
-    blob_id: TRecord["id"];
     filename: string;
     size: number;
   }[];
