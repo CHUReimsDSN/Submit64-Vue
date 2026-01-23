@@ -6,6 +6,7 @@ import { version } from './generated/version'
 export default defineConfig({
   title: "Submit64 - Vue",
   description: "Submit64 for Vue",
+  base: '/Submit64-Vue/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
