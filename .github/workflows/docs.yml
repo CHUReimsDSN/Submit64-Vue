@@ -16,9 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24.13.0'
-        run: cd docs
-        run: npm i
-        run: npm run docs:build
+        run: cd docs && npm i && npm run docs:build
 
         uses: actions/upload-pages-artifact@v3
         with:
