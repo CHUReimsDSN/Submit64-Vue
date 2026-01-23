@@ -114,6 +114,7 @@ function formModelDeserializeByType(value: unknown) {
       );
     case 'selectBelongsTo':
     case 'selectHasOne':
+      console.log(value)
       if (value === undefined) {
         return null
       }
@@ -152,14 +153,8 @@ function clear() {
       modelValue.value = {};
       break;
     case "selectBelongsTo":
-      modelValue.value = undefined;
-      break;
     case "selectHasMany":
-      modelValue.value = undefined;
-      break;
     case "selectHasAndBelongsToMany":
-      modelValue.value = undefined;
-      break;
     case "selectHasOne":
       modelValue.value = undefined;
       break;
