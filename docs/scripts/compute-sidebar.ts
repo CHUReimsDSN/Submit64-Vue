@@ -3,69 +3,88 @@ import path from "path";
 
 type TSidebarEntry = {
   text: string;
-  items: TSidebarItem[];
+  items: TSidebarEntry[];
+  collapsed?: boolean;
 };
-type TSidebarItem = {
-  text: string;
-  link: string;
+type TSidebarFolder = {
+  path: string;
+  label: string;
+  children?: TSidebarFolder[];
 };
 
 export function computeSidebar() {
   const sidebarsData: Record<string, TSidebarEntry[]> = {};
   const fileToWritePath = ".vitepress/generated/sidebar.ts";
-  const foldersSidebar = [
+  const foldersSidebar: TSidebarFolder[] = [
     {
       path: "./documentation",
       label: "Documentation",
       children: [
         {
-          path: "exemples",
+          path: "./documentation/exemples",
           label: "Exemples",
         },
       ],
     },
   ];
-  for (const folder of foldersSidebar) {
-    const folderKey = `/${folder.path.replaceAll(".", "").replaceAll("/", "")}/`;
-    const folderPath = path.resolve(process.cwd(), folder.path);
-    const subFolderList: TSidebarEntry[] = [];
 
-    const getSubFolderEntry = (folderTitle: string, folderPathEntry: string) => {
-      const subFolders: TSidebarEntry = {
-        text: folderTitle,
-        items: [],
-      };
+  const getSidebarEntry = (
+    folder: TSidebarFolder,
+    collapsed = false,
+  ): TSidebarEntry => {
+    const folderAbsPath = path.resolve(process.cwd(), folder.path);
+    const entry: TSidebarEntry = { text: folder.label, items: [] };
 
-      const files = fs
-        .readdirSync(folderPathEntry)
-        .filter((f) => f.endsWith(".md"))
-        .sort();
+    if (!fs.existsSync(folderAbsPath)) {
+      console.warn(`⚠️ Dossier non trouvé: ${folderAbsPath}`);
+      return entry;
+    }
 
-      files.forEach((file) => {
-        const filePath = path.join(folderPathEntry, file);
-        const content = fs.readFileSync(filePath, "utf-8");
-        const title = content.match(/^\s*title:\s*(.+)$/m)?.[0].replaceAll('title: ', '') ?? "???";
+    const files = fs
+      .readdirSync(folderAbsPath)
+      .filter((f) => f.endsWith(".md"))
+      .sort();
 
-        subFolders.items.push({
-          text: title,
-          link: filePath,
-        });
-      });
-      return subFolders;
-    };
-    const firstEntry = getSubFolderEntry(folder.label, folderPath);
-    subFolderList.push(firstEntry);
+    files.forEach((file) => {
+      const filePath = path.join(folderAbsPath, file);
+      const content = fs.readFileSync(filePath, "utf-8");
+      const title =
+        content.match(/^\s*title:\s*(.+)$/m)?.[1]?.trim() ??
+        file.replace(".md", "");
 
-    folder.children.forEach((subFolder) => {
-      const subfolderPath = `.${folderKey}${subFolder.path.replaceAll(".", "").replaceAll("/", "")}/`;
-      const subFolderEntry = getSubFolderEntry(subFolder.label, subfolderPath);
-      subFolderList.push(subFolderEntry);
+      const link =
+        "/" +
+        path.posix.join(
+          path.relative(process.cwd(), filePath).replace(/\\/g, "/"),
+        );
+
+      const item: TSidebarEntry = { text: title, link };
+      if (collapsed) {
+        item.collapsed = true;
+      }
+      entry.items.push(item);
     });
 
-    sidebarsData[folderKey] = subFolderList;
-  }
+    folder.children?.forEach((child) => {
+      const childEntry = getSidebarEntry(child);
+      entry.items.push(childEntry);
+    });
 
-  const sidebarString = `export const sidebar = ${JSON.stringify(sidebarsData)}`;
+    if ((entry.items?.length ?? 0) > 0) {
+      entry.collapsed = true
+    }
+
+    return entry;
+  };
+
+  foldersSidebar.forEach(folder => {
+    const folderKey = `/${folder.path.replace(/^\.\/|\/$/g, "")}/`;
+    sidebarsData[folderKey] = [getSidebarEntry(folder)];
+  });
+
+  const sidebarString = `export const sidebar = ${JSON.stringify(sidebarsData, null, 2)};`;
+  fs.mkdirSync(path.dirname(fileToWritePath), { recursive: true });
   fs.writeFileSync(fileToWritePath, sidebarString);
+
   console.log("✅ Sidebar computed");
 }
