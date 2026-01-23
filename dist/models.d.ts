@@ -6,10 +6,16 @@ type TRecord = {
     id: number | string;
 } & unknown;
 export type TResourceData = TRecord & Record<string, unknown>;
+/**
+ * @exportToDoc
+ */
 export type TResourceFormMetadataAndData = {
     form: TResourceFormMetadata;
     resource_data: TResourceData;
 };
+/**
+ * @exportToDoc
+ */
 export type TResourceFormMetadata = {
     sections: TResourceFormSectionMetadata[];
     resource_name: string;
@@ -21,6 +27,9 @@ export type TResourceFormMetadata = {
     readonly: boolean | null;
     allow_bulk: boolean | null;
 };
+/**
+ * @exportToDoc
+ */
 export type TResourceFormSectionMetadata = {
     fields: TResourceFieldMetadata[];
     label: string | null;
@@ -29,6 +38,9 @@ export type TResourceFormSectionMetadata = {
     css_class: string | null;
     readonly: boolean | null;
 };
+/**
+ * @exportToDoc
+ */
 export type TResourceFieldMetadata = {
     field_name: string;
     field_type: TFormField["type"];
@@ -54,15 +66,24 @@ export type TResourceFieldMetadata = {
         size: number;
     }[];
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64AssociationData = {
     rows: TSubmit64AssociationRowEntry[];
     row_count: number;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64AssociationRowEntry = {
     label: string;
     value: TRecord["id"];
     data: TRecord;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64SubmitData = {
     success: boolean;
     errors: Record<string, string[]>;
@@ -71,6 +92,9 @@ export type TSubmit64SubmitData = {
     form: TResourceFormMetadata | null;
     bulk_data: TResourceData[] | null;
 };
+/**
+ * @exportToDoc
+ */
 export type TFormSettings = {
     backendDateFormat: string;
     backendDatetimeFormat: string;
@@ -81,6 +105,9 @@ export type TFormSettings = {
     associationEmptyMessage?: string | undefined;
     requiredFieldsHasAsterisk?: boolean | undefined;
 };
+/**
+ * @exportToDoc
+ */
 export type TFormStyle = {
     fieldFilled?: boolean | undefined;
     fieldOutlined?: boolean | undefined;
@@ -112,6 +139,9 @@ export type TForm = {
     allowBulk: boolean;
     context?: TContext;
 };
+/**
+ * @exportToDoc
+ */
 export type TFormSection = {
     fields: TFormField[];
     name: Readonly<string>;
@@ -126,6 +156,9 @@ export type TFormSection = {
     afterComponent?: Readonly<Component> | undefined;
     events: Readonly<TFormSectionEvent>;
 };
+/**
+ * @exportToDoc
+ */
 export type TFormField = {
     type: Readonly<"string" | "text" | "date" | "datetime" | "select" | "selectBelongsTo" | "selectHasMany" | "selectHasOne" | "selectHasAndBelongsToMany" | "checkbox" | "number" | "object" | "attachmentHasOne" | "attachmentHasMany">;
     extraType?: Readonly<"color" | "wysiwyg"> | undefined;
@@ -158,6 +191,9 @@ export type TFormField = {
         regularFieldType?: "textarea";
     };
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64FormApi = {
     getMode: () => TSubmit64FormMode;
     validate: () => boolean;
@@ -193,6 +229,9 @@ export type TSubmit64FormPrivateApi = {
     registerFieldWrapperRef: (fieldName: string, fieldComponent: TSubmit64FieldApi) => void;
     setSectionFieldComponent: (section: TFormSection, component: Component) => void;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64SectionApi = {
     reset: () => void;
     softReset: () => void;
@@ -210,6 +249,9 @@ export type TSubmit64SectionApi = {
     setLabel: (label: string) => void;
     section: TFormSection;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64FieldApi = {
     reset: () => void;
     softReset: () => void;
@@ -232,6 +274,9 @@ export type TSubmit64FieldApi = {
     setValue: (value: unknown) => void;
     field: TFormField;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64FormProps = {
     resourceName: string;
     getMetadataAndData: (submit64Params: TSubmit64GetMetadataAndData) => Promise<TResourceFormMetadataAndData>;
@@ -255,6 +300,9 @@ export type TSubmit64SectionWrapperProps = {
     formApi: TSubmit64FormApi;
     privateFormApi: TSubmit64FormPrivateApi;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64SectionProps = {
     formApi: TSubmit64FormApi;
     sectionApi: TSubmit64SectionApi;
@@ -279,32 +327,53 @@ export type TSubmit64FieldProps = {
 export type TSubmit64FieldWrapperResetProps = {
     reset: () => void;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64AssociationDisplayProps = {
     associationName: string;
     entry: TSubmit64AssociationRowEntry;
     itemProps: QItemProps;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64OrphanErrorFormProps = {
     orphanErrors: Record<string, string[]>;
     formApi: TSubmit64FormApi;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64ActionFormProps = {
     isLoadingSubmit: boolean;
     formApi: TSubmit64FormApi;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64BeforeAfterSectionProps = {
     formApi: TSubmit64FormApi;
     sectionApi: TSubmit64SectionApi;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64BeforeAfterFieldProps = {
     formApi: TSubmit64FormApi;
     fieldApi: TSubmit64FieldApi;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64GetMetadataAndData = {
     resourceName: string;
     resourceId?: TRecord["id"];
     context?: TContext;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64GetAssociationData = {
     resourceName: string;
     resourceId?: TRecord["id"];
@@ -314,6 +383,9 @@ export type TSubmit64GetAssociationData = {
     labelFilter?: string;
     context?: TContext;
 };
+/**
+ * @exportToDoc
+ */
 export type TSubmit64GetSubmitData = {
     resourceName: string;
     resourceData: Record<string, unknown>;
@@ -393,4 +465,73 @@ export type TFormFieldEvent = {
     onConfirmStatement?: TSubmit64Event;
 };
 export type TSubmit64Event = (() => unknown)[];
+/**
+ * @exportToDoc
+ */
+export type TSubmit64EventWhen = {
+    "Field is updated": {
+        fieldName: string;
+    };
+    "Field is valid": {
+        fieldName: string;
+    };
+    "Field is invalid": {
+        fieldName: string;
+    };
+    "Field is validated": {
+        fieldName: string;
+    };
+    "Field is cleared": {
+        fieldName: string;
+    };
+    "Field is reseted": {
+        fieldName: string;
+    };
+    "Field is hidden": {
+        fieldName: string;
+    };
+    "Field is unhidden": {
+        fieldName: string;
+    };
+    "Field is ready": {
+        fieldName: string;
+    };
+    "Section is valid": {
+        sectionName: string;
+    };
+    "Section is invalid": {
+        sectionName: string;
+    };
+    "Section is updated": {
+        sectionName: string;
+    };
+    "Section is validated": {
+        sectionName: string;
+    };
+    "Section is hidden": {
+        sectionName: string;
+    };
+    "Section is unhidden": {
+        sectionName: string;
+    };
+    "Section is cleared": {
+        sectionName: string;
+    };
+    "Section is reseted": {
+        sectionName: string;
+    };
+    "Section is ready": {
+        sectionName: string;
+    };
+    "Form is ready": undefined;
+    "Form is submited": undefined;
+    "Form submit is successful": undefined;
+    "Form submit is unsuccessful": undefined;
+    "Form is updated": undefined;
+    "Form is cleared": undefined;
+    "Form is reseted": undefined;
+    "Form is valid": undefined;
+    "Form is invalid": undefined;
+    "Form is validated": undefined;
+};
 export {};

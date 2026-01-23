@@ -94,7 +94,6 @@ function formModelSerializeByType(value: unknown) {
   return value;
 }
 function formModelDeserializeByType(value: unknown) {
-  console.log(value ?? 'its undefined')
   const form = propsComponent.formApi.form;
   switch (propsComponent.field.type) {
     case "date":
