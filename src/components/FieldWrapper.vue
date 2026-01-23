@@ -94,7 +94,7 @@ function formModelSerializeByType(value: unknown) {
   return value;
 }
 function formModelDeserializeByType(value: unknown) {
-  console.log(value)
+  console.log(value ?? 'its undefined')
   const form = propsComponent.formApi.form;
   switch (propsComponent.field.type) {
     case "date":
@@ -115,7 +115,9 @@ function formModelDeserializeByType(value: unknown) {
       );
     case 'selectBelongsTo':
     case 'selectHasOne':
+      console.log('I should go here')
       if (value === undefined) {
+        console.log('And here as well')
         return null
       }
     case 'selectHasMany':
