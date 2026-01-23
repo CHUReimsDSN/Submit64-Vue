@@ -114,9 +114,7 @@ function formModelDeserializeByType(value: unknown) {
       );
     case 'selectBelongsTo':
     case 'selectHasOne':
-      console.log('I should go here')
       if (value === undefined) {
-        console.log('And here as well')
         return null
       }
     case 'selectHasMany':

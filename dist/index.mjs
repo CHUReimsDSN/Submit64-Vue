@@ -912,7 +912,7 @@ const Ht = { class: "row items-center justify-end" }, Mt = /* @__PURE__ */ H({
       c.value && c.value.resetValidation();
     }
     function U() {
-      s.value = k(), r.value = [], g.value = Pe, e.clear();
+      s.value = k(), r.value = [], g.value = Pe;
     }
     function $(v) {
       const d = r.value.length - 1;
@@ -3027,8 +3027,8 @@ const ga = {
           );
         case "selectBelongsTo":
         case "selectHasOne":
-          if (console.log("I should go here"), _ === void 0)
-            return console.log("And here as well"), null;
+          if (_ === void 0)
+            return null;
         case "selectHasMany":
         case "selectHasAndBelongsToMany":
           if (_ === void 0)

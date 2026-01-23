@@ -109,7 +109,6 @@ function clear() {
   selectOptionsScrollPagination.value = getDefaultPagination();
   selectOptionsFiltered.value = [];
   lastLabelFilter.value = defaultLabelFilter
-  propsComponent.clear()
 }
 function onVirtualScroll(scrollArgs: {
   to: number;
