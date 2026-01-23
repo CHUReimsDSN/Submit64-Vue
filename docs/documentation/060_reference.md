@@ -29,6 +29,6 @@ function example() {
 </template>
 ```
 
-{: .important }
-Consulter les [Définitions]({% link 120_definitions.md %}) pour savoir quelles méthodes sont disponibles.
-
+::: warning Important 
+Consulter la [Définition API](/api-definition/models.md#TSubmit64FormApi) pour savoir quelles méthodes sont disponibles. 
+:::

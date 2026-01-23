@@ -1,8 +1,9 @@
-import {
+import type {
   TFormEvent,
   TFormFieldEvent,
   TFormSectionEvent,
   TSubmit64FormApi,
+  TSubmit64EventWhen,
 } from "./models";
 
 export class DynamicLogicBuilder {
@@ -13,9 +14,9 @@ export class DynamicLogicBuilder {
     this.formApi = formApi;
   }
 
-  when<K extends keyof TWhenArgs>(arg1: K, arg2?: TWhenArgs[K]) {
+  when<K extends keyof TSubmit64EventWhen>(arg1: K, arg2?: TSubmit64EventWhen[K]) {
     const eventType = arg1;
-    const data = arg2 as TWhenArgs[K];
+    const data = arg2 as TSubmit64EventWhen[K];
     const formEvent = new FormEvent(eventType, data, this.formApi);
     this.events.push(formEvent);
     const operatorInstance = new BuilderOperator(formEvent);
@@ -89,45 +90,14 @@ export class DynamicLogicBuilder {
     return allEventObject;
   }
 }
-type TWhenArgs = {
-  "Field is updated": { fieldName: string };
-  "Field is valid": { fieldName: string };
-  "Field is invalid": { fieldName: string };
-  "Field is validated": { fieldName: string };
-  "Field is cleared": { fieldName: string };
-  "Field is reseted": { fieldName: string };
-  "Field is hidden": { fieldName: string };
-  "Field is unhidden": { fieldName: string };
-  "Field is ready": { fieldName: string };
-  "Section is valid": { sectionName: string };
-  "Section is invalid": { sectionName: string };
-  "Section is updated": { sectionName: string };
-  "Section is validated": { sectionName: string };
-  "Section is hidden": { sectionName: string };
-  "Section is unhidden": { sectionName: string };
-  "Section is cleared": { sectionName: string };
-  "Section is reseted": { sectionName: string };
-  "Section is ready": { sectionName: string };
-  "Form is ready": undefined;
-  "Form is submited": undefined;
-  "Form submit is successful": undefined;
-  "Form submit is unsuccessful": undefined;
-  "Form is updated": undefined;
-  "Form is cleared": undefined;
-  "Form is reseted": undefined;
-  "Form is valid": undefined;
-  "Form is invalid": undefined;
-  "Form is validated": undefined;
-};
-
-class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
+class FormEvent<K extends keyof TSubmit64EventWhen = keyof TSubmit64EventWhen> {
   type: K;
-  data: TWhenArgs[K];
+  data: TSubmit64EventWhen[K];
   formApi: TSubmit64FormApi;
   action: TThenCustomCallback = () => {};
   cyclicActionCallSet: Set<K> = new Set();
 
-  constructor(type: K, data: TWhenArgs[K], formApi: TSubmit64FormApi) {
+  constructor(type: K, data: TSubmit64EventWhen[K], formApi: TSubmit64FormApi) {
     this.type = type;
     this.data = data;
     this.formApi = formApi;
@@ -137,117 +107,117 @@ class FormEvent<K extends keyof TWhenArgs = keyof TWhenArgs> {
       case "Field is updated":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is updated"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is updated"]).fieldName,
           key: "onUpdate",
         };
       case "Field is valid":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is valid"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is valid"]).fieldName,
           key: "onIsValid",
         };
       case "Field is invalid":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is invalid"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is invalid"]).fieldName,
           key: "onIsInvalid",
         };
       case "Field is validated":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is validated"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is validated"]).fieldName,
           key: "onValidated",
         };
       case "Field is cleared":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is cleared"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is cleared"]).fieldName,
           key: "onClear",
         };
 
       case "Field is reseted":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is reseted"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is reseted"]).fieldName,
           key: "onReset",
         };
       case "Field is hidden":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is hidden"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is hidden"]).fieldName,
           key: "onHide",
         };
       case "Field is unhidden":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is unhidden"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is unhidden"]).fieldName,
           key: "onUnhide",
         };
       case "Field is ready":
         return {
           target: "field",
-          targetName: (this.data as TWhenArgs["Field is ready"]).fieldName,
+          targetName: (this.data as TSubmit64EventWhen["Field is ready"]).fieldName,
           key: "onReady",
         };
 
       case "Section is valid":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is valid"]).sectionName,
+          targetName: (this.data as TSubmit64EventWhen["Section is valid"]).sectionName,
           key: "onIsValid",
         };
       case "Section is invalid":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is invalid"])
+          targetName: (this.data as TSubmit64EventWhen["Section is invalid"])
             .sectionName,
           key: "onIsInvalid",
         };
       case "Section is hidden":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is hidden"]).sectionName,
+          targetName: (this.data as TSubmit64EventWhen["Section is hidden"]).sectionName,
           key: "onHide",
         };
       case "Section is unhidden":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is unhidden"])
+          targetName: (this.data as TSubmit64EventWhen["Section is unhidden"])
             .sectionName,
           key: "onUnhide",
         };
       case "Section is cleared":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is cleared"])
+          targetName: (this.data as TSubmit64EventWhen["Section is cleared"])
             .sectionName,
           key: "onClear",
         };
       case "Section is reseted":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is reseted"])
+          targetName: (this.data as TSubmit64EventWhen["Section is reseted"])
             .sectionName,
           key: "onReset",
         };
       case "Section is validated":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is validated"])
+          targetName: (this.data as TSubmit64EventWhen["Section is validated"])
             .sectionName,
           key: "onValidated",
         };
       case "Section is updated":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is updated"])
+          targetName: (this.data as TSubmit64EventWhen["Section is updated"])
             .sectionName,
           key: "onUpdate",
         };
       case "Section is ready":
         return {
           target: "section",
-          targetName: (this.data as TWhenArgs["Section is ready"]).sectionName,
+          targetName: (this.data as TSubmit64EventWhen["Section is ready"]).sectionName,
           key: "onReady",
         };
 

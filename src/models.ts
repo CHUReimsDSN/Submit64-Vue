@@ -792,3 +792,36 @@ export type TFormFieldEvent = {
   onConfirmStatement?: TSubmit64Event;
 };
 export type TSubmit64Event = (() => unknown)[];
+/**
+ * @exportToDoc
+ */
+export type TSubmit64EventWhen = {
+  "Field is updated": { fieldName: string };
+  "Field is valid": { fieldName: string };
+  "Field is invalid": { fieldName: string };
+  "Field is validated": { fieldName: string };
+  "Field is cleared": { fieldName: string };
+  "Field is reseted": { fieldName: string };
+  "Field is hidden": { fieldName: string };
+  "Field is unhidden": { fieldName: string };
+  "Field is ready": { fieldName: string };
+  "Section is valid": { sectionName: string };
+  "Section is invalid": { sectionName: string };
+  "Section is updated": { sectionName: string };
+  "Section is validated": { sectionName: string };
+  "Section is hidden": { sectionName: string };
+  "Section is unhidden": { sectionName: string };
+  "Section is cleared": { sectionName: string };
+  "Section is reseted": { sectionName: string };
+  "Section is ready": { sectionName: string };
+  "Form is ready": undefined;
+  "Form is submited": undefined;
+  "Form submit is successful": undefined;
+  "Form submit is unsuccessful": undefined;
+  "Form is updated": undefined;
+  "Form is cleared": undefined;
+  "Form is reseted": undefined;
+  "Form is valid": undefined;
+  "Form is invalid": undefined;
+  "Form is validated": undefined;
+};

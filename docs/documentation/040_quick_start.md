@@ -10,6 +10,11 @@ Utiliser le composant `Submit64Form` pour afficher le formulaire :
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from 'submit64-vue';
+import { 
+  getMetadataAndResourceDataSubmit64, 
+  getAssociationDataSubmit64,
+  getSubmitFormDataSubmit64
+} from 'submit64.api.ts'
 </script>
 
 <template>
@@ -25,6 +30,7 @@ import { Submit64Form } from 'submit64-vue';
 
 Obtenir les informations via HTTP (ici avec Axios) :
 ```ts
+// submit64.api.ts
 import type {
   TResourceFormMetadataAndData,
   TSubmit64GetMetadataAndData,
