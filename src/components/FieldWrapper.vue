@@ -94,6 +94,7 @@ function formModelSerializeByType(value: unknown) {
   return value;
 }
 function formModelDeserializeByType(value: unknown) {
+  console.log(value)
   const form = propsComponent.formApi.form;
   switch (propsComponent.field.type) {
     case "date":
@@ -114,7 +115,6 @@ function formModelDeserializeByType(value: unknown) {
       );
     case 'selectBelongsTo':
     case 'selectHasOne':
-      console.log(value)
       if (value === undefined) {
         return null
       }
