@@ -45,10 +45,11 @@ export function computeSidebar() {
         const filePath = path.join(folderPathEntry, file);
         const content = fs.readFileSync(filePath, "utf-8");
         const title = content.match(/^\s*title:\s*(.+)$/m)?.[0].replaceAll('title: ', '') ?? "???";
+        const link = `${folderTitle}/${path.basename(file)}`
 
         subFolders.items.push({
           text: title,
-          link: filePath,
+          link,
         });
       });
       return subFolders;
