@@ -85,6 +85,7 @@ async function setupMetadatasAndForm() {
   }
 }
 async function submit(): Promise<void> {
+    console.log('allo la jeunesse ?')
   if (!validate()) {
     return;
   }
