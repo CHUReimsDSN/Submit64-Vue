@@ -8,7 +8,6 @@ export default defineConfig({
   description: "Submit64 for Vue",
   base: '/Submit64-Vue/',
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Documentation', link: '/documentation/000_index' },
       { text: 'Définition API', link: '/api-definition/models' },

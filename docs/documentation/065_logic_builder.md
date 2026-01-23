@@ -29,10 +29,12 @@ function formEventManager(eventBuilder: DynamicLogicBuilder) {
 </template>
 ```
 
-{: .important }
-Consulter les [Définitions]({% link 120_definitions.md %}) pour connaitre les événements disponibles (TWhenArgs).
+::: warning Important 
+Consulter la [Définition API](/api-definition/models.md#TSubmit64EventWhen) pour connaitre les événements disponibles. 
+:::
 
-{: .note }
+::: tip Conseil
 Le premier paramètre de la fonction `when` sera toujours un string, laisser vous guider par l'intellisence pour voir les événements disponibles
 et leurs paramètres !
+:::
 
