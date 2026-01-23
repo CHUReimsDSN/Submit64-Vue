@@ -11,7 +11,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Documentation', link: '/documentation/000_index' },
-      { text: 'Définition API', link: '/.vitepress/generated/api-definition' },
+      { text: 'Définition API', link: '/api-definition/models' },
       { text: version, link: 'changelog' },
       { text: 'Submit64 - Rails', link: 'https://chureimsdsn.github.io/Submit64-Rails/' }
     ],

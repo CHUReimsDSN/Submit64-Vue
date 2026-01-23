@@ -4,7 +4,7 @@ import { Project, Node } from "ts-morph";
 export function computeApiDefinition() {
   const project = new Project();
   const fileModel = project.addSourceFileAtPath("../src/models.ts");
-  const apiDefinitionPath = ".vitepress/generated/api-definition.md";
+  const apiDefinitionPath = "api-definition/models.md";
   let apiDefinitionContent = `---
 title: Définition API
 ---

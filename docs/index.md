@@ -11,7 +11,7 @@ hero:
       link: /documentation/000_index
     - theme: alt
       text: Définition API
-      link: /.vitepress/generated/api-definition
+      link: /api-definition/models
 
 features:
   - title: Génération automatique
