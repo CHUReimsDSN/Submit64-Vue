@@ -112,6 +112,16 @@ function formModelDeserializeByType(value: unknown) {
         date.extractDate(String(value), form.formSettings.datetimeFormat),
         form.formSettings.backendDatetimeFormat
       );
+    case 'selectBelongsTo':
+    case 'selectHasOne':
+      if (value === undefined) {
+        return null
+      }
+    case 'selectHasMany':
+    case 'selectHasAndBelongsToMany':
+      if (value === undefined) {
+        return []
+      }
   }
   return value;
 }
