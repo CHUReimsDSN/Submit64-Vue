@@ -1,7 +1,7 @@
 ---
-title: TODO
+title: Todo
 ---
 
-# *TODO*
+# *Todo*
 
 - Plus de doc et d'exemple
