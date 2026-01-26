@@ -3,6 +3,7 @@ import path from "path";
 
 type TSidebarEntry = {
   text: string;
+  link?: string;
   items: TSidebarEntry[];
   collapsed?: boolean;
 };
@@ -58,7 +59,7 @@ export function computeSidebar() {
           path.relative(process.cwd(), filePath).replace(/\\/g, "/"),
         );
 
-      const item: TSidebarEntry = { text: title, link };
+      const item: TSidebarEntry = { text: title, link, items: [] };
       if (collapsed) {
         item.collapsed = true;
       }
