@@ -28,7 +28,6 @@ export type TResourceFormMetadata = {
   clearable: boolean | null;
   css_class: string | null;
   readonly: boolean | null;
-  allow_bulk: boolean | null;
 };
 /**
  * @exportToDoc
@@ -93,7 +92,6 @@ export type TSubmit64SubmitData = {
   resource_id: TRecord["id"] | null;
   resource_data: TResourceData | null;
   form: TResourceFormMetadata | null;
-  bulk_data: TResourceData[] | null;
 };
 
 /**
@@ -167,7 +165,6 @@ export type TForm = {
   orphanErrorsComponent: Readonly<Component>;
   wrapperResetComponent: Readonly<Component>;
   dynamicComponentRecord: Readonly<Record<string, Component>>;
-  allowBulk: boolean;
   context?: TContext;
 };
 
@@ -285,17 +282,6 @@ export type TSubmit64FormApi = {
    * Renvoi les données de la dernière soumission
    */
   getSubmitData: () => TSubmit64SubmitData["resource_data"];
-
-  /*
-   * Soumet le formulaire pour création multiple
-   * Doit avoir activé :allow_bulk dans la définition du formulaire
-   */
-  submitBulk: (count: number) => Promise<void>;
-
-  /*
-   * Renvoi les données de la dernière soumission de masse
-   */
-  getBulkSubmitData: () => TSubmit64SubmitData["bulk_data"];
 
   /*
    * Renvoi si le formulaire à été modifier ou non
@@ -711,7 +697,6 @@ export type TSubmit64GetSubmitData = {
   resourceName: string;
   resourceData: Record<string, unknown>;
   resourceId?: TRecord["id"];
-  bulkCount?: number;
   context?: TContext;
 };
 
