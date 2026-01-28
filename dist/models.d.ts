@@ -25,7 +25,6 @@ export type TResourceFormMetadata = {
     clearable: boolean | null;
     css_class: string | null;
     readonly: boolean | null;
-    allow_bulk: boolean | null;
 };
 /**
  * @exportToDoc
@@ -90,7 +89,6 @@ export type TSubmit64SubmitData = {
     resource_id: TRecord["id"] | null;
     resource_data: TResourceData | null;
     form: TResourceFormMetadata | null;
-    bulk_data: TResourceData[] | null;
 };
 /**
  * @exportToDoc
@@ -136,7 +134,6 @@ export type TForm = {
     orphanErrorsComponent: Readonly<Component>;
     wrapperResetComponent: Readonly<Component>;
     dynamicComponentRecord: Readonly<Record<string, Component>>;
-    allowBulk: boolean;
     context?: TContext;
 };
 /**
@@ -203,8 +200,6 @@ export type TSubmit64FormApi = {
     resetValidation: () => void;
     submit: () => Promise<void>;
     getSubmitData: () => TSubmit64SubmitData["resource_data"];
-    submitBulk: (count: number) => Promise<void>;
-    getBulkSubmitData: () => TSubmit64SubmitData["bulk_data"];
     valuesHasChanged: () => boolean;
     isValid: () => boolean;
     isInvalid: () => boolean;
@@ -390,7 +385,6 @@ export type TSubmit64GetSubmitData = {
     resourceName: string;
     resourceData: Record<string, unknown>;
     resourceId?: TRecord["id"];
-    bulkCount?: number;
     context?: TContext;
 };
 export type TContext = Record<string, unknown>;
