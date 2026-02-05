@@ -4,6 +4,9 @@ title: Changelog
 
 # Changelog
 
+## 1.5.3
+- Ajout de `isLoadingSubmit` et `orphanErrors` dans le formApi
+
 ## 1.5.2
 - Ajustements documentation
 - Correction d'un problème où les champs de relations n'étaient pas envoyés à l'interopérabilité lors du clear

@@ -380,6 +380,16 @@ const formReactive = new Proxy({} as TForm, {
     return form.value?.[prop as keyof TForm];
   },
 });
+const isLoadingSubmitReactive = new Proxy({} as TForm, {
+  get() {
+    return isLoadingSubmit.value
+  },
+});
+const orphanErrorsReactive = new Proxy({} as TForm, {
+  get() {
+    return orphanErrors.value
+  },
+});
 const formApi: TSubmit64FormApi = {
   getMode,
   getSectionByName,
@@ -404,6 +414,8 @@ const formApi: TSubmit64FormApi = {
   isReady,
   getSubmitData,
   form: formReactive as unknown as TForm,
+  isLoadingSubmit: isLoadingSubmitReactive as unknown as boolean,
+  orphanErrors: orphanErrorsReactive as unknown as Record<string, string[]>
 };
 defineExpose<TSubmit64FormApi>(formApi);
 
@@ -496,7 +508,7 @@ onMounted(async () => {
           :privateFormApi="privateFormApi" />
       </SectionWrapper>
     </div>
-    <component :is="form.orphanErrorsComponent" :orphanErrors="orphanErrors" :formApi="formApi" />
-    <component :is="form.actionComponent" :isLoadingSubmit="isLoadingSubmit" :formApi="formApi" />
+    <component :is="form.orphanErrorsComponent" :formApi="formApi" />
+    <component :is="form.actionComponent" :formApi="formApi" />
   </div>
 </template>
