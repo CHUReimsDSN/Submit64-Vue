@@ -3529,7 +3529,7 @@ const fa = {
       isReady: at,
       getSubmitData: ot,
       form: ct,
-      isLoadingSubmit: D,
+      isLoadingSubmit: D.value,
       orphanErrors: ft
     };
     e(ge);

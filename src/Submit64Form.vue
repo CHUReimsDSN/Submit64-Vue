@@ -409,7 +409,7 @@ const formApi: TSubmit64FormApi = {
   isReady,
   getSubmitData,
   form: formReactive as unknown as TForm,
-  isLoadingSubmit: isLoadingSubmit as unknown as boolean,
+  isLoadingSubmit: isLoadingSubmit.value as unknown as boolean,
   orphanErrors: orphanErrorsReactive as unknown as Record<string, string[]>
 };
 defineExpose<TSubmit64FormApi>(formApi);
