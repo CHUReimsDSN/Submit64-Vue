@@ -64,7 +64,7 @@ async function setupMetadatasAndForm() {
   formMetadataAndData = await propsComponent.getMetadataAndData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
-    context: propsComponent.context,
+    context: form.value.context,
   });
   form.value = FormFactory.getForm(
     propsComponent.resourceName,
@@ -95,7 +95,7 @@ async function submit(): Promise<void> {
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
     resourceData,
-    context: propsComponent.context,
+    context: form.value.context,
   });
   submitData = newData.resource_data;
   if (!newData.success) {
@@ -133,7 +133,7 @@ async function submit(): Promise<void> {
       },
       propsComponent.formSettings,
       propsComponent.formStyle,
-      propsComponent.context,
+      form.value.context,
       formApi,
       propsComponent.eventManager
     );
