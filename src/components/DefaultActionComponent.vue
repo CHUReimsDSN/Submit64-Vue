@@ -26,20 +26,20 @@ function getButtonBindStyle(): QBtnProps {
       <q-btn
         v-bind="getButtonBindStyle()"
         label="Enregistrer"
-        :loading="propsComponent.formApi.isLoadingSubmit"
+        :loading="propsComponent.isLoadingSubmit"
         @click="propsComponent.formApi.submit"
       />
       <q-btn
-        v-if="propsComponent.formApi.form.resetable"
+        v-if="propsComponent.formApi.reset"
         v-bind="getButtonBindStyle()"
-        :loading="propsComponent.formApi.isLoadingSubmit"
+        :loading="propsComponent.isLoadingSubmit"
         label="Réinitialiser"
         @click="propsComponent.formApi.reset"
       />
       <q-btn
-        v-if="propsComponent.formApi.form.clearable"
+        v-if="propsComponent.formApi.clear"
         v-bind="getButtonBindStyle()"
-        :loading="propsComponent.formApi.isLoadingSubmit"
+        :loading="propsComponent.isLoadingSubmit"
         label="Effacer"
         @click="propsComponent.formApi.clear"
       />

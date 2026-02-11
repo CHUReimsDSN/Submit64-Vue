@@ -64,7 +64,7 @@ async function setupMetadatasAndForm() {
   formMetadataAndData = await propsComponent.getMetadataAndData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
-    context: propsComponent.context,
+    context: form.value.context,
   });
   form.value = FormFactory.getForm(
     propsComponent.resourceName,
@@ -95,7 +95,7 @@ async function submit(): Promise<void> {
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
     resourceData,
-    context: propsComponent.context,
+    context: form.value.context,
   });
   submitData = newData.resource_data;
   if (!newData.success) {
@@ -133,7 +133,7 @@ async function submit(): Promise<void> {
       },
       propsComponent.formSettings,
       propsComponent.formStyle,
-      propsComponent.context,
+      form.value.context,
       formApi,
       propsComponent.eventManager
     );
@@ -380,15 +380,6 @@ const formReactive = new Proxy({} as TForm, {
     return form.value?.[prop as keyof TForm];
   },
 });
-const isLoadingSubmitReactive = new Proxy({} as object, {
-  get() {
-    return isLoadingSubmit.value
-  },
-});const orphanErrorsReactive = new Proxy({} as Record<string, string[]>, {
-  get(_, props) {
-    return orphanErrors.value?.[props as string]
-  },
-});
 const formApi: TSubmit64FormApi = {
   getMode,
   getSectionByName,
@@ -413,8 +404,6 @@ const formApi: TSubmit64FormApi = {
   isReady,
   getSubmitData,
   form: formReactive as unknown as TForm,
-  isLoadingSubmit: isLoadingSubmitReactive as unknown as boolean,
-  orphanErrors: orphanErrorsReactive as unknown as Record<string, string[]>
 };
 defineExpose<TSubmit64FormApi>(formApi);
 
@@ -507,7 +496,7 @@ onMounted(async () => {
           :privateFormApi="privateFormApi" />
       </SectionWrapper>
     </div>
-    <component :is="form.orphanErrorsComponent" :formApi="formApi" />
-    <component :is="form.actionComponent" :formApi="formApi" />
+    <component :is="form.orphanErrorsComponent" :orphanErrors="orphanErrors" :formApi="formApi" />
+    <component :is="form.actionComponent" :isLoadingSubmit="isLoadingSubmit" :formApi="formApi" />
   </div>
 </template>

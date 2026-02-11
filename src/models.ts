@@ -359,16 +359,6 @@ export type TSubmit64FormApi = {
    * Accés au données du formulaire en mode lecture seule
    */
   form: TForm;
-
-  /*
-  * Renvoi si le formulaire est en train de soumettre
-  */
-  isLoadingSubmit: boolean;
-
-  /*
-  * Renvoi les erreurs orphelines
-  */
-  orphanErrors: Record<string, string[]>;
 };
 export type TSubmit64FormPrivateApi = {
   getFormRef: () => Ref<TForm>;

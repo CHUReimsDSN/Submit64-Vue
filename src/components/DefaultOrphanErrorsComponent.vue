@@ -8,7 +8,7 @@ const propsComponent = defineProps<TSubmit64OrphanErrorFormProps>()
 <template>
     <div class="flex column">
       <div
-        v-for="(errorList, errorKey) in propsComponent.formApi.orphanErrors"
+        v-for="(errorList, errorKey) in propsComponent.orphanErrors"
         :key="errorKey"
         class="q-field--error q-field__bottom text-negative"
       >

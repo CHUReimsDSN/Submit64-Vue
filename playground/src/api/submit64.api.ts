@@ -23,8 +23,7 @@ async function getAssociationData(
 async function getSubmitFormData(
   submit64params: TSubmit64GetSubmitData,
 ): Promise<TSubmit64SubmitData> {
-  return new Promise(resolve => setTimeout(resolve, 5000));
-  //return await Promise.resolve(FakeServerApi.postFakeServerSubmit(submit64params));
+  return await Promise.resolve(FakeServerApi.postFakeServerSubmit(submit64params));
 }
 
 export const Submit64Api = {

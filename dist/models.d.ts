@@ -215,8 +215,6 @@ export type TSubmit64FormApi = {
     setCssClass: (cssClass: string) => void;
     setReadonlyState: (state: boolean) => void;
     form: TForm;
-    isLoadingSubmit: boolean;
-    orphanErrors: Record<string, string[]>;
 };
 export type TSubmit64FormPrivateApi = {
     getFormRef: () => Ref<TForm>;

@@ -5,7 +5,7 @@ title: Changelog
 # Changelog
 
 ## 1.5.3
-- Ajout de `isLoadingSubmit` et `orphanErrors` dans le formApi
+- Correction du FormApi.setContext
 
 ## 1.5.2
 - Ajustements documentation
