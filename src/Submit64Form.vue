@@ -64,7 +64,7 @@ async function setupMetadatasAndForm() {
   formMetadataAndData = await propsComponent.getMetadataAndData({
     resourceName: propsComponent.resourceName,
     resourceId: propsComponent.resourceId,
-    context: form.value.context,
+    context: propsComponent.context,
   });
   form.value = FormFactory.getForm(
     propsComponent.resourceName,
