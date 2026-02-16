@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.5.4
+
+- Correction du context ignoré dans les props
+
 ## 1.5.3
 - Correction du FormApi.setContext
 
