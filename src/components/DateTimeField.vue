@@ -89,7 +89,7 @@ onMounted(() => {
     @clear="propsComponent.clear"
   >
     <template v-slot:append>
-      <q-icon size="sm" color="primary" name="event" class="cursor-pointer">
+      <q-icon size="sm" :color="styleConfig.fieldColor" name="event" class="cursor-pointer">
         <q-popup-proxy
           ref="datePopupProxyRef"
           cover
@@ -102,12 +102,13 @@ onMounted(() => {
               (value: unknown) => propsComponent.modelValueOnUpdate(value)
             "
             :mask="form.formSettings.datetimeFormat"
+            :color="styleConfig.fieldColor"
           >
             <div class="row items-center justify-end">
               <q-btn
                 @click="closePopUpDate"
                 label="Fermer"
-                color="secondary"
+                :color="styleConfig.fieldColor"
                 flat
                 no-caps
               />
@@ -117,7 +118,7 @@ onMounted(() => {
       </q-icon>
       <q-icon
         size="sm"
-        color="primary"
+        :color="styleConfig.fieldColor"
         name="access_time"
         class="cursor-pointer"
       >
@@ -133,12 +134,13 @@ onMounted(() => {
           (value: unknown) => propsComponent.modelValueOnUpdate(value)"
             :mask="form.formSettings.datetimeFormat"
             format24h
+            :color="styleConfig.fieldColor"
           >
             <div class="row items-center justify-end">
               <q-btn
                 @click="closePopUpTime"
                 label="Fermer"
-                color="secondary"
+                :color="styleConfig.fieldColor"
                 flat
                 no-caps
               />
