@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.5.5
+
+- Correction de la priorité des propriétés de configuration des formulaires locaux
+
 ## 1.5.4
 
 - Correction du context ignoré dans les props

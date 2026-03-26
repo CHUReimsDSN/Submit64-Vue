@@ -38,14 +38,14 @@ export class FormFactory {
         this.resourceName = resourceName;
         this.formApi = formApi;
         this.formSettings = {
-            ...formSettings,
             ...Submit64.getGlobalFormSetting(),
+            ...formSettings,
             backendDateFormat: formMetadataAndData.form.backend_date_format,
             backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
         };
         this.formStyle = {
-            ...formStyle,
             ...Submit64.getGlobalFormStyle(),
+            ...formStyle,
         };
         this.actionComponent =
             overridedComponent.actionComponent ?? Submit64.getGlobalActionComponent();
