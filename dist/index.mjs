@@ -495,7 +495,7 @@ const $t = { class: "row items-center justify-end" }, It = /* @__PURE__ */ H({
       append: y(() => [
         F(a(Se), {
           size: "sm",
-          color: "primary",
+          color: a(n).fieldColor,
           name: "event",
           class: "cursor-pointer"
         }, {
@@ -511,27 +511,28 @@ const $t = { class: "row items-center justify-end" }, It = /* @__PURE__ */ H({
                 F(a(je), {
                   "model-value": e.modelValue,
                   "onUpdate:modelValue": V[0] || (V[0] = (O) => e.modelValueOnUpdate(O)),
-                  mask: a(t).formSettings.dateFormat
+                  mask: a(t).formSettings.dateFormat,
+                  color: a(n).fieldColor
                 }, {
                   default: y(() => [
                     G("div", $t, [
                       F(a(K), {
                         onClick: s,
                         label: "Fermer",
-                        color: "secondary",
+                        color: a(n).fieldColor,
                         flat: "",
                         "no-caps": ""
-                      })
+                      }, null, 8, ["color"])
                     ])
                   ]),
                   _: 1
-                }, 8, ["model-value", "mask"])
+                }, 8, ["model-value", "mask", "color"])
               ]),
               _: 1
             }, 512)
           ]),
           _: 1
-        })
+        }, 8, ["color"])
       ]),
       _: 1
     }, 8, ["model-value", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "prefix", "suffix", "readonly", "clearable", "rules", "onClear"]));
@@ -601,7 +602,7 @@ const $t = { class: "row items-center justify-end" }, It = /* @__PURE__ */ H({
       append: y(() => [
         F(a(Se), {
           size: "sm",
-          color: "primary",
+          color: a(n).fieldColor,
           name: "event",
           class: "cursor-pointer"
         }, {
@@ -617,30 +618,31 @@ const $t = { class: "row items-center justify-end" }, It = /* @__PURE__ */ H({
                 F(a(je), {
                   "model-value": e.modelValue,
                   "onUpdate:modelValue": q[0] || (q[0] = (D) => e.modelValueOnUpdate(D)),
-                  mask: a(t).formSettings.datetimeFormat
+                  mask: a(t).formSettings.datetimeFormat,
+                  color: a(n).fieldColor
                 }, {
                   default: y(() => [
                     G("div", Ut, [
                       F(a(K), {
                         onClick: d,
                         label: "Fermer",
-                        color: "secondary",
+                        color: a(n).fieldColor,
                         flat: "",
                         "no-caps": ""
-                      })
+                      }, null, 8, ["color"])
                     ])
                   ]),
                   _: 1
-                }, 8, ["model-value", "mask"])
+                }, 8, ["model-value", "mask", "color"])
               ]),
               _: 1
             }, 512)
           ]),
           _: 1
-        }),
+        }, 8, ["color"]),
         F(a(Se), {
           size: "sm",
-          color: "primary",
+          color: a(n).fieldColor,
           name: "access_time",
           class: "cursor-pointer"
         }, {
@@ -657,27 +659,28 @@ const $t = { class: "row items-center justify-end" }, It = /* @__PURE__ */ H({
                   "model-value": e.modelValue,
                   "onUpdate:modelValue": q[1] || (q[1] = (D) => e.modelValueOnUpdate(D)),
                   mask: a(t).formSettings.datetimeFormat,
-                  format24h: ""
+                  format24h: "",
+                  color: a(n).fieldColor
                 }, {
                   default: y(() => [
                     G("div", Pt, [
                       F(a(K), {
                         onClick: p,
                         label: "Fermer",
-                        color: "secondary",
+                        color: a(n).fieldColor,
                         flat: "",
                         "no-caps": ""
-                      })
+                      }, null, 8, ["color"])
                     ])
                   ]),
                   _: 1
-                }, 8, ["model-value", "mask"])
+                }, 8, ["model-value", "mask", "color"])
               ]),
               _: 1
             }, 512)
           ]),
           _: 1
-        })
+        }, 8, ["color"])
       ]),
       _: 1
     }, 8, ["model-value", "label", "hint", "outlined", "filled", "standout", "borderless", "rounded", "square", "dense", "hideBottomSpace", "color", "bgColor", "class", "prefix", "suffix", "readonly", "clearable", "rules", "onClear"]));

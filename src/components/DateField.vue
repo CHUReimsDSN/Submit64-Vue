@@ -82,7 +82,7 @@ onMounted(() => {
     @clear="propsComponent.clear"
   >
     <template v-slot:append>
-      <q-icon size="sm" color="primary" name="event" class="cursor-pointer">
+      <q-icon size="sm" :color="styleConfig.fieldColor" name="event" class="cursor-pointer">
         <q-popup-proxy
           ref="popupProxyRef"
           cover
@@ -95,12 +95,13 @@ onMounted(() => {
               (value: unknown) => propsComponent.modelValueOnUpdate(value)
             "
             :mask="form.formSettings.dateFormat"
+            :color="styleConfig.fieldColor"
           >
             <div class="row items-center justify-end">
               <q-btn
                 @click="closePopUp"
                 label="Fermer"
-                color="secondary"
+                :color="styleConfig.fieldColor"
                 flat
                 no-caps
               />
