@@ -61,89 +61,35 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-input
-    ref="fieldRef"
-    :model-value="(propsComponent.modelValue as string)"
-    v-on:update:model-value="
-      (value: unknown) => propsComponent.modelValueOnUpdate(value)
-    "
-    :label="propsComponent.field.label"
-    :hint="propsComponent.field.hint"
-    :outlined="styleConfig.fieldOutlined"
-    :filled="styleConfig.fieldFilled"
-    :standout="styleConfig.fieldStandout"
-    :borderless="styleConfig.fieldBorderless"
-    :rounded="styleConfig.fieldRounded"
-    :square="styleConfig.fieldSquare"
-    :dense="styleConfig.fieldDense"
-    :hideBottomSpace="styleConfig.fieldHideBottomSpace"
-    :color="styleConfig.fieldColor"
-    :bgColor="styleConfig.fieldBgColor"
-    :class="propsComponent.field.cssClass"
-    :lazy-rules="lazyRules"
-    :prefix="propsComponent.field.prefix"
-    :suffix="propsComponent.field.suffix"
-    :readonly="propsComponent.field.readonly"
-    :clearable="propsComponent.field.clearable"
-    :rules="propsComponent.rules"
-    @clear="propsComponent.clear"
-  >
+  <q-input ref="fieldRef" :model-value="(propsComponent.modelValue as string)" v-on:update:model-value="
+    (value: unknown) => propsComponent.modelValueOnUpdate(value)
+  " :label="propsComponent.field.label" :hint="propsComponent.field.hint" :outlined="styleConfig.fieldOutlined"
+    :filled="styleConfig.fieldFilled" :standout="styleConfig.fieldStandout" :borderless="styleConfig.fieldBorderless"
+    :rounded="styleConfig.fieldRounded" :square="styleConfig.fieldSquare" :dense="styleConfig.fieldDense"
+    :hideBottomSpace="styleConfig.fieldHideBottomSpace" :color="styleConfig.fieldColor"
+    :bgColor="styleConfig.fieldBgColor" :class="propsComponent.field.cssClass" :lazy-rules="lazyRules"
+    :prefix="propsComponent.field.prefix" :suffix="propsComponent.field.suffix"
+    :readonly="propsComponent.field.readonly" :clearable="propsComponent.field.clearable" :rules="propsComponent.rules"
+    @clear="propsComponent.clear">
     <template v-slot:append>
       <q-icon size="sm" :color="styleConfig.fieldColor" name="event" class="cursor-pointer">
-        <q-popup-proxy
-          ref="datePopupProxyRef"
-          cover
-          transition-show="scale"
-          transition-hide="scale"
-        >
-          <q-date
-            :model-value="(propsComponent.modelValue as string)"
-            v-on:update:model-value="
-              (value: unknown) => propsComponent.modelValueOnUpdate(value)
-            "
-            :mask="form.formSettings.datetimeFormat"
-            :color="styleConfig.fieldColor"
-          >
+        <q-popup-proxy ref="datePopupProxyRef" cover transition-show="scale" transition-hide="scale">
+          <q-date :model-value="(propsComponent.modelValue as string)" v-on:update:model-value="
+            (value: unknown) => propsComponent.modelValueOnUpdate(value)
+          " :mask="form.formSettings.datetimeFormat" :color="styleConfig.fieldColor">
             <div class="row items-center justify-end">
-              <q-btn
-                @click="closePopUpDate"
-                label="Fermer"
-                :color="styleConfig.fieldColor"
-                flat
-                no-caps
-              />
+              <q-btn @click="closePopUpDate" label="Fermer" :color="styleConfig.fieldColor" flat no-caps />
             </div>
           </q-date>
         </q-popup-proxy>
       </q-icon>
-      <q-icon
-        size="sm"
-        :color="styleConfig.fieldColor"
-        name="access_time"
-        class="cursor-pointer"
-      >
-        <q-popup-proxy
-          ref="timePopupProxyRef"
-          cover
-          transition-show="scale"
-          transition-hide="scale"
-        >
-          <q-time
-            :model-value="(propsComponent.modelValue as string)"
-            v-on:update:model-value="
-          (value: unknown) => propsComponent.modelValueOnUpdate(value)"
-            :mask="form.formSettings.datetimeFormat"
-            format24h
-            :color="styleConfig.fieldColor"
-          >
+      <q-icon size="sm" :color="styleConfig.fieldColor" name="access_time" class="cursor-pointer">
+        <q-popup-proxy ref="timePopupProxyRef" cover transition-show="scale" transition-hide="scale">
+          <q-time :model-value="(propsComponent.modelValue as string)" v-on:update:model-value="
+            (value: unknown) => propsComponent.modelValueOnUpdate(value)" :mask="form.formSettings.datetimeFormat"
+            format24h :color="styleConfig.fieldColor">
             <div class="row items-center justify-end">
-              <q-btn
-                @click="closePopUpTime"
-                label="Fermer"
-                :color="styleConfig.fieldColor"
-                flat
-                no-caps
-              />
+              <q-btn @click="closePopUpTime" label="Fermer" :color="styleConfig.fieldColor" flat no-caps />
             </div>
           </q-time>
         </q-popup-proxy>
