@@ -100,6 +100,61 @@ function isValid() {
 function resetValidation() {
   return;
 }
+function onEditorPaste(event: ClipboardEvent) {
+  event.preventDefault()
+  event.stopPropagation()
+  const items = event.clipboardData?.items
+  if (!items) {
+    return
+  }
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]!;
+    if (item.type.startsWith('image/')) {
+      const file = item.getAsFile()
+      if (file) {
+        insertImageInEditor(file)
+      }
+    }
+  }
+}
+function onEditorDrop(event: DragEvent) {
+  event.preventDefault()
+  event.stopPropagation()
+  const files = event.dataTransfer?.files
+  if (!files) {
+    return
+  }
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i]!;
+    if (file.type.startsWith('image/')) {
+      if (file) {
+        insertImageInEditor(file)
+      }
+    }
+  }
+}
+function insertImageInEditor(file: File) {
+  if (!fieldRef.value) {
+    return
+  }
+  const reader = new FileReader()
+  reader.onload = (event: ProgressEvent<FileReader>) => {
+    const base64 = event.target?.result
+    if (typeof base64 === 'string') {
+      const image = new Image()
+      image.onload = () => {
+        const width = image.width
+        const height = image.height
+        fieldRef.value?.runCmd(
+          "insertHTML",
+          `<img src="${base64}" width="${width}" height="${height}" style="max-width: 80%; height: auto;" />`
+        )
+      }
+      image.src = base64
+    }
+  }
+  reader.readAsDataURL(file)
+}
 
 // lifeCycle
 onMounted(() => {
@@ -108,19 +163,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-editor
-    v-if="propsComponent.modelValue"
-    ref="fieldRef"
-    :model-value="(propsComponent.modelValue as string)"
+  <q-editor v-if="propsComponent.modelValue" ref="fieldRef" :model-value="(propsComponent.modelValue as string)"
     v-on:update:model-value="
       (value: unknown) => propsComponent.modelValueOnUpdate(value)
-    "
-    :toolbar="toolbar"
-    :fonts="fonts"
-    :placeholder="propsComponent.field.label"
-    :square="styleConfig.fieldSquare"
-    :dense="styleConfig.fieldDense"
-    :class="propsComponent.field.cssClass"
-    :readonly="propsComponent.field.readonly"
-  />
+    " :toolbar="toolbar" :fonts="fonts" :placeholder="propsComponent.field.label" :square="styleConfig.fieldSquare"
+    :dense="styleConfig.fieldDense" :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly"
+    @paste="onEditorPaste" @drop="onEditorDrop" />
 </template>

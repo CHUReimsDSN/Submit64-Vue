@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.5.6
+
+- Ajout des images dans le champs de type `wysiwyg`
+
 ## 1.5.5
 
 - Correction de la priorité des propriétés de configuration des formulaires locaux
