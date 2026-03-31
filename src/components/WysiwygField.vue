@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { TSubmit64FieldProps } from "../models";
-import { type QEditor, useQuasar, type QEditorProps } from "quasar";
+import { QEditor, useQuasar, type QEditorProps } from "quasar";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
