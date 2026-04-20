@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.5.7
+
+- Prise en charge des associations pour les champs `unlink`
+
 ## 1.5.6
 
 - Ajout des images dans le champs de type `wysiwyg`

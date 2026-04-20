@@ -51,7 +51,8 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   callback({
     resourceName: form.resourceName,
     resourceId: form.resourceId,
-    associationName: propsComponent.field.metadata.field_association_name!,
+    associationName: propsComponent.field.metadata.field_association_name,
+    associationClassname: propsComponent.field.metadata.field_association_class!,
     limit: selectOptionsScrollPagination.value.limit,
     offset:
       (selectOptionsScrollPagination.value.nextPage - 1) *
@@ -132,6 +133,7 @@ function onVirtualScroll(scrollArgs: {
       resourceName: form.resourceName,
       resourceId: form.resourceId,
       associationName: propsComponent.field.metadata.field_association_name!,
+      associationClassname: propsComponent.field.metadata.field_association_class!,
       limit: selectOptionsScrollPagination.value.limit,
       offset:
         (selectOptionsScrollPagination.value.nextPage - 1) *
