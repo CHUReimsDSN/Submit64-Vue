@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.6.0
+
+- Ajout du `fieldFlat` dans les styles de formulaire
+
 ## 1.5.7
 
 - Prise en charge des associations pour les champs `unlink`

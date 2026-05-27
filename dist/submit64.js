@@ -28,6 +28,7 @@ export class Submit64 {
             fieldFilled: false,
             fieldStandout: false,
             fieldBorderless: false,
+            fieldFlat: false,
             fieldRounded: false,
             fieldSquare: false,
             fieldClass: "",

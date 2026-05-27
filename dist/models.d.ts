@@ -114,6 +114,7 @@ export type TFormStyle = {
     fieldRounded?: boolean | undefined;
     fieldSquare?: boolean | undefined;
     fieldDense?: boolean | undefined;
+    fieldFlat?: boolean | undefined;
     fieldHideBottomSpace?: boolean | undefined;
     fieldColor?: string | undefined;
     fieldBgColor?: string | undefined;
