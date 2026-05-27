@@ -138,8 +138,8 @@ onMounted(() => {
 
     <q-uploader hide-upload-btn :multiple="false" :label="propsComponent.field.label"
       :bordered="styleConfig.fieldBorderless !== true" :square="styleConfig.fieldSquare" :color="styleConfig.fieldColor"
-      :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly" @added="addPendingFile"
-      @removed="removePendingFile" style="width: inherit;">
+      :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly" :flat="styleConfig.fieldFlat"
+      @added="addPendingFile" @removed="removePendingFile" style="width: inherit;">
       <template v-slot:header="scope">
         <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
           <div class="col">
