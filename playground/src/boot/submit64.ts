@@ -8,11 +8,11 @@ Submit64.registerGlobalFormBindings({
             color: 'purple'
         },
         color: {
-            _input: {
+            input: {
                 outlined: true,
                 color: 'red'
             },
-            _icon: {
+            icon: {
                 name: 'star',
                 color: 'yellow',
                 size: 'lg'
@@ -21,4 +21,4 @@ Submit64.registerGlobalFormBindings({
     }
 })
 
-console.log(Submit64.getGlobalFormBind().fields.color._input)
+console.log(Submit64.getGlobalFormBind().fields.color.input)

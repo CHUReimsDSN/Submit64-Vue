@@ -73,7 +73,7 @@ async function setupMetadatasAndForm() {
     getOverridedComponents(),
     formMetadataAndData,
     propsComponent.formSettings,
-    propsComponent.formStyle,
+    propsComponent.formBindings,
     propsComponent.context,
     formApi,
     propsComponent.eventManager
@@ -136,7 +136,7 @@ async function submit(): Promise<void> {
         resource_data: newData.resource_data!,
       },
       propsComponent.formSettings,
-      propsComponent.formStyle,
+      propsComponent.formBindings,
       form.value.context,
       formApi,
       propsComponent.eventManager

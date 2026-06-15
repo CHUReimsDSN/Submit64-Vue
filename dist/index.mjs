@@ -3450,7 +3450,7 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
         O(),
         a,
         t.formSettings,
-        t.formStyle,
+        t.formBindings,
         t.context,
         _e,
         t.eventManager
@@ -3477,7 +3477,7 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
             resource_data: y.resource_data
           },
           t.formSettings,
-          t.formStyle,
+          t.formBindings,
           d.value.context,
           _e,
           t.eventManager

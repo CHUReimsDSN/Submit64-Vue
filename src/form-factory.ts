@@ -29,6 +29,7 @@ import AttachmentHasManyField from "./components/AttachmentHasManyField.vue";
 import { Submit64Rules } from "./rules";
 import { Utils } from "./utils";
 import { Bindings } from "./bindings";
+import type { DeepPartial } from "quasar";
 
 export class FormFactory {
   resourceName: string;
@@ -52,7 +53,7 @@ export class FormFactory {
     overridedComponent: TSubmit64OverridedComponents,
     formMetadataAndData: TResourceFormMetadataAndData,
     formSettings: Partial<TFormSettings> | undefined,
-    formBind: Partial<TFormBindings> | undefined,
+    formBind: DeepPartial<TFormBindings> | undefined,
     context: TContext | undefined,
     formApi: TSubmit64FormApi,
     eventManager: ((builder: DynamicLogicBuilder) => void) | undefined,
@@ -111,7 +112,7 @@ export class FormFactory {
     overridedComponent: TSubmit64OverridedComponents,
     formMetadataAndData: TResourceFormMetadataAndData,
     formSettings: Partial<TFormSettings> | undefined,
-    formBind: Partial<TFormBindings> | undefined,
+    formBind: DeepPartial<TFormBindings> | undefined,
     context: TContext | undefined,
     formApi: TSubmit64FormApi,
     eventManager: ((builder: DynamicLogicBuilder) => void) | undefined,
