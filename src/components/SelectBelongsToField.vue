@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { QSelect } from "quasar";
 import type {
+  TBelongsToBindings,
   TSelectOptionPagination,
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
 } from "../models";
-import { nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 import { QItemLabel, QItem, QItemSection } from "quasar";
 
 // props
@@ -14,10 +15,6 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // consts
 const displayComponent =
   propsComponent.field.componentOptions.associationDisplayComponent;
-const form = propsComponent.formApi.form;
-const formSetting = form.formSettings;
-const styleConfig = form.formStyle;
-const lazyRules = formSetting.rulesBehaviour === "lazy";
 const defaultLabelFilter = '__init'
 
 // refs
@@ -152,6 +149,23 @@ function onVirtualScroll(scrollArgs: {
     });
   }
 }
+function focus() {
+  if (!fieldRef.value) {
+    return;
+  }
+  fieldRef.value.focus()
+}
+function unfocus() {
+  if (!fieldRef.value) {
+    return;
+  }
+  fieldRef.value.blur()
+}
+
+// computeds
+const bindings = computed(() => {
+  return propsComponent.field.bindings as TBelongsToBindings;
+})
 
 // lifeCycle
 onMounted(() => {
@@ -160,7 +174,9 @@ onMounted(() => {
     isValid,
     resetValidation,
     setupDefaultSelectValue,
-    clear
+    clear,
+    focus,
+    unfocus
   );
   void nextTick(() => {
     setupDefaultSelectValue();
@@ -169,19 +185,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-select ref="fieldRef" :model-value="(propsComponent.modelValue as string)" v-on:update:model-value="
-    (value: unknown) => propsComponent.modelValueOnUpdate(value)
-  " :label="propsComponent.field.label" :outlined="styleConfig.fieldOutlined" :filled="styleConfig.fieldFilled"
-    :standout="styleConfig.fieldStandout" :borderless="styleConfig.fieldBorderless" :rounded="styleConfig.fieldRounded"
-    :square="styleConfig.fieldSquare" :dense="styleConfig.fieldDense"
-    :hideBottomSpace="styleConfig.fieldHideBottomSpace" :color="styleConfig.fieldColor"
-    :bgColor="styleConfig.fieldBgColor" :class="propsComponent.field.cssClass" :lazy-rules="lazyRules"
-    :clearable="propsComponent.field.clearable" :prefix="propsComponent.field.prefix"
-    :suffix="propsComponent.field.suffix" :readonly="propsComponent.field.readonly" :rules="propsComponent.rules"
-    :options="selectOptionsFiltered" :mapOptions="true" :emitValue="true" :useInput="true" @clear="propsComponent.clear"
-    @filter="onFilter" @virtual-scroll="onVirtualScroll">
+  <q-select ref="fieldRef" v-bind="bindings.select" :model-value="(propsComponent.modelValue as string)"
+    :label="propsComponent.field.label" :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly"
+    :rules="propsComponent.field.computedRules" :options="selectOptionsFiltered" :mapOptions="true" :emitValue="true"
+    :useInput="true" @clear="propsComponent.clear" @filter="onFilter" @virtual-scroll="onVirtualScroll"
+    @update:model-value="propsComponent.modelValueOnUpdate">
     <template v-slot:no-option>
-      <q-item :dense="styleConfig.fieldDense">
+      <q-item v-bind="bindings.itemNoOption">
         <q-item-section>
           <q-item-label>{{
             propsComponent.formApi.form.formSettings.associationEmptyMessage

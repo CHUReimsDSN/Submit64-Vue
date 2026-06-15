@@ -7,10 +7,9 @@ import {
   unref,
   watch,
 } from "vue";
-import type { TSubmit64FieldApi, TSubmit64FieldWrapperProps, TSubmit64FileDataValue } from "../models";
-import { Submit64Rules } from "../rules";
-import { callAllEvents } from "../utils";
+import type { TFieldBindings, TFormField, TSubmit64FieldApi, TSubmit64FieldWrapperProps, TSubmit64FileDataValue } from "../models";
 import { date } from "quasar";
+import { Utils } from "../utils";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldWrapperProps>();
@@ -31,12 +30,16 @@ let resetCallback: () => void = () => {
 let clearCallback: () => void = () => {
   return;
 }
-
-// consts
-const rules = getComputedRules();
+let focusCallback: () => void = () => {
+  return;
+}
+let unfocusCallback: () => void = () => {
+  return;
+}
 
 // refs
 const modelValue = ref<unknown>();
+const isFocused = ref(false)
 const backendErrors = ref<string[]>([]);
 
 // functions
@@ -51,7 +54,7 @@ function reset() {
     propsComponent.field.metadata.field_name
   );
   modelValue.value = formModelSerializeByType(modelValue.value);
-  callAllEvents(propsComponent.field.events.onReset);
+  Utils.callAllEvents(propsComponent.field.events.onReset);
   resetCallback();
   void nextTick(() => {
     resetValidation();
@@ -166,13 +169,7 @@ function clear() {
       break;
   }
   clearCallback();
-  callAllEvents(propsComponent.field.events.onClear);
-}
-function getComputedRules() {
-  return Submit64Rules.computeServerRules(
-    propsComponent.field,
-    propsComponent.formApi
-  );
+  Utils.callAllEvents(propsComponent.field.events.onClear);
 }
 function modelValueOnUpdate(value: unknown) {
   modelValue.value = value;
@@ -186,75 +183,36 @@ function getValueDeserialized() {
 function setupBackendErrors(errorsArg: string[]) {
   backendErrors.value = errorsArg;
 }
-function hide() {
-  const fieldRef = propsComponent.privateFormApi.getFieldRef(
+function getFieldRef(): TFormField {
+  return propsComponent.privateFormApi.getFieldRef(
     propsComponent.field.metadata.field_name
-  );
-  if (fieldRef) {
-    fieldRef.hidden = true;
-    callAllEvents(propsComponent.field.events.onHide);
-  }
+  )!;
+}
+function hide() {
+  const fieldRef = getFieldRef()
+  fieldRef.hidden = true;
+  Utils.callAllEvents(propsComponent.field.events.onHide);
 }
 function unhide() {
-  const fieldRef = propsComponent.privateFormApi.getFieldRef(
-    propsComponent.field.metadata.field_name
-  );
-  if (fieldRef) {
-    fieldRef.hidden = false;
-    callAllEvents(propsComponent.field.events.onUnhide);
-  }
+  const fieldRef = getFieldRef()
+  fieldRef.hidden = false;
+  Utils.callAllEvents(propsComponent.field.events.onUnhide);
 }
 function setReadonlyState(state: boolean) {
-  const fieldRef = propsComponent.privateFormApi.getFieldRef(
-    propsComponent.field.metadata.field_name
-  );
-  if (fieldRef) {
-    fieldRef.readonly = state;
-  }
-}
-function setHint(hint: string) {
-  const fieldRef = propsComponent.privateFormApi.getFieldRef(
-    propsComponent.field.metadata.field_name
-  );
-  if (fieldRef) {
-    fieldRef.hint = hint;
-  }
+  const fieldRef = getFieldRef()
+  fieldRef.readonly = state;
 }
 function setCssClass(cssClass: string) {
-  const fieldRef = propsComponent.privateFormApi.getFieldRef(
-    propsComponent.field.metadata.field_name
-  );
-  if (fieldRef) {
-    fieldRef.cssClass = cssClass;
-  }
-}
-function setSuffix(suffix: string) {
-  const fieldRef = propsComponent.privateFormApi.getFieldRef(
-    propsComponent.field.metadata.field_name
-  );
-  if (fieldRef) {
-    fieldRef.suffix = suffix;
-  }
-}
-function setPrefix(prefix: string) {
-  const fieldRef = propsComponent.privateFormApi.getFieldRef(
-    propsComponent.field.metadata.field_name
-  );
-  if (fieldRef) {
-    fieldRef.prefix = prefix;
-  }
+  const fieldRef = getFieldRef()
+  fieldRef.cssClass = cssClass;
 }
 function setLabel(label: string) {
-  const fieldRef = propsComponent.privateFormApi.getFieldRef(
-    propsComponent.field.metadata.field_name
-  );
-  if (fieldRef) {
-    fieldRef.label = label;
-  }
+  const fieldRef = getFieldRef()
+  fieldRef.label = label;
 }
 function validate() {
   const validated = validationCallback();
-  callAllEvents(propsComponent.field.events.onValidated);
+  Utils.callAllEvents(propsComponent.field.events.onValidated);
   return validated;
 }
 function isValid() {
@@ -267,12 +225,36 @@ function isInvalid() {
 function resetValidation() {
   return resetValidationCallback();
 }
+function tryFocus() {
+  if (!isFocused.value) {
+    focusCallback();
+    isFocused.value = true
+  }
+}
+function tryUnfocus() {
+  if (isFocused.value) {
+    unfocusCallback();
+    isFocused.value = false
+  }
+}
+function isFocus() {
+  return isFocused.value
+}
+function addBindings(bindings: TFieldBindings) {
+  const fieldRef = getFieldRef()
+  fieldRef.bindings = Utils.deepMergeObject(
+    fieldRef.bindings,
+    bindings
+  )
+}
 function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,
   registerIsValidArg: () => boolean,
   registerResetValidationArg: () => void,
   registerOnResetArg?: () => void,
   registerOnClearArg?: () => void,
+  registerOnFocusArg?: () => void,
+  registerOnUnfocusArg?: () => void,
 ) {
   validationCallback = registerValidationArg;
   isValidCallback = registerIsValidArg;
@@ -282,6 +264,12 @@ function registerBehaviourCallbacks(
   }
   if (registerOnClearArg) {
     clearCallback = registerOnClearArg
+  }
+  if (registerOnFocusArg) {
+    focusCallback = registerOnFocusArg
+  }
+  if (registerOnUnfocusArg) {
+    unfocusCallback = registerOnUnfocusArg
   }
 }
 
@@ -300,11 +288,12 @@ const api: TSubmit64FieldApi = {
   getValueSerialized,
   setupBackendErrors,
   setReadonlyState,
-  setHint,
   setCssClass,
-  setSuffix,
-  setPrefix,
   setLabel,
+  tryFocus,
+  tryUnfocus,
+  isFocus,
+  addBindings,
   setValue: modelValueOnUpdate,
   field: propsComponent.field,
 };
@@ -314,7 +303,7 @@ defineExpose(api);
 watch(
   () => (propsComponent.field.events.onUpdate ? modelValue.value : null),
   () => {
-    callAllEvents(propsComponent.field.events.onUpdate);
+    Utils.callAllEvents(propsComponent.field.events.onUpdate);
   }
 );
 watch(
@@ -325,9 +314,9 @@ watch(
       : null,
   (newValue) => {
     if (newValue) {
-      callAllEvents(propsComponent.field.events.onIsValid);
+      Utils.callAllEvents(propsComponent.field.events.onIsValid);
     } else {
-      callAllEvents(propsComponent.field.events.onIsInvalid);
+      Utils.callAllEvents(propsComponent.field.events.onIsInvalid);
     }
   }
 );
@@ -342,7 +331,7 @@ onMounted(() => {
       proxyInstanceRef as TSubmit64FieldApi
     );
   }
-  callAllEvents(propsComponent.field?.events.onReady);
+  Utils.callAllEvents(propsComponent.field?.events.onReady);
 });
 </script>
 
@@ -351,9 +340,9 @@ onMounted(() => {
     <Component v-if="propsComponent.field.beforeComponent" :is="propsComponent.field.beforeComponent"
       :formApi="propsComponent.formApi" :fieldApi="api" />
     <Component :is="propsComponent.field.mainComponent" :modelValue="modelValue" :field="propsComponent.field"
-      :formApi="propsComponent.formApi" :rules="rules" :reset="reset" :clear="clear"
-      :getValueDeserialized="getValueDeserialized" :getValueSerialized="getValueSerialized" :validate="validate"
-      :modelValueOnUpdate="modelValueOnUpdate" :registerBehaviourCallbacks="registerBehaviourCallbacks" />
+      :formApi="propsComponent.formApi" :reset="reset" :clear="clear" :getValueDeserialized="getValueDeserialized"
+      :getValueSerialized="getValueSerialized" :validate="validate" :modelValueOnUpdate="modelValueOnUpdate"
+      :registerBehaviourCallbacks="registerBehaviourCallbacks" />
     <Component v-if="propsComponent.field.afterComponent" :is="propsComponent.field.afterComponent"
       :formApi="propsComponent.formApi" :fieldApi="api" />
     <div v-if="backendErrors.length > 0" class="q-field__bottom text-negative q-pt-none">

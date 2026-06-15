@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { QSelect } from "quasar";
-import { TSubmit64FieldProps, TSubmit64StaticSelectOptions } from "../models";
-import { onMounted, ref } from "vue";
+import type { TSelectBindings, TSubmit64FieldProps, TSubmit64StaticSelectOptions } from "../models";
+import { computed, onMounted, ref } from "vue";
 import { QItemLabel, QItem, QItemSection } from "quasar";
 
 // props
@@ -11,12 +11,6 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 const selectOptions = ref<Readonly<TSubmit64StaticSelectOptions[]>>([]);
 const selectOptionsFiltered = ref<TSubmit64StaticSelectOptions[]>([]);
 const fieldRef = ref<InstanceType<typeof QSelect>>();
-
-// consts
-const form = propsComponent.formApi.form;
-const formSetting = form.formSettings;
-const styleConfig = form.formStyle;
-const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // functions
 function inputFilter(val: string, update: (callback: () => void) => void) {
@@ -61,50 +55,50 @@ function resetValidation() {
 function clear() {
   selectOptionsFiltered.value = [];
 }
+function focus() {
+  if (!fieldRef.value) {
+    return;
+  }
+  fieldRef.value.focus()
+}
+function unfocus() {
+  if (!fieldRef.value) {
+    return;
+  }
+  fieldRef.value.blur()
+}
+
+// computeds
+const bindings = computed(() => {
+  return propsComponent.field.bindings as TSelectBindings;
+})
 
 // lifeCycle
 onMounted(() => {
   setupSelectOptions();
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, undefined, clear);
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, undefined, clear, focus, unfocus);
 });
 </script>
 
 <template>
   <q-select
     ref="fieldRef"
+    v-bind="bindings.select"
     :model-value="(propsComponent.modelValue as string)"
-    v-on:update:model-value="
-      (value: unknown) => propsComponent.modelValueOnUpdate(value)
-    "
-    :type="propsComponent.field.componentOptions.regularFieldType"
     :label="propsComponent.field.label"
-    :hint="propsComponent.field.hint"
-    :outlined="styleConfig.fieldOutlined"
-    :filled="styleConfig.fieldFilled"
-    :standout="styleConfig.fieldStandout"
-    :borderless="styleConfig.fieldBorderless"
-    :rounded="styleConfig.fieldRounded"
-    :square="styleConfig.fieldSquare"
-    :dense="styleConfig.fieldDense"
-    :hideBottomSpace="styleConfig.fieldHideBottomSpace"
-    :color="styleConfig.fieldColor"
-    :bgColor="styleConfig.fieldBgColor"
     :class="propsComponent.field.cssClass"
-    :lazy-rules="lazyRules"
-    :clearable="propsComponent.field.clearable"
-    :prefix="propsComponent.field.prefix"
-    :suffix="propsComponent.field.suffix"
     :readonly="propsComponent.field.readonly"
-    :rules="propsComponent.rules"
+    :rules="propsComponent.field.computedRules"
     :options="selectOptionsFiltered"
     :mapOptions="true"
     :emitValue="true"
     :useInput="true"
     @clear="propsComponent.clear"
     @filter="inputFilter"
+    @update:model-value="propsComponent.modelValueOnUpdate"
   >
     <template v-slot:no-option>
-      <q-item :dense="styleConfig.fieldDense">
+      <q-item v-bind="bindings.itemNoOption" >
         <q-item-section>
           <q-item-label>{{
             propsComponent.formApi.form.formSettings.associationEmptyMessage

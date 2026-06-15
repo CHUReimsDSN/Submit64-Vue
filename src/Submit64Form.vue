@@ -11,6 +11,7 @@ import {
   type Ref,
   type WatchStopHandle,
   type Component,
+  readonly,
 } from "vue";
 import type {
   TForm,
@@ -28,9 +29,9 @@ import type {
   TFormSection,
 } from "./models";
 import { FormFactory } from "./form-factory";
-import { callAllEvents } from "./utils";
 import SectionWrapper from "./components/SectionWrapper.vue";
 import FieldWrapper from "./components/FieldWrapper.vue";
+import { Utils } from "./utils";
 
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
@@ -72,13 +73,16 @@ async function setupMetadatasAndForm() {
     getOverridedComponents(),
     formMetadataAndData,
     propsComponent.formSettings,
-    propsComponent.formStyle,
+    propsComponent.formBindings,
     propsComponent.context,
     formApi,
     propsComponent.eventManager
   );
   sectionCount = form.value.sections.length;
-  fieldCount = form.value.sections.map((s) => s.fields).flat().length;
+  fieldCount = form.value.sections.reduce((acc, s) => {
+    acc += s.fields.length
+    return acc
+  }, 0);
   if (propsComponent.resourceId) {
     mode.value = "edit";
   }
@@ -87,7 +91,7 @@ async function submit(): Promise<void> {
   if (!validate()) {
     return;
   }
-  callAllEvents(form.value?.events.onSubmit);
+  Utils.callAllEvents(form.value?.events.onSubmit);
   isLoadingSubmit.value = true;
   clearBackendErrors();
   const resourceData = getValuesFormDeserialized();
@@ -114,7 +118,7 @@ async function submit(): Promise<void> {
       }
       orphanErrors.value[errorEntry[0]] = errorEntry[1];
     });
-    callAllEvents(form.value?.events.onSubmitUnsuccess);
+    Utils.callAllEvents(form.value?.events.onSubmitUnsuccess);
   } else {
     orphanErrors.value = {};
     if (mode.value === "create") {
@@ -132,14 +136,14 @@ async function submit(): Promise<void> {
         resource_data: newData.resource_data!,
       },
       propsComponent.formSettings,
-      propsComponent.formStyle,
+      propsComponent.formBindings,
       form.value.context,
       formApi,
       propsComponent.eventManager
     );
     softReset();
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
-    callAllEvents(form.value?.events.onSubmitSuccess);
+    Utils.callAllEvents(form.value?.events.onSubmitSuccess);
   }
   isLoadingSubmit.value = false;
 }
@@ -208,7 +212,7 @@ function validate() {
       return;
     }
   });
-  callAllEvents(form.value?.events.onValidated);
+  Utils.callAllEvents(form.value?.events.onValidated);
   return formValid;
 }
 function isValid() {
@@ -233,13 +237,13 @@ function reset() {
   fieldWrapperRefs.value.forEach((fieldRef) => {
     fieldRef.reset();
   });
-  callAllEvents(form.value?.events.onReset);
+  Utils.callAllEvents(form.value?.events.onReset);
 }
 function clear() {
   fieldWrapperRefs.value.forEach((fieldRef) => {
     fieldRef.clear();
   });
-  callAllEvents(form.value?.events.onClear);
+  Utils.callAllEvents(form.value?.events.onClear);
 }
 function resetValidation() {
   fieldWrapperRefs.value.forEach((fieldRef) => {
@@ -322,6 +326,24 @@ function isReady() {
 function getSubmitData() {
   return submitData;
 }
+function tryFocusFirst() {
+  for (const section of getSections().values()) {
+    const success = section.tryFocusFirst()
+    if (success) {
+      return true
+    }
+  }
+  return false
+}
+function tryUnfocus() {
+  for (const section of getSections().values()) {
+    const success = section.tryUnfocus()
+    if (success) {
+      return true
+    }
+  }
+  return false
+}
 
 // private api
 function getFormRef() {
@@ -365,6 +387,17 @@ function setSectionFieldComponent(
   section.fieldsComponent = component;
 }
 
+// computeds
+const isValidComputed = computed(() => {
+  return isValid();
+});
+const isInvalidComputed = computed(() => {
+  return isInvalid();
+});
+const isUpdatedComputed = computed(() => {
+  return getValuesFormSerialized();
+});
+
 // apis
 const privateFormApi: TSubmit64FormPrivateApi = {
   getFormRef,
@@ -403,27 +436,23 @@ const formApi: TSubmit64FormApi = {
   setReadonlyState,
   isReady,
   getSubmitData,
+  tryFocusFirst,
+  tryUnfocus,
   form: formReactive as unknown as TForm,
+  refs: {
+    orphanErrors: readonly(orphanErrors),
+    isLoadingSubmit: readonly(isLoadingSubmit),
+    isFormValid: readonly(isValidComputed)
+  }
 };
 defineExpose<TSubmit64FormApi>(formApi);
 
-// computeds
-const isValidComputed = computed(() => {
-  return isValid();
-});
-const isInvalidComputed = computed(() => {
-  return isInvalid();
-});
-const isUpdatedComputed = computed(() => {
-  return getValuesFormSerialized();
-});
-
-// watchs
+  // watchs
 watch(
   () => setupSectionsIsDone.value && setupFieldsIsDone.value,
   (newValue) => {
     if (newValue && !setupIsDone.value) {
-      callAllEvents(form.value?.events.onReady);
+      Utils.callAllEvents(form.value?.events.onReady);
       setupIsDone.value = true;
     }
   }
@@ -436,7 +465,7 @@ watch(
     if (callExist) {
       stopWatchIsValid = watch(isValidComputed, (newValue) => {
         if (newValue) {
-          callAllEvents(form.value?.events.onIsValid);
+          Utils.callAllEvents(form.value?.events.onIsValid);
         }
       });
     }
@@ -451,7 +480,7 @@ watch(
     if (callExist) {
       stopWatchIsInvalid = watch(isInvalidComputed, (newValue) => {
         if (newValue) {
-          callAllEvents(form.value?.events.onIsInvalid);
+          Utils.callAllEvents(form.value?.events.onIsInvalid);
         }
       });
     }
@@ -467,7 +496,7 @@ watch(
       stopWatchIsUpdated = watch(
         isUpdatedComputed,
         () => {
-          callAllEvents(form.value?.events.onUpdate);
+          Utils.callAllEvents(form.value?.events.onUpdate);
         },
         { immediate: true }
       );
@@ -482,6 +511,9 @@ onMounted(async () => {
   await setupMetadatasAndForm();
   void nextTick(() => {
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
+    if (form.value.formSettings.autofocus) {
+      tryFocusFirst()
+    }
   });
 });
 </script>
@@ -491,12 +523,11 @@ onMounted(async () => {
     <div :class="form.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
       <SectionWrapper v-for="section in form.sections" :key="section.name" :section="section" :formApi="formApi"
         :privateFormApi="privateFormApi">
-
         <FieldWrapper v-for="field in section.fields" :key="field.metadata.field_name" :field="field" :formApi="formApi"
           :privateFormApi="privateFormApi" />
       </SectionWrapper>
     </div>
-    <component :is="form.orphanErrorsComponent" :orphanErrors="orphanErrors" :formApi="formApi" />
-    <component :is="form.actionComponent" :isLoadingSubmit="isLoadingSubmit" :formApi="formApi" />
+    <component :is="form.orphanErrorsComponent" :formApi="formApi" />
+    <component :is="form.actionComponent" :formApi="formApi" />
   </div>
 </template>

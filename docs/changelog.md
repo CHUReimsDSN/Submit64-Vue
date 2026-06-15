@@ -4,36 +4,54 @@ title: Changelog
 
 # Changelog
 
-## 1.6.0
+### 1.7.0
+
+- Le bouton de soumission est désormais désactivé si le formulaire n'est pas valide
+- Ajout des fonctions `focus` et `unfocus` pour les `TSubmit64FormApi`, `TSubmit64SectionApi` et `TSubmit64FieldApi`.
+- Ajout d'un paramètre permettant l'autofocus sur le premier champs disponible du formulaire
+- Le téléchargement de fichier est désormais bien attendu avant de pouvoir soumettre le formulaire
+- Remaniement des comportements et styles à travers la méthode `Submit64.registerGlobalFormBindings` et la props `formBindings` du composant `Submit64Form`.
+
+---
+### 1.6.0
 
 - Ajout du `fieldFlat` dans les styles de formulaire
 
-## 1.5.7
+---
+### 1.5.7
 
 - Prise en charge des associations pour les champs `unlink`
 
-## 1.5.6
+---
+### 1.5.6
 
 - Ajout des images dans le champs de type `wysiwyg`
 
-## 1.5.5
+---
+### 1.5.5
 
 - Correction de la priorité des propriétés de configuration des formulaires locaux
 
-## 1.5.4
+---
+### 1.5.4
 
 - Correction du context ignoré dans les props
 
-## 1.5.3
+---
+### 1.5.3
+
 - Correction du FormApi.setContext
 
-## 1.5.2
+---
+### 1.5.2
 - Ajustements documentation
 - Correction d'un problème où les champs de relations n'étaient pas envoyés à l'interopérabilité lors du clear
 
-## 1.5.1
+---
+### 1.5.1
 - Nouvelle documentation
 - Correction des slots pour les sections
 
-## 1.5.0
+---
+### 1.5.0
 - Champ de pièces-jointes 

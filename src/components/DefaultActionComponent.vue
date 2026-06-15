@@ -1,48 +1,25 @@
 <script setup lang="ts">
-import { QBtn, type QBtnProps } from "quasar";
+import { QBtn } from "quasar";
 import type { TSubmit64ActionFormProps } from "../models";
 
 // props
 const propsComponent = defineProps<TSubmit64ActionFormProps>();
-
-// functions
-function getButtonBindStyle(): QBtnProps {
-  const formStyle =
-    propsComponent.formApi.form.formStyle;
-  return {
-    outline: formStyle.fieldOutlined,
-    rounded: formStyle.fieldRounded,
-    square: formStyle.fieldSquare,
-    dense: formStyle.fieldDense,
-    color: formStyle.fieldColor,
-    noCaps: true
-  };
-}
 </script>
 
 <template>
   <div class="flex column">
     <div class="flex row items-center no-wrap q-pt-sm q-gutter-x-sm">
-      <q-btn
-        v-bind="getButtonBindStyle()"
-        label="Enregistrer"
-        :loading="propsComponent.isLoadingSubmit"
-        @click="propsComponent.formApi.submit"
-      />
-      <q-btn
-        v-if="propsComponent.formApi.reset"
-        v-bind="getButtonBindStyle()"
-        :loading="propsComponent.isLoadingSubmit"
-        label="Réinitialiser"
-        @click="propsComponent.formApi.reset"
-      />
-      <q-btn
-        v-if="propsComponent.formApi.clear"
-        v-bind="getButtonBindStyle()"
-        :loading="propsComponent.isLoadingSubmit"
-        label="Effacer"
-        @click="propsComponent.formApi.clear"
-      />
+      <q-btn v-bind="propsComponent.formApi.form.bindings.form.actions.submitBtn"
+        :loading="propsComponent.formApi.refs.isLoadingSubmit.value"
+        :disable="!propsComponent.formApi.refs.isFormValid.value" @click="propsComponent.formApi.submit" />
+      <q-btn v-if="propsComponent.formApi.form.formSettings.showResetButton"
+        v-bind="propsComponent.formApi.form.bindings.form.actions.resetBtn"
+        :loading="propsComponent.formApi.refs.isLoadingSubmit.value"
+        @click="propsComponent.formApi.reset" />
+      <q-btn v-if="propsComponent.formApi.form.formSettings.showClearButton"
+        v-bind="propsComponent.formApi.form.bindings.form.actions.clearBtn"
+        :loading="propsComponent.formApi.refs.isLoadingSubmit.value"
+        @click="propsComponent.formApi.clear" />
     </div>
   </div>
 </template>

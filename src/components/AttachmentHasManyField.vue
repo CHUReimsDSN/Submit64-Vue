@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { QUploader, QBtn, QUploaderAddTrigger, QList, QItem, QItemSection, QItemLabel, QSeparator } from "quasar";
-import type { TFormField, TSubmit64FieldProps, TSubmit64FileDataValue, TSubmit64FilePending, TSubmit64ValidationRule } from "../models";
-import { humanStorageSize } from "../utils";
+import type { TAttachmentHasManyBindings, TFormField, TSubmit64FieldProps, TSubmit64FileDataValue, TSubmit64FilePending, TSubmit64ValidationRule } from "../models";
+import { Utils } from "../utils";
 
 // types
 type TUploadedAttachment = Required<TFormField>['attachmentData'][number]
@@ -10,12 +10,9 @@ type TUploadedAttachment = Required<TFormField>['attachmentData'][number]
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
 
-// consts
-const form = propsComponent.formApi.form;
-const styleConfig = form.formStyle;
-
 // refs
-const errorFromRules = ref<string | null>(null)
+const errorFromRules = ref<string | null>(null);
+const isParsingFile = ref(false)
 
 // functions
 function reset() {
@@ -39,7 +36,7 @@ function validate() {
   return isValid()
 }
 function isValid() {
-  return errorFromRules.value === null
+  return errorFromRules.value === null && isParsingFile.value !== true
 }
 function resetValidation() {
   errorFromRules.value = null
@@ -67,15 +64,18 @@ async function quasarFileToSubmit64File(file: File) {
   return pendingFile;
 }
 async function addPendingFile(files: readonly any[]) {
+  isParsingFile.value = true
   for (const file of files) {
     const properFile = await quasarFileToSubmit64File(file);
     let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
     modelValue.add.push(properFile)
     propsComponent.modelValueOnUpdate(modelValue)
   }
+  isParsingFile.value = false
   applyRules()
 }
 async function removePendingFile(files: readonly any[]) {
+  isParsingFile.value = true
   for (const file of files) {
     const properFile = await quasarFileToSubmit64File(file);
     let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
@@ -84,6 +84,7 @@ async function removePendingFile(files: readonly any[]) {
     })
     propsComponent.modelValueOnUpdate(modelValue)
   }
+  isParsingFile.value = false
   applyRules()
 }
 function removeUploadedFile(uploadedAttachment: TUploadedAttachment) {
@@ -102,7 +103,7 @@ function keepUploadedFile(uploadedAttachment: TUploadedAttachment) {
 }
 function applyRules() {
   errorFromRules.value = null
-  for (const rule of propsComponent.rules as TSubmit64ValidationRule[]) {
+  for (const rule of propsComponent.field.computedRules as TSubmit64ValidationRule[]) {
     const ruleResult = rule(propsComponent.modelValue)
     if (typeof ruleResult === 'string') {
       errorFromRules.value = ruleResult
@@ -121,6 +122,9 @@ const modelValueDeleteIds = computed(() => {
   }
   return (propsComponent.modelValue as TSubmit64FileDataValue).delete
 })
+const bindings = computed(() => {
+  return propsComponent.field.bindings as TAttachmentHasManyBindings;
+})
 
 // lifeCycle
 onMounted(() => {
@@ -131,15 +135,13 @@ onMounted(() => {
 <template>
   <div class="flex column">
 
-    <q-uploader hide-upload-btn :multiple="true" :label="propsComponent.field.label"
-      :bordered="styleConfig.fieldBorderless !== true" :square="styleConfig.fieldSquare" :color="styleConfig.fieldColor"
-      :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly" :flat="styleConfig.fieldFlat"
-      @added="addPendingFile" @removed="removePendingFile" style="width: inherit;">
+    <q-uploader v-bind="bindings.uploader" hide-upload-btn :multiple="true" :label="propsComponent.field.label"
+      :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly" @added="addPendingFile"
+      @removed="removePendingFile" style="width: inherit;">
       <template v-slot:header="scope">
         <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
           <div class="col">
             <div class="q-uploader__title">{{ propsComponent.field.label }}</div>
-            <div v-if="propsComponent.field.hint" class="caption">{{ propsComponent.field.hint }}</div>
           </div>
           <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>
             <q-uploader-add-trigger />
@@ -159,7 +161,7 @@ onMounted(() => {
                 </q-item-label>
 
                 <q-item-label caption>
-                  {{ humanStorageSize(file.size) }}
+                  {{ Utils.humanStorageSize(file.size) }}
                 </q-item-label>
               </q-item-section>
 

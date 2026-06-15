@@ -1,13 +1,13 @@
 import { type Component } from "vue";
-import type { TForm, TFormStyle, TFormSettings, TResourceFormMetadataAndData, TContext, TSubmit64OverridedComponents, TFormSettingsProps, TSubmit64FormApi } from "./models";
+import type { TForm, TFormBindings, TFormSettings, TResourceFormMetadataAndData, TContext, TSubmit64OverridedComponents, TSubmit64FormApi } from "./models";
 import { DynamicLogicBuilder } from "./dynamic-logic-builder";
 export declare class FormFactory {
     resourceName: string;
     resourceId: TForm["resourceId"];
     formMetadataAndData: TResourceFormMetadataAndData;
     context?: TContext;
-    formSettings: Required<TFormSettings>;
-    formStyle: Required<TFormStyle>;
+    formSettings: TFormSettings;
+    formBind: TFormBindings;
     actionComponent: Component;
     orphanErrorsComponent: Component;
     sectionComponent: Component;
@@ -18,8 +18,9 @@ export declare class FormFactory {
     registerEventCallback: (builder: DynamicLogicBuilder) => void;
     private constructor();
     static getEmptyFormBeforeInit(): TForm;
-    static getForm(resourceName: string, resourceId: TForm["resourceId"], overridedComponent: TSubmit64OverridedComponents, formMetadataAndData: TResourceFormMetadataAndData, formSettings: Partial<TFormSettingsProps> | undefined, formStyle: Partial<TFormStyle> | undefined, context: TContext | undefined, formApi: TSubmit64FormApi, eventManager: ((builder: DynamicLogicBuilder) => void) | undefined): TForm;
+    static getForm(resourceName: string, resourceId: TForm["resourceId"], overridedComponent: TSubmit64OverridedComponents, formMetadataAndData: TResourceFormMetadataAndData, formSettings: Partial<TFormSettings> | undefined, formBind: Partial<TFormBindings> | undefined, context: TContext | undefined, formApi: TSubmit64FormApi, eventManager: ((builder: DynamicLogicBuilder) => void) | undefined): TForm;
     private generateFormDef;
+    private getBindingsByFormFieldType;
     private static getRegularFieldTypeByFieldType;
     private static getFieldComponentByFormFieldType;
 }

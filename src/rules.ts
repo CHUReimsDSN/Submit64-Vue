@@ -5,7 +5,7 @@ import {
   TSubmit64FormApi,
   TSubmit64ValidationRule,
 } from "./models";
-import { humanStorageSize } from "./utils";
+import { Utils } from "./utils";
 
 export type TSubmit64Rule = {
   type: // general
@@ -710,7 +710,7 @@ function equalsToFileLength(fileLength: () => number) {
         valid = false;
       }
     });
-    return valid || `Taille par fichier ${humanStorageSize(fileLengthValue)}`;
+    return valid || `Taille par fichier ${Utils.humanStorageSize(fileLengthValue)}`;
   };
 }
 function greaterThanOrEqualFileLength(fileLength: () => number) {
@@ -727,7 +727,7 @@ function greaterThanOrEqualFileLength(fileLength: () => number) {
       }
     });
     return (
-      valid || `Taille par fichier min. ${humanStorageSize(fileLengthValue)}`
+      valid || `Taille par fichier min. ${Utils.humanStorageSize(fileLengthValue)}`
     );
   };
 }
@@ -745,7 +745,7 @@ function lowerThanOrEqualFileLength(fileLength: () => number) {
       }
     });
     return (
-      valid || `Taille par fichier max. ${humanStorageSize(fileLengthValue)}`
+      valid || `Taille par fichier max. ${Utils.humanStorageSize(fileLengthValue)}`
     );
   };
 }
@@ -778,7 +778,7 @@ function lessThanOrEqualTotalFileSize(totalFileSize: () => number) {
         acc += fileValueMap.size;
         return acc;
       }, 0) <= totalFileSizeValue;
-    return valid || `${humanStorageSize(totalFileSizeValue)} max.`;
+    return valid || `${Utils.humanStorageSize(totalFileSizeValue)} max.`;
   };
 }
 function greaterThanOrEqualTotalFileSize(totalFileSize: () => number) {
@@ -790,7 +790,7 @@ function greaterThanOrEqualTotalFileSize(totalFileSize: () => number) {
         acc += fileValueMap.size;
         return acc;
       }, 0) >= totalFileSizeValue;
-    return valid || `${humanStorageSize(totalFileSizeValue)} min.`;
+    return valid || `${Utils.humanStorageSize(totalFileSizeValue)} min.`;
   };
 }
 function equalTotalFileSize(totalFileSize: () => number) {
@@ -802,7 +802,7 @@ function equalTotalFileSize(totalFileSize: () => number) {
         acc += fileValueMap.size;
         return acc;
       }, 0) === totalFileSizeValue;
-    return valid || `Taille totale ${humanStorageSize(totalFileSizeValue)}`;
+    return valid || `Taille totale ${Utils.humanStorageSize(totalFileSizeValue)}`;
   };
 }
 
