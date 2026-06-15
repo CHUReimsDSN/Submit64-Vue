@@ -16,6 +16,7 @@ import AttachmentHasOneField from "./components/AttachmentHasOneField.vue";
 import AttachmentHasManyField from "./components/AttachmentHasManyField.vue";
 import { Submit64Rules } from "./rules";
 import { Utils } from "./utils";
+import { Bindings } from "./bindings";
 export class FormFactory {
     resourceName;
     resourceId;
@@ -66,7 +67,7 @@ export class FormFactory {
             sections: [],
             formSettings: Submit64.getGlobalFormSetting(),
             events: {},
-            bindings: {},
+            bindings: Bindings.getEmptyDefaultBindings(),
             actionComponent: markRaw(Submit64.getGlobalActionComponent()),
             orphanErrorsComponent: markRaw(Submit64.getGlobalOrphanErrorComponent()),
             wrapperResetComponent: markRaw(Submit64.getGlobalWrapperResetComponent()),

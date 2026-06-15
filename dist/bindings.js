@@ -305,6 +305,29 @@ function getDefaultFormBindings() {
         }
     };
 }
+function getEmptyDefaultBindings() {
+    return {
+        fields: {
+            string: {},
+            number: {},
+            wysiwyg: {},
+            color: {},
+            date: {},
+            datetime: {},
+            belongsTo: {},
+            hasMany: {},
+            attachmentBelongsTo: {},
+            attachmentHasMany: {},
+            select: {},
+            checkbox: {}
+        },
+        sections: {},
+        form: {
+            actions: {}
+        }
+    };
+}
 export const Bindings = {
-    getDefaultFormBindings
+    getDefaultFormBindings,
+    getEmptyDefaultBindings
 };
