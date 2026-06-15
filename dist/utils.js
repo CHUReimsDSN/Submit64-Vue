@@ -13,20 +13,33 @@ function humanStorageSize(bytes) {
     return `${bytes.toFixed(1)}${units[u]}`;
 }
 function deepMergeObject(objToMergeTo, objPrio) {
-    return Object.keys(objPrio).reduce((merged, key) => {
-        merged[key] =
-            objPrio[key] instanceof Object && !Array.isArray(objPrio[key])
-                ? deepMergeObject(objPrio[key], merged[key] ?? {})
-                : objPrio[key];
-        return merged;
-    }, { ...objToMergeTo });
+    const merged = { ...objToMergeTo };
+    for (const key of Object.keys(objPrio)) {
+        const prioValue = objPrio[key];
+        const targetValue = merged[key];
+        if (prioValue &&
+            typeof prioValue === "object" &&
+            !Array.isArray(prioValue) &&
+            targetValue &&
+            typeof targetValue === "object" &&
+            !Array.isArray(targetValue)) {
+            merged[key] = deepMergeObject(targetValue, prioValue);
+        }
+        else if (prioValue !== undefined) {
+            merged[key] = prioValue;
+        }
+    }
+    return merged;
 }
 function deepDupeObject(objectToDupe) {
+    if (typeof structuredClone === "function") {
+        return structuredClone(objectToDupe);
+    }
     return JSON.parse(JSON.stringify(objectToDupe));
 }
 export const Utils = {
     callAllEvents,
     humanStorageSize,
     deepMergeObject,
-    deepDupeObject
+    deepDupeObject,
 };

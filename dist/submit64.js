@@ -35,13 +35,10 @@ export class Submit64 {
         this._associationDisplayComponent = DefaultAssociationDisplayComponent;
     }
     static registerGlobalFormSetting(formSetting) {
-        this._instance._formSettings = {
-            ...this._instance._formSettings,
-            ...formSetting,
-        };
+        this._instance._formSettings = Utils.deepMergeObject(Utils.deepDupeObject(this._instance._formSettings), Utils.deepDupeObject(formSetting));
     }
     static registerGlobalFormBindings(bindings) {
-        this._instance._formBind = Utils.deepMergeObject({ ...this._instance._formBind }, { ...bindings });
+        this._instance._formBind = Utils.deepMergeObject(Utils.deepDupeObject(this._instance._formBind), Utils.deepDupeObject(bindings));
     }
     static registerGlobalActionComponent(actionComponent) {
         this._instance._actionComponent = actionComponent;

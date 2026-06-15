@@ -50,17 +50,17 @@ function getDefaultNumber() {
 }
 function getDefautColor() {
     return {
-        _input: {
+        input: {
             ...fieldDefaultBind,
         },
-        _icon: {
+        icon: {
             name: "colorize",
             class: "cursor-pointer",
         },
-        _popupProxy: {
+        popupProxy: {
             ...popupProxyDefaultBind,
         },
-        _color: {},
+        color: {},
     };
 }
 function getDefaultWysiwig() {

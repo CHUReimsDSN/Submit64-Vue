@@ -64,14 +64,14 @@ export class FormFactory {
     this.context = context;
     this.resourceName = resourceName;
     this.formApi = formApi;
-    this.formSettings = {
-      ...Submit64.getGlobalFormSetting(),
-      ...formSettings,
-    };
+    this.formSettings = Utils.deepMergeObject(
+      Utils.deepDupeObject(Submit64.getGlobalFormSetting()),
+      Utils.deepDupeObject(formSettings ?? {}),
+    );
     this.formBind = Utils.deepMergeObject(
-      { ...Submit64.getGlobalFormBind() },
-      { ...formBind },
-    ) as TFormBindings;
+      Utils.deepDupeObject(Submit64.getGlobalFormBind()),
+      Utils.deepDupeObject(formBind ?? {}),
+    );
 
     this.actionComponent =
       overridedComponent.actionComponent ?? Submit64.getGlobalActionComponent();
@@ -218,7 +218,7 @@ export class FormFactory {
           cssClass: sectionMetadata.css_class ?? undefined,
           hidden: false,
           name: sectionMetadata.name ?? sectionIndex.toString(),
-          bindings: { ...this.formBind.sections },
+          bindings: Utils.deepDupeObject(this.formBind.sections),
           readonly:
             this.formMetadataAndData.form.readonly ??
             sectionMetadata.readonly ??
@@ -270,54 +270,54 @@ export class FormFactory {
       case "string":
         switch (field.field_extra_type) {
           case "color":
-            return { ...this.formBind.fields.color };
+            return Utils.deepDupeObject(this.formBind.fields.color);
 
           case "wysiwyg":
-            return { ...this.formBind.fields.wysiwyg };
+            return Utils.deepDupeObject(this.formBind.fields.wysiwyg);
 
           default:
-            return { ...this.formBind.fields.string };
+            return Utils.deepDupeObject(this.formBind.fields.string);
         }
       case "text":
-        return { ...this.formBind.fields.string };
+        return Utils.deepDupeObject(this.formBind.fields.string);
 
       case "number":
-        return { ...this.formBind.fields.number };
+        return Utils.deepDupeObject(this.formBind.fields.number);
 
       case "date":
-        return { ...this.formBind.fields.date };
+        return Utils.deepDupeObject(this.formBind.fields.date);
 
       case "datetime":
-        return { ...this.formBind.fields.datetime };
+        return Utils.deepDupeObject(this.formBind.fields.datetime);
 
       case "select":
-        return { ...this.formBind.fields.select };
+        return Utils.deepDupeObject(this.formBind.fields.select);
 
       case "selectBelongsTo":
-        return { ...this.formBind.fields.belongsTo };
+        return Utils.deepDupeObject(this.formBind.fields.belongsTo);
 
       case "selectHasMany":
-        return { ...this.formBind.fields.hasMany };
+        return Utils.deepDupeObject(this.formBind.fields.hasMany);
 
       case "selectHasAndBelongsToMany":
-        return { ...this.formBind.fields.hasMany };
+        return Utils.deepDupeObject(this.formBind.fields.hasMany);
 
       case "selectHasOne":
-        return { ...this.formBind.fields.belongsTo };
+        return Utils.deepDupeObject(this.formBind.fields.belongsTo);
 
       case "checkbox":
-        return { ...this.formBind.fields.checkbox };
+        return Utils.deepDupeObject(this.formBind.fields.checkbox);
 
       case "object":
         return {};
       case "attachmentHasOne":
-        return { ...this.formBind.fields.attachmentBelongsTo };
+        return Utils.deepDupeObject(this.formBind.fields.attachmentBelongsTo);
 
       case "attachmentHasMany":
-        return { ...this.formBind.fields.attachmentHasMany };
+        return Utils.deepDupeObject(this.formBind.fields.attachmentHasMany);
 
       default:
-        return { ...this.formBind.fields.string };
+        return Utils.deepDupeObject(this.formBind.fields.string);
     }
   }
 

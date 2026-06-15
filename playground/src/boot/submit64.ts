@@ -5,9 +5,20 @@ Submit64.registerGlobalFormBindings({
         string: {
             outlined: true,
             dense: true,
-            color: 'red'
+            color: 'purple'
+        },
+        color: {
+            _input: {
+                outlined: true,
+                color: 'red'
+            },
+            _icon: {
+                name: 'star',
+                color: 'yellow',
+                size: 'lg'
+            }
         }
     }
 })
 
-console.log(Submit64.getGlobalFormBind())
+console.log(Submit64.getGlobalFormBind().fields.color._input)

@@ -53,14 +53,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-input ref="fieldRef" v-bind="bindings._input" :model-value="(propsComponent.modelValue as string)"
+  <q-input ref="fieldRef" v-bind="bindings.input" :model-value="(propsComponent.modelValue as string)"
     :label="propsComponent.field.label" :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly"
     :rules="propsComponent.field.computedRules" @clear="propsComponent.clear"
     @update:model-value="propsComponent.modelValueOnUpdate">
     <template v-slot:append>
-      <q-icon v-bind="bindings._icon">
-        <q-popup-proxy v-bind="bindings._popupProxy">
-          <q-color v-bind="bindings._color" :model-value="(propsComponent.modelValue as string)"
+      <q-icon v-bind="bindings.icon">
+        <q-popup-proxy v-bind="bindings.popupProxy">
+          <q-color v-bind="bindings.color" :model-value="(propsComponent.modelValue as string)"
             @update:model-value="propsComponent.modelValueOnUpdate" />
         </q-popup-proxy>
       </q-icon>

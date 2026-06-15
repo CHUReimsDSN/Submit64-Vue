@@ -542,10 +542,10 @@ type TPropsWithClass = {
 export type TStringBindings = Omit<QInputProps, TQFieldKeysToOmit>;
 export type TNumberBindings = Omit<QInputProps, TQFieldKeysToOmit>;
 export type TColorBindings = {
-    _input?: Omit<QInputProps, TQFieldKeysToOmit>;
-    _icon?: (QIconProps & TPropsWithClass) | undefined;
-    _popupProxy?: (Omit<QMenuProps, "modelValue"> & TPropsWithClass) | undefined;
-    _color?: (Omit<QColorProps, "modelValue"> & TPropsWithClass) | undefined;
+    input?: Omit<QInputProps, TQFieldKeysToOmit>;
+    icon?: (QIconProps & TPropsWithClass) | undefined;
+    popupProxy?: (Omit<QMenuProps, "modelValue"> & TPropsWithClass) | undefined;
+    color?: (Omit<QColorProps, "modelValue"> & TPropsWithClass) | undefined;
 };
 export type TWysiwygBindings = Omit<QEditorProps, "modelValue" | "readonly" | "placeholder">;
 export type TCheckboxBindings = Omit<QCheckboxProps, "modelValue">;

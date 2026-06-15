@@ -1,3 +1,4 @@
+import type { DeepPartial } from "quasar";
 import { TSubmit64Event } from "./models";
 
 function callAllEvents(events: TSubmit64Event | undefined) {
@@ -14,31 +15,43 @@ function humanStorageSize(bytes: number) {
   }
   return `${bytes.toFixed(1)}${units[u]}`;
 }
-function deepMergeObject(
-  objToMergeTo: Record<string, unknown>,
-  objPrio: Record<string, unknown>,
-) {
-  return Object.keys(objPrio).reduce(
-    (merged, key) => {
-      merged[key] =
-        objPrio[key] instanceof Object && !Array.isArray(objPrio[key])
-          ? deepMergeObject(
-              objPrio[key] as typeof objToMergeTo,
-              (merged[key] as typeof objToMergeTo) ?? {},
-            )
-          : objPrio[key];
-      return merged;
-    },
-    { ...objToMergeTo },
-  );
+function deepMergeObject<T extends Record<string, unknown>>(
+  objToMergeTo: T,
+  objPrio: DeepPartial<T> | Partial<T>,
+): T {
+  const merged = { ...objToMergeTo };
+  for (const key of Object.keys(objPrio) as Array<keyof T>) {
+    const prioValue = objPrio[key];
+    const targetValue = merged[key];
+    if (
+      prioValue &&
+      typeof prioValue === "object" &&
+      !Array.isArray(prioValue) &&
+      targetValue &&
+      typeof targetValue === "object" &&
+      !Array.isArray(targetValue)
+    ) {
+      merged[key] = deepMergeObject(
+        targetValue as Record<string, unknown>,
+        prioValue as DeepPartial<Record<string, unknown>>,
+      ) as T[keyof T];
+    } else if (prioValue !== undefined) {
+      merged[key] = prioValue as T[keyof T];
+    }
+  }
+
+  return merged;
 }
-function deepDupeObject(objectToDupe: Record<string, unknown>) {
-  return JSON.parse(JSON.stringify(objectToDupe))
+function deepDupeObject<T>(objectToDupe: T): T {
+  if (typeof structuredClone === "function") {
+    return structuredClone(objectToDupe);
+  }
+  return JSON.parse(JSON.stringify(objectToDupe));
 }
 
 export const Utils = {
   callAllEvents,
   humanStorageSize,
   deepMergeObject,
-  deepDupeObject
+  deepDupeObject,
 };

@@ -41,17 +41,17 @@ export class Submit64 {
   }
 
   static registerGlobalFormSetting(formSetting: Partial<TFormSettings>) {
-    this._instance._formSettings = {
-      ...this._instance._formSettings,
-      ...formSetting,
-    };
+    this._instance._formSettings = Utils.deepMergeObject(
+      Utils.deepDupeObject(this._instance._formSettings),
+      Utils.deepDupeObject(formSetting)
+    )
   }
 
   static registerGlobalFormBindings(bindings: DeepPartial<TFormBindings>) {
     this._instance._formBind = Utils.deepMergeObject(
-      { ...this._instance._formBind },
-      { ...bindings },
-    ) as TFormBindings;
+      Utils.deepDupeObject(this._instance._formBind),
+      Utils.deepDupeObject(bindings),
+    );
   }
 
   static registerGlobalActionComponent(actionComponent: Component) {
