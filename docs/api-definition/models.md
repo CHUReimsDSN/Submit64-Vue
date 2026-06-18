@@ -571,7 +571,7 @@ export type TSubmit64FormProps = {
     submit64Params: TSubmit64GetAssociationData,
   ) => Promise<TSubmit64AssociationData>;
   resourceId?: TRecord["id"] | undefined;
-  formSettings?: TFormSettingsProps | undefined;
+  formSettings?: TFormSettings | undefined;
   formStyle?: TFormStyle | undefined;
   actionComponent?: Component | undefined;
   orphanErrorsComponent?: Component | undefined;

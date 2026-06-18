@@ -1,5 +1,5 @@
 import { date } from "quasar";
-import { humanStorageSize } from "./utils";
+import { Utils } from "./utils";
 function computeServerRules(field, formApi) {
     const metadataRules = field.rules ?? [];
     const fieldType = field.type;
@@ -447,7 +447,7 @@ function equalsToFileLength(fileLength) {
                 valid = false;
             }
         });
-        return valid || `Taille par fichier ${humanStorageSize(fileLengthValue)}`;
+        return valid || `Taille par fichier ${Utils.humanStorageSize(fileLengthValue)}`;
     };
 }
 function greaterThanOrEqualFileLength(fileLength) {
@@ -463,7 +463,7 @@ function greaterThanOrEqualFileLength(fileLength) {
                 valid = false;
             }
         });
-        return (valid || `Taille par fichier min. ${humanStorageSize(fileLengthValue)}`);
+        return (valid || `Taille par fichier min. ${Utils.humanStorageSize(fileLengthValue)}`);
     };
 }
 function lowerThanOrEqualFileLength(fileLength) {
@@ -479,7 +479,7 @@ function lowerThanOrEqualFileLength(fileLength) {
                 valid = false;
             }
         });
-        return (valid || `Taille par fichier max. ${humanStorageSize(fileLengthValue)}`);
+        return (valid || `Taille par fichier max. ${Utils.humanStorageSize(fileLengthValue)}`);
     };
 }
 function lessThanOrEqualFileCount(fileCountAdd) {
@@ -506,7 +506,7 @@ function lessThanOrEqualTotalFileSize(totalFileSize) {
             acc += fileValueMap.size;
             return acc;
         }, 0) <= totalFileSizeValue;
-        return valid || `${humanStorageSize(totalFileSizeValue)} max.`;
+        return valid || `${Utils.humanStorageSize(totalFileSizeValue)} max.`;
     };
 }
 function greaterThanOrEqualTotalFileSize(totalFileSize) {
@@ -517,7 +517,7 @@ function greaterThanOrEqualTotalFileSize(totalFileSize) {
             acc += fileValueMap.size;
             return acc;
         }, 0) >= totalFileSizeValue;
-        return valid || `${humanStorageSize(totalFileSizeValue)} min.`;
+        return valid || `${Utils.humanStorageSize(totalFileSizeValue)} min.`;
     };
 }
 function equalTotalFileSize(totalFileSize) {
@@ -528,7 +528,7 @@ function equalTotalFileSize(totalFileSize) {
             acc += fileValueMap.size;
             return acc;
         }, 0) === totalFileSizeValue;
-        return valid || `Taille totale ${humanStorageSize(totalFileSizeValue)}`;
+        return valid || `Taille totale ${Utils.humanStorageSize(totalFileSizeValue)}`;
     };
 }
 export const Submit64Rules = {

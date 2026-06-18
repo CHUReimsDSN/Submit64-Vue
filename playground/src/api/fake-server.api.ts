@@ -20,7 +20,6 @@ const articleForm: TResourceFormMetadata = {
   backend_date_format: 'YYYY/MM/DD',
   backend_datetime_format: 'YYYY/MM/DD HH:mm',
   css_class: null,
-  clearable: true,
   readonly: false,
   sections: [
     {
@@ -39,9 +38,32 @@ const articleForm: TResourceFormMetadata = {
           unlinked: false,
           field_association_name: null,
           field_association_class: null,
-          hint: null,
-          prefix: null,
-          suffix: null,
+          readonly: null,
+          css_class: '',
+        },
+        {
+          field_name: 'color',
+          field_type: 'string',
+          field_extra_type: 'color',
+          label: 'Color',
+          rules: [],
+          static_select_options: [],
+          unlinked: false,
+          field_association_name: null,
+          field_association_class: null,
+          readonly: null,
+          css_class: '',
+        },
+        {
+          field_name: 'next_date',
+          field_type: 'datetime',
+          field_extra_type: undefined,
+          label: 'Next Date',
+          rules: [],
+          static_select_options: [],
+          unlinked: false,
+          field_association_name: null,
+          field_association_class: null,
           readonly: null,
           css_class: '',
         },
@@ -53,9 +75,6 @@ const articleForm: TResourceFormMetadata = {
           static_select_options: [],
           field_association_name: null,
           field_association_class: 'User',
-          hint: null,
-          prefix: null,
-          suffix: null,
           readonly: null,
           css_class: '',
           unlinked: true,
@@ -67,7 +86,8 @@ const articleForm: TResourceFormMetadata = {
 const article1 = {
   id: 1,
   label: 'My article',
-  description: 'My Description',
+  color: '#6090b0',
+  next_date: '1995-01-03 15:00',
 };
 const articleData: TRecordData = {
   metadata: {

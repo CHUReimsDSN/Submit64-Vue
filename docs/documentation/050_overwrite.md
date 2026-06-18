@@ -33,8 +33,9 @@ Surcharge globale :
 import { Submit64 } from "submit64-vue";
 
 Submit64.registerGlobalFormSetting({
-  dateFormat: "DD-MM-YYYY",
-  datetimeFormat: "DD-MM-YYYY HH:mm",
+  showResetButton: true,
+  showClearButton: true,
+  autofocus: true,
 });
 ```
 
@@ -42,11 +43,12 @@ Surcharge locale :
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from "submit64-vue";
-import type { TFormSettingsProps } from "submit64-vue";
+import type { TFormSettings } from "submit64-vue";
 
-const formSettings: TFormSettingsProps = {
-  dateFormat: "DD-MM-YYYY",
-  datetimeFormat: "DD-MM-YYYY HH:mm",
+const formSettings: TFormSettings = {
+  showResetButton: true,
+  showClearButton: true,
+  autofocus: true,
 };
 </script>
 
@@ -57,31 +59,38 @@ const formSettings: TFormSettingsProps = {
 
 <br /><br /> 
 
-## Style des champs
+## Props des champs
 Surcharge globale : 
 ```typescript
 import { Submit64 } from 'submit64-vue';
 
-Submit64.registerGlobalFormStyle({
-  fieldRounded: true,
-  fieldColor: "secondary"
-});
+Submit64.registerGlobalFormBindings({
+  fields: {
+    string: {
+      hint: 'Bonjour',
+      color: 'red'
+    }
+}});
 ```
 
 Surcharge locale : 
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from "submit64-vue";
-import type { TFormStyle } from "submit64-vue";
+import type { TFormBindings } from "submit64-vue";
 
-const formStyle: TFormStyle = {
-  fieldRounded: true,
-  fieldColor: "secondary",
+const formBindings: TFormBindings = {
+  fields: {
+    string: {
+      hint: 'Bonjour',
+      color: 'red'
+    }
+  }
 };
 </script>
 
 <template>
-  <Submit64Form :formStyle="formStyle" />
+  <Submit64Form :formBindings="formBindings" />
 </template>
 ```
 
@@ -190,23 +199,17 @@ import { Submit64Form } from "submit64-vue";
     <template v-slot:actions="propsAction">
       <div class="flex column">
         <div class="flex row items-center no-wrap q-pt-sm q-gutter-x-sm">
-          <q-btn
-            label="Save"
-            :loading="propsAction.isLoadingSubmit"
-            @click="propsAction.formApi.submit"
-          />
-          <q-btn
-            v-if="propsAction.reset"
-            :loading="propsAction.isLoadingSubmit"
-            label="Reset"
-            @click="propsAction.formApi.reset"
-          />
-          <q-btn
-            v-if="propsAction.clear"
-            :loading="propsAction.isLoadingSubmit"
-            label="Clear"
-            @click="propsAction.formApi.clear"
-          />
+          <q-btn v-bind="propsAction.formApi.form.bindings.form.actions.submitBtn" label="Enregistrer"
+            :loading="propsAction.formApi.refs.isLoadingSubmit.value"
+            :disable="!propsAction.formApi.refs.isFormValid.value" @click="propsAction.formApi.submit" />
+          <q-btn v-if="propsAction.formApi.form.formSettings.showResetButton"
+            v-bind="propsAction.formApi.form.bindings.form.actions.resetBtn"
+            :loading="propsAction.formApi.refs.isLoadingSubmit.value" label="Réinitialiser"
+            @click="propsAction.formApi.reset" />
+          <q-btn v-if="propsAction.formApi.form.formSettings.showClearButton"
+            v-bind="propsAction.formApi.form.bindings.form.actions.clearBtn"
+            :loading="propsAction.formApi.refs.isLoadingSubmit.value" label="Effacer"
+            @click="propsAction.formApi.clear" />
         </div>
       </div>
     </template>
@@ -235,13 +238,20 @@ const propsComponent = defineProps<TSubmit64ActionFormProps>();
 </script>
 
 <template>
-  <div class="flex row items-center no-wrap q-pt-md q-gutter-x-sm">
-    <q-btn
-      :loading="propsComponent.isLoadingSubmit"
-      color="amber"
-      label="Submit but its custom"
-      @click="propsComponent.formApi.submit"
-    />
+  <div class="flex column">
+    <div class="flex row items-center no-wrap q-pt-sm q-gutter-x-sm">
+      <q-btn v-bind="propsComponent.formApi.form.bindings.form.actions.submitBtn" label="Enregistrer"
+        :loading="propsComponent.formApi.refs.isLoadingSubmit.value"
+        :disable="!propsComponent.formApi.refs.isFormValid.value" @click="propsComponent.formApi.submit" />
+      <q-btn v-if="propsComponent.formApi.form.formSettings.showResetButton"
+        v-bind="propsComponent.formApi.form.bindings.form.actions.resetBtn"
+        :loading="propsComponent.formApi.refs.isLoadingSubmit.value" label="Réinitialiser"
+        @click="propsComponent.formApi.reset" />
+      <q-btn v-if="propsComponent.formApi.form.formSettings.showClearButton"
+        v-bind="propsComponent.formApi.form.bindings.form.actions.clearBtn"
+        :loading="propsComponent.formApi.refs.isLoadingSubmit.value" label="Effacer"
+        @click="propsComponent.formApi.clear" />
+    </div>
   </div>
 </template>
 ```
@@ -249,7 +259,6 @@ const propsComponent = defineProps<TSubmit64ActionFormProps>();
 Props disponibles :  
 ```typescript
 type TSubmit64ActionFormProps = {
-  isLoadingSubmit: boolean;
   formApi: TSubmit64FormApi;
 };
 ```
@@ -276,7 +285,7 @@ import { Submit64Form } from "submit64-vue";
     <template v-slot:orphan-errors="propsOrphanErrors">
       <div class="flex column">
         <div
-          v-for="(errorList, errorKey) in propsOrphanErrors.orphanErrors"
+          v-for="(errorList, errorKey) in propsOrphanErrors.formApi.refs.orphanErrors.value"
           :key="errorKey"
           class="q-field--error q-field__bottom text-negative"
         >
@@ -310,15 +319,15 @@ const propsComponent = defineProps<TSubmit64OrphanErrorFormProps>();
 </script>
 
 <template>
- <div class="flex column">
-    <div
-      v-for="(errorList, errorKey) in propsComponent.orphanErrors"
-      :key="errorKey"
-      class="q-field--error q-field__bottom text-negative"
-    >
-      {{ errorKey }} : {{ errorList.join(",") }}
+    <div class="flex column">
+      <div
+        v-for="(errorList, errorKey) in propsComponent.formApi.refs.orphanErrors.value"
+        :key="errorKey"
+        class="q-field--error q-field__bottom text-negative"
+      >
+        {{ errorKey }} : {{ errorList.join(",") }}
+      </div>
     </div>
-  </div>
 </template>
 ```
 
@@ -326,7 +335,6 @@ Props disponibles :
 ```typescript
 type TSubmit64OrphanErrorFormProps = {
   formApi: TSubmit64FormApi;
-  orphanErrors: Record<string, string[]>;
 };
 ```
 

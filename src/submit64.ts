@@ -1,15 +1,18 @@
 import { Component } from "vue";
-import { TFormStyle, TFormSettingsProps } from "./models";
+import type { TFormBindings, TFormSettings } from "./models";
 import DefaultActionComponent from "./components/DefaultActionComponent.vue";
 import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
 import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
 import DefaultAssociationDisplayComponent from "./components/DefaultAssociationDisplayComponent.vue";
 import DefaultOrphanErrorsComponent from "./components/DefaultOrphanErrorsComponent.vue";
+import { Bindings } from "./bindings";
+import { Utils } from "./utils";
+import type { DeepPartial } from "quasar";
 
 export class Submit64 {
   private static _instance: Submit64 = new Submit64();
-  private _formSettings: Required<TFormSettingsProps>;
-  private _formStyle: Required<TFormStyle>;
+  private _formSettings: TFormSettings;
+  private _formBind: TFormBindings;
   private _actionComponent: Component;
   private _orphanErrorsComponent: Component;
   private _sectionComponent: Component;
@@ -18,46 +21,37 @@ export class Submit64 {
 
   private constructor() {
     this._formSettings = {
-      rulesBehaviour: "ondemand",
+      backendDateFormat: "YYYY/MM/DD",
+      backendDatetimeFormat: "YYYY/MM/DD HH:mm",
       dateFormat: "DD/MM/YYYY",
       datetimeFormat: "DD/MM/YYYY HH:mm",
+      associationEmptyMessage: "Vide",
       renderBackendHint: true,
-      associationEmptyMessage: 'Empty',
-      requiredFieldsHasAsterisk: true
+      requiredFieldsHasAsterisk: true,
+      showResetButton: true,
+      showClearButton: true,
+      autofocus: true,
     };
-    this._formStyle = {
-      fieldOutlined: false,
-      fieldDense: true,
-      fieldHideBottomSpace: true,
-      fieldFilled: false,
-      fieldStandout: false,
-      fieldBorderless: false,
-      fieldFlat: false,
-      fieldRounded: false,
-      fieldSquare: false,
-      fieldClass: "",
-      fieldColor: "primary",
-      fieldBgColor: "",
-    };
-    this._actionComponent = DefaultActionComponent;
+    ((this._formBind = Bindings.getDefaultFormBindings()),
+      (this._actionComponent = DefaultActionComponent));
     this._orphanErrorsComponent = DefaultOrphanErrorsComponent;
     this._sectionComponent = DefaultSectionComponent;
     this._wrapperResetComponent = DefaultWrapperResetComponent;
     this._associationDisplayComponent = DefaultAssociationDisplayComponent;
   }
 
-  static registerGlobalFormSetting(formSetting: TFormSettingsProps) {
-    this._instance._formSettings = {
-      ...this._instance._formSettings,
-      ...formSetting,
-    };
+  static registerGlobalFormSetting(formSetting: Partial<TFormSettings>) {
+    this._instance._formSettings = Utils.deepMergeObject(
+      Utils.deepDupeObject(this._instance._formSettings),
+      Utils.deepDupeObject(formSetting)
+    )
   }
 
-  static registerGlobalFormStyle(formStyle: TFormStyle) {
-    this._instance._formStyle = {
-      ...this._instance._formStyle,
-      ...formStyle,
-    };
+  static registerGlobalFormBindings(bindings: DeepPartial<TFormBindings>) {
+    this._instance._formBind = Utils.deepMergeObject(
+      Utils.deepDupeObject(this._instance._formBind),
+      Utils.deepDupeObject(bindings),
+    );
   }
 
   static registerGlobalActionComponent(actionComponent: Component) {
@@ -77,7 +71,7 @@ export class Submit64 {
   }
 
   static registerGlobalAssociationDisplayComponent(
-    displayComponent: Component
+    displayComponent: Component,
   ) {
     this._instance._associationDisplayComponent = displayComponent;
   }
@@ -86,8 +80,8 @@ export class Submit64 {
     return this._instance._formSettings;
   }
 
-  static getGlobalFormStyle() {
-    return this._instance._formStyle;
+  static getGlobalFormBind() {
+    return this._instance._formBind;
   }
 
   static getGlobalActionComponent() {
@@ -109,5 +103,4 @@ export class Submit64 {
   static getGlobalAssociationDisplayComponent() {
     return this._instance._associationDisplayComponent;
   }
-  
 }

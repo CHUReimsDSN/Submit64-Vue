@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { TSubmit64FieldProps } from "../models";
 import { QInput } from "quasar";
+import type { TSubmit64FieldProps } from "../models";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
-
-// consts
-const form = propsComponent.formApi.form;
-const formSetting = form.formSettings;
-const styleConfig = form.formStyle;
-const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs
 const fieldRef = ref<InstanceType<typeof QInput>>();
@@ -34,41 +28,28 @@ function resetValidation() {
   }
   fieldRef.value.resetValidation();
 }
+function focus() {
+  if (!fieldRef.value) {
+    return;
+  }
+  fieldRef.value.focus()
+}
+function unfocus() {
+  if (!fieldRef.value) {
+    return;
+  }
+  fieldRef.value.blur();
+}
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, undefined, undefined, focus, unfocus);
 });
 </script>
 
 <template>
-  <q-input
-    ref="fieldRef"
-    :model-value="(propsComponent.modelValue as string)"
-    v-on:update:model-value="
-      (value: unknown) => propsComponent.modelValueOnUpdate(value)
-    "
-    :type="propsComponent.field.componentOptions.regularFieldType"
-    :label="propsComponent.field.label"
-    :hint="propsComponent.field.hint"
-    :outlined="styleConfig.fieldOutlined"
-    :filled="styleConfig.fieldFilled"
-    :standout="styleConfig.fieldStandout"
-    :borderless="styleConfig.fieldBorderless"
-    :rounded="styleConfig.fieldRounded"
-    :square="styleConfig.fieldSquare"
-    :dense="styleConfig.fieldDense"
-    :hideBottomSpace="styleConfig.fieldHideBottomSpace"
-    :color="styleConfig.fieldColor"
-    :bgColor="styleConfig.fieldBgColor"
-    :class="propsComponent.field.cssClass"
-    :lazy-rules="lazyRules"
-    :prefix="propsComponent.field.prefix"
-    :suffix="propsComponent.field.suffix"
-    :readonly="propsComponent.field.readonly"
-    :clearable="propsComponent.field.clearable"
-    :autogrow="true"
-    :rules="propsComponent.rules"
-    @clear="propsComponent.clear"
-  />
+  <q-input ref="fieldRef" v-bind="propsComponent.field.bindings" :rules="propsComponent.field.computedRules"
+    :label="propsComponent.field.label" :readonly="propsComponent.field.readonly" :class="propsComponent.field.cssClass"
+    :model-value="(propsComponent.modelValue as string)" @clear="propsComponent.clear"
+    @update:model-value="propsComponent.modelValueOnUpdate" />
 </template>

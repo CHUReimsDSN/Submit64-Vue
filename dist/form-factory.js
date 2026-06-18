@@ -14,13 +14,16 @@ import WysiwygField from "./components/WysiwygField.vue";
 import JsonField from "./components/JsonField.vue";
 import AttachmentHasOneField from "./components/AttachmentHasOneField.vue";
 import AttachmentHasManyField from "./components/AttachmentHasManyField.vue";
+import { Submit64Rules } from "./rules";
+import { Utils } from "./utils";
+import { Bindings } from "./bindings";
 export class FormFactory {
     resourceName;
     resourceId;
     formMetadataAndData;
     context;
     formSettings;
-    formStyle;
+    formBind;
     actionComponent;
     orphanErrorsComponent;
     sectionComponent;
@@ -29,7 +32,7 @@ export class FormFactory {
     dynamicComponentRecord;
     formApi;
     registerEventCallback;
-    constructor(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager) {
+    constructor(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formBind, context, formApi, eventManager) {
         this.dynamicComponentRecord =
             overridedComponent.dynamicComponentRecord ?? {};
         this.formMetadataAndData = formMetadataAndData;
@@ -37,16 +40,8 @@ export class FormFactory {
         this.context = context;
         this.resourceName = resourceName;
         this.formApi = formApi;
-        this.formSettings = {
-            ...Submit64.getGlobalFormSetting(),
-            ...formSettings,
-            backendDateFormat: formMetadataAndData.form.backend_date_format,
-            backendDatetimeFormat: formMetadataAndData.form.backend_datetime_format,
-        };
-        this.formStyle = {
-            ...Submit64.getGlobalFormStyle(),
-            ...formStyle,
-        };
+        this.formSettings = Utils.deepMergeObject(Utils.deepDupeObject(Submit64.getGlobalFormSetting()), Utils.deepDupeObject(formSettings ?? {}));
+        this.formBind = Utils.deepMergeObject(Utils.deepDupeObject(Submit64.getGlobalFormBind()), Utils.deepDupeObject(formBind ?? {}));
         this.actionComponent =
             overridedComponent.actionComponent ?? Submit64.getGlobalActionComponent();
         this.orphanErrorsComponent =
@@ -67,21 +62,17 @@ export class FormFactory {
         return {
             resourceName: "",
             sections: [],
-            formSettings: {
-                ...Submit64.getGlobalFormSetting(),
-                backendDateFormat: "YYYY/MM/DD",
-                backendDatetimeFormat: "YYYY/MM/DD HH:mm",
-            },
-            formStyle: Submit64.getGlobalFormStyle(),
+            formSettings: Submit64.getGlobalFormSetting(),
             events: {},
+            bindings: Bindings.getEmptyDefaultBindings(),
             actionComponent: markRaw(Submit64.getGlobalActionComponent()),
             orphanErrorsComponent: markRaw(Submit64.getGlobalOrphanErrorComponent()),
             wrapperResetComponent: markRaw(Submit64.getGlobalWrapperResetComponent()),
             dynamicComponentRecord: {},
         };
     }
-    static getForm(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager) {
-        const instance = new FormFactory(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formStyle, context, formApi, eventManager);
+    static getForm(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formBind, context, formApi, eventManager) {
+        const instance = new FormFactory(resourceName, resourceId, overridedComponent, formMetadataAndData, formSettings, formBind, context, formApi, eventManager);
         return instance.generateFormDef();
     }
     generateFormDef() {
@@ -100,6 +91,7 @@ export class FormFactory {
                     associationDisplayComponent: markRaw(this.associationDisplayComponent),
                     regularFieldType: FormFactory.getRegularFieldTypeByFieldType(columnMetadata.field_type),
                 };
+                const computedBinding = this.getBindingsByFormFieldType(columnMetadata);
                 let fieldLabel = columnMetadata.label;
                 if (this.formSettings.requiredFieldsHasAsterisk &&
                     columnMetadata.rules.find((rule) => rule.type === "required")) {
@@ -110,9 +102,6 @@ export class FormFactory {
                     extraType: columnMetadata.field_extra_type,
                     metadata: Object.freeze(columnMetadata),
                     label: fieldLabel,
-                    hint: columnMetadata.hint ?? undefined,
-                    prefix: columnMetadata.prefix ?? undefined,
-                    suffix: columnMetadata.suffix ?? undefined,
                     readonly: this.formMetadataAndData.form.readonly ??
                         sectionMetadata.readonly ??
                         columnMetadata.readonly ??
@@ -122,7 +111,8 @@ export class FormFactory {
                     associationData: columnMetadata.field_association_data,
                     attachmentData: columnMetadata.field_attachment_data,
                     rules: columnMetadata.rules,
-                    clearable: this.formMetadataAndData.form.clearable ?? undefined,
+                    computedRules: [], // late init
+                    bindings: computedBinding,
                     hidden: false,
                     beforeComponent: beforeComponent
                         ? markRaw(beforeComponent)
@@ -134,6 +124,7 @@ export class FormFactory {
                     events: events.fields[columnMetadata.field_name] ?? {},
                     componentOptions,
                 };
+                field.computedRules = Submit64Rules.computeServerRules(field, this.formApi);
                 fields.push(field);
                 fieldNames.add(columnMetadata.field_name);
             });
@@ -146,6 +137,7 @@ export class FormFactory {
                 cssClass: sectionMetadata.css_class ?? undefined,
                 hidden: false,
                 name: sectionMetadata.name ?? sectionIndex.toString(),
+                bindings: Utils.deepDupeObject(this.formBind.sections),
                 readonly: this.formMetadataAndData.form.readonly ??
                     sectionMetadata.readonly ??
                     undefined,
@@ -166,10 +158,8 @@ export class FormFactory {
             resourceName: this.formMetadataAndData.form.resource_name,
             resourceId: this.resourceId,
             formSettings: this.formSettings,
-            formStyle: this.formStyle,
+            bindings: this.formBind,
             cssClass: this.formMetadataAndData.form.css_class ?? undefined,
-            resetable: this.formMetadataAndData.form.resetable ?? undefined,
-            clearable: this.formMetadataAndData.form.clearable ?? undefined,
             readonly: this.formMetadataAndData.form.readonly ?? undefined,
             events: events.form,
             actionComponent: markRaw(this.actionComponent),
@@ -185,6 +175,47 @@ export class FormFactory {
             console.warn("Submit64 -> Found fields with the same name");
         }
         return form;
+    }
+    getBindingsByFormFieldType(field) {
+        switch (field.field_type) {
+            case "string":
+                switch (field.field_extra_type) {
+                    case "color":
+                        return Utils.deepDupeObject(this.formBind.fields.color);
+                    case "wysiwyg":
+                        return Utils.deepDupeObject(this.formBind.fields.wysiwyg);
+                    default:
+                        return Utils.deepDupeObject(this.formBind.fields.string);
+                }
+            case "text":
+                return Utils.deepDupeObject(this.formBind.fields.string);
+            case "number":
+                return Utils.deepDupeObject(this.formBind.fields.number);
+            case "date":
+                return Utils.deepDupeObject(this.formBind.fields.date);
+            case "datetime":
+                return Utils.deepDupeObject(this.formBind.fields.datetime);
+            case "select":
+                return Utils.deepDupeObject(this.formBind.fields.select);
+            case "selectBelongsTo":
+                return Utils.deepDupeObject(this.formBind.fields.belongsTo);
+            case "selectHasMany":
+                return Utils.deepDupeObject(this.formBind.fields.hasMany);
+            case "selectHasAndBelongsToMany":
+                return Utils.deepDupeObject(this.formBind.fields.hasMany);
+            case "selectHasOne":
+                return Utils.deepDupeObject(this.formBind.fields.belongsTo);
+            case "checkbox":
+                return Utils.deepDupeObject(this.formBind.fields.checkbox);
+            case "object":
+                return {};
+            case "attachmentHasOne":
+                return Utils.deepDupeObject(this.formBind.fields.attachmentBelongsTo);
+            case "attachmentHasMany":
+                return Utils.deepDupeObject(this.formBind.fields.attachmentHasMany);
+            default:
+                return Utils.deepDupeObject(this.formBind.fields.string);
+        }
     }
     static getRegularFieldTypeByFieldType(fieldType) {
         const mapping = {

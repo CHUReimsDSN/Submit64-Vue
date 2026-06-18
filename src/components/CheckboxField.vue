@@ -9,10 +9,6 @@ const propsComponent = defineProps<TSubmit64FieldProps>();
 // refs
 const ruleResult = ref<boolean | string>(true);
 
-// consts
-const form = propsComponent.formApi.form;
-const styleConfig = form.formStyle;
-
 // functions
 function validate() {
   return ruleResult.value === true;
@@ -28,7 +24,7 @@ function resetValidation() {
 watch(
   () => propsComponent.modelValue,
   (newValue) => {
-    for (const rule of propsComponent.rules as TSubmit64ValidationRule[]) {
+    for (const rule of propsComponent.field.computedRules as TSubmit64ValidationRule[]) {
       ruleResult.value = rule(newValue);
       if (ruleResult.value !== true) {
         break;
@@ -46,18 +42,15 @@ onMounted(() => {
 <template>
   <div class="flex column">
     <q-checkbox
+      ref="checkboxRef"
+      v-bind="propsComponent.field.bindings"
       :model-value="(propsComponent.modelValue as boolean)"
-      v-on:update:model-value="(value: unknown) => propsComponent.modelValueOnUpdate(value)"
       :label="propsComponent.field.label"
-      :dense="styleConfig.fieldDense"
-      :color="styleConfig.fieldColor"
       :aria-readonly="propsComponent.field.readonly"
       :class="propsComponent.field.cssClass"
       class="q-pb-md"
+      @update:model-value="propsComponent.modelValueOnUpdate"
     />
-    <div v-if="propsComponent.field.hint" class="q-field__bottom">
-      {{ propsComponent.field.hint }}
-    </div>
     <div
       v-if="ruleResult !== true"
       class="q-field--error q-field__bottom text-negative"

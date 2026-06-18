@@ -3,10 +3,12 @@ import DefaultSectionComponent from "./components/DefaultSectionComponent.vue";
 import DefaultWrapperResetComponent from "./components/DefaultWrapperResetComponent.vue";
 import DefaultAssociationDisplayComponent from "./components/DefaultAssociationDisplayComponent.vue";
 import DefaultOrphanErrorsComponent from "./components/DefaultOrphanErrorsComponent.vue";
+import { Bindings } from "./bindings";
+import { Utils } from "./utils";
 export class Submit64 {
     static _instance = new Submit64();
     _formSettings;
-    _formStyle;
+    _formBind;
     _actionComponent;
     _orphanErrorsComponent;
     _sectionComponent;
@@ -14,44 +16,29 @@ export class Submit64 {
     _associationDisplayComponent;
     constructor() {
         this._formSettings = {
-            rulesBehaviour: "ondemand",
+            backendDateFormat: "YYYY/MM/DD",
+            backendDatetimeFormat: "YYYY/MM/DD HH:mm",
             dateFormat: "DD/MM/YYYY",
             datetimeFormat: "DD/MM/YYYY HH:mm",
+            associationEmptyMessage: "Vide",
             renderBackendHint: true,
-            associationEmptyMessage: 'Empty',
-            requiredFieldsHasAsterisk: true
+            requiredFieldsHasAsterisk: true,
+            showResetButton: true,
+            showClearButton: true,
+            autofocus: true,
         };
-        this._formStyle = {
-            fieldOutlined: false,
-            fieldDense: true,
-            fieldHideBottomSpace: true,
-            fieldFilled: false,
-            fieldStandout: false,
-            fieldBorderless: false,
-            fieldFlat: false,
-            fieldRounded: false,
-            fieldSquare: false,
-            fieldClass: "",
-            fieldColor: "primary",
-            fieldBgColor: "",
-        };
-        this._actionComponent = DefaultActionComponent;
+        ((this._formBind = Bindings.getDefaultFormBindings()),
+            (this._actionComponent = DefaultActionComponent));
         this._orphanErrorsComponent = DefaultOrphanErrorsComponent;
         this._sectionComponent = DefaultSectionComponent;
         this._wrapperResetComponent = DefaultWrapperResetComponent;
         this._associationDisplayComponent = DefaultAssociationDisplayComponent;
     }
     static registerGlobalFormSetting(formSetting) {
-        this._instance._formSettings = {
-            ...this._instance._formSettings,
-            ...formSetting,
-        };
+        this._instance._formSettings = Utils.deepMergeObject(Utils.deepDupeObject(this._instance._formSettings), Utils.deepDupeObject(formSetting));
     }
-    static registerGlobalFormStyle(formStyle) {
-        this._instance._formStyle = {
-            ...this._instance._formStyle,
-            ...formStyle,
-        };
+    static registerGlobalFormBindings(bindings) {
+        this._instance._formBind = Utils.deepMergeObject(Utils.deepDupeObject(this._instance._formBind), Utils.deepDupeObject(bindings));
     }
     static registerGlobalActionComponent(actionComponent) {
         this._instance._actionComponent = actionComponent;
@@ -71,8 +58,8 @@ export class Submit64 {
     static getGlobalFormSetting() {
         return this._instance._formSettings;
     }
-    static getGlobalFormStyle() {
-        return this._instance._formStyle;
+    static getGlobalFormBind() {
+        return this._instance._formBind;
     }
     static getGlobalActionComponent() {
         return this._instance._actionComponent;

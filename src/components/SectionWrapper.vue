@@ -16,7 +16,7 @@ import type {
   TSubmit64SectionApi,
   TSubmit64SectionWrapperProps,
 } from "../models";
-import { callAllEvents } from "../utils";
+import { Utils } from "../utils";
 
 // props
 const propsComponent = defineProps<TSubmit64SectionWrapperProps>();
@@ -43,6 +43,8 @@ const sectionApi: TSubmit64SectionApi = {
   setCssClass,
   setIcon,
   setLabel,
+  tryFocusFirst,
+  tryUnfocus,
   section: propsComponent.section,
 };
 
@@ -69,13 +71,13 @@ function reset() {
   fields.value.forEach((field) => {
     field.reset();
   });
-  callAllEvents(propsComponent.section.events.onReset);
+  Utils.callAllEvents(propsComponent.section.events.onReset);
 }
 function clear() {
   fields.value.forEach((field) => {
     field.clear();
   });
-  callAllEvents(propsComponent.section.events.onClear);
+  Utils.callAllEvents(propsComponent.section.events.onClear);
 }
 function hide() {
   const sectionRef = propsComponent.privateFormApi.getSectionRef(
@@ -88,7 +90,7 @@ function hide() {
     field.hide();
   });
   sectionRef.hidden = true;
-  callAllEvents(propsComponent.section.events.onHide);
+  Utils.callAllEvents(propsComponent.section.events.onHide);
 }
 function unhide() {
   const sectionRef = propsComponent.privateFormApi.getSectionRef(
@@ -101,7 +103,7 @@ function unhide() {
     field.unhide();
   });
   sectionRef.hidden = false;
-  callAllEvents(propsComponent.section.events.onUnhide);
+  Utils.callAllEvents(propsComponent.section.events.onUnhide);
 }
 function validate() {
   let isValid = true;
@@ -111,7 +113,7 @@ function validate() {
       return;
     }
   });
-  callAllEvents(propsComponent.section.events.onValidated);
+  Utils.callAllEvents(propsComponent.section.events.onValidated);
   return isValid;
 }
 function isValid() {
@@ -193,6 +195,24 @@ function setFieldComponentWithSlot() {
   });
   propsComponent.privateFormApi.setSectionFieldComponent(propsComponent.section, markRaw(component))
 }
+function tryFocusFirst() {
+  for (const field of getFields().values()) {
+    field.tryFocus()
+    if (field.isFocus()) {
+      return true
+    }
+  }
+  return false
+}
+function tryUnfocus() {
+  for (const field of getFields().values()) {
+    field.tryUnfocus()
+    if (!field.isFocus()) {
+      return true
+    }
+  }
+  return false
+}
 
 // exposes
 defineExpose(sectionApi);
@@ -217,7 +237,7 @@ watch(
     if (callExist) {
       stopWatchIsValid = watch(isValidComputed, (newValue) => {
         if (newValue) {
-          callAllEvents(propsComponent.section.events.onIsValid);
+          Utils.callAllEvents(propsComponent.section.events.onIsValid);
         }
       });
     }
@@ -232,7 +252,7 @@ watch(
     if (callExist) {
       stopWatchIsInvalid = watch(isInvalidComputed, (newValue) => {
         if (newValue) {
-          callAllEvents(propsComponent.section?.events.onIsInvalid);
+          Utils.callAllEvents(propsComponent.section?.events.onIsInvalid);
         }
       });
     }
@@ -248,7 +268,7 @@ watch(
       stopWatchIsUpdated = watch(
         isUpdatedComputed,
         () => {
-          callAllEvents(propsComponent.section?.events.onUpdate);
+          Utils.callAllEvents(propsComponent.section?.events.onUpdate);
         },
         { immediate: true }
       );
@@ -269,7 +289,7 @@ onMounted(() => {
   }
   void nextTick(() => {
     setupFields();
-    callAllEvents(propsComponent.section?.events.onReady);
+    Utils.callAllEvents(propsComponent.section?.events.onReady);
   });
 });
 </script>

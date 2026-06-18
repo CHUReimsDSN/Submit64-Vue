@@ -11,9 +11,9 @@ const propsComponent = defineProps<TSubmit64SectionProps>();
     <div class="flex row items-center">
       <q-icon
         v-if="propsComponent.sectionApi.section.icon"
+        v-bind="propsComponent.formApi.form.bindings.sections.icon"
         :name="propsComponent.sectionApi.section.icon"
         size="sm"
-        :color="propsComponent.formApi.form.formStyle.fieldColor"
       />
       <div class="text-body1 text-weight-medium">
         {{ propsComponent.sectionApi.section.label }}

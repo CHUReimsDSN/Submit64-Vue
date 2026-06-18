@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { TSubmit64FieldProps } from "../models";
+import type { TDateBindings, TSubmit64FieldProps } from "../models";
 import { QInput, QIcon, QPopupProxy, QDate, QBtn } from "quasar";
-import { nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 
 // props
 const propsComponent = defineProps<TSubmit64FieldProps>();
-
-// consts
-const form = propsComponent.formApi.form;
-const formSetting = form.formSettings;
-const styleConfig = form.formStyle;
-const lazyRules = formSetting.rulesBehaviour === "lazy";
 
 // refs
 const popupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
@@ -41,70 +35,46 @@ function resetValidation() {
   }
   fieldRef.value.resetValidation();
 }
+function focus() {
+  if (!fieldRef.value) {
+    return;
+  }
+  fieldRef.value.focus()
+}
+function unfocus() {
+  if (!fieldRef.value) {
+    return;
+  }
+  fieldRef.value.blur()
+}
+
+// computeds
+const bindings = computed(() => {
+  return propsComponent.field.bindings as TDateBindings
+})
 
 // lifeCycle
 onMounted(() => {
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation);
-  if (!lazyRules) {
-    void nextTick(() => {
-      fieldRef.value?.resetValidation();
-    });
-  }
+  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, undefined, undefined, focus, unfocus);
+  void nextTick(() => {
+    fieldRef.value?.resetValidation();
+  });
 });
 </script>
 
 <template>
-  <q-input
-    ref="fieldRef"
-    :model-value="(propsComponent.modelValue as string)"
-    v-on:update:model-value="
-      (value: unknown) => propsComponent.modelValueOnUpdate(value)
-    "
-    :label="propsComponent.field.label"
-    :hint="propsComponent.field.hint"
-    :outlined="styleConfig.fieldOutlined"
-    :filled="styleConfig.fieldFilled"
-    :standout="styleConfig.fieldStandout"
-    :borderless="styleConfig.fieldBorderless"
-    :rounded="styleConfig.fieldRounded"
-    :square="styleConfig.fieldSquare"
-    :dense="styleConfig.fieldDense"
-    :hideBottomSpace="styleConfig.fieldHideBottomSpace"
-    :color="styleConfig.fieldColor"
-    :bgColor="styleConfig.fieldBgColor"
-    :class="propsComponent.field.cssClass"
-    :lazy-rules="lazyRules"
-    :prefix="propsComponent.field.prefix"
-    :suffix="propsComponent.field.suffix"
-    :readonly="propsComponent.field.readonly"
-    :clearable="propsComponent.field.clearable"
-    :rules="propsComponent.rules"
-    @clear="propsComponent.clear"
-  >
+  <q-input ref="fieldRef" v-bind="bindings.input" :model-value="(propsComponent.modelValue as string)"
+    :label="propsComponent.field.label" :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly"
+    :rules="propsComponent.field.computedRules" @clear="propsComponent.clear"
+    @update:model-value="propsComponent.modelValueOnUpdate">
     <template v-slot:append>
-      <q-icon size="sm" :color="styleConfig.fieldColor" name="event" class="cursor-pointer">
-        <q-popup-proxy
-          ref="popupProxyRef"
-          cover
-          transition-show="scale"
-          transition-hide="scale"
-        >
-          <q-date
-            :model-value="(propsComponent.modelValue as string)"
-            v-on:update:model-value="
-              (value: unknown) => propsComponent.modelValueOnUpdate(value)
-            "
-            :mask="form.formSettings.dateFormat"
-            :color="styleConfig.fieldColor"
-          >
+      <q-icon v-bind="bindings.icon">
+        <q-popup-proxy ref="popupProxyRef" v-bind="bindings.popupProxy">
+          <q-date v-bind="bindings.date" :model-value="(propsComponent.modelValue as string)"
+            :mask="propsComponent.formApi.form.formSettings.dateFormat"
+            @update:model-value="propsComponent.modelValueOnUpdate">
             <div class="row items-center justify-end">
-              <q-btn
-                @click="closePopUp"
-                label="Fermer"
-                :color="styleConfig.fieldColor"
-                flat
-                no-caps
-              />
+              <q-btn v-bind="bindings.btn" @click="closePopUp" />
             </div>
           </q-date>
         </q-popup-proxy>
