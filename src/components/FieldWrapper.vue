@@ -243,8 +243,8 @@ function isFocus() {
 function addBindings(bindings: TFieldBindings) {
   const fieldRef = getFieldRef()
   fieldRef.bindings = Utils.deepMergeObject(
-    fieldRef.bindings,
-    bindings
+    Utils.deepDupeObject(fieldRef.bindings),
+    Utils.deepDupeObject(bindings)
   )
 }
 function registerBehaviourCallbacks(

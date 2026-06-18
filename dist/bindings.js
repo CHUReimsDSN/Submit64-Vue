@@ -1,7 +1,7 @@
 import { IconSet, Lang, } from "quasar";
 // fields
 const defaultStyle = {
-    outlined: false,
+    outlined: true,
     dense: true,
     filled: false,
     standout: false,
@@ -155,7 +155,7 @@ function getDefaultDate() {
             size: "sm",
             color: defaultStyle.color,
             name: "event",
-            class: "cusor-pointer",
+            class: "cursor-pointer",
         },
         popupProxy: {
             ...popupProxyDefaultBind,
@@ -179,7 +179,7 @@ function getDefaultDatetime() {
             size: "sm",
             color: defaultStyle.color,
             name: "event",
-            class: "cusor-pointer",
+            class: "cursor-pointer",
         },
         popupProxyDate: {
             ...popupProxyDefaultBind,
@@ -196,7 +196,7 @@ function getDefaultDatetime() {
             size: "sm",
             color: defaultStyle.color,
             name: "access_time",
-            class: "cusor-pointer",
+            class: "cursor-pointer",
         },
         popupProxyDatetime: {
             ...popupProxyDefaultBind,

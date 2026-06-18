@@ -86,7 +86,7 @@ onMounted(() => {
           </q-date>
         </q-popup-proxy>
       </q-icon>
-      <q-icon v-bind="bindings.iconDate">
+      <q-icon v-bind="bindings.iconDatetime">
         <q-popup-proxy ref="timePopupProxyRef" v-bind="bindings.popupProxyDate">
           <q-time v-bind="bindings.datetime" :model-value="(propsComponent.modelValue as string)"
             :mask="propsComponent.formApi.form.formSettings.datetimeFormat"

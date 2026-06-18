@@ -26,7 +26,7 @@ import type {
 
 // fields
 const defaultStyle = {
-  outlined: false,
+  outlined: true,
   dense: true,
   filled: false,
   standout: false,
@@ -181,7 +181,7 @@ function getDefaultDate(): TDateBindings {
       size: "sm",
       color: defaultStyle.color,
       name: "event",
-      class: "cusor-pointer",
+      class: "cursor-pointer",
     },
     popupProxy: {
       ...popupProxyDefaultBind,
@@ -205,7 +205,7 @@ function getDefaultDatetime(): TDatetimeBindings {
       size: "sm",
       color: defaultStyle.color,
       name: "event",
-      class: "cusor-pointer",
+      class: "cursor-pointer",
     },
     popupProxyDate: {
       ...popupProxyDefaultBind,
@@ -222,7 +222,7 @@ function getDefaultDatetime(): TDatetimeBindings {
       size: "sm",
       color: defaultStyle.color,
       name: "access_time",
-      class: "cusor-pointer",
+      class: "cursor-pointer",
     },
     popupProxyDatetime: {
       ...popupProxyDefaultBind,
