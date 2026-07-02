@@ -1,8 +1,8 @@
 var xt = Object.defineProperty;
 var Et = (o, e, t) => e in o ? xt(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var w = (o, e, t) => Et(o, typeof e != "symbol" ? e + "" : e, t);
-import { defineComponent as H, openBlock as p, createElementBlock as q, createElementVNode as Q, createVNode as V, unref as u, mergeProps as P, createBlock as O, createCommentVNode as L, normalizeClass as at, toDisplayString as M, resolveDynamicComponent as ie, resolveComponent as Ot, normalizeProps as ue, guardReactiveProps as ce, withCtx as b, createTextVNode as ne, Fragment as pe, renderList as ge, ref as B, computed as G, onMounted as K, nextTick as Fe, watch as J, markRaw as X, useSlots as ot, getCurrentInstance as rt, withDirectives as Ge, vShow as Qe, readonly as Le } from "vue";
-import { QBtn as Z, QIcon as Ae, QItem as ve, QItemSection as ae, QItemLabel as oe, IconSet as Te, Lang as we, QInput as xe, QPopupProxy as Ue, QDate as it, QTime as Rt, QCheckbox as Bt, QSelect as Ye, QColor as Nt, QEditor as Tt, QUploader as lt, QList as $e, QSeparator as st, QUploaderAddTrigger as ut, date as j } from "quasar";
+import { defineComponent as H, openBlock as p, createElementBlock as q, createElementVNode as Q, createVNode as V, unref as u, mergeProps as P, createBlock as O, createCommentVNode as L, normalizeClass as at, toDisplayString as M, resolveDynamicComponent as ie, resolveComponent as Ot, normalizeProps as ue, guardReactiveProps as ce, withCtx as b, createTextVNode as ne, Fragment as pe, renderList as ge, ref as B, computed as G, onMounted as K, nextTick as Fe, watch as J, markRaw as X, useSlots as ot, getCurrentInstance as rt, withDirectives as Ge, vShow as Qe, readonly as Te } from "vue";
+import { QBtn as Z, QIcon as Ae, QItem as ve, QItemSection as ae, QItemLabel as oe, IconSet as we, Lang as Ue, QInput as xe, QPopupProxy as $e, QDate as it, QTime as Rt, QCheckbox as Bt, QSelect as Ye, QColor as Nt, QEditor as Tt, QUploader as lt, QList as ze, QSeparator as st, QUploaderAddTrigger as ut, date as j } from "quasar";
 const wt = { class: "flex column" }, Ut = { class: "flex row items-center no-wrap q-pt-sm q-gutter-x-sm" }, $t = /* @__PURE__ */ H({
   __name: "DefaultActionComponent",
   props: {
@@ -133,7 +133,7 @@ const wt = { class: "flex column" }, Ut = { class: "flex row items-center no-wra
   lazyRules: !1
 }, He = {
   noCaps: U.noCaps
-}, ze = {
+}, qe = {
   cover: !0,
   transitionShow: "scale",
   transitionHide: "scale"
@@ -158,7 +158,7 @@ function Yt() {
       class: "cursor-pointer"
     },
     popupProxy: {
-      ...ze
+      ...qe
     },
     color: {}
   };
@@ -168,8 +168,8 @@ function Wt() {
     toolbar: [
       [
         {
-          label: we.props.editor.align,
-          icon: Te.props.editor.align,
+          label: Ue.props.editor.align,
+          icon: we.props.editor.align,
           fixedLabel: !0,
           list: "only-icons",
           options: ["left", "center", "right", "justify"]
@@ -180,14 +180,14 @@ function Wt() {
       ["print", "fullscreen"],
       [
         {
-          label: we.props.editor.formatting,
-          icon: Te.props.editor.formatting,
+          label: Ue.props.editor.formatting,
+          icon: we.props.editor.formatting,
           list: "no-icons",
           options: ["p", "h1", "h2", "h3", "h4", "h5", "h6", "code"]
         },
         {
-          label: we.props.editor.fontSize,
-          icon: Te.props.editor.fontSize,
+          label: Ue.props.editor.fontSize,
+          icon: we.props.editor.fontSize,
           fixedLabel: !0,
           fixedIcon: !0,
           list: "no-icons",
@@ -202,8 +202,8 @@ function Wt() {
           ]
         },
         {
-          label: we.props.editor.defaultFont,
-          icon: Te.props.editor.font,
+          label: Ue.props.editor.defaultFont,
+          icon: we.props.editor.font,
           fixedIcon: !0,
           list: "no-icons",
           options: [
@@ -256,7 +256,7 @@ function Kt() {
       class: "cursor-pointer"
     },
     popupProxy: {
-      ...ze
+      ...qe
     },
     date: {
       color: U.color
@@ -280,7 +280,7 @@ function Xt() {
       class: "cursor-pointer"
     },
     popupProxyDate: {
-      ...ze
+      ...qe
     },
     date: {
       color: U.color
@@ -297,7 +297,7 @@ function Xt() {
       class: "cursor-pointer"
     },
     popupProxyDatetime: {
-      ...ze
+      ...qe
     },
     datetime: {
       format24h: !0
@@ -458,7 +458,7 @@ const m = {
   humanStorageSize: cn,
   deepMergeObject: dt,
   deepDupeObject: dn
-}, Ie = class Ie {
+}, Pe = class Pe {
   constructor() {
     w(this, "_formSettings");
     w(this, "_formBind");
@@ -529,9 +529,9 @@ const m = {
     return this._instance._associationDisplayComponent;
   }
 };
-w(Ie, "_instance", new Ie());
-let ee = Ie;
-class qe {
+w(Pe, "_instance", new Pe());
+let ee = Pe;
+class Ie {
   constructor(e) {
     w(this, "formApi");
     w(this, "events", []);
@@ -542,7 +542,7 @@ class qe {
     return this.events.push(r), new mn(r);
   }
   static create(e) {
-    return new qe(e);
+    return new Ie(e);
   }
   static getEventsObjectFromInstance(e) {
     const t = {
@@ -813,7 +813,7 @@ const pn = { class: "row items-center justify-end" }, gn = /* @__PURE__ */ H({
       append: b(() => [
         V(u(Ae), ue(ce(s.value.icon)), {
           default: b(() => [
-            V(u(Ue), P({
+            V(u($e), P({
               ref_key: "popupProxyRef",
               ref: t
             }, s.value.popupProxy), {
@@ -897,7 +897,7 @@ const pn = { class: "row items-center justify-end" }, gn = /* @__PURE__ */ H({
       append: b(() => [
         V(u(Ae), ue(ce(d.value.iconDate)), {
           default: b(() => [
-            V(u(Ue), P({ ref: "popupProxyRef" }, d.value.popupProxyDate), {
+            V(u($e), P({ ref: "popupProxyRef" }, d.value.popupProxyDate), {
               default: b(() => [
                 V(u(it), P(d.value.date, {
                   "model-value": e.modelValue,
@@ -919,7 +919,7 @@ const pn = { class: "row items-center justify-end" }, gn = /* @__PURE__ */ H({
         }, 16),
         V(u(Ae), ue(ce(d.value.iconDatetime)), {
           default: b(() => [
-            V(u(Ue), P({
+            V(u($e), P({
               ref_key: "timePopupProxyRef",
               ref: a
             }, d.value.popupProxyDate), {
@@ -1547,7 +1547,7 @@ const pn = { class: "row items-center justify-end" }, gn = /* @__PURE__ */ H({
       append: b(() => [
         V(u(Ae), ue(ce(_.value.icon)), {
           default: b(() => [
-            V(u(Ue), ue(ce(_.value.popupProxy)), {
+            V(u($e), ue(ce(_.value.popupProxy)), {
               default: b(() => [
                 V(u(Nt), P(_.value.color, {
                   "model-value": e.modelValue,
@@ -1797,7 +1797,7 @@ const pn = { class: "row items-center justify-end" }, gn = /* @__PURE__ */ H({
         list: b((F) => [
           T.value ? L("", !0) : (p(), q("div", Rn, [
             h[0] || (h[0] = Q("div", { class: "text-weight-medium text-body2" }, "Fichier déjà en ligne", -1)),
-            V(u($e), { separator: "" }, {
+            V(u(ze), { separator: "" }, {
               default: b(() => [
                 (p(!0), q(pe, null, ge(e.field.attachmentData ?? [], (R) => (p(), O(u(ve), {
                   key: R.attachment_id
@@ -1861,7 +1861,7 @@ const pn = { class: "row items-center justify-end" }, gn = /* @__PURE__ */ H({
           !T.value && F.files.length > 0 ? (p(), O(u(st), { key: 1 })) : L("", !0),
           F.files.length > 0 ? (p(), q("div", Bn, [
             h[1] || (h[1] = Q("div", { class: "text-weight-medium text-body2" }, "Fichier de remplacement", -1)),
-            V(u($e), { separator: "" }, {
+            V(u(ze), { separator: "" }, {
               default: b(() => [
                 (p(!0), q(pe, null, ge(F.files, (R) => (p(), O(u(ve), {
                   key: R.__key
@@ -2052,7 +2052,7 @@ const pn = { class: "row items-center justify-end" }, gn = /* @__PURE__ */ H({
           return [
             T.value ? L("", !0) : (p(), q("div", qn, [
               Q("div", In, "Fichier" + M((((F = e.field.attachmentData) == null ? void 0 : F.length) ?? 0) > 0 ? "s" : "") + " déjà en ligne", 1),
-              V(u($e), { separator: "" }, {
+              V(u(ze), { separator: "" }, {
                 default: b(() => [
                   (p(!0), q(pe, null, ge(e.field.attachmentData ?? [], (R) => (p(), O(u(ve), {
                     key: R.attachment_id
@@ -2116,7 +2116,7 @@ const pn = { class: "row items-center justify-end" }, gn = /* @__PURE__ */ H({
             !T.value && h.files.length > 0 ? (p(), O(u(st), { key: 1 })) : L("", !0),
             h.files.length > 0 ? (p(), q("div", Pn, [
               Q("div", Ln, "Fichier" + M(h.files.length > 0 ? "s" : "") + " à ajouter", 1),
-              V(u($e), { separator: "" }, {
+              V(u(ze), { separator: "" }, {
                 default: b(() => [
                   (p(!0), q(pe, null, ge(h.files, (R) => (p(), O(u(ve), {
                     key: R.__key
@@ -2755,9 +2755,9 @@ class Ce {
     ).generateFormDef();
   }
   generateFormDef() {
-    const e = qe.create(this.formApi);
+    const e = Ie.create(this.formApi);
     this.registerEventCallback(e);
-    const t = /* @__PURE__ */ new Set(), a = qe.getEventsObjectFromInstance(e), n = [];
+    const t = /* @__PURE__ */ new Set(), a = Ie.getEventsObjectFromInstance(e), n = [];
     this.formMetadataAndData.form.sections.forEach(
       (g, i) => {
         const _ = [];
@@ -3339,7 +3339,7 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
         m.deepDupeObject(C)
       );
     }
-    function Pe(C, I, fe, Ve, Ee, Oe, Re) {
+    function Le(C, I, fe, Ve, Ee, Oe, Re) {
       a = C, n = I, r = fe, Ve && (g = Ve), Ee && (i = Ee), Oe && (_ = Oe), Re && (k = Re);
     }
     const ye = {
@@ -3399,7 +3399,7 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
         getValueSerialized: f,
         validate: le,
         modelValueOnUpdate: x,
-        registerBehaviourCallbacks: Pe
+        registerBehaviourCallbacks: Le
       }, null, 8, ["modelValue", "field", "formApi"])),
       t.field.afterComponent ? (p(), O(ie(t.field.afterComponent), {
         key: 1,
@@ -3605,7 +3605,7 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
     function De(c) {
       return f.value.get(c);
     }
-    function Pe(c) {
+    function Le(c) {
       return [...f.value.values()].at(c);
     }
     function ye() {
@@ -3699,7 +3699,7 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
     }), _e = {
       getMode: Ee,
       getSectionByName: De,
-      getSectionByIndex: Pe,
+      getSectionByIndex: Le,
       getSections: ye,
       getFieldByName: C,
       getFields: I,
@@ -3723,9 +3723,10 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
       tryUnfocus: ht,
       form: Dt,
       refs: {
-        orphanErrors: Le(x),
-        isLoadingSubmit: Le(T),
-        isFormValid: Le(Je)
+        orphanErrors: Te(x),
+        isLoadingSubmit: Te(T),
+        setupIsDone: Te(D),
+        isFormValid: Te(Je)
       }
     };
     return e(_e), J(
@@ -3807,7 +3808,7 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
   }
 });
 export {
-  qe as DynamicLogicBuilder,
+  Ie as DynamicLogicBuilder,
   ee as Submit64,
   Ma as Submit64Form
 };

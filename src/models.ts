@@ -416,6 +416,11 @@ export type TSubmit64FormApi = {
     isLoadingSubmit: Readonly<Ref<boolean>>;
 
     /*
+    * Réference du chargement d'initialisation du formulaire
+    */
+    setupIsDone: Readonly<Ref<boolean>>;
+
+    /*
      * Réference du formulaire si valide ou non
      */
     isFormValid: Readonly<Ref<boolean>>;

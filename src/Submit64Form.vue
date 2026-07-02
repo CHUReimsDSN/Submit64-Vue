@@ -442,6 +442,7 @@ const formApi: TSubmit64FormApi = {
   refs: {
     orphanErrors: readonly(orphanErrors),
     isLoadingSubmit: readonly(isLoadingSubmit),
+    setupIsDone: readonly(setupIsDone),
     isFormValid: readonly(isValidComputed)
   }
 };
