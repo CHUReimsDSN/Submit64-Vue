@@ -21,8 +21,6 @@ export type TResourceFormMetadata = {
   resource_name: string;
   backend_date_format: string;
   backend_datetime_format: string;
-  resetable?: boolean | null;
-  clearable: boolean | null;
   css_class: string | null;
   readonly: boolean | null;
   allow_bulk: boolean | null;
@@ -52,9 +50,6 @@ export type TResourceFieldMetadata = {
   label: string;
   field_association_name: string | null;
   field_association_class: string | null;
-  hint: string | null;
-  prefix: string | null;
-  suffix: string | null;
   readonly: boolean | null;
   rules: TSubmit64Rule[];
   static_select_options: TSubmit64StaticSelectOptions[];
@@ -203,13 +198,9 @@ export type TFormField = {
   extraType?: Readonly<"color" | "wysiwyg"> | undefined;
   metadata: Readonly<TResourceFieldMetadata>;
   label?: string;
-  hint?: string;
-  suffix?: string;
-  prefix?: string;
   readonly?: boolean;
   rules?: TSubmit64Rule[];
   cssClass?: string;
-  clearable?: boolean;
   hidden: boolean;
   associationData?: {
     label: string;

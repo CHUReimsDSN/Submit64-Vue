@@ -221,6 +221,7 @@ export type TSubmit64FormApi = {
     refs: {
         orphanErrors: Readonly<Ref<Record<string, readonly string[]>>>;
         isLoadingSubmit: Readonly<Ref<boolean>>;
+        setupIsDone: Readonly<Ref<boolean>>;
         isFormValid: Readonly<Ref<boolean>>;
     };
 };

@@ -87,7 +87,7 @@ const article1 = {
   id: 1,
   label: 'My article',
   color: '#6090b0',
-  next_date: '1995-01-03 15:00',
+  next_date: '1995/01/03 15:00',
 };
 const articleData: TRecordData = {
   metadata: {

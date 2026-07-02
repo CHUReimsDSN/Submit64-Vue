@@ -4,9 +4,14 @@ title: Changelog
 
 # Changelog
 
+### 1.7.1
+
+- Ajout de la ref `setupIsDone` dans le `TSubmit64FormApi`.
+
+---
 ### 1.7.0
 
-- Le bouton de soumission est désormais désactivé si le formulaire n'est pas valide
+- Le bouton de soumission est désormais désactivé si le formulaire n'est pas valide.
 - Ajout des fonctions `focus` et `unfocus` pour les `TSubmit64FormApi`, `TSubmit64SectionApi` et `TSubmit64FieldApi`.
 - Ajout d'un paramètre permettant l'autofocus sur le premier champs disponible du formulaire
 - Le téléchargement de fichier est désormais bien attendu avant de pouvoir soumettre le formulaire
