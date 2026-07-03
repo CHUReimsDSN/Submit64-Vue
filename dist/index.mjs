@@ -2804,6 +2804,7 @@ class Ce {
           cssClass: g.css_class ?? void 0,
           hidden: !1,
           name: g.name ?? i.toString(),
+          index: i,
           bindings: m.deepDupeObject(this.formBind.sections),
           readonly: this.formMetadataAndData.form.readonly ?? g.readonly ?? void 0,
           events: a.sections[g.name ?? i.toString()] ?? {},

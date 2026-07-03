@@ -219,6 +219,7 @@ export class FormFactory {
           cssClass: sectionMetadata.css_class ?? undefined,
           hidden: false,
           name: sectionMetadata.name ?? sectionIndex.toString(),
+          index: sectionIndex,
           bindings: Utils.deepDupeObject(this.formBind.sections),
           readonly:
             this.formMetadataAndData.form.readonly ??

@@ -144,6 +144,7 @@ export type TForm = {
 export type TFormSection = {
     fields: TFormField[];
     name: Readonly<string>;
+    index: number;
     label?: string;
     icon?: string;
     hidden: boolean;
