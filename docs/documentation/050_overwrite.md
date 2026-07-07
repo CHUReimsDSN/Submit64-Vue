@@ -77,9 +77,9 @@ Surcharge locale :
 ```vue
 <script setup lang="ts">
 import { Submit64Form } from "submit64-vue";
-import type { TFormBindings } from "submit64-vue";
+import type { TSubmit64FormProps } from "submit64-vue";
 
-const formBindings: TFormBindings = {
+const formBindings: TSubmit64FormProps['formBindings'] = {
   fields: {
     string: {
       hint: 'Bonjour',
