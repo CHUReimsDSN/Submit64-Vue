@@ -89,66 +89,79 @@ function getDefautColor(): TColorBindings {
   };
 }
 function getDefaultWysiwig(): TWysiwygBindings {
-  const toolbar: QEditorProps["toolbar"] = [
-    [
-      {
-        label: Lang.props.editor.align,
-        icon: IconSet.props.editor.align,
-        fixedLabel: true,
-        list: "only-icons",
-        options: ["left", "center", "right", "justify"],
-      },
-    ],
-    ["bold", "italic", "strike", "underline", "subscript", "superscript"],
-    ["token", "hr", "link", "custom_btn"],
-    ["print", "fullscreen"],
-    [
-      {
-        label: Lang.props.editor.formatting,
-        icon: IconSet.props.editor.formatting,
-        list: "no-icons",
-        options: ["p", "h1", "h2", "h3", "h4", "h5", "h6", "code"],
-      },
-      {
-        label: Lang.props.editor.fontSize,
-        icon: IconSet.props.editor.fontSize,
-        fixedLabel: true,
-        fixedIcon: true,
-        list: "no-icons",
-        options: [
-          "size-1",
-          "size-2",
-          "size-3",
-          "size-4",
-          "size-5",
-          "size-6",
-          "size-7",
-        ],
-      },
-      {
-        label: Lang.props.editor.defaultFont,
-        icon: IconSet.props.editor.font,
-        fixedIcon: true,
-        list: "no-icons",
-        options: [
-          "default_font",
-          "arial",
-          "arial_black",
-          "comic_sans",
-          "courier_new",
-          "impact",
-          "lucida_grande",
-          "times_new_roman",
-          "verdana",
-        ],
-      },
-      "removeFormat",
-    ],
-    ["quote", "unordered", "ordered", "outdent", "indent"],
+  let toolbar: QEditorProps["toolbar"];
+  if (Lang.props && IconSet.props) {
+    toolbar = [
+      [
+        {
+          label: Lang.props.editor.align,
+          icon: IconSet.props.editor.align,
+          fixedLabel: true,
+          list: "only-icons",
+          options: ["left", "center", "right", "justify"],
+        },
+      ],
+      ["bold", "italic", "strike", "underline", "subscript", "superscript"],
+      ["token", "hr", "link", "custom_btn"],
+      ["print", "fullscreen"],
+      [
+        {
+          label: Lang.props.editor.formatting,
+          icon: IconSet.props.editor.formatting,
+          list: "no-icons",
+          options: ["p", "h1", "h2", "h3", "h4", "h5", "h6", "code"],
+        },
+        {
+          label: Lang.props.editor.fontSize,
+          icon: IconSet.props.editor.fontSize,
+          fixedLabel: true,
+          fixedIcon: true,
+          list: "no-icons",
+          options: [
+            "size-1",
+            "size-2",
+            "size-3",
+            "size-4",
+            "size-5",
+            "size-6",
+            "size-7",
+          ],
+        },
+        {
+          label: Lang.props.editor.defaultFont,
+          icon: IconSet.props.editor.font,
+          fixedIcon: true,
+          list: "no-icons",
+          options: [
+            "default_font",
+            "arial",
+            "arial_black",
+            "comic_sans",
+            "courier_new",
+            "impact",
+            "lucida_grande",
+            "times_new_roman",
+            "verdana",
+          ],
+        },
+        "removeFormat",
+      ],
+      ["quote", "unordered", "ordered", "outdent", "indent"],
 
-    ["undo", "redo"],
-    ["viewsource"],
-  ];
+      ["undo", "redo"],
+      ["viewsource"],
+    ];
+  } else {
+        toolbar = [
+      ["bold", "italic", "strike", "underline", "subscript", "superscript"],
+      ["token", "hr", "link", "custom_btn"],
+      ["print", "fullscreen"],
+      ["quote", "unordered", "ordered", "outdent", "indent"],
+      ["undo", "redo"],
+      ["viewsource"],
+    ];
+  }
+
   const fonts: QEditorProps["fonts"] = {
     arial: "Arial",
     arial_black: "Arial Black",
@@ -273,8 +286,8 @@ function getDefaultAttachmentBelongsTo(): TAttachmentBelongsToBindings {
       bordered: !defaultStyle.borderless,
       square: defaultStyle.square,
       color: defaultStyle.color,
-      flat: false
-    }
+      flat: false,
+    },
   };
 }
 function getDefaultAttachmentHasMany(): TAttachmentHasManyBindings {
@@ -283,8 +296,8 @@ function getDefaultAttachmentHasMany(): TAttachmentHasManyBindings {
       bordered: !defaultStyle.borderless,
       square: defaultStyle.square,
       color: defaultStyle.color,
-      flat: false
-    }
+      flat: false,
+    },
   };
 }
 
@@ -292,24 +305,24 @@ function getDefaultAttachmentHasMany(): TAttachmentHasManyBindings {
 function getDefaultSection(): TSectionBindings {
   return {
     icon: {
-      color: defaultStyle.color
-    }
-  }
+      color: defaultStyle.color,
+    },
+  };
 }
 
 // form
 function getDefaultActions(): TActionBindings {
   return {
     submitBtn: {
-      label: 'Enregistrer'
+      label: "Enregistrer",
     },
     resetBtn: {
-      label: 'Réinitialiser'
+      label: "Réinitialiser",
     },
     clearBtn: {
-      label: 'Effacer'
-    }
-  }
+      label: "Effacer",
+    },
+  };
 }
 
 function getDefaultFormBindings(): TFormBindings {
@@ -326,13 +339,13 @@ function getDefaultFormBindings(): TFormBindings {
       hasMany: getDefaultHasMany(),
       belongsTo: getDefaultBelongsTo(),
       attachmentBelongsTo: getDefaultAttachmentBelongsTo(),
-      attachmentHasMany: getDefaultAttachmentHasMany()
+      attachmentHasMany: getDefaultAttachmentHasMany(),
     },
     sections: getDefaultSection(),
     form: {
       actions: getDefaultActions(),
-    }
-  }
+    },
+  };
 }
 function getEmptyDefaultBindings(): TFormBindings {
   return {
@@ -348,16 +361,16 @@ function getEmptyDefaultBindings(): TFormBindings {
       attachmentBelongsTo: {},
       attachmentHasMany: {},
       select: {},
-      checkbox: {}
+      checkbox: {},
     },
     sections: {},
     form: {
-      actions: {}
-    }
-  }
+      actions: {},
+    },
+  };
 }
 
 export const Bindings = {
   getDefaultFormBindings,
-  getEmptyDefaultBindings
+  getEmptyDefaultBindings,
 };
