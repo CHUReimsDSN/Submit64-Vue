@@ -4,6 +4,11 @@ title: Changelog
 
 # Changelog
 
+### 1.7.3
+
+- Correction d'un problème des bindings des champs Wysiwyg
+
+---
 ### 1.7.2
 
 - Ajout de la ref `setupIsDone` dans le `TSubmit64FormApi`.
