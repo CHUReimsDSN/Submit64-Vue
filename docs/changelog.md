@@ -4,7 +4,7 @@ title: Changelog
 
 # Changelog
 
-### 1.7.1
+### 1.7.2
 
 - Ajout de la ref `setupIsDone` dans le `TSubmit64FormApi`.
 
