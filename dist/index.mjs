@@ -107,32 +107,30 @@ const wt = { class: "flex column" }, Ut = { class: "flex row items-center no-wra
       }, M(r) + " : " + M(n.join(",")), 1))), 128))
     ]));
   }
-}), $ = {
-  outlined: !0,
-  dense: !0,
-  filled: !1,
-  standout: !1,
-  borderless: !1,
-  rounded: !1,
-  square: !1,
+}), z = {
+  outlined: void 0,
+  dense: void 0,
+  filled: void 0,
+  standout: void 0,
+  borderless: void 0,
+  rounded: void 0,
+  square: void 0,
   color: "primary",
-  bgColor: "",
-  hideBottomSpace: !0,
-  noCaps: !0
+  hideBottomSpace: void 0,
+  noCaps: void 0
 }, he = {
-  hideBottomSpace: $.hideBottomSpace,
-  outlined: $.outlined,
-  dense: $.dense,
-  filled: $.filled,
-  standout: $.standout,
-  borderless: $.borderless,
-  rounded: $.rounded,
-  square: $.square,
-  color: $.color,
-  bgColor: $.bgColor,
+  hideBottomSpace: z.hideBottomSpace,
+  outlined: z.outlined,
+  dense: z.dense,
+  filled: z.filled,
+  standout: z.standout,
+  borderless: z.borderless,
+  rounded: z.rounded,
+  square: z.square,
+  color: z.color,
   lazyRules: !1
 }, He = {
-  noCaps: $.noCaps
+  noCaps: z.noCaps
 }, qe = {
   cover: !0,
   transitionShow: "scale",
@@ -175,14 +173,14 @@ function Wt() {
       times_new_roman: "Times New Roman",
       verdana: "Verdana"
     },
-    square: $.square,
-    dense: $.dense
+    square: z.square,
+    dense: z.dense
   };
 }
 function Jt() {
   return {
-    color: $.color,
-    dense: $.dense
+    color: z.color,
+    dense: z.dense
   };
 }
 function Kt() {
@@ -192,7 +190,7 @@ function Kt() {
     },
     icon: {
       size: "sm",
-      color: $.color,
+      color: z.color,
       name: "event",
       class: "cursor-pointer"
     },
@@ -200,11 +198,11 @@ function Kt() {
       ...qe
     },
     date: {
-      color: $.color
+      color: z.color
     },
     btn: {
       label: "Fermer",
-      color: $.color,
+      color: z.color,
       noCaps: He.noCaps
     }
   };
@@ -216,7 +214,7 @@ function Xt() {
     },
     iconDate: {
       size: "sm",
-      color: $.color,
+      color: z.color,
       name: "event",
       class: "cursor-pointer"
     },
@@ -224,16 +222,16 @@ function Xt() {
       ...qe
     },
     date: {
-      color: $.color
+      color: z.color
     },
     btnDate: {
       label: "Fermer",
-      color: $.color,
+      color: z.color,
       noCaps: He.noCaps
     },
     iconDatetime: {
       size: "sm",
-      color: $.color,
+      color: z.color,
       name: "access_time",
       class: "cursor-pointer"
     },
@@ -245,7 +243,7 @@ function Xt() {
     },
     btnDatetime: {
       label: "Fermer",
-      color: $.color,
+      color: z.color,
       noCaps: He.noCaps
     }
   };
@@ -256,7 +254,7 @@ function Zt() {
       ...he
     },
     itemNoOption: {
-      dense: $.dense
+      dense: z.dense
     }
   };
 }
@@ -266,7 +264,7 @@ function en() {
       ...he
     },
     itemNoOption: {
-      dense: $.dense
+      dense: z.dense
     }
   };
 }
@@ -276,7 +274,7 @@ function tn() {
       ...he
     },
     itemNoOption: {
-      dense: $.dense
+      dense: z.dense
     }
   };
 }
@@ -284,8 +282,8 @@ function nn() {
   return {
     uploader: {
       bordered: !0,
-      square: $.square,
-      color: $.color,
+      square: z.square,
+      color: z.color,
       flat: !1
     }
   };
@@ -294,8 +292,8 @@ function an() {
   return {
     uploader: {
       bordered: !0,
-      square: $.square,
-      color: $.color,
+      square: z.square,
+      color: z.color,
       flat: !1
     }
   };
@@ -303,7 +301,7 @@ function an() {
 function on() {
   return {
     icon: {
-      color: $.color
+      color: z.color
     }
   };
 }
@@ -3469,10 +3467,10 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
       ), r = d.value.sections.length, g = d.value.sections.reduce((c, y) => (c += y.fields.length, c), 0), t.resourceId && (T.value = "edit");
     }
     async function V() {
-      var z, re, Be;
+      var $, re, Be;
       if (!se())
         return;
-      m.callAllEvents((z = d.value) == null ? void 0 : z.events.onSubmit), B.value = !0, W();
+      m.callAllEvents(($ = d.value) == null ? void 0 : $.events.onSubmit), B.value = !0, W();
       const c = Y(), y = await t.getSubmitFormData({
         resourceName: t.resourceName,
         resourceId: t.resourceId,
@@ -3516,12 +3514,12 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
         dynamicComponentRecord: {}
       };
       for (const y in N) {
-        const z = N[y];
-        if (z) {
+        const $ = N[y];
+        if ($) {
           const re = H({
             inheritAttrs: !1,
             setup(Be, { attrs: Te, slots: me }) {
-              return () => z({
+              return () => $({
                 ...Be,
                 ...Te,
                 innerSlots: me
@@ -3551,21 +3549,21 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
     }
     function Y() {
       const c = {};
-      for (const [y, z] of l.value)
-        c[y] = z.getValueDeserialized();
+      for (const [y, $] of l.value)
+        c[y] = $.getValueDeserialized();
       return c;
     }
     function de() {
       const c = {};
-      for (const [y, z] of l.value)
-        c[y] = z.getValueSerialized();
+      for (const [y, $] of l.value)
+        c[y] = $.getValueSerialized();
       return c;
     }
     function se() {
       var y;
       let c = !0;
-      return l.value.forEach((z) => {
-        if (!z.validate()) {
+      return l.value.forEach(($) => {
+        if (!$.validate()) {
           c = !1;
           return;
         }
@@ -3681,11 +3679,11 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
     }
     function yt(c) {
       var y;
-      return (y = d.value) == null ? void 0 : y.sections.find((z) => z.name === c);
+      return (y = d.value) == null ? void 0 : y.sections.find(($) => $.name === c);
     }
     function _t(c) {
       var y;
-      return (y = d.value) == null ? void 0 : y.sections.map((z) => z.fields).flat().find((z) => z.metadata.field_name === c);
+      return (y = d.value) == null ? void 0 : y.sections.map(($) => $.fields).flat().find(($) => $.metadata.field_name === c);
     }
     function Ct(c, y) {
       f.value.set(c, y), r === f.value.size && (F.value = !0);
@@ -3705,8 +3703,8 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
       setSectionFieldComponent: Vt
     }, Dt = new Proxy({}, {
       get(c, y) {
-        var z;
-        return (z = d.value) == null ? void 0 : z[y];
+        var $;
+        return ($ = d.value) == null ? void 0 : $[y];
       }
     }), _e = {
       getMode: Ee,
@@ -3754,8 +3752,8 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
       },
       (c) => {
         i == null || i(), i = null, c && (i = J(Je, (y) => {
-          var z;
-          y && m.callAllEvents((z = d.value) == null ? void 0 : z.events.onIsValid);
+          var $;
+          y && m.callAllEvents(($ = d.value) == null ? void 0 : $.events.onIsValid);
         }));
       },
       { immediate: !0 }
@@ -3766,8 +3764,8 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
       },
       (c) => {
         _ == null || _(), _ = null, c && (_ = J(kt, (y) => {
-          var z;
-          y && m.callAllEvents((z = d.value) == null ? void 0 : z.events.onIsInvalid);
+          var $;
+          y && m.callAllEvents(($ = d.value) == null ? void 0 : $.events.onIsInvalid);
         }));
       },
       { immediate: !0 }
@@ -3795,14 +3793,14 @@ const wa = { class: "flex column" }, Ua = /* @__PURE__ */ H({
       Q("div", {
         class: at(d.value.cssClass ?? "flex column q-pa-sm q-gutter-sm")
       }, [
-        (p(!0), q(pe, null, ge(d.value.sections, (z) => (p(), E(Ua, {
-          key: z.name,
-          section: z,
+        (p(!0), q(pe, null, ge(d.value.sections, ($) => (p(), E(Ua, {
+          key: $.name,
+          section: $,
           formApi: _e,
           privateFormApi: Ke
         }, {
           default: b(() => [
-            (p(!0), q(pe, null, ge(z.fields, (re) => (p(), E(qa, {
+            (p(!0), q(pe, null, ge($.fields, (re) => (p(), E(qa, {
               key: re.metadata.field_name,
               field: re,
               formApi: _e,
