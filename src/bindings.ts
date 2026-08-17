@@ -24,17 +24,16 @@ import type {
 
 // fields
 const defaultStyle = {
-  outlined: true,
-  dense: true,
-  filled: false,
-  standout: false,
-  borderless: false,
-  rounded: false,
-  square: false,
+  outlined: undefined,
+  dense: undefined,
+  filled: undefined,
+  standout: undefined,
+  borderless: undefined,
+  rounded: undefined,
+  square: undefined,
   color: "primary",
-  bgColor: "",
-  hideBottomSpace: true,
-  noCaps: true,
+  hideBottomSpace: undefined,
+  noCaps: undefined,
 };
 const fieldDefaultBind: QFieldProps = {
   hideBottomSpace: defaultStyle.hideBottomSpace,
@@ -46,7 +45,6 @@ const fieldDefaultBind: QFieldProps = {
   rounded: defaultStyle.rounded,
   square: defaultStyle.square,
   color: defaultStyle.color,
-  bgColor: defaultStyle.bgColor,
   lazyRules: false,
 };
 const btnDefaultBind: QBtnProps = {

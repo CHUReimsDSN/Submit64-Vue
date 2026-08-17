@@ -4,9 +4,14 @@ title: Changelog
 
 # Changelog
 
+### 1.7.4
+
+- Changement des styles par défault.
+
+---
 ### 1.7.3
 
-- Correction d'un problème des bindings des champs Wysiwyg
+- Correction d'un problème des bindings des champs Wysiwyg.
 
 ---
 ### 1.7.2
