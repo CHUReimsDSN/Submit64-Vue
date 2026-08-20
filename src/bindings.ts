@@ -1,6 +1,5 @@
 import {
   type QMenuProps,
-  type QBtnProps,
   type QEditorProps,
   type QFieldProps,
 } from "quasar";
@@ -47,17 +46,8 @@ const fieldDefaultBind: QFieldProps = {
   color: defaultStyle.color,
   lazyRules: false,
 };
-const btnDefaultBind: QBtnProps = {
-  noCaps: defaultStyle.noCaps,
-  dense: defaultStyle.dense,
-  rounded: defaultStyle.rounded,
-  square: defaultStyle.square,
-  color: defaultStyle.color,
-};
 const popupProxyDefaultBind: Omit<QMenuProps, "modelValue"> = {
   cover: true,
-  transitionShow: "scale",
-  transitionHide: "scale",
 };
 function getDefaultString(): TStringBindings {
   return {
@@ -97,14 +87,11 @@ function getDefaultWysiwig(): TWysiwygBindings {
   };
   return {
     fonts,
-    square: defaultStyle.square,
-    dense: defaultStyle.dense,
   };
 }
 function getDefaultCheckbox(): TCheckboxBindings {
   return {
     color: defaultStyle.color,
-    dense: defaultStyle.dense,
   };
 }
 function getDefaultDate(): TDateBindings {
@@ -113,8 +100,6 @@ function getDefaultDate(): TDateBindings {
       ...fieldDefaultBind,
     },
     icon: {
-      size: "sm",
-      color: defaultStyle.color,
       name: "event",
       class: "cursor-pointer",
     },
@@ -127,7 +112,6 @@ function getDefaultDate(): TDateBindings {
     btn: {
       label: "Fermer",
       color: defaultStyle.color,
-      noCaps: btnDefaultBind.noCaps,
     },
   };
 }
@@ -137,8 +121,6 @@ function getDefaultDatetime(): TDatetimeBindings {
       ...fieldDefaultBind,
     },
     iconDate: {
-      size: "sm",
-      color: defaultStyle.color,
       name: "event",
       class: "cursor-pointer",
     },
@@ -151,11 +133,8 @@ function getDefaultDatetime(): TDatetimeBindings {
     btnDate: {
       label: "Fermer",
       color: defaultStyle.color,
-      noCaps: btnDefaultBind.noCaps,
     },
     iconDatetime: {
-      size: "sm",
-      color: defaultStyle.color,
       name: "access_time",
       class: "cursor-pointer",
     },
@@ -168,7 +147,6 @@ function getDefaultDatetime(): TDatetimeBindings {
     btnDatetime: {
       label: "Fermer",
       color: defaultStyle.color,
-      noCaps: btnDefaultBind.noCaps,
     },
   };
 }
@@ -177,18 +155,12 @@ function getDefaultBelongsTo(): TBelongsToBindings {
     select: {
       ...fieldDefaultBind,
     },
-    itemNoOption: {
-      dense: defaultStyle.dense,
-    },
   };
 }
 function getDefaultHasMany(): THasManyBindings {
   return {
     select: {
       ...fieldDefaultBind,
-    },
-    itemNoOption: {
-      dense: defaultStyle.dense,
     },
   };
 }
@@ -197,39 +169,26 @@ function getDefaultSelect(): TSelectBindings {
     select: {
       ...fieldDefaultBind,
     },
-    itemNoOption: {
-      dense: defaultStyle.dense,
-    },
   };
 }
 function getDefaultAttachmentBelongsTo(): TAttachmentBelongsToBindings {
   return {
     uploader: {
-      bordered: !defaultStyle.borderless,
-      square: defaultStyle.square,
       color: defaultStyle.color,
-      flat: false,
     },
   };
 }
 function getDefaultAttachmentHasMany(): TAttachmentHasManyBindings {
   return {
     uploader: {
-      bordered: !defaultStyle.borderless,
-      square: defaultStyle.square,
       color: defaultStyle.color,
-      flat: false,
     },
   };
 }
 
 // sections
 function getDefaultSection(): TSectionBindings {
-  return {
-    icon: {
-      color: defaultStyle.color,
-    },
-  };
+  return {};
 }
 
 // form

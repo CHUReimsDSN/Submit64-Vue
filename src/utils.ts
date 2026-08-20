@@ -43,9 +43,6 @@ function deepMergeObject<T extends Record<string, unknown>>(
   return merged;
 }
 function deepDupeObject<T>(objectToDupe: T): T {
-  if (typeof structuredClone === "function") {
-    return structuredClone(objectToDupe);
-  }
   return JSON.parse(JSON.stringify(objectToDupe));
 }
 
