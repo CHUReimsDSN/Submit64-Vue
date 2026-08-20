@@ -23,17 +23,8 @@ const fieldDefaultBind = {
     color: defaultStyle.color,
     lazyRules: false,
 };
-const btnDefaultBind = {
-    noCaps: defaultStyle.noCaps,
-    dense: defaultStyle.dense,
-    rounded: defaultStyle.rounded,
-    square: defaultStyle.square,
-    color: defaultStyle.color,
-};
 const popupProxyDefaultBind = {
     cover: true,
-    transitionShow: "scale",
-    transitionHide: "scale",
 };
 function getDefaultString() {
     return {
@@ -73,14 +64,11 @@ function getDefaultWysiwig() {
     };
     return {
         fonts,
-        square: defaultStyle.square,
-        dense: defaultStyle.dense,
     };
 }
 function getDefaultCheckbox() {
     return {
         color: defaultStyle.color,
-        dense: defaultStyle.dense,
     };
 }
 function getDefaultDate() {
@@ -89,8 +77,6 @@ function getDefaultDate() {
             ...fieldDefaultBind,
         },
         icon: {
-            size: "sm",
-            color: defaultStyle.color,
             name: "event",
             class: "cursor-pointer",
         },
@@ -103,7 +89,6 @@ function getDefaultDate() {
         btn: {
             label: "Fermer",
             color: defaultStyle.color,
-            noCaps: btnDefaultBind.noCaps,
         },
     };
 }
@@ -113,8 +98,6 @@ function getDefaultDatetime() {
             ...fieldDefaultBind,
         },
         iconDate: {
-            size: "sm",
-            color: defaultStyle.color,
             name: "event",
             class: "cursor-pointer",
         },
@@ -127,11 +110,8 @@ function getDefaultDatetime() {
         btnDate: {
             label: "Fermer",
             color: defaultStyle.color,
-            noCaps: btnDefaultBind.noCaps,
         },
         iconDatetime: {
-            size: "sm",
-            color: defaultStyle.color,
             name: "access_time",
             class: "cursor-pointer",
         },
@@ -144,7 +124,6 @@ function getDefaultDatetime() {
         btnDatetime: {
             label: "Fermer",
             color: defaultStyle.color,
-            noCaps: btnDefaultBind.noCaps,
         },
     };
 }
@@ -153,18 +132,12 @@ function getDefaultBelongsTo() {
         select: {
             ...fieldDefaultBind,
         },
-        itemNoOption: {
-            dense: defaultStyle.dense,
-        },
     };
 }
 function getDefaultHasMany() {
     return {
         select: {
             ...fieldDefaultBind,
-        },
-        itemNoOption: {
-            dense: defaultStyle.dense,
         },
     };
 }
@@ -173,38 +146,25 @@ function getDefaultSelect() {
         select: {
             ...fieldDefaultBind,
         },
-        itemNoOption: {
-            dense: defaultStyle.dense,
-        },
     };
 }
 function getDefaultAttachmentBelongsTo() {
     return {
         uploader: {
-            bordered: !defaultStyle.borderless,
-            square: defaultStyle.square,
             color: defaultStyle.color,
-            flat: false,
         },
     };
 }
 function getDefaultAttachmentHasMany() {
     return {
         uploader: {
-            bordered: !defaultStyle.borderless,
-            square: defaultStyle.square,
             color: defaultStyle.color,
-            flat: false,
         },
     };
 }
 // sections
 function getDefaultSection() {
-    return {
-        icon: {
-            color: defaultStyle.color,
-        },
-    };
+    return {};
 }
 // form
 function getDefaultActions() {

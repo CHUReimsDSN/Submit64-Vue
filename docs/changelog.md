@@ -4,6 +4,11 @@ title: Changelog
 
 # Changelog
 
+### 1.7.5
+
+- Correction d'un problème lié au `TSubmit64FieldApi.addBindings`.
+
+---
 ### 1.7.4
 
 - Changement des styles par défault.

@@ -32,9 +32,6 @@ function deepMergeObject(objToMergeTo, objPrio) {
     return merged;
 }
 function deepDupeObject(objectToDupe) {
-    if (typeof structuredClone === "function") {
-        return structuredClone(objectToDupe);
-    }
     return JSON.parse(JSON.stringify(objectToDupe));
 }
 export const Utils = {
