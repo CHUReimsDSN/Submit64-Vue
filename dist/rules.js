@@ -20,7 +20,7 @@ function computeServerRules(field, formApi) {
         return () => "";
     };
     const computedRuleDateFormatToFormFactoryFormat = (ruleDate) => {
-        return String(date.formatDate(date.extractDate(ruleDate, form.formSettings.backendDateFormat), form.formSettings.dateFormat));
+        return String(date.formatDate(Utils.superExtractDate(ruleDate, form.formSettings.backendDateFormat), form.formSettings.dateFormat));
     };
     const rules = [];
     const upperRules = [];
@@ -344,24 +344,24 @@ function otherThanString(otherThan) {
 function lessThanOrEqualDate(lessThan, format) {
     return (val) => {
         const lessThanValue = lessThan();
-        const valExtracted = date.extractDate(String(val), format);
-        const lessThanExtracted = date.extractDate(lessThanValue, format);
+        const valExtracted = Utils.superExtractDate(String(val), format);
+        const lessThanExtracted = Utils.superExtractDate(lessThanValue, format);
         return (valExtracted <= lessThanExtracted || `Inf. ou égal à ${lessThanValue}`);
     };
 }
 function lessThanDate(lessThan, format) {
     return (val) => {
         const lessThanValue = lessThan();
-        const valExtracted = date.extractDate(String(val), format);
-        const lessThanExtracted = date.extractDate(lessThanValue, format);
+        const valExtracted = Utils.superExtractDate(String(val), format);
+        const lessThanExtracted = Utils.superExtractDate(lessThanValue, format);
         return valExtracted < lessThanExtracted || `Inf. à ${lessThanValue}`;
     };
 }
 function greaterThanOrEqualDate(greaterThan, format) {
     return (val) => {
         const greaterThanValue = greaterThan();
-        const valExtracted = date.extractDate(String(val), format);
-        const greaterThanExtracted = date.extractDate(greaterThanValue, format);
+        const valExtracted = Utils.superExtractDate(String(val), format);
+        const greaterThanExtracted = Utils.superExtractDate(greaterThanValue, format);
         return (valExtracted >= greaterThanExtracted ||
             `Sup. ou égal à ${greaterThanValue}`);
     };
@@ -369,24 +369,24 @@ function greaterThanOrEqualDate(greaterThan, format) {
 function greaterThanDate(greaterThan, format) {
     return (val) => {
         const greaterThanValue = greaterThan();
-        const valExtracted = date.extractDate(String(val), format);
-        const greaterThanExtracted = date.extractDate(greaterThanValue, format);
+        const valExtracted = Utils.superExtractDate(String(val), format);
+        const greaterThanExtracted = Utils.superExtractDate(greaterThanValue, format);
         return valExtracted > greaterThanExtracted || `Sup. à ${greaterThanValue}`;
     };
 }
 function equalToDate(equalTo, format) {
     return (val) => {
         const equalToValue = equalTo();
-        const valExtracted = date.extractDate(String(val), format);
-        const equalToExtracted = date.extractDate(equalToValue, format);
+        const valExtracted = Utils.superExtractDate(String(val), format);
+        const equalToExtracted = Utils.superExtractDate(equalToValue, format);
         return valExtracted === equalToExtracted || `Égale à ${valExtracted}`;
     };
 }
 function otherThanDate(otherThan, format) {
     return (val) => {
         const otherThanValue = otherThan();
-        return (date.extractDate(String(val), format) !==
-            date.extractDate(otherThanValue, format) ||
+        return (Utils.superExtractDate(String(val), format) !==
+            Utils.superExtractDate(otherThanValue, format) ||
             `Doit être différent de ${otherThanValue}`);
     };
 }
@@ -402,7 +402,7 @@ function isStrictDate(val, format) {
     if (typeof val !== "string" || !val.trim()) {
         return false;
     }
-    const extractedDate = date.extractDate(val, format);
+    const extractedDate = Utils.superExtractDate(val, format);
     if (!(extractedDate instanceof Date) || isNaN(extractedDate.getTime())) {
         return false;
     }

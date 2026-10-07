@@ -17,8 +17,8 @@ type TRecordData = {
 // Article
 const articleForm: TResourceFormMetadata = {
   resource_name: 'Article',
-  backend_date_format: 'YYYY/MM/DD',
-  backend_datetime_format: 'YYYY/MM/DD HH:mm',
+  backend_date_format: 'YYYY-MM-DD',
+  backend_datetime_format: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   css_class: null,
   readonly: false,
   sections: [
@@ -87,7 +87,7 @@ const article1 = {
   id: 1,
   label: 'My article',
   color: '#6090b0',
-  next_date: '1995/01/03 15:00',
+  next_date: '2026-09-25T14:52:04.942+02:00', // 
 };
 const articleData: TRecordData = {
   metadata: {

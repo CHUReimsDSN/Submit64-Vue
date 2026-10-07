@@ -73,7 +73,7 @@ function formModelSerializeByType(value: unknown) {
         return null;
       }
       return date.formatDate(
-        date.extractDate(String(value), form.formSettings.backendDateFormat),
+        Utils.superExtractDate(String(value), form.formSettings.backendDateFormat),
         form.formSettings.dateFormat
       );
     case "datetime":
@@ -81,7 +81,7 @@ function formModelSerializeByType(value: unknown) {
         return null;
       }
       return date.formatDate(
-        date.extractDate(
+        Utils.superExtractDate(
           String(value),
           form.formSettings.backendDatetimeFormat
         ),
@@ -104,7 +104,7 @@ function formModelDeserializeByType(value: unknown) {
         return null;
       }
       return date.formatDate(
-        date.extractDate(String(value), form.formSettings.dateFormat),
+        Utils.superExtractDate(String(value), form.formSettings.dateFormat),
         form.formSettings.backendDateFormat
       );
     case "datetime":
@@ -112,7 +112,7 @@ function formModelDeserializeByType(value: unknown) {
         return null;
       }
       return date.formatDate(
-        date.extractDate(String(value), form.formSettings.datetimeFormat),
+        Utils.superExtractDate(String(value), form.formSettings.datetimeFormat),
         form.formSettings.backendDatetimeFormat
       );
     case 'selectBelongsTo':
