@@ -1,3 +1,4 @@
+import { Logger } from "./logger";
 import type {
   TFormEvent,
   TFormFieldEvent,
@@ -273,7 +274,7 @@ class FormEvent<K extends keyof TSubmit64EventWhen = keyof TSubmit64EventWhen> {
         };
 
       default:
-        console.warn(`Submit64 -> unhandled event target : ${this.type}`);
+        Logger.log(`Submit64 -> unhandled event target : ${this.type}`)
         return {
           target: null,
         };

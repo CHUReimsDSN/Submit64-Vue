@@ -21,17 +21,18 @@ import type {
   TSubmit64AssociationData,
   TSubmit64FormMode,
   TSubmit64FormApi,
-  TSubmit64OverridedComponents,
   TSubmit64SectionApi,
   TContext,
   TSubmit64FormPrivateApi,
   TSubmit64SubmitData,
   TFormSection,
+  TFormFieldType,
 } from "./models";
 import { FormFactory } from "./form-factory";
 import SectionWrapper from "./components/SectionWrapper.vue";
 import FieldWrapper from "./components/FieldWrapper.vue";
 import { Utils } from "./utils";
+import { Logger } from "./logger";
 
 // props
 const propsComponent = withDefaults(defineProps<TSubmit64FormProps>(), {});
@@ -70,18 +71,21 @@ async function setupMetadatasAndForm() {
   form.value = FormFactory.getForm(
     propsComponent.resourceName,
     propsComponent.resourceId,
-    getOverridedComponents(),
     formMetadataAndData,
     propsComponent.formSettings,
     propsComponent.formBindings,
+    propsComponent.formSlots,
+    getSlots(),
     propsComponent.context,
     formApi,
-    propsComponent.eventManager
+    propsComponent.eventManager,
+    propsComponent.class,
+    propsComponent.sectionContainerClass,
   );
   sectionCount = form.value.sections.length;
   fieldCount = form.value.sections.reduce((acc, s) => {
-    acc += s.fields.length
-    return acc
+    acc += s.fields.length;
+    return acc;
   }, 0);
   if (propsComponent.resourceId) {
     mode.value = "edit";
@@ -130,16 +134,19 @@ async function submit(): Promise<void> {
     form.value = FormFactory.getForm(
       propsComponent.resourceName,
       propsComponent.resourceId,
-      getOverridedComponents(),
       {
         form: newData.form!,
         resource_data: newData.resource_data!,
       },
       propsComponent.formSettings,
       propsComponent.formBindings,
+      propsComponent.formSlots,
+      getSlots(),
       form.value.context,
       formApi,
-      propsComponent.eventManager
+      propsComponent.eventManager,
+      propsComponent.class,
+      propsComponent.sectionContainerClass,
     );
     softReset();
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
@@ -147,14 +154,8 @@ async function submit(): Promise<void> {
   }
   isLoadingSubmit.value = false;
 }
-function getOverridedComponents() {
-  const overridedComponents: TSubmit64OverridedComponents = {
-    sectionComponent: propsComponent.sectionComponent,
-    actionComponent: propsComponent.actionComponent,
-    orphanErrorsComponent: propsComponent.orphanErrorsComponent,
-    associationDisplayComponent: propsComponent.associationDisplayComponent,
-    dynamicComponentRecord: {},
-  };
+function getSlots() {
+  const overridedComponents: Record<string, Component | undefined> = {};
   for (const key in slots) {
     const slot = slots[key];
     if (slot) {
@@ -165,27 +166,11 @@ function getOverridedComponents() {
             slot({
               ...props,
               ...attrs,
-              innerSlots
+              innerSlots,
             });
         },
       });
-      switch (key) {
-        case "sections":
-          overridedComponents.sectionComponent = component;
-          break;
-        case "actions":
-          overridedComponents.actionComponent = component;
-          break;
-        case "orphan-errors":
-          overridedComponents.orphanErrorsComponent = component;
-          break;
-        case "association-display":
-          overridedComponents.associationDisplayComponent = component;
-          break;
-        default:
-          overridedComponents.dynamicComponentRecord![key] = component;
-          break;
-      }
+      overridedComponents[key] = component;
     }
   }
   return overridedComponents;
@@ -270,11 +255,15 @@ function getSectionByIndex(sectionIndex: number) {
 function getSections() {
   return sectionsWrapperRefs.value;
 }
-function getFieldByName(fieldName: string) {
-  return fieldWrapperRefs.value.get(fieldName);
+function getFieldByName<T extends TFormFieldType = TFormFieldType>(
+  fieldName: string,
+): TSubmit64FieldApi<T> | undefined {
+  return fieldWrapperRefs.value.get(fieldName) as
+    | TSubmit64FieldApi<T>
+    | undefined;
 }
 function getFields() {
-  return fieldWrapperRefs.value;
+  return fieldWrapperRefs.value as unknown as Map<string, TSubmit64FieldApi>;
 }
 function getAssociationDataCallback() {
   return (
@@ -297,7 +286,7 @@ function ensurePropsAreOk() {
       propsComponent[propsName] === null ||
       propsComponent[propsName] === undefined
     ) {
-      console.warn(`Missing props for <Submit64> -> ${propsName}`);
+      Logger.log(`Missing props for <Submit64> -> ${propsName}`);
     }
   });
 }
@@ -312,11 +301,6 @@ function setContext(context: TContext) {
     form.value.context = context;
   }
 }
-function setCssClass(cssClass: string) {
-  if (form.value) {
-    form.value.cssClass = cssClass;
-  }
-}
 function setReadonlyState(state: boolean) {
   if (form.value) form.value.readonly = state;
 }
@@ -328,21 +312,21 @@ function getSubmitData() {
 }
 function tryFocusFirst() {
   for (const section of getSections().values()) {
-    const success = section.tryFocusFirst()
+    const success = section.tryFocusFirst();
     if (success) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 function tryUnfocus() {
   for (const section of getSections().values()) {
-    const success = section.tryUnfocus()
+    const success = section.tryUnfocus();
     if (success) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 
 // private api
@@ -364,7 +348,7 @@ function getFieldRef(fieldName: string) {
 }
 function registerSectionWrapperRef(
   sectionName: string,
-  sectionComponent: TSubmit64SectionApi
+  sectionComponent: TSubmit64SectionApi,
 ) {
   sectionsWrapperRefs.value.set(sectionName, sectionComponent);
   if (sectionCount === sectionsWrapperRefs.value.size) {
@@ -373,17 +357,14 @@ function registerSectionWrapperRef(
 }
 function registerFieldWrapperRef(
   fieldName: string,
-  fieldComponent: TSubmit64FieldApi
+  fieldComponent: TSubmit64FieldApi,
 ) {
   fieldWrapperRefs.value.set(fieldName, fieldComponent);
   if (fieldCount === fieldWrapperRefs.value.size) {
     setupFieldsIsDone.value = true;
   }
 }
-function setSectionFieldComponent(
-  section: TFormSection,
-  component: Component
-) {
+function setSectionFieldComponent(section: TFormSection, component: Component) {
   section.fieldsComponent = component;
 }
 
@@ -432,7 +413,6 @@ const formApi: TSubmit64FormApi = {
   getInitialValueByFieldName,
   getAssociationDataCallback,
   setContext,
-  setCssClass,
   setReadonlyState,
   isReady,
   getSubmitData,
@@ -443,12 +423,12 @@ const formApi: TSubmit64FormApi = {
     orphanErrors: readonly(orphanErrors),
     isLoadingSubmit: readonly(isLoadingSubmit),
     setupIsDone: readonly(setupIsDone),
-    isFormValid: readonly(isValidComputed)
-  }
+    isFormValid: readonly(isValidComputed),
+  },
 };
 defineExpose<TSubmit64FormApi>(formApi);
 
-  // watchs
+// watchs
 watch(
   () => setupSectionsIsDone.value && setupFieldsIsDone.value,
   (newValue) => {
@@ -456,7 +436,7 @@ watch(
       Utils.callAllEvents(form.value?.events.onReady);
       setupIsDone.value = true;
     }
-  }
+  },
 );
 watch(
   () => form.value?.events.onIsValid,
@@ -471,7 +451,7 @@ watch(
       });
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 watch(
   () => form.value?.events.onIsInvalid,
@@ -486,7 +466,7 @@ watch(
       });
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 watch(
   () => form.value?.events.onUpdate,
@@ -499,11 +479,11 @@ watch(
         () => {
           Utils.callAllEvents(form.value?.events.onUpdate);
         },
-        { immediate: true }
+        { immediate: true },
       );
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // lifeCycle
@@ -513,22 +493,48 @@ onMounted(async () => {
   void nextTick(() => {
     stringyfiedValues = JSON.stringify(getValuesFormDeserialized());
     if (form.value.formSettings.autofocus) {
-      tryFocusFirst()
+      tryFocusFirst();
     }
   });
 });
 </script>
 
 <template>
-  <div v-show="setupIsDone" class="flex column">
-    <div :class="form.cssClass ?? 'flex column q-pa-sm q-gutter-sm'">
-      <SectionWrapper v-for="section in form.sections" :key="section.name" :section="section" :formApi="formApi"
-        :privateFormApi="privateFormApi">
-        <FieldWrapper v-for="field in section.fields" :key="field.metadata.field_name" :field="field" :formApi="formApi"
-          :privateFormApi="privateFormApi" />
+  <div
+    v-show="setupIsDone"
+    :class="form.bindings.default.class ?? 'flex column'"
+  >
+    <div
+      :class="
+        form.bindings.default.sectionContainerClass ??
+        'flex column q-pa-sm q-gutter-sm'
+      "
+    >
+      <SectionWrapper
+        v-for="section in form.sections"
+        :key="section.name"
+        :section="section"
+        :formApi="formApi"
+        :privateFormApi="privateFormApi"
+      >
+        <FieldWrapper
+          v-for="field in section.fields"
+          :key="field.metadata.field_name"
+          :field="field"
+          :formApi="formApi"
+          :privateFormApi="privateFormApi"
+        />
       </SectionWrapper>
     </div>
-    <component :is="form.orphanErrorsComponent" :formApi="formApi" />
-    <component :is="form.actionComponent" :formApi="formApi" />
+    <component
+      v-if="form.slots['orphan-errors']"
+      :is="form.slots.orphanErrors"
+      :formApi="formApi"
+    />
+    <component
+      v-if="form.slots['actions']"
+      :is="form.slots.actions"
+      :formApi="formApi"
+    />
   </div>
 </template>

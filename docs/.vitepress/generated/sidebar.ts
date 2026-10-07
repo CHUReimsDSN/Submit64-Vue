@@ -1,66 +1,94 @@
-export const sidebar = {
-  "/documentation/": [
-    {
-      "text": "Documentation",
-      "items": [
-        {
-          "text": "Installation",
-          "link": "/documentation/000_index.md",
-          "items": []
-        },
-        {
-          "text": "Démarage rapide",
-          "link": "/documentation/040_quick_start.md",
-          "items": []
-        },
-        {
-          "text": "Surcharge",
-          "link": "/documentation/050_overwrite.md",
-          "items": []
-        },
-        {
-          "text": "Réference",
-          "link": "/documentation/060_reference.md",
-          "items": []
-        },
-        {
-          "text": "Gestionnaire d'événements",
-          "link": "/documentation/065_logic_builder.md",
-          "items": []
-        },
-        {
-          "text": "Interopérabilité",
-          "link": "/documentation/070_interop.md",
-          "items": []
-        },
-        {
-          "text": "Contribution",
-          "link": "/documentation/998_contribute.md",
-          "items": []
-        },
-        {
-          "text": "Todo",
-          "link": "/documentation/999_todo.md",
-          "items": []
-        },
-        {
-          "text": "Exemples",
-          "items": [
-            {
-              "text": "Création de masse",
-              "link": "/documentation/exemples/bulk.md",
-              "items": []
-            },
-            {
-              "text": "Utilisation du context",
-              "link": "/documentation/exemples/context.md",
-              "items": []
-            }
-          ],
-          "collapsed": true
-        }
-      ],
-      "collapsed": true
-    }
-  ]
+export type TSidebarEntry = {
+  text: string;
+  icon?: string;
+  link?: string;
+  items?: TSidebarEntry[];
+  active: boolean;
+  collapsed: boolean;
 };
+
+export const sidebar: TSidebarEntry[] = [
+  {
+    "text": "Introduction",
+    "icon": "menu_book",
+    "link": "/documentation/000_index.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Installation",
+    "icon": "download",
+    "link": "/documentation/005_install.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Démarage rapide",
+    "icon": "electric_bolt",
+    "link": "/documentation/010_quick_start.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Configuration",
+    "icon": "settings",
+    "link": "/documentation/020_configuration.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Props",
+    "icon": "input",
+    "link": "/documentation/030_props.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Slots",
+    "icon": "code",
+    "link": "/documentation/030_slots.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Surcharge",
+    "link": "/documentation/050_overwrite.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Réference",
+    "icon": "anchor",
+    "link": "/documentation/060_reference.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Événements",
+    "icon": "sensors",
+    "link": "/documentation/065_logic_builder.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Interopérabilité",
+    "icon": "sync_alt",
+    "link": "/documentation/070_interop.md",
+    "active": false,
+    "collapsed": false
+  },
+  {
+    "text": "Exemples",
+    "items": [
+      {
+        "text": "Utilisation du context",
+        "link": "/documentation/exemples/context.md",
+        "active": false,
+        "collapsed": false
+      }
+    ],
+    "active": false,
+    "collapsed": false,
+    "icon": "description"
+  }
+];

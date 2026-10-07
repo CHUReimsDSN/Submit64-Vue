@@ -14,7 +14,7 @@ import type {
   TDatetimeBindings,
   TBelongsToBindings,
   TSelectBindings,
-  TAttachmentBelongsToBindings,
+  TAttachmentHasOneBindings,
   TAttachmentHasManyBindings,
   TFormBindings,
   TSectionBindings,
@@ -171,7 +171,7 @@ function getDefaultSelect(): TSelectBindings {
     },
   };
 }
-function getDefaultAttachmentBelongsTo(): TAttachmentBelongsToBindings {
+function getDefaultAttachmentBelongsTo(): TAttachmentHasOneBindings {
   return {
     uploader: {
       color: defaultStyle.color,
@@ -219,10 +219,14 @@ function getDefaultFormBindings(): TFormBindings {
       select: getDefaultSelect(),
       hasMany: getDefaultHasMany(),
       belongsTo: getDefaultBelongsTo(),
-      attachmentBelongsTo: getDefaultAttachmentBelongsTo(),
+      attachmentHasOne: getDefaultAttachmentBelongsTo(),
       attachmentHasMany: getDefaultAttachmentHasMany(),
+      byName: {}
     },
-    sections: getDefaultSection(),
+    sections: {
+      default: getDefaultSection(),
+      byName: {}
+    } ,
     form: {
       actions: getDefaultActions(),
     },
@@ -239,12 +243,16 @@ function getEmptyDefaultBindings(): TFormBindings {
       datetime: {},
       belongsTo: {},
       hasMany: {},
-      attachmentBelongsTo: {},
+      attachmentHasOne: {},
       attachmentHasMany: {},
       select: {},
       checkbox: {},
+      byName: {}
     },
-    sections: {},
+    sections: {
+      default: {},
+      byName: {}
+    },
     form: {
       actions: {},
     },

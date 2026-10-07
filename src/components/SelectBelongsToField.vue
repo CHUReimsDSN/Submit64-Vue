@@ -1,26 +1,23 @@
 <script setup lang="ts">
 import { QSelect } from "quasar";
 import type {
-  TBelongsToBindings,
   TSelectOptionPagination,
   TSubmit64AssociationRowEntry,
   TSubmit64FieldProps,
 } from "../models";
-import { computed, nextTick, onMounted, ref } from "vue";
-import { QItemLabel, QItem, QItemSection } from "quasar";
+import { nextTick, onMounted, ref } from "vue";
+import FieldLabel from "./FieldLabel.vue";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldProps>();
+const propsComponent = defineProps<TSubmit64FieldProps<'belongsTo'>>();
 
 // consts
-const displayComponent =
-  propsComponent.field.componentOptions.associationDisplayComponent;
-const defaultLabelFilter = '__init'
+const defaultLabelFilter = "__init";
 
 // refs
 const selectOptionsFiltered = ref<TSubmit64AssociationRowEntry[]>([]);
 const selectOptionsScrollPagination = ref<TSelectOptionPagination>(
-  getDefaultPagination()
+  getDefaultPagination(),
 );
 const fieldRef = ref<InstanceType<typeof QSelect>>();
 const lastLabelFilter = ref(defaultLabelFilter);
@@ -37,7 +34,7 @@ function getDefaultPagination() {
 }
 function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   if (val === lastLabelFilter.value) {
-    update(() => { });
+    update(() => {});
     return;
   }
   const callback = propsComponent.formApi.getAssociationDataCallback();
@@ -48,8 +45,9 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   callback({
     resourceName: form.resourceName,
     resourceId: form.resourceId,
-    associationName: propsComponent.field.metadata.field_association_name,
-    associationClassname: propsComponent.field.metadata.field_association_class!,
+    associationName: propsComponent.fieldApi.field.metadata.field_association_name,
+    associationClassname:
+      propsComponent.fieldApi.field.metadata.field_association_class!,
     limit: selectOptionsScrollPagination.value.limit,
     offset:
       (selectOptionsScrollPagination.value.nextPage - 1) *
@@ -62,7 +60,7 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
         selectOptionsFiltered.value = response.rows;
         selectOptionsScrollPagination.value.nextPage = 2;
         selectOptionsScrollPagination.value.lastPage = Math.ceil(
-          response.row_count / selectOptionsScrollPagination.value.limit
+          response.row_count / selectOptionsScrollPagination.value.limit,
         );
         selectOptionsScrollPagination.value.isLoading = false;
       });
@@ -74,14 +72,14 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
 }
 function setupDefaultSelectValue() {
   const value = propsComponent.getValueSerialized();
-  if (!value || !propsComponent.field.associationData) {
+  if (!value || !propsComponent.fieldApi.field.associationData) {
     return;
   }
   selectOptionsFiltered.value = [
     {
-      label: propsComponent.field.associationData[0]?.label ?? "???",
+      label: propsComponent.fieldApi.field.associationData[0]?.label ?? "???",
       value: value as TSubmit64AssociationRowEntry["value"],
-      data: propsComponent.field.associationData[0]?.data,
+      data: propsComponent.fieldApi.field.associationData[0]?.data,
     },
   ];
 }
@@ -106,7 +104,7 @@ function resetValidation() {
 function clear() {
   selectOptionsScrollPagination.value = getDefaultPagination();
   selectOptionsFiltered.value = [];
-  lastLabelFilter.value = defaultLabelFilter
+  lastLabelFilter.value = defaultLabelFilter;
 }
 function onVirtualScroll(scrollArgs: {
   to: number;
@@ -116,7 +114,7 @@ function onVirtualScroll(scrollArgs: {
   if (
     selectOptionsScrollPagination.value.isLoading !== true &&
     selectOptionsScrollPagination.value.nextPage <=
-    selectOptionsScrollPagination.value.lastPage &&
+      selectOptionsScrollPagination.value.lastPage &&
     scrollArgs.to === lastIndex &&
     lastIndex !== -1
   ) {
@@ -126,8 +124,9 @@ function onVirtualScroll(scrollArgs: {
     callback({
       resourceName: form.resourceName,
       resourceId: form.resourceId,
-      associationName: propsComponent.field.metadata.field_association_name!,
-      associationClassname: propsComponent.field.metadata.field_association_class!,
+      associationName: propsComponent.fieldApi.field.metadata.field_association_name!,
+      associationClassname:
+        propsComponent.fieldApi.field.metadata.field_association_class!,
       limit: selectOptionsScrollPagination.value.limit,
       offset:
         (selectOptionsScrollPagination.value.nextPage - 1) *
@@ -136,10 +135,10 @@ function onVirtualScroll(scrollArgs: {
       context: form.context,
     }).then((response) => {
       selectOptionsFiltered.value = selectOptionsFiltered.value.concat(
-        response.rows
+        response.rows,
       );
       selectOptionsScrollPagination.value.lastPage = Math.ceil(
-        response.row_count / selectOptionsScrollPagination.value.limit
+        response.row_count / selectOptionsScrollPagination.value.limit,
       );
       if (response.row_count >= selectOptionsScrollPagination.value.limit) {
         selectOptionsScrollPagination.value.nextPage++;
@@ -153,19 +152,14 @@ function focus() {
   if (!fieldRef.value) {
     return;
   }
-  fieldRef.value.focus()
+  fieldRef.value.focus();
 }
 function unfocus() {
   if (!fieldRef.value) {
     return;
   }
-  fieldRef.value.blur()
+  fieldRef.value.blur();
 }
-
-// computeds
-const bindings = computed(() => {
-  return propsComponent.field.bindings as TBelongsToBindings;
-})
 
 // lifeCycle
 onMounted(() => {
@@ -176,7 +170,7 @@ onMounted(() => {
     setupDefaultSelectValue,
     clear,
     focus,
-    unfocus
+    unfocus,
   );
   void nextTick(() => {
     setupDefaultSelectValue();
@@ -185,23 +179,40 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-select ref="fieldRef" v-bind="bindings.select" :model-value="(propsComponent.modelValue as string)"
-    :label="propsComponent.field.label" :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly"
-    :rules="propsComponent.field.computedRules" :options="selectOptionsFiltered" :mapOptions="true" :emitValue="true"
-    :useInput="true" @clear="propsComponent.clear" @filter="onFilter" @virtual-scroll="onVirtualScroll"
-    @update:model-value="propsComponent.modelValueOnUpdate">
-    <template v-slot:no-option>
-      <q-item v-bind="bindings.itemNoOption">
-        <q-item-section>
-          <q-item-label>{{
-            propsComponent.formApi.form.formSettings.associationEmptyMessage
-            }}</q-item-label>
-        </q-item-section>
-      </q-item>
-    </template>
-    <template v-slot:option="scope">
-      <component :is="displayComponent" :associationName="propsComponent.field.metadata.field_association_name"
-        :entry="scope.opt" :itemProps="scope.itemProps" />
-    </template>
-  </q-select>
+  <div class="flex column">
+    <FieldLabel
+      v-if="!propsComponent.formApi.form.formSettings.displayLabelInsideInput"
+      :name="propsComponent.fieldApi.field.label"
+    />
+    <q-select
+      ref="fieldRef"
+      v-bind="propsComponent.fieldApi.field.bindings.select"
+      :model-value="propsComponent.modelValue as string"
+      :label="propsComponent.formApi.form.formSettings.displayLabelInsideInput ? propsComponent.fieldApi.field.label : undefined"
+      :readonly="propsComponent.fieldApi.field.readonly"
+      :rules="propsComponent.fieldApi.field.computedRules"
+      :options="selectOptionsFiltered"
+      :mapOptions="true"
+      :emitValue="true"
+      :useInput="true"
+      @clear="propsComponent.clear"
+      @filter="onFilter"
+      @virtual-scroll="onVirtualScroll"
+      @update:model-value="propsComponent.modelValueOnUpdate"
+    >
+      <template
+        v-for="(component, name) of propsComponent.fieldApi.field.slots"
+        v-slot:[name]="slotProps"
+      >
+        <component
+          :is="component"
+          v-bind="{
+            ...(slotProps ?? {}),
+            formApi: propsComponent.formApi,
+            fieldApi: propsComponent.fieldApi,
+          }"
+        />
+      </template>
+    </q-select>
+  </div>
 </template>

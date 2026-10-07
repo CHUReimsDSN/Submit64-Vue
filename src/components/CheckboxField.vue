@@ -4,14 +4,21 @@ import type { TSubmit64FieldProps, TSubmit64ValidationRule } from "../models";
 import { QCheckbox } from "quasar";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldProps>();
+const propsComponent = defineProps<TSubmit64FieldProps<"checkbox">>();
 
 // refs
 const ruleResult = ref<boolean | string>(true);
 
 // functions
 function validate() {
-  return ruleResult.value === true;
+  for (const rule of propsComponent.fieldApi.field
+    .computedRules as TSubmit64ValidationRule[]) {
+    ruleResult.value = rule(propsComponent.modelValue);
+    if (ruleResult.value !== true) {
+      break;
+    }
+  }
+  return isValid();
 }
 function isValid() {
   return ruleResult.value === true;
@@ -23,14 +30,9 @@ function resetValidation() {
 // watchs
 watch(
   () => propsComponent.modelValue,
-  (newValue) => {
-    for (const rule of propsComponent.field.computedRules as TSubmit64ValidationRule[]) {
-      ruleResult.value = rule(newValue);
-      if (ruleResult.value !== true) {
-        break;
-      }
-    }
-  }
+  () => {
+    propsComponent.fieldApi.validate();
+  },
 );
 
 // lifeCycle
@@ -43,14 +45,27 @@ onMounted(() => {
   <div class="flex column">
     <q-checkbox
       ref="checkboxRef"
-      v-bind="propsComponent.field.bindings"
-      :model-value="(propsComponent.modelValue as boolean)"
-      :label="propsComponent.field.label"
-      :aria-readonly="propsComponent.field.readonly"
-      :class="propsComponent.field.cssClass"
+      v-bind="propsComponent.fieldApi.field.bindings"
+      :model-value="propsComponent.modelValue as boolean"
+      :label="propsComponent.fieldApi.field.label"
+      :aria-readonly="propsComponent.fieldApi.field.readonly"
       class="q-pb-md"
       @update:model-value="propsComponent.modelValueOnUpdate"
-    />
+    >
+      <template
+        v-for="(component, name) of propsComponent.fieldApi.field.slots"
+        v-slot:[name]="slotProps"
+      >
+        <component
+          :is="component"
+          v-bind="{
+            ...(slotProps ?? {}),
+            formApi: propsComponent.formApi,
+            fieldApi: propsComponent.fieldApi,
+          }"
+        />
+      </template>
+    </q-checkbox>
     <div
       v-if="ruleResult !== true"
       class="q-field--error q-field__bottom text-negative"

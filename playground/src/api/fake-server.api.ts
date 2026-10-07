@@ -79,6 +79,19 @@ const articleForm: TResourceFormMetadata = {
           css_class: '',
           unlinked: true,
         },
+                {
+          field_name: 'test_wysiwyg',
+          field_type: 'string',
+          field_extra_type: 'wysiwyg',
+          label: 'Wysiwyg test',
+          rules: [],
+          static_select_options: [],
+          unlinked: false,
+          field_association_name: null,
+          field_association_class: null,
+          readonly: null,
+          css_class: '',
+        },
       ],
     },
   ],
@@ -86,8 +99,9 @@ const articleForm: TResourceFormMetadata = {
 const article1 = {
   id: 1,
   label: 'My article',
-  color: '#6090b0',
+  color: '#19bf82',
   next_date: '1995/01/03 15:00',
+  test_wysiwyg: ''
 };
 const articleData: TRecordData = {
   metadata: {

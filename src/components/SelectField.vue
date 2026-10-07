@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { QSelect } from "quasar";
-import type { TSelectBindings, TSubmit64FieldProps, TSubmit64StaticSelectOptions } from "../models";
-import { computed, onMounted, ref } from "vue";
-import { QItemLabel, QItem, QItemSection } from "quasar";
+import type {
+  TSubmit64FieldProps,
+  TSubmit64StaticSelectOptions,
+} from "../models";
+import { onMounted, ref } from "vue";
+import FieldLabel from "./FieldLabel.vue";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldProps>();
+const propsComponent = defineProps<TSubmit64FieldProps<'select'>>();
 
 // refs
 const selectOptions = ref<Readonly<TSubmit64StaticSelectOptions[]>>([]);
@@ -30,9 +33,9 @@ function inputFilter(val: string, update: (callback: () => void) => void) {
 }
 function setupSelectOptions() {
   selectOptions.value = Object.freeze(
-    propsComponent.field.staticSelectOptions ?? []
+    propsComponent.fieldApi.field.staticSelectOptions ?? [],
   );
-  selectOptionsFiltered.value = propsComponent.field.staticSelectOptions ?? [];
+  selectOptionsFiltered.value = propsComponent.fieldApi.field.staticSelectOptions ?? [];
 }
 function validate() {
   if (!fieldRef.value) {
@@ -59,52 +62,64 @@ function focus() {
   if (!fieldRef.value) {
     return;
   }
-  fieldRef.value.focus()
+  fieldRef.value.focus();
 }
 function unfocus() {
   if (!fieldRef.value) {
     return;
   }
-  fieldRef.value.blur()
+  fieldRef.value.blur();
 }
-
-// computeds
-const bindings = computed(() => {
-  return propsComponent.field.bindings as TSelectBindings;
-})
 
 // lifeCycle
 onMounted(() => {
   setupSelectOptions();
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, undefined, clear, focus, unfocus);
+  propsComponent.registerBehaviourCallbacks(
+    validate,
+    isValid,
+    resetValidation,
+    undefined,
+    clear,
+    focus,
+    unfocus,
+  );
 });
 </script>
 
 <template>
-  <q-select
-    ref="fieldRef"
-    v-bind="bindings.select"
-    :model-value="(propsComponent.modelValue as string)"
-    :label="propsComponent.field.label"
-    :class="propsComponent.field.cssClass"
-    :readonly="propsComponent.field.readonly"
-    :rules="propsComponent.field.computedRules"
-    :options="selectOptionsFiltered"
-    :mapOptions="true"
-    :emitValue="true"
-    :useInput="true"
-    @clear="propsComponent.clear"
-    @filter="inputFilter"
-    @update:model-value="propsComponent.modelValueOnUpdate"
-  >
-    <template v-slot:no-option>
-      <q-item v-bind="bindings.itemNoOption" >
-        <q-item-section>
-          <q-item-label>{{
-            propsComponent.formApi.form.formSettings.associationEmptyMessage
-          }}</q-item-label>
-        </q-item-section>
-      </q-item>
-    </template>
-  </q-select>
+  <div class="flex column">
+    <FieldLabel
+      v-if="!propsComponent.formApi.form.formSettings.displayLabelInsideInput"
+      :name="propsComponent.fieldApi.field.label"
+    />
+    <q-select
+      ref="fieldRef"
+      v-bind="propsComponent.fieldApi.field.bindings.select"
+      :model-value="propsComponent.modelValue as string"
+      :label="propsComponent.formApi.form.formSettings.displayLabelInsideInput ? propsComponent.fieldApi.field.label : undefined"
+      :readonly="propsComponent.fieldApi.field.readonly"
+      :rules="propsComponent.fieldApi.field.computedRules"
+      :options="selectOptionsFiltered"
+      :mapOptions="true"
+      :emitValue="true"
+      :useInput="true"
+      @clear="propsComponent.clear"
+      @filter="inputFilter"
+      @update:model-value="propsComponent.modelValueOnUpdate"
+    >
+      <template
+        v-for="(component, name) of propsComponent.fieldApi.field.slots"
+        v-slot:[name]="slotProps"
+      >
+        <component
+          :is="component"
+          v-bind="{
+            ...(slotProps ?? {}),
+            formApi: propsComponent.formApi,
+            fieldApi: propsComponent.fieldApi,
+          }"
+        />
+      </template>
+    </q-select>
+  </div>
 </template>

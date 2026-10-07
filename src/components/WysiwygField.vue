@@ -2,9 +2,10 @@
 import { onMounted, ref } from "vue";
 import type { TSubmit64FieldProps } from "../models";
 import { IconSet, Lang, QEditor } from "quasar";
+import FieldLabel from "./FieldLabel.vue";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldProps>();
+const propsComponent = defineProps<TSubmit64FieldProps<'wysiwyg'>>();
 
 // refs
 const fieldRef = ref<InstanceType<typeof QEditor>>();
@@ -170,13 +171,33 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-editor
-    ref="fieldRef"
-    :toolbar="getDefaultToolbar()"
-    v-bind="propsComponent.field.bindings"
-    :model-value="propsComponent.modelValue as string"
-    @drop="onEditorDrop"
-    @paste="onEditorPaste"
-    @update:model-value="propsComponent.modelValueOnUpdate"
-  />
+  <div class="flex column">
+    <FieldLabel
+      v-if="!propsComponent.formApi.form.formSettings.displayLabelInsideInput"
+      :name="propsComponent.fieldApi.field.label"
+    />
+    <q-editor
+      ref="fieldRef"
+      :toolbar="getDefaultToolbar()"
+      v-bind="propsComponent.fieldApi.field.bindings"
+      :model-value="propsComponent.modelValue as string"
+      @drop="onEditorDrop"
+      @paste="onEditorPaste"
+      @update:model-value="propsComponent.modelValueOnUpdate"
+    >
+      <template
+        v-for="(component, name) of propsComponent.fieldApi.field.slots"
+        v-slot:[name]="slotProps"
+      >
+        <component
+          :is="component"
+          v-bind="{
+            ...(slotProps ?? {}),
+            formApi: propsComponent.formApi,
+            fieldApi: propsComponent.fieldApi,
+          }"
+        />
+      </template>
+    </q-editor>
+  </div>
 </template>

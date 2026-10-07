@@ -1,5 +1,6 @@
 ---
-title: Gestionnaire d'événements
+title: Événements
+icon: sensors
 ---
 
 # Gestionnaire d'événements
@@ -29,12 +30,11 @@ function formEventManager(eventBuilder: DynamicLogicBuilder) {
 </template>
 ```
 
-::: warning Important 
+::: warning 
 Consulter la [Définition API](/api-definition/models.md#TSubmit64EventWhen) pour connaitre les événements disponibles. 
 :::
 
-::: tip Conseil
+::: tip
 Le premier paramètre de la fonction `when` sera toujours un string, laisser vous guider par l'intellisence pour voir les événements disponibles
 et leurs paramètres !
 :::
-

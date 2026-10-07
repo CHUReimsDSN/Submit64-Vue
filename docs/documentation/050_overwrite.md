@@ -7,13 +7,13 @@ title: Surcharge
 Il est possible de surcharger certains élements de Submit64 :
 
 - Les options d'affichage et de comportement (format pour les dates, etc..)
-- Le style des champs
+- Les props des champs de saisie
 - Le composant de section
 - Le composant d'action
 - Le composant d'affichage des erreurs orphelines
-- Le composant d'affichage dans la liste des associations
 - Les composants d'extension de section
 - Les composants d'extension de champ de saisie
+- Les slots des champs de saisie
 
 Il existe deux types possibles de surcharge :  
 
@@ -147,9 +147,9 @@ import MyCustomSection from './MyCustomSection.vue'
 ```vue
 <script setup lang="ts">
 // MyCustomSecton.vue
-import type { TSubmit64SectionProps } from 'submit64-vue';
+import type { TSubmit64SectionSlotPropsSegment } from 'submit64-vue';
 
-const propsComponent = defineProps<TSubmit64SectionProps>()
+const propsComponent = defineProps<TSubmit64SectionSlotPropsSegment>()
 </script>
 
 <template>
@@ -168,14 +168,6 @@ const propsComponent = defineProps<TSubmit64SectionProps>()
 </template>
 ```
 
-
-Props disponibles :  
-```typescript
-type TSubmit64SectionProps = {
-  formApi: TSubmit64FormApi;
-  sectionApi: TSubmit64SectionApi;
-};
-```
 
 <br /><br /> 
 
@@ -410,20 +402,22 @@ type TSubmit64AssociationDisplayProps = {
 
 
 ## Composants d'extension de section
-La surcharge globale n'est pas disponible pour les extensions de section.  
-La surcharge sous form de props n'est pas disponible pour les extensions de section.  
 
-Deux slots sont disponibles pour les extensions de section : `before` et `after`.  
+Deux slots sont disponibles pour les extensions de section : `wrapper-before` et `wrapper-after`.  
+Pour utiliser ces slots, Submit64 utilise la convention de nommage suivante : 
+
+- `v-slot:section-[section-name]-[section-slot-name]`
+
 Le nom du slot dépend du nom de la section, ou de l'index de la section le cas où la section n'a pas de nom.
 Exemple pour une section nommé `machin`:  
 
-- `v-slot:section-machin-before`  
-- `v-slot:section-machin-after`
+- `v-slot:section-machin-wrapper-before`  
+- `v-slot:section-machin-wrapper-after`
 
 Exemple pour une section d'index `2`:  
 
-- `v-slot:section-2-before`  
-- `v-slot:section-2-after`  
+- `v-slot:section-2-wrapper-before`  
+- `v-slot:section-2-wrapper-after`  
 
 Surcharge locale sous forme de slot : 
 ```vue
@@ -433,11 +427,11 @@ import { Submit64Form } from "submit64-vue";
 
 <template>
   <Submit64Form>
-    <template v-slot:section-random-before>
-      <div class="text-amber">Hello I'm before the random section</div>
+    <template v-slot:section-machin-wrapper-before>
+      <div class="text-amber">Hello I'm before the machin section</div>
     </template>
-    <template v-slot:section-random-after>
-      <div class=text-purple>Hello I'm after the random section</div>
+    <template v-slot:section-machin-wrapper-after>
+      <div class=text-purple>Hello I'm after the machin section</div>
     </template>
   </Submit64Form>
 </template>
@@ -456,15 +450,16 @@ type TSubmit64BeforeAfterSectionProps = {
 
 
 ## Composants d'extension de champ de saisie
-La surcharge globale n'est pas disponible pour les extensions de champ de saisie.  
-La surcharge sous form de props n'est pas disponible pour les extensions de champ de saisie.  
 
-Deux slots sont disponibles pour les extensions de champs de saisie : `before` et `after`.  
-Le nom du slot dépend du nom du champ.
-Exemple pour un champ nommé `libelle`:  
+Deux slots sont disponibles pour les extensions de champs de saisie : `wrapper-before` et `wrapper-after`.  
+Pour utiliser ces slots, Submit64 utilise la convention de nommage suivante : 
 
-- `v-slot:field-libelle-before`  
-- `v-slot:field-libelle-after`
+- `v-slot:field-[field-name]-[field-slot-name]`
+
+Exemple pour un champ nommé `machin`:  
+
+- `v-slot:field-machin-wrapper-before`  
+- `v-slot:field-machin-wrapper-after`
 
 Surcharge locale sous forme de slot : 
 ```vue
@@ -474,11 +469,11 @@ import { Submit64Form } from "submit64-vue";
 
 <template>
   <Submit64Form>
-    <template v-slot:field-label-before>
-      <div class="text-amber">Hello I'm before the label field</div>
+    <template v-slot:field-machin-wrapper-before>
+      <div class="text-amber">Hello I'm before the machin field</div>
     </template>
-    <template v-slot:field-label-after>
-      <div class=text-purple>Hello I'm after the label field</div>
+    <template v-slot:field-machin-wrapper-after>
+      <div class=text-purple>Hello I'm after the machin field</div>
     </template>
   </Submit64Form>
 </template>
@@ -494,3 +489,37 @@ type TSubmit64BeforeAfterFieldProps = {
 
 <br /><br /> 
 
+## Slots de champ de saisie
+
+Pour utiliser ces slots, Submit64 utilise la convention de nommage suivante : 
+
+- `v-slot:field-[field-name]-[field-slot-name]`
+
+Exemple pour un champ nommé `machin`:  
+
+- `v-slot:field-machin-prepend`  
+
+Surcharge locale sous forme de slot : 
+```vue
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+</script>
+
+<template>
+  <Submit64Form>
+    <template v-slot:field-machin-prepend>
+      <div class="text-amber">Hello I'm the prepend slot of the 'machin' field</div>
+    </template>
+  </Submit64Form>
+</template>
+```
+
+Props disponibles :  
+```typescript
+type TSubmit64BeforeAfterFieldProps = {
+  formApi: TSubmit64FormApi;
+  fieldApi: TSubmit64FieldApi;
+};
+```
+
+<br /><br /> 

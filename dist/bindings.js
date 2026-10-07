@@ -193,10 +193,14 @@ function getDefaultFormBindings() {
             select: getDefaultSelect(),
             hasMany: getDefaultHasMany(),
             belongsTo: getDefaultBelongsTo(),
-            attachmentBelongsTo: getDefaultAttachmentBelongsTo(),
+            attachmentHasOne: getDefaultAttachmentBelongsTo(),
             attachmentHasMany: getDefaultAttachmentHasMany(),
+            byName: {}
         },
-        sections: getDefaultSection(),
+        sections: {
+            default: getDefaultSection(),
+            byName: {}
+        },
         form: {
             actions: getDefaultActions(),
         },
@@ -213,12 +217,16 @@ function getEmptyDefaultBindings() {
             datetime: {},
             belongsTo: {},
             hasMany: {},
-            attachmentBelongsTo: {},
+            attachmentHasOne: {},
             attachmentHasMany: {},
             select: {},
             checkbox: {},
+            byName: {}
         },
-        sections: {},
+        sections: {
+            default: {},
+            byName: {}
+        },
         form: {
             actions: {},
         },

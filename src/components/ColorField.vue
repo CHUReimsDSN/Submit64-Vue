@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { QInput, QIcon, QPopupProxy, QColor } from "quasar";
-import type { TColorBindings, TSubmit64FieldProps } from "../models";
+import { onMounted, ref } from "vue";
+import { QInput } from "quasar";
+import type { TSubmit64FieldProps } from "../models";
+import FieldLabel from "./FieldLabel.vue";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldProps>();
+const propsComponent = defineProps<TSubmit64FieldProps<'color'>>();
 
 // refs
 const fieldRef = ref<InstanceType<typeof QInput>>();
@@ -32,7 +33,7 @@ function focus() {
   if (!fieldRef.value) {
     return;
   }
-  fieldRef.value.focus()
+  fieldRef.value.focus();
 }
 function unfocus() {
   if (!fieldRef.value) {
@@ -41,29 +42,53 @@ function unfocus() {
   fieldRef.value.blur();
 }
 
-// computeds
-const bindings = computed(() => {
-  return propsComponent.field.bindings as TColorBindings
-})
-
 // lifeCycle
 onMounted(() => {
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, undefined, undefined, focus, unfocus);
+  propsComponent.registerBehaviourCallbacks(
+    validate,
+    isValid,
+    resetValidation,
+    undefined,
+    undefined,
+    focus,
+    unfocus,
+  );
 });
 </script>
 
 <template>
-  <q-input ref="fieldRef" v-bind="bindings.input" :model-value="(propsComponent.modelValue as string)"
-    :label="propsComponent.field.label" :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly"
-    :rules="propsComponent.field.computedRules" @clear="propsComponent.clear"
-    @update:model-value="propsComponent.modelValueOnUpdate">
-    <template v-slot:append>
-      <q-icon v-bind="bindings.icon">
-        <q-popup-proxy v-bind="bindings.popupProxy">
-          <q-color v-bind="bindings.color" :model-value="(propsComponent.modelValue as string)"
-            @update:model-value="propsComponent.modelValueOnUpdate" />
-        </q-popup-proxy>
-      </q-icon>
-    </template>
-  </q-input>
+  <div class="flex column">
+    <FieldLabel
+      v-if="!propsComponent.formApi.form.formSettings.displayLabelInsideInput"
+      :name="propsComponent.fieldApi.field.label"
+    />
+    <q-input
+      ref="fieldRef"
+      v-bind="propsComponent.fieldApi.field.bindings.input"
+      :model-value="propsComponent.modelValue as string"
+      :label="
+        propsComponent.formApi.form.formSettings.displayLabelInsideInput
+          ? propsComponent.fieldApi.field.label
+          : undefined
+      "
+      :readonly="propsComponent.fieldApi.field.readonly"
+      :rules="propsComponent.fieldApi.field.computedRules"
+      @clear="propsComponent.clear"
+      @update:model-value="propsComponent.modelValueOnUpdate"
+    >
+      <template
+        v-for="(component, name) of propsComponent.fieldApi.field.slots"
+        v-slot:[name]="slotProps"
+      >
+        <component
+          :is="component"
+          v-bind="{
+            ...(slotProps ?? {}),
+            formApi: propsComponent.formApi,
+            fieldApi: propsComponent.fieldApi,
+          }"
+        />
+      </template>
+    </q-input>
+  </div>
 </template>

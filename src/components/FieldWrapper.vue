@@ -3,11 +3,19 @@ import {
   getCurrentInstance,
   nextTick,
   onMounted,
+  readonly,
   ref,
   unref,
   watch,
 } from "vue";
-import type { TFieldBindings, TFormField, TSubmit64FieldApi, TSubmit64FieldWrapperProps, TSubmit64FileDataValue } from "../models";
+import type {
+  TFieldBindings,
+  TFormField,
+  TFormFieldType,
+  TSubmit64FieldApi,
+  TSubmit64FieldWrapperProps,
+  TSubmit64FileDataValue,
+} from "../models";
 import { date } from "quasar";
 import { Utils } from "../utils";
 
@@ -29,31 +37,31 @@ let resetCallback: () => void = () => {
 };
 let clearCallback: () => void = () => {
   return;
-}
+};
 let focusCallback: () => void = () => {
   return;
-}
+};
 let unfocusCallback: () => void = () => {
   return;
-}
+};
 
 // refs
-const modelValue = ref<unknown>();
-const isFocused = ref(false)
+const modelValue = ref<unknown>("");
+const isFocused = ref(false);
 const backendErrors = ref<string[]>([]);
 
 // functions
 function softReset() {
-  modelValue.value = propsComponent.formApi.getInitialValueByFieldName(
-    propsComponent.field.metadata.field_name
+  const initialValue = propsComponent.formApi.getInitialValueByFieldName(
+    propsComponent.field.metadata.field_name,
   );
-  modelValue.value = formModelSerializeByType(modelValue.value);
+  modelValue.value = formModelSerializeByType(initialValue);
 }
 function reset() {
-  modelValue.value = propsComponent.formApi.getInitialValueByFieldName(
-    propsComponent.field.metadata.field_name
+  const initialValue = propsComponent.formApi.getInitialValueByFieldName(
+    propsComponent.field.metadata.field_name,
   );
-  modelValue.value = formModelSerializeByType(modelValue.value);
+  modelValue.value = formModelSerializeByType(initialValue);
   Utils.callAllEvents(propsComponent.field.events.onReset);
   resetCallback();
   void nextTick(() => {
@@ -63,6 +71,12 @@ function reset() {
 function formModelSerializeByType(value: unknown) {
   const form = propsComponent.formApi.form;
   switch (propsComponent.field.type) {
+    case "string":
+    case "wysiwyg":
+      if (value === null || value === undefined) {
+        return "";
+      }
+      break;
     case "checkbox":
       if (value === null || value === undefined || value === "") {
         return false;
@@ -74,7 +88,7 @@ function formModelSerializeByType(value: unknown) {
       }
       return date.formatDate(
         date.extractDate(String(value), form.formSettings.backendDateFormat),
-        form.formSettings.dateFormat
+        form.formSettings.dateFormat,
       );
     case "datetime":
       if (value === null || value === undefined || value === "") {
@@ -83,29 +97,35 @@ function formModelSerializeByType(value: unknown) {
       return date.formatDate(
         date.extractDate(
           String(value),
-          form.formSettings.backendDatetimeFormat
+          form.formSettings.backendDatetimeFormat,
         ),
-        form.formSettings.datetimeFormat
+        form.formSettings.datetimeFormat,
       );
     case "attachmentHasOne":
     case "attachmentHasMany":
       return <TSubmit64FileDataValue>{
         add: [],
-        delete: []
-      }
+        delete: [],
+      };
   }
   return value;
 }
 function formModelDeserializeByType(value: unknown) {
   const form = propsComponent.formApi.form;
   switch (propsComponent.field.type) {
+    case "string":
+    case "wysiwyg":
+      if (value === "") {
+        return null;
+      }
+      break;
     case "date":
       if (value === null || value === undefined || value === "") {
         return null;
       }
       return date.formatDate(
         date.extractDate(String(value), form.formSettings.dateFormat),
-        form.formSettings.backendDateFormat
+        form.formSettings.backendDateFormat,
       );
     case "datetime":
       if (value === null || value === undefined || value === "") {
@@ -113,18 +133,18 @@ function formModelDeserializeByType(value: unknown) {
       }
       return date.formatDate(
         date.extractDate(String(value), form.formSettings.datetimeFormat),
-        form.formSettings.backendDatetimeFormat
+        form.formSettings.backendDatetimeFormat,
       );
-    case 'selectBelongsTo':
-    case 'selectHasOne':
+    case "belongsTo":
       if (value === undefined) {
-        return null
+        return null;
       }
-    case 'selectHasMany':
-    case 'selectHasAndBelongsToMany':
+      break;
+    case "hasMany":
       if (value === undefined) {
-        return []
+        return [];
       }
+      break;
   }
   return value;
 }
@@ -148,24 +168,19 @@ function clear() {
     case "select":
       modelValue.value = undefined;
       break;
-    case "text":
+    case "wysiwyg":
       modelValue.value = "";
       break;
-    case "object":
-      modelValue.value = {};
-      break;
-    case "selectBelongsTo":
-    case "selectHasMany":
-    case "selectHasAndBelongsToMany":
-    case "selectHasOne":
+    case "belongsTo":
+    case "hasMany":
       modelValue.value = undefined;
       break;
     case "attachmentHasOne":
     case "attachmentHasMany":
       modelValue.value = <TSubmit64FileDataValue>{
         add: [],
-        delete: []
-      }
+        delete: [],
+      };
       break;
   }
   clearCallback();
@@ -185,29 +200,25 @@ function setupBackendErrors(errorsArg: string[]) {
 }
 function getFieldRef(): TFormField {
   return propsComponent.privateFormApi.getFieldRef(
-    propsComponent.field.metadata.field_name
+    propsComponent.field.metadata.field_name,
   )!;
 }
 function hide() {
-  const fieldRef = getFieldRef()
+  const fieldRef = getFieldRef();
   fieldRef.hidden = true;
   Utils.callAllEvents(propsComponent.field.events.onHide);
 }
 function unhide() {
-  const fieldRef = getFieldRef()
+  const fieldRef = getFieldRef();
   fieldRef.hidden = false;
   Utils.callAllEvents(propsComponent.field.events.onUnhide);
 }
 function setReadonlyState(state: boolean) {
-  const fieldRef = getFieldRef()
+  const fieldRef = getFieldRef();
   fieldRef.readonly = state;
 }
-function setCssClass(cssClass: string) {
-  const fieldRef = getFieldRef()
-  fieldRef.cssClass = cssClass;
-}
 function setLabel(label: string) {
-  const fieldRef = getFieldRef()
+  const fieldRef = getFieldRef();
   fieldRef.label = label;
 }
 function validate() {
@@ -228,24 +239,23 @@ function resetValidation() {
 function tryFocus() {
   if (!isFocused.value) {
     focusCallback();
-    isFocused.value = true
+    isFocused.value = true;
   }
 }
 function tryUnfocus() {
   if (isFocused.value) {
     unfocusCallback();
-    isFocused.value = false
+    isFocused.value = false;
   }
 }
 function isFocus() {
-  return isFocused.value
+  return isFocused.value;
 }
-function addBindings(bindings: TFieldBindings) {
-  const fieldRef = getFieldRef()
-  fieldRef.bindings = Utils.deepMergeObject(
-    Utils.deepDupeObject(fieldRef.bindings),
-    Utils.deepDupeObject(bindings)
-  )
+function setBindings<T extends TFormFieldType = TFormFieldType>(
+  bindings: TFieldBindings<T>,
+) {
+  const fieldRef = getFieldRef();
+  fieldRef.bindings = Utils.deepMergeObject(fieldRef.bindings, bindings);
 }
 function registerBehaviourCallbacks(
   registerValidationArg: () => boolean,
@@ -263,13 +273,13 @@ function registerBehaviourCallbacks(
     resetCallback = registerOnResetArg;
   }
   if (registerOnClearArg) {
-    clearCallback = registerOnClearArg
+    clearCallback = registerOnClearArg;
   }
   if (registerOnFocusArg) {
-    focusCallback = registerOnFocusArg
+    focusCallback = registerOnFocusArg;
   }
   if (registerOnUnfocusArg) {
-    unfocusCallback = registerOnUnfocusArg
+    unfocusCallback = registerOnUnfocusArg;
   }
 }
 
@@ -288,14 +298,18 @@ const api: TSubmit64FieldApi = {
   getValueSerialized,
   setupBackendErrors,
   setReadonlyState,
-  setCssClass,
   setLabel,
   tryFocus,
   tryUnfocus,
   isFocus,
-  addBindings,
+  setBindings,
   setValue: modelValueOnUpdate,
   field: propsComponent.field,
+  refs: {
+    modelValue: readonly(modelValue),
+    isFocused: readonly(isFocused),
+    backendErrors: readonly(backendErrors),
+  },
 };
 defineExpose(api);
 
@@ -304,12 +318,12 @@ watch(
   () => (propsComponent.field.events.onUpdate ? modelValue.value : null),
   () => {
     Utils.callAllEvents(propsComponent.field.events.onUpdate);
-  }
+  },
 );
 watch(
   () =>
     propsComponent.field.events.onIsValid ||
-      propsComponent.field.events.onIsInvalid
+    propsComponent.field.events.onIsInvalid
       ? modelValue.value
       : null,
   (newValue) => {
@@ -318,7 +332,7 @@ watch(
     } else {
       Utils.callAllEvents(propsComponent.field.events.onIsInvalid);
     }
-  }
+  },
 );
 
 // lifeCycle
@@ -328,7 +342,7 @@ onMounted(() => {
   if (proxyInstanceRef && propsComponent.formApi) {
     propsComponent.privateFormApi.registerFieldWrapperRef(
       propsComponent.field.metadata.field_name,
-      proxyInstanceRef as TSubmit64FieldApi
+      proxyInstanceRef as TSubmit64FieldApi,
     );
   }
   Utils.callAllEvents(propsComponent.field?.events.onReady);
@@ -337,16 +351,40 @@ onMounted(() => {
 
 <template>
   <div v-show="propsComponent.field.hidden !== true">
-    <Component v-if="propsComponent.field.beforeComponent" :is="propsComponent.field.beforeComponent"
-      :formApi="propsComponent.formApi" :fieldApi="api" />
-    <Component :is="propsComponent.field.mainComponent" :modelValue="modelValue" :field="propsComponent.field"
-      :formApi="propsComponent.formApi" :reset="reset" :clear="clear" :getValueDeserialized="getValueDeserialized"
-      :getValueSerialized="getValueSerialized" :validate="validate" :modelValueOnUpdate="modelValueOnUpdate"
-      :registerBehaviourCallbacks="registerBehaviourCallbacks" />
-    <Component v-if="propsComponent.field.afterComponent" :is="propsComponent.field.afterComponent"
-      :formApi="propsComponent.formApi" :fieldApi="api" />
-    <div v-if="backendErrors.length > 0" class="q-field__bottom text-negative q-pt-none">
-      <div v-for="(backendError, index) in backendErrors" :index="index" class="flex column">
+    <Component
+      v-if="propsComponent.field.slots['wrapper-before']"
+      :is="propsComponent.field.slots['wrapper-before']"
+      :formApi="propsComponent.formApi"
+      :fieldApi="api"
+    />
+    <Component
+      :is="propsComponent.field.mainComponent"
+      :modelValue="modelValue"
+      :fieldApi="api"
+      :formApi="propsComponent.formApi"
+      :reset="reset"
+      :clear="clear"
+      :getValueDeserialized="getValueDeserialized"
+      :getValueSerialized="getValueSerialized"
+      :validate="validate"
+      :modelValueOnUpdate="modelValueOnUpdate"
+      :registerBehaviourCallbacks="registerBehaviourCallbacks"
+    />
+    <Component
+      v-if="propsComponent.field.slots['wrapper-after']"
+      :is="propsComponent.field.slots['wrapper-after']"
+      :formApi="propsComponent.formApi"
+      :fieldApi="api"
+    />
+    <div
+      v-if="backendErrors.length > 0"
+      class="q-field__bottom text-negative q-pt-none"
+    >
+      <div
+        v-for="(backendError, index) in backendErrors"
+        :index="index"
+        class="flex column"
+      >
         {{ backendError }}
       </div>
     </div>

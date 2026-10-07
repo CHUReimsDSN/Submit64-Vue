@@ -1,57 +1,59 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { QUploader, QBtn, QUploaderAddTrigger, QList, QItem, QItemSection, QItemLabel, QSeparator } from "quasar";
-import type { TAttachmentHasManyBindings, TFormField, TSubmit64FieldProps, TSubmit64FileDataValue, TSubmit64FilePending, TSubmit64ValidationRule } from "../models";
-import { Utils } from "../utils";
-
-// types
-type TUploadedAttachment = Required<TFormField>['attachmentData'][number]
+import { onMounted, ref } from "vue";
+import { QUploader } from "quasar";
+import type {
+  TSubmit64FieldProps,
+  TSubmit64FileDataValue,
+  TSubmit64FilePending,
+  TSubmit64ValidationRule,
+} from "../models";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldProps>();
+const propsComponent = defineProps<TSubmit64FieldProps<"attachmentHasMany">>();
 
 // refs
 const errorFromRules = ref<string | null>(null);
-const isParsingFile = ref(false)
+const isParsingFile = ref(false);
 
 // functions
 function reset() {
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.add = []
-  modelValue.delete = []
-  propsComponent.modelValueOnUpdate(modelValue)
-  applyRules()
+  modelValue.add = [];
+  modelValue.delete = [];
+  propsComponent.modelValueOnUpdate(modelValue);
+  applyRules();
 }
 function clear() {
   let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.add = []
-  modelValue.delete = propsComponent.field.attachmentData?.map((attachment) => {
-    return attachment.attachment_id
-  }) ?? []
-  propsComponent.modelValueOnUpdate(modelValue)
-  applyRules()
+  modelValue.add = [];
+  modelValue.delete =
+    propsComponent.fieldApi.field.attachmentData?.map((attachment) => {
+      return attachment.attachment_id;
+    }) ?? [];
+  propsComponent.modelValueOnUpdate(modelValue);
+  applyRules();
 }
 function validate() {
-  applyRules()
-  return isValid()
+  applyRules();
+  return isValid();
 }
 function isValid() {
-  return errorFromRules.value === null && isParsingFile.value !== true
+  return errorFromRules.value === null && isParsingFile.value !== true;
 }
 function resetValidation() {
-  errorFromRules.value = null
+  errorFromRules.value = null;
 }
 async function arrayBufferToBase64(buffer: ArrayBuffer): Promise<string> {
   return new Promise((resolve) => {
     const blob = new Blob([buffer]);
     const reader = new FileReader();
     reader.onload = (event: ProgressEvent<FileReader>) => {
-      const dataUrl = (event.target?.result ?? '') as string;
-      const [_, base64] = dataUrl.split(',')
+      const dataUrl = (event.target?.result ?? "") as string;
+      const [_, base64] = dataUrl.split(",");
       resolve(base64);
-    }
-    reader.readAsDataURL(blob)
-  })
+    };
+    reader.readAsDataURL(blob);
+  });
 }
 async function quasarFileToSubmit64File(file: File) {
   const pendingFile: TSubmit64FilePending = {
@@ -59,152 +61,88 @@ async function quasarFileToSubmit64File(file: File) {
     size: file.size,
     filename: file.name,
     contentType: file.type,
-    base64: await arrayBufferToBase64(await file.arrayBuffer())
-  }
+    base64: await arrayBufferToBase64(await file.arrayBuffer()),
+  };
   return pendingFile;
 }
 async function addPendingFile(files: readonly any[]) {
-  isParsingFile.value = true
+  isParsingFile.value = true;
   for (const file of files) {
     const properFile = await quasarFileToSubmit64File(file);
     let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-    modelValue.add.push(properFile)
-    propsComponent.modelValueOnUpdate(modelValue)
+    modelValue.add.push(properFile);
+    propsComponent.modelValueOnUpdate(modelValue);
   }
-  isParsingFile.value = false
-  applyRules()
+  isParsingFile.value = false;
+  applyRules();
 }
 async function removePendingFile(files: readonly any[]) {
-  isParsingFile.value = true
+  isParsingFile.value = true;
   for (const file of files) {
     const properFile = await quasarFileToSubmit64File(file);
     let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
     modelValue.add = modelValue.add.filter((file) => {
-      return file.key !== properFile.key
-    })
-    propsComponent.modelValueOnUpdate(modelValue)
+      return file.key !== properFile.key;
+    });
+    propsComponent.modelValueOnUpdate(modelValue);
   }
-  isParsingFile.value = false
-  applyRules()
-}
-function removeUploadedFile(uploadedAttachment: TUploadedAttachment) {
-  let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.delete.push(uploadedAttachment.attachment_id)
-  propsComponent.modelValueOnUpdate(modelValue)
-  applyRules()
-}
-function keepUploadedFile(uploadedAttachment: TUploadedAttachment) {
-  let modelValue = propsComponent.modelValue as TSubmit64FileDataValue;
-  modelValue.delete = modelValue.delete.filter((attachmentId) => {
-    return attachmentId !== uploadedAttachment.attachment_id;
-  })
-  propsComponent.modelValueOnUpdate(modelValue)
-  applyRules()
+  isParsingFile.value = false;
+  applyRules();
 }
 function applyRules() {
-  errorFromRules.value = null
-  for (const rule of propsComponent.field.computedRules as TSubmit64ValidationRule[]) {
-    const ruleResult = rule(propsComponent.modelValue)
-    if (typeof ruleResult === 'string') {
-      errorFromRules.value = ruleResult
+  errorFromRules.value = null;
+  for (const rule of propsComponent.fieldApi.field
+    .computedRules as TSubmit64ValidationRule[]) {
+    const ruleResult = rule(propsComponent.modelValue);
+    if (typeof ruleResult === "string") {
+      errorFromRules.value = ruleResult;
       break;
     }
   }
 }
 
-// computeds
-const attachmentDataIsEmpty = computed(() => {
-  return (propsComponent.field.attachmentData ?? []).length === 0
-})
-const modelValueDeleteIds = computed(() => {
-  if (!propsComponent.modelValue) {
-    return []
-  }
-  return (propsComponent.modelValue as TSubmit64FileDataValue).delete
-})
-const bindings = computed(() => {
-  return propsComponent.field.bindings as TAttachmentHasManyBindings;
-})
-
 // lifeCycle
 onMounted(() => {
-  propsComponent.registerBehaviourCallbacks(validate, isValid, resetValidation, reset, clear)
+  propsComponent.registerBehaviourCallbacks(
+    validate,
+    isValid,
+    resetValidation,
+    reset,
+    clear,
+  );
 });
 </script>
 
 <template>
   <div class="flex column">
-
-    <q-uploader v-bind="bindings.uploader" hide-upload-btn :multiple="true" :label="propsComponent.field.label"
-      :class="propsComponent.field.cssClass" :readonly="propsComponent.field.readonly" @added="addPendingFile"
-      @removed="removePendingFile" style="width: inherit;">
-      <template v-slot:header="scope">
-        <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
-          <div class="col">
-            <div class="q-uploader__title">{{ propsComponent.field.label }}</div>
-          </div>
-          <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>
-            <q-uploader-add-trigger />
-          </q-btn>
-        </div>
-      </template>
-
-      <template v-slot:list="scope">
-        <div v-if="!attachmentDataIsEmpty" class="flex column">
-          <div class="text-weight-medium text-body2">Fichier{{ (propsComponent.field.attachmentData?.length ?? 0) > 0 ?
-            's' : '' }} déjà en ligne</div>
-          <q-list separator>
-            <q-item v-for="file in propsComponent.field.attachmentData ?? []" :key="file.attachment_id">
-              <q-item-section>
-                <q-item-label class="full-width ellipsis">
-                  {{ file.filename }}
-                </q-item-label>
-
-                <q-item-label caption>
-                  {{ Utils.humanStorageSize(file.size) }}
-                </q-item-label>
-              </q-item-section>
-
-              <q-item-section v-if="propsComponent.modelValue" top side>
-                <q-btn v-if="!modelValueDeleteIds.includes(file.attachment_id)" class="gt-xs" size="12px"
-                  :disable="propsComponent.field.readonly" flat dense round icon="delete"
-                  @click="removeUploadedFile(file)" />
-                <q-btn
-                  v-if="modelValueDeleteIds.includes(file.attachment_id) && (propsComponent.modelValue as TSubmit64FileDataValue).add.length === 0"
-                  class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round icon="refresh"
-                  @click="keepUploadedFile(file)" />
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </div>
-
-        <q-separator v-if="!attachmentDataIsEmpty && scope.files.length > 0" />
-
-        <div v-if="scope.files.length > 0" class="flex column">
-          <div class="text-weight-medium text-body2">Fichier{{ scope.files.length > 0 ? 's' : '' }} à ajouter</div>
-          <q-list separator>
-            <q-item v-for="file in scope.files" :key="file.__key">
-              <q-item-section>
-                <q-item-label class="full-width ellipsis">
-                  {{ file.name }}
-                </q-item-label>
-
-                <q-item-label caption>
-                  {{ file.__sizeLabel }}
-                </q-item-label>
-              </q-item-section>
-
-              <q-item-section top side>
-                <q-btn class="gt-xs" size="12px" :disable="propsComponent.field.readonly" flat dense round icon="delete"
-                  @click="scope.removeFile(file)" />
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </div>
-
+    <q-uploader
+      v-bind="propsComponent.fieldApi.field.bindings.uploader"
+      hide-upload-btn
+      :multiple="true"
+      :label="propsComponent.fieldApi.field.label"
+      :readonly="propsComponent.fieldApi.field.readonly"
+      @added="addPendingFile"
+      @removed="removePendingFile"
+      style="width: inherit"
+    >
+      <template
+        v-for="(component, name) of propsComponent.fieldApi.field.slots"
+        v-slot:[name]="slotProps"
+      >
+        <component
+          :is="component"
+          v-bind="{
+            ...(slotProps ?? {}),
+            formApi: propsComponent.formApi,
+            fieldApi: propsComponent.fieldApi,
+          }"
+        />
       </template>
     </q-uploader>
-    <div v-if="errorFromRules !== null" class="q-field--error q-field__bottom text-negative">
+    <div
+      v-if="errorFromRules !== null"
+      class="q-field--error q-field__bottom text-negative"
+    >
       {{ errorFromRules }}
     </div>
   </div>

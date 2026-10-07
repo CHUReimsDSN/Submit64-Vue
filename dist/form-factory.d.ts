@@ -1,5 +1,5 @@
 import { type Component } from "vue";
-import type { TForm, TFormBindings, TFormSettings, TResourceFormMetadataAndData, TContext, TSubmit64OverridedComponents, TSubmit64FormApi } from "./models";
+import type { TForm, TFormBindings, TFormSettings, TResourceFormMetadataAndData, TContext, TSubmit64FormApi, TFormSlots } from "./models";
 import { DynamicLogicBuilder } from "./dynamic-logic-builder";
 import type { DeepPartial } from "quasar";
 export declare class FormFactory {
@@ -9,19 +9,15 @@ export declare class FormFactory {
     context?: TContext;
     formSettings: TFormSettings;
     formBind: TFormBindings;
-    actionComponent: Component;
-    orphanErrorsComponent: Component;
-    sectionComponent: Component;
-    wrapperResetComponent: Component;
-    associationDisplayComponent: Component;
-    dynamicComponentRecord: Record<string, Component>;
+    formSlots: TFormSlots;
+    templateSlots: Record<string, Component | undefined>;
     formApi: TSubmit64FormApi;
     registerEventCallback: (builder: DynamicLogicBuilder) => void;
     private constructor();
     static getEmptyFormBeforeInit(): TForm;
-    static getForm(resourceName: string, resourceId: TForm["resourceId"], overridedComponent: TSubmit64OverridedComponents, formMetadataAndData: TResourceFormMetadataAndData, formSettings: Partial<TFormSettings> | undefined, formBind: DeepPartial<TFormBindings> | undefined, context: TContext | undefined, formApi: TSubmit64FormApi, eventManager: ((builder: DynamicLogicBuilder) => void) | undefined): TForm;
+    static getForm(resourceName: string, resourceId: TForm["resourceId"], formMetadataAndData: TResourceFormMetadataAndData, formSettings: Partial<TFormSettings> | undefined, formBindings: DeepPartial<TFormBindings> | undefined, formSlots: DeepPartial<TFormSlots> | undefined, templateSlots: Record<string, Component | undefined>, context: TContext | undefined, formApi: TSubmit64FormApi, eventManager: ((builder: DynamicLogicBuilder) => void) | undefined): TForm;
     private generateFormDef;
     private getBindingsByFormFieldType;
-    private static getRegularFieldTypeByFieldType;
-    private static getFieldComponentByFormFieldType;
+    private static getFieldTypeByFieldMetadata;
+    private static getFieldComponentByFieldType;
 }

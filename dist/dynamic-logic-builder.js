@@ -1,3 +1,4 @@
+import { Logger } from "./logger";
 export class DynamicLogicBuilder {
     formApi;
     events = [];
@@ -232,7 +233,7 @@ class FormEvent {
                     key: "onValidated",
                 };
             default:
-                console.warn(`Submit64 -> unhandled event target : ${this.type}`);
+                Logger.log(`Submit64 -> unhandled event target : ${this.type}`);
                 return {
                     target: null,
                 };

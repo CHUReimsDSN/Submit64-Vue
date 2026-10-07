@@ -1,0 +1,27 @@
+<script setup lang="ts">
+import { QIcon } from "quasar";
+import type { TSubmit64SectionSlotPropsSegment } from "../../../models";
+
+// props
+const propsComponent = defineProps<TSubmit64SectionSlotPropsSegment>();
+</script>
+
+<template>
+  <div class="propsComponent.sectionApi.section.bindings.class">
+    <div class="flex row items-center">
+      <q-icon
+        v-if="propsComponent.sectionApi.section.icon"
+        v-bind="propsComponent.sectionApi.section.bindings.icon"
+        :name="propsComponent.sectionApi.section.icon"
+        size="sm"
+      />
+      <div class="text-body1 text-weight-medium">
+        {{ propsComponent.sectionApi.section.label }}
+      </div>
+    </div>
+
+    <div class="flex column q-gutter-md">
+      <component :is="propsComponent.sectionApi.section.fieldsComponent" />
+    </div>
+  </div>
+</template>

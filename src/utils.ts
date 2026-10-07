@@ -1,10 +1,10 @@
 import type { DeepPartial } from "quasar";
-import { TSubmit64Event } from "./models";
+import type { TSubmit64Event } from "./models";
 
 function callAllEvents(events: TSubmit64Event | undefined) {
-  events?.forEach((event) => {
-    event();
-  });
+  for (const event of events ?? []) {
+    event()
+  }
 }
 function humanStorageSize(bytes: number) {
   const units = ["B", "KB", "MB", "GB", "TB", "PB"];
@@ -17,11 +17,19 @@ function humanStorageSize(bytes: number) {
 }
 function deepMergeObject<T extends Record<string, unknown>>(
   objToMergeTo: T,
-  objPrio: DeepPartial<T> | Partial<T>,
+  objPrio: DeepPartial<T>,
+  options = {
+    deepClone: true
+  }
 ): T {
-  const merged = { ...objToMergeTo };
-  for (const key of Object.keys(objPrio) as Array<keyof T>) {
-    const prioValue = objPrio[key];
+  let merged = objToMergeTo ?? {}
+  let prio = objPrio ?? {}
+  if (options.deepClone) {
+    merged = deepCloneObject(merged)
+    prio = deepCloneObject(prio)
+  }
+  for (const key of Object.keys(prio) as Array<keyof T>) {
+    const prioValue = prio[key];
     const targetValue = merged[key];
     if (
       prioValue &&
@@ -34,21 +42,34 @@ function deepMergeObject<T extends Record<string, unknown>>(
       merged[key] = deepMergeObject(
         targetValue as Record<string, unknown>,
         prioValue as DeepPartial<Record<string, unknown>>,
+        options
       ) as T[keyof T];
     } else if (prioValue !== undefined) {
       merged[key] = prioValue as T[keyof T];
     }
   }
-
   return merged;
 }
-function deepDupeObject<T>(objectToDupe: T): T {
-  return JSON.parse(JSON.stringify(objectToDupe));
+function deepCloneObject<T>(value: T): T {
+  if (typeof value === "function") {
+    return value;
+  }
+  if (value === null || typeof value !== "object") {
+    return value;
+  }
+  if (Array.isArray(value)) {
+    return value.map(item => deepCloneObject(item)) as T;
+  }
+  const clone = {} as T
+  for (const key of Object.keys(value)) {
+    clone[key as keyof T] = deepCloneObject(value[key as keyof T]);
+  }
+  return clone;
 }
 
 export const Utils = {
   callAllEvents,
   humanStorageSize,
   deepMergeObject,
-  deepDupeObject,
+  deepCloneObject,
 };

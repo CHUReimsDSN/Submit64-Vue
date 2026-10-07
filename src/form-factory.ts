@@ -8,8 +8,10 @@ import type {
   TResourceFormMetadataAndData,
   TContext,
   TResourceFieldMetadata,
-  TSubmit64OverridedComponents,
   TSubmit64FormApi,
+  TFormSlots,
+  TFieldBindings,
+  TFormFieldType,
 } from "./models";
 import { Submit64 } from "./submit64";
 import DateField from "./components/DateField.vue";
@@ -20,16 +22,17 @@ import SelectBelongsToField from "./components/SelectBelongsToField.vue";
 import SelectHasManyField from "./components/SelectHasManyField.vue";
 import StringField from "./components/StringField.vue";
 import NumberField from "./components/NumberField.vue";
-import { DynamicLogicBuilder } from "./dynamic-logic-builder";
-import ColorField from "./components/ColorField.vue";
 import WysiwygField from "./components/WysiwygField.vue";
-import JsonField from "./components/JsonField.vue";
+import ColorField from "./components/ColorField.vue";
 import AttachmentHasOneField from "./components/AttachmentHasOneField.vue";
 import AttachmentHasManyField from "./components/AttachmentHasManyField.vue";
 import { Submit64Rules } from "./rules";
 import { Utils } from "./utils";
 import { Bindings } from "./bindings";
+import { DynamicLogicBuilder } from "./dynamic-logic-builder";
 import type { DeepPartial } from "quasar";
+import { Slots } from "./slots";
+import { Logger } from "./logger";
 
 export class FormFactory {
   resourceName: string;
@@ -38,57 +41,51 @@ export class FormFactory {
   context?: TContext;
   formSettings: TFormSettings;
   formBind: TFormBindings;
-  actionComponent: Component;
-  orphanErrorsComponent: Component;
-  sectionComponent: Component;
-  wrapperResetComponent: Component;
-  associationDisplayComponent: Component;
-  dynamicComponentRecord: Record<string, Component>;
+  formSlots: TFormSlots;
+  templateSlots: Record<string, Component | undefined>;
   formApi: TSubmit64FormApi;
   registerEventCallback: (builder: DynamicLogicBuilder) => void;
 
   private constructor(
     resourceName: string,
     resourceId: TForm["resourceId"],
-    overridedComponent: TSubmit64OverridedComponents,
     formMetadataAndData: TResourceFormMetadataAndData,
     formSettings: Partial<TFormSettings> | undefined,
     formBind: DeepPartial<TFormBindings> | undefined,
+    formSlots: DeepPartial<TFormSlots> | undefined,
+    templateSlots: Record<string, Component | undefined>,
     context: TContext | undefined,
     formApi: TSubmit64FormApi,
     eventManager: ((builder: DynamicLogicBuilder) => void) | undefined,
+    cssClass: string | undefined,
+    sectionContainerCssClass: string | undefined,
   ) {
-    this.dynamicComponentRecord =
-      overridedComponent.dynamicComponentRecord ?? {};
     this.formMetadataAndData = formMetadataAndData;
     this.resourceId = resourceId;
     this.context = context;
     this.resourceName = resourceName;
     this.formApi = formApi;
     this.formSettings = Utils.deepMergeObject(
-      Utils.deepDupeObject(Submit64.getGlobalFormSetting()),
-      Utils.deepDupeObject(formSettings ?? {}),
+      Submit64.getGlobalFormSetting(),
+      formSettings ?? {},
     );
     this.formBind = Utils.deepMergeObject(
-      Utils.deepDupeObject(Submit64.getGlobalFormBind()),
-      Utils.deepDupeObject(formBind ?? {}),
+      Utils.deepMergeObject(Submit64.getGlobalFormBind(), formBind ?? {}),
+      {
+        form: {
+          default: {
+            class: cssClass,
+            sectionContainerClass: sectionContainerCssClass,
+          },
+        },
+      },
     );
 
-    this.actionComponent =
-      overridedComponent.actionComponent ?? Submit64.getGlobalActionComponent();
-    this.orphanErrorsComponent =
-      overridedComponent.orphanErrorsComponent ??
-      Submit64.getGlobalOrphanErrorComponent();
-    this.sectionComponent =
-      overridedComponent.sectionComponent ??
-      Submit64.getGlobalSectionComponent();
-    this.wrapperResetComponent =
-      overridedComponent.wrapperResetComponent ??
-      Submit64.getGlobalWrapperResetComponent();
-    this.associationDisplayComponent =
-      overridedComponent.associationDisplayComponent ??
-      Submit64.getGlobalAssociationDisplayComponent();
-
+    this.formSlots = Utils.deepMergeObject(
+      Submit64.getBlobalFormSlot(),
+      formSlots ?? {},
+    );
+    this.templateSlots = templateSlots;
     this.registerEventCallback = eventManager ?? (() => {});
   }
 
@@ -98,40 +95,73 @@ export class FormFactory {
       sections: [],
       formSettings: Submit64.getGlobalFormSetting(),
       events: {},
-      bindings: Bindings.getEmptyDefaultBindings(),
-      actionComponent: markRaw(Submit64.getGlobalActionComponent()),
-      orphanErrorsComponent: markRaw(Submit64.getGlobalOrphanErrorComponent()),
-      wrapperResetComponent: markRaw(Submit64.getGlobalWrapperResetComponent()),
-      dynamicComponentRecord: {},
+      bindings: Bindings.getEmptyDefaultBindings().form,
+      slots: Slots.getEmptyDefaultSlots(),
     };
   }
 
   static getForm(
     resourceName: string,
     resourceId: TForm["resourceId"],
-    overridedComponent: TSubmit64OverridedComponents,
     formMetadataAndData: TResourceFormMetadataAndData,
     formSettings: Partial<TFormSettings> | undefined,
-    formBind: DeepPartial<TFormBindings> | undefined,
+    formBindings: DeepPartial<TFormBindings> | undefined,
+    formSlots: DeepPartial<TFormSlots> | undefined,
+    templateSlots: Record<string, Component | undefined>,
     context: TContext | undefined,
     formApi: TSubmit64FormApi,
     eventManager: ((builder: DynamicLogicBuilder) => void) | undefined,
+    cssClass: string | undefined,
+    sectionContainerCssClass: string | undefined,
   ): TForm {
     const instance = new FormFactory(
       resourceName,
       resourceId,
-      overridedComponent,
       formMetadataAndData,
       formSettings,
-      formBind,
+      formBindings,
+      formSlots,
+      templateSlots,
       context,
       formApi,
       eventManager,
+      cssClass,
+      sectionContainerCssClass,
     );
     return instance.generateFormDef();
   }
 
   private generateFormDef(): TForm {
+    const usedTemplateSlots = new Map<string, boolean>();
+    for (const entry of Object.keys(this.templateSlots)) {
+      usedTemplateSlots.set(entry, false);
+    }
+    const getTemplateSlots = (prefix: string, name?: string) => {
+      const startWith = `${prefix}-${name ? name + "-" : ""}`;
+      return Object.fromEntries(
+        Object.entries(this.templateSlots).reduce(
+          (acc, entry) => {
+            if (entry[0].includes(startWith) && entry[1] !== undefined) {
+              usedTemplateSlots.set(entry[0], true);
+              const slotName = entry[0].replace(startWith, "");
+              acc.push([slotName, markRaw(entry[1])]);
+            }
+            return acc;
+          },
+          <[string, Component][]>[],
+        ),
+      );
+    };
+    const makeComponentsRaw = (
+      record: Record<string, Component | undefined>,
+    ) => {
+      for (let value of Object.values(record)) {
+        if (value) {
+          value = markRaw(value);
+        }
+      }
+      return record;
+    };
     const eventBuilderInstance = DynamicLogicBuilder.create(this.formApi);
     this.registerEventCallback(eventBuilderInstance);
     const fieldNames = new Set<string>();
@@ -142,26 +172,23 @@ export class FormFactory {
       (sectionMetadata, sectionIndex) => {
         const fields: TFormField[] = [];
         sectionMetadata.fields.forEach((columnMetadata) => {
-          const beforeComponent =
-            this.dynamicComponentRecord[
-              `field-${columnMetadata.field_name}-before`
-            ];
+          const fieldType =
+            FormFactory.getFieldTypeByFieldMetadata(columnMetadata);
           const mainComponent =
-            FormFactory.getFieldComponentByFormFieldType(columnMetadata);
-          const afterComponent =
-            this.dynamicComponentRecord[
-              `field-${columnMetadata.field_name}-after`
-            ];
-          const componentOptions = {
-            associationDisplayComponent: markRaw(
-              this.associationDisplayComponent,
+            FormFactory.getFieldComponentByFieldType(fieldType);
+          const computedSlotsField = Utils.deepMergeObject(
+            Utils.deepMergeObject(
+              this.formSlots.fields[fieldType],
+              this.formSlots.fields.byName[columnMetadata.field_name],
             ),
-            regularFieldType: FormFactory.getRegularFieldTypeByFieldType(
-              columnMetadata.field_type,
-            ),
-          };
-          const computedBinding =
-            this.getBindingsByFormFieldType(columnMetadata);
+            getTemplateSlots("field", columnMetadata.field_name),
+          );
+          const computedBindings = Utils.deepMergeObject(
+            this.getBindingsByFormFieldType(fieldType),
+            this.formBind.fields.byName[
+              columnMetadata.field_name
+            ] as unknown as DeepPartial<TFieldBindings>,
+          );
           let fieldLabel = columnMetadata.label;
           if (
             this.formSettings.requiredFieldsHasAsterisk &&
@@ -170,8 +197,7 @@ export class FormFactory {
             fieldLabel = fieldLabel.concat("*");
           }
           const field: TFormField = {
-            type: columnMetadata.field_type,
-            extraType: columnMetadata.field_extra_type,
+            type: fieldType,
             metadata: Object.freeze(columnMetadata),
             label: fieldLabel,
             readonly:
@@ -179,23 +205,16 @@ export class FormFactory {
               sectionMetadata.readonly ??
               columnMetadata.readonly ??
               undefined,
-            cssClass: columnMetadata.css_class ?? undefined,
             staticSelectOptions: columnMetadata.static_select_options,
             associationData: columnMetadata.field_association_data,
             attachmentData: columnMetadata.field_attachment_data,
             rules: columnMetadata.rules,
             computedRules: [], // late init
-            bindings: computedBinding,
+            bindings: computedBindings,
             hidden: false,
-            beforeComponent: beforeComponent
-              ? markRaw(beforeComponent)
-              : undefined,
             mainComponent: markRaw(mainComponent),
-            afterComponent: afterComponent
-              ? markRaw(afterComponent)
-              : undefined,
             events: events.fields[columnMetadata.field_name] ?? {},
-            componentOptions,
+            slots: makeComponentsRaw(computedSlotsField),
           };
           field.computedRules = Submit64Rules.computeServerRules(
             field,
@@ -204,23 +223,25 @@ export class FormFactory {
           fields.push(field);
           fieldNames.add(columnMetadata.field_name);
         });
-        const beforeComponent =
-          this.dynamicComponentRecord[
-            `section-${sectionMetadata.name ?? sectionIndex}-before`
-          ];
-        const mainComponent = this.sectionComponent;
-        const afterComponent =
-          this.dynamicComponentRecord[
-            `section-${sectionMetadata.name ?? sectionIndex}-after`
-          ];
+        const sectionName = sectionMetadata.name ?? sectionIndex.toString();
+        const slotsSection = {
+          ...this.formSlots.sections,
+          ...getTemplateSlots("section", sectionName),
+        };
+        const mainComponent =
+          this.formSlots.fields.byName[sectionName]?.default ??
+          this.formSlots.sections.default!;
+        const sectionBindings = Utils.deepMergeObject(
+          this.formBind.sections.default,
+          this.formBind.sections.byName[sectionName],
+        );
         const section: TFormSection = {
           label: sectionMetadata.label ?? undefined,
           icon: sectionMetadata.icon ?? undefined,
-          cssClass: sectionMetadata.css_class ?? undefined,
           hidden: false,
-          name: sectionMetadata.name ?? sectionIndex.toString(),
+          name: sectionName,
           index: sectionIndex,
-          bindings: Utils.deepDupeObject(this.formBind.sections),
+          bindings: sectionBindings,
           readonly:
             this.formMetadataAndData.form.readonly ??
             sectionMetadata.readonly ??
@@ -228,30 +249,28 @@ export class FormFactory {
           events:
             events.sections[sectionMetadata.name ?? sectionIndex.toString()] ??
             {},
-          beforeComponent: beforeComponent
-            ? markRaw(beforeComponent)
-            : undefined,
           mainComponent: markRaw(mainComponent),
           fieldsComponent: undefined as unknown as Component,
-          afterComponent: afterComponent ? markRaw(afterComponent) : undefined,
           fields,
+          slots: makeComponentsRaw(slotsSection),
         };
         sections.push(section);
       },
     );
+    const slotsForm = {
+      ...this.formSlots.form,
+      ...getTemplateSlots("form", ""),
+    };
+    const formBindings = Utils.deepCloneObject(this.formBind.form);
     const form: TForm = {
       sections,
       resourceName: this.formMetadataAndData.form.resource_name,
       resourceId: this.resourceId,
       formSettings: this.formSettings,
-      bindings: this.formBind,
-      cssClass: this.formMetadataAndData.form.css_class ?? undefined,
+      bindings: formBindings,
       readonly: this.formMetadataAndData.form.readonly ?? undefined,
       events: events.form,
-      actionComponent: markRaw(this.actionComponent),
-      orphanErrorsComponent: markRaw(this.orphanErrorsComponent),
-      wrapperResetComponent: markRaw(this.wrapperResetComponent),
-      dynamicComponentRecord: this.dynamicComponentRecord,
+      slots: makeComponentsRaw(slotsForm),
       context: this.context,
     };
     if (
@@ -260,122 +279,97 @@ export class FormFactory {
         return acc + section.fields.length;
       }, 0)
     ) {
-      console.warn("Submit64 -> Found fields with the same name");
+      Logger.log("Found fields with the same name");
+    }
+    for (const entry of usedTemplateSlots) {
+      if (entry[1] !== true) {
+        Logger.log(`Found unused slot : ${entry[0]}`);
+      }
     }
     return form;
   }
 
   private getBindingsByFormFieldType(
-    field: TResourceFieldMetadata,
-  ): TFormField["bindings"] {
-    switch (field.field_type) {
-      case "string":
-        switch (field.field_extra_type) {
-          case "color":
-            return Utils.deepDupeObject(this.formBind.fields.color);
-
-          case "wysiwyg":
-            return Utils.deepDupeObject(this.formBind.fields.wysiwyg);
-
-          default:
-            return Utils.deepDupeObject(this.formBind.fields.string);
-        }
-      case "text":
-        return Utils.deepDupeObject(this.formBind.fields.string);
-
-      case "number":
-        return Utils.deepDupeObject(this.formBind.fields.number);
-
-      case "date":
-        return Utils.deepDupeObject(this.formBind.fields.date);
-
-      case "datetime":
-        return Utils.deepDupeObject(this.formBind.fields.datetime);
-
-      case "select":
-        return Utils.deepDupeObject(this.formBind.fields.select);
-
-      case "selectBelongsTo":
-        return Utils.deepDupeObject(this.formBind.fields.belongsTo);
-
-      case "selectHasMany":
-        return Utils.deepDupeObject(this.formBind.fields.hasMany);
-
-      case "selectHasAndBelongsToMany":
-        return Utils.deepDupeObject(this.formBind.fields.hasMany);
-
-      case "selectHasOne":
-        return Utils.deepDupeObject(this.formBind.fields.belongsTo);
-
-      case "checkbox":
-        return Utils.deepDupeObject(this.formBind.fields.checkbox);
-
-      case "object":
-        return {};
-      case "attachmentHasOne":
-        return Utils.deepDupeObject(this.formBind.fields.attachmentBelongsTo);
-
-      case "attachmentHasMany":
-        return Utils.deepDupeObject(this.formBind.fields.attachmentHasMany);
-
-      default:
-        return Utils.deepDupeObject(this.formBind.fields.string);
-    }
-  }
-
-  private static getRegularFieldTypeByFieldType(
-    fieldType: TResourceFieldMetadata["field_type"],
-  ): TFormField["componentOptions"]["regularFieldType"] | undefined {
-    const mapping: Record<
-      TResourceFieldMetadata["field_type"][number],
-      TFormField["componentOptions"]["regularFieldType"]
-    > = {
-      text: "textarea",
+    fieldType: TFormFieldType,
+  ): TFieldBindings {
+    const bindingsMap: Record<TFormFieldType, TFieldBindings> = {
+      string: this.formBind.fields.string,
+      color: this.formBind.fields.color,
+      wysiwyg: this.formBind.fields.wysiwyg,
+      number: this.formBind.fields.number,
+      date: this.formBind.fields.date,
+      datetime: this.formBind.fields.datetime,
+      checkbox: this.formBind.fields.checkbox,
+      select: this.formBind.fields.select,
+      belongsTo: this.formBind.fields.belongsTo,
+      hasMany: this.formBind.fields.hasMany,
+      attachmentHasOne: this.formBind.fields.attachmentHasOne,
+      attachmentHasMany: this.formBind.fields.attachmentHasMany,
     };
-    return mapping[fieldType] || undefined;
+    return Utils.deepCloneObject(bindingsMap[fieldType]);
   }
 
-  private static getFieldComponentByFormFieldType(
+  private static getFieldTypeByFieldMetadata(
     field: TResourceFieldMetadata,
-  ): Component {
+  ): TFormFieldType {
     switch (field.field_type) {
       case "string":
         switch (field.field_extra_type) {
           case "color":
-            return ColorField;
+            return "color";
           case "wysiwyg":
-            return WysiwygField;
+            return "wysiwyg";
           default:
-            return StringField;
+            return "string";
         }
       case "text":
-        return StringField;
+        return "string";
       case "number":
-        return NumberField;
+        return "number";
       case "date":
-        return DateField;
+        return "date";
       case "datetime":
-        return DateTimeField;
+        return "datetime";
       case "select":
-        return SelectField;
+        return "select";
       case "selectBelongsTo":
-        return SelectBelongsToField;
+        return "belongsTo";
       case "selectHasMany":
-        return SelectHasManyField;
+        return "hasMany";
       case "selectHasAndBelongsToMany":
-        return SelectHasManyField;
+        return "hasMany";
       case "selectHasOne":
-        return SelectBelongsToField;
+        return "belongsTo";
       case "checkbox":
-        return CheckboxField;
+        return "checkbox";
       case "object":
-        return JsonField;
+        return "string";
       case "attachmentHasOne":
-        return AttachmentHasOneField;
+        return "attachmentHasOne";
       case "attachmentHasMany":
-        return AttachmentHasManyField;
+        return "attachmentHasMany";
       default:
-        return StringField;
+        return "string";
     }
+  }
+
+  private static getFieldComponentByFieldType(
+    fieldType: TFormFieldType,
+  ): Component {
+    const bindingsMap: Record<TFormFieldType, TFieldBindings> = {
+      string: StringField,
+      color: ColorField,
+      wysiwyg: WysiwygField,
+      number: NumberField,
+      date: DateField,
+      datetime: DateTimeField,
+      checkbox: CheckboxField,
+      select: SelectField,
+      belongsTo: SelectBelongsToField,
+      hasMany: SelectHasManyField,
+      attachmentHasOne: AttachmentHasOneField,
+      attachmentHasMany: AttachmentHasManyField,
+    };
+    return bindingsMap[fieldType];
   }
 }

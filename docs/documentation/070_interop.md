@@ -1,5 +1,6 @@
 ---
 title: Interopérabilité
+icon: sync_alt
 ---
 
 # Interopérabilité

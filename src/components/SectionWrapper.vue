@@ -12,6 +12,8 @@ import {
   type WatchStopHandle,
 } from "vue";
 import type {
+  TFormSection,
+  TSectionBindings,
   TSubmit64FieldApi,
   TSubmit64SectionApi,
   TSubmit64SectionWrapperProps,
@@ -40,11 +42,11 @@ const sectionApi: TSubmit64SectionApi = {
   resetValidation,
   getFields,
   setReadonlyState,
-  setCssClass,
   setIcon,
   setLabel,
   tryFocusFirst,
   tryUnfocus,
+  setBindings,
   section: propsComponent.section,
 };
 
@@ -65,7 +67,7 @@ function setupFields() {
 function softReset() {
   fields.value.forEach((field) => {
     field.softReset();
-  })
+  });
 }
 function reset() {
   fields.value.forEach((field) => {
@@ -81,7 +83,7 @@ function clear() {
 }
 function hide() {
   const sectionRef = propsComponent.privateFormApi.getSectionRef(
-    propsComponent.section.name
+    propsComponent.section.name,
   );
   if (!sectionRef) {
     return;
@@ -94,7 +96,7 @@ function hide() {
 }
 function unhide() {
   const sectionRef = propsComponent.privateFormApi.getSectionRef(
-    propsComponent.section.name
+    propsComponent.section.name,
   );
   if (!sectionRef) {
     return;
@@ -135,27 +137,19 @@ function resetValidation() {
   });
 }
 function getFields() {
-  return fields.value;
+  return fields.value as unknown as Map<string, TSubmit64FieldApi>;
 }
 function setReadonlyState(state: boolean) {
   const sectionRef = propsComponent.privateFormApi.getSectionRef(
-    propsComponent.section.name
+    propsComponent.section.name,
   );
   if (sectionRef) {
     sectionRef.readonly = state;
   }
 }
-function setCssClass(cssClass: string) {
-  const sectionRef = propsComponent.privateFormApi.getSectionRef(
-    propsComponent.section.name
-  );
-  if (sectionRef) {
-    sectionRef.cssClass = cssClass;
-  }
-}
 function setIcon(icon: string) {
   const sectionRef = propsComponent.privateFormApi.getSectionRef(
-    propsComponent.section.name
+    propsComponent.section.name,
   );
   if (sectionRef) {
     sectionRef.icon = icon;
@@ -163,7 +157,7 @@ function setIcon(icon: string) {
 }
 function setLabel(label: string) {
   const sectionRef = propsComponent.privateFormApi.getSectionRef(
-    propsComponent.section.name
+    propsComponent.section.name,
   );
   if (sectionRef) {
     sectionRef.label = label;
@@ -177,41 +171,58 @@ function getValuesFormSerialized() {
   return resourceData;
 }
 function setFieldComponentWithSlot() {
-  const defaultSlot = slots['default']
+  const defaultSlot = slots["default"];
   if (!defaultSlot) {
-    console.error("Submit64 : did not found fields slot for section " + propsComponent.section.name)
-    return
+    console.error(
+      "Submit64 : did not found fields slot for section " +
+        propsComponent.section.name,
+    );
+    return;
   }
   const component = defineComponent({
     inheritAttrs: false,
     setup(props, { attrs, slots: innerSlots }) {
       return () =>
-        defaultSlot({
-          ...props,
-          ...attrs,
-        },
-          innerSlots);
+        defaultSlot(
+          {
+            ...props,
+            ...attrs,
+          },
+          innerSlots,
+        );
     },
   });
-  propsComponent.privateFormApi.setSectionFieldComponent(propsComponent.section, markRaw(component))
+  propsComponent.privateFormApi.setSectionFieldComponent(
+    propsComponent.section,
+    markRaw(component),
+  );
 }
 function tryFocusFirst() {
   for (const field of getFields().values()) {
-    field.tryFocus()
+    field.tryFocus();
     if (field.isFocus()) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 function tryUnfocus() {
   for (const field of getFields().values()) {
-    field.tryUnfocus()
+    field.tryUnfocus();
     if (!field.isFocus()) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
+}
+function getSectionRef(): TFormSection {
+  return propsComponent.privateFormApi.getSectionRef(
+    propsComponent.section.name ?? propsComponent.section.index
+  )!;
+}
+function setBindings(bindings: TSectionBindings) {
+  const sectionRef= getSectionRef();
+  sectionRef.bindings = Utils.deepMergeObject(sectionRef.bindings, bindings);
 }
 
 // exposes
@@ -242,7 +253,7 @@ watch(
       });
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 watch(
   () => propsComponent.section?.events.onIsInvalid,
@@ -257,7 +268,7 @@ watch(
       });
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 watch(
   () => propsComponent.section?.events.onUpdate,
@@ -270,21 +281,21 @@ watch(
         () => {
           Utils.callAllEvents(propsComponent.section?.events.onUpdate);
         },
-        { immediate: true }
+        { immediate: true },
       );
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // lifeCycle
 onMounted(() => {
-  setFieldComponentWithSlot()
+  setFieldComponentWithSlot();
   const proxyInstanceRef = getCurrentInstance()?.exposed;
   if (proxyInstanceRef) {
     propsComponent.privateFormApi.registerSectionWrapperRef(
       propsComponent.section.name,
-      proxyInstanceRef as TSubmit64SectionApi
+      proxyInstanceRef as TSubmit64SectionApi,
     );
   }
   void nextTick(() => {
@@ -296,10 +307,22 @@ onMounted(() => {
 
 <template>
   <div v-show="propsComponent.section.hidden !== true" class="flex column">
-    <Component v-if="propsComponent.section.beforeComponent" :is="propsComponent.section.beforeComponent"
-      :formApi="propsComponent.formApi" :sectionApi="sectionApi" />
-    <Component :is="propsComponent.section.mainComponent" :sectionApi="sectionApi" :formApi="propsComponent.formApi" />
-    <Component v-if="propsComponent.section.afterComponent" :is="propsComponent.section.afterComponent"
-      :formApi="propsComponent.formApi" :sectionApi="sectionApi" />
+    <Component
+      v-if="propsComponent.section.slots['wrapper-before']"
+      :is="propsComponent.section.slots['wrapper-before']"
+      :formApi="propsComponent.formApi"
+      :sectionApi="sectionApi"
+    />
+    <Component
+      :is="propsComponent.section.mainComponent"
+      :sectionApi="sectionApi"
+      :formApi="propsComponent.formApi"
+    />
+    <Component
+      v-if="propsComponent.section.slots['wrapper-after']"
+      :is="propsComponent.section.slots['wrapper-after']"
+      :formApi="propsComponent.formApi"
+      :sectionApi="sectionApi"
+    />
   </div>
 </template>

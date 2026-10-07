@@ -23,7 +23,6 @@ export type TResourceFormMetadata = {
   backend_datetime_format: string;
   css_class: string | null;
   readonly: boolean | null;
-  allow_bulk: boolean | null;
 };
 ```
 
@@ -45,8 +44,23 @@ export type TResourceFormSectionMetadata = {
 ```typescript
 export type TResourceFieldMetadata = {
   field_name: string;
-  field_type: TFormField["type"];
-  field_extra_type?: TFormField["extraType"];
+  field_type: Readonly<
+    | "string"
+    | "text"
+    | "date"
+    | "datetime"
+    | "select"
+    | "selectBelongsTo"
+    | "selectHasMany"
+    | "selectHasOne"
+    | "selectHasAndBelongsToMany"
+    | "checkbox"
+    | "number"
+    | "object"
+    | "attachmentHasOne"
+    | "attachmentHasMany"
+  >;
+  field_extra_type?: Readonly<"color" | "wysiwyg"> | undefined;
   label: string;
   field_association_name: string | null;
   field_association_class: string | null;
@@ -95,7 +109,6 @@ export type TSubmit64SubmitData = {
   resource_id: TRecord["id"] | null;
   resource_data: TResourceData | null;
   form: TResourceFormMetadata | null;
-  bulk_data: TResourceData[] | null;
 };
 ```
 
@@ -103,23 +116,25 @@ export type TSubmit64SubmitData = {
 ## TFormSettings
 ```typescript
 export type TFormSettings = {
+  /*
+   * Format des dates à envoyer au serveur
+   */
   backendDateFormat: string;
-  backendDatetimeFormat: string;
 
   /*
-   * Comportement des règles, validation à chaque saisie ou à la soummission du formulaire
+   * Format des datetimes à envoyer au serveur
    */
-  rulesBehaviour?: "lazy" | "ondemand" | undefined;
+  backendDatetimeFormat: string;
 
   /*
    * Format des dates à afficher/editer
    */
-  dateFormat?: string | undefined;
+  dateFormat: string;
 
   /*
    * Format des datetimes à afficher/editer
    */
-  datetimeFormat?: string | undefined;
+  datetimeFormat: string;
 
   /*
    * Affiche les indices déclarés coté serveur
@@ -135,24 +150,250 @@ export type TFormSettings = {
    * Affiche les libelles des champs requis avec un astérisque
    */
   requiredFieldsHasAsterisk?: boolean | undefined;
+
+  /*
+   * Affiche le button de réinitialisation dans les actions (si non surchargé)
+   */
+  showResetButton?: boolean | undefined;
+
+  /*
+   * Affiche le button d'effacement dans les actions (si non surchargé)
+   */
+  showClearButton?: boolean | undefined;
+
+  /*
+   * Essaye de focus le premier champ disponible du formulaire
+   */
+  autofocus?: boolean | undefined;
+
+  /*
+   * Affiche le libelle des champs à l'intérieur de ces derniers
+   */
+  displayLabelInsideInput?: boolean | undefined;
 };
 ```
 
 
-## TFormStyle
+## TFormBindings
 ```typescript
-export type TFormStyle = {
-  fieldFilled?: boolean | undefined;
-  fieldOutlined?: boolean | undefined;
-  fieldStandout?: boolean | string | undefined;
-  fieldBorderless?: boolean | undefined;
-  fieldRounded?: boolean | undefined;
-  fieldSquare?: boolean | undefined;
-  fieldDense?: boolean | undefined;
-  fieldHideBottomSpace?: boolean | undefined;
-  fieldColor?: string | undefined;
-  fieldBgColor?: string | undefined;
-  fieldClass?: string | undefined;
+export type TFormBindings = {
+  /*
+   * Props des champs de saisie
+   */
+  fields: {
+    /*
+     * Props des champs de type string
+     */
+    string: TStringBindings;
+
+    /*
+     * Props des champs de type number
+     */
+    number: TNumberBindings;
+
+    /*
+     * Props des champs de type string-wysiwyg
+     */
+    wysiwyg: TWysiwygBindings;
+
+    /*
+     * Props des champs de type string-color
+     */
+    color: TColorBindings;
+
+    /*
+     * Props des champs de type checkbox
+     */
+    checkbox: TCheckboxBindings;
+
+    /*
+     * Props des champs de type date
+     */
+    date: TDateBindings;
+
+    /*
+     * Props des champs de type datetime
+     */
+    datetime: TDatetimeBindings;
+
+    /*
+     * Props des champs de type select
+     */
+    select: TSelectBindings;
+
+    /*
+     * Props des champs de type hasMany
+     */
+    hasMany: THasManyBindings;
+
+    /*
+     * Props des champs de type belongsTo
+     */
+    belongsTo: TBelongsToBindings;
+
+    /*
+     * Props des champs de type attachmentBelongsTo
+     */
+    attachmentHasOne: TAttachmentHasOneBindings;
+
+    /*
+     * Props des champs de type attachmentHasMany
+     */
+    attachmentHasMany: TAttachmentHasManyBindings;
+
+    /*
+     * Props par nom de champ
+     */
+    byName: Record<string, TFieldBindings>;
+  };
+
+  /*
+   * Props des sections
+   */
+  sections: {
+    /*
+     * Props de toutes les sections
+     */
+    default: TSectionBindings;
+
+    /*
+     * Props par nom de section
+     */
+    byName: Record<string, TSectionBindings>;
+  };
+
+  /*
+   * Props du formulaire
+   */
+  form: {
+
+    /*
+     * Props du composant d'action
+     */
+    actions: TActionBindings;
+  };
+};
+```
+
+
+## TFormSlots
+```typescript
+export type TFormSlots = {
+  /*
+   * Slots des champs de saisie
+   */
+  fields: {
+    /*
+     * Slots des champs de type string
+     */
+    string: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type number
+     */
+    number: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type wysiwyg
+     */
+    wysiwyg: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type color
+     */
+    color: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type checkbox
+     */
+    checkbox: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type date
+     */
+    date: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type datetime
+     */
+    datetime: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type select
+     */
+    select: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type hasMany
+     */
+    hasMany: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type belongsTo
+     */
+    belongsTo: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type attachmentBelongsTo
+     */
+    attachmentHasOne: Record<string, Component | undefined>;
+
+    /*
+     * Slots des champs de type attachmentHasMany
+     */
+    attachmentHasMany: Record<string, Component | undefined>;
+
+    /*
+     * Slots par nom de champ
+     */
+    byName: Record<string, Record<string, Component | undefined>>;
+  };
+  /*
+   * Slots des sections
+   */
+  sections: {
+    /*
+     * Slots de toutes les sections
+     */
+    default: Component | undefined;
+
+    /*
+     * Slots par nom de section
+     */
+    byName: Record<string, Component | undefined>;
+  };
+
+  /*
+   * Slots du formulaire
+   */
+  form: {
+    /*
+     * Slots du composant d'action
+     */
+    actions?: Component | undefined;
+
+    /*
+     * Slots du composant des erreurs orphelines
+     */
+    orphanErrors?: Component | undefined;
+  };
+};
+```
+
+
+## TForm
+```typescript
+export type TForm = {
+  sections: TFormSection[];
+  resourceName: string;
+  resourceId?: TRecord["id"];
+  formSettings: TFormSettings;
+  events: Readonly<TFormEvent>;
+  readonly?: boolean;
+  cssClass?: string;
+  bindings: TFormBindings['form'];
+  slots: Readonly<Record<string, Component | undefined>>;
+  context?: TContext;
 };
 ```
 
@@ -162,15 +403,16 @@ export type TFormStyle = {
 export type TFormSection = {
   fields: TFormField[];
   name: Readonly<string>;
+  index: number;
   label?: string;
   icon?: string;
   hidden: boolean;
   cssClass?: string;
   readonly?: boolean;
-  beforeComponent?: Readonly<Component> | undefined;
+  bindings: TSectionBindings;
   mainComponent: Readonly<Component>;
+  slots: Readonly<Record<string, Component | undefined>>;
   fieldsComponent: Readonly<Component>; // late init
-  afterComponent?: Readonly<Component> | undefined;
   events: Readonly<TFormSectionEvent>;
 };
 ```
@@ -178,28 +420,13 @@ export type TFormSection = {
 
 ## TFormField
 ```typescript
-export type TFormField = {
-  type: Readonly<
-    | "string"
-    | "text"
-    | "date"
-    | "datetime"
-    | "select"
-    | "selectBelongsTo"
-    | "selectHasMany"
-    | "selectHasOne"
-    | "selectHasAndBelongsToMany"
-    | "checkbox"
-    | "number"
-    | "object"
-    | "attachmentHasOne"
-    | "attachmentHasMany"
-  >;
-  extraType?: Readonly<"color" | "wysiwyg"> | undefined;
+export type TFormField<T extends TFormFieldType = TFormFieldType> = {
+  type: T;
   metadata: Readonly<TResourceFieldMetadata>;
-  label?: string;
+  label: string;
   readonly?: boolean;
   rules?: TSubmit64Rule[];
+  computedRules: ValidationRule[];
   cssClass?: string;
   hidden: boolean;
   associationData?: {
@@ -212,14 +439,10 @@ export type TFormField = {
     size: number;
   }[];
   staticSelectOptions?: TSubmit64StaticSelectOptions[];
-  beforeComponent?: Readonly<Component> | undefined;
   mainComponent: Readonly<Component>;
-  afterComponent?: Readonly<Component> | undefined;
+  slots: Readonly<Record<string, Component | undefined>>;
   events: Readonly<TFormFieldEvent>;
-  componentOptions: {
-    associationDisplayComponent?: Readonly<Component>;
-    regularFieldType?: "textarea";
-  };
+  bindings: TFieldBindings<T>;
 };
 ```
 
@@ -269,17 +492,6 @@ export type TSubmit64FormApi = {
   getSubmitData: () => TSubmit64SubmitData["resource_data"];
 
   /*
-   * Soumet le formulaire pour création multiple
-   * Doit avoir activé :allow_bulk dans la définition du formulaire
-   */
-  submitBulk: (count: number) => Promise<void>;
-
-  /*
-   * Renvoi les données de la dernière soumission de masse
-   */
-  getBulkSubmitData: () => TSubmit64SubmitData["bulk_data"];
-
-  /*
    * Renvoi si le formulaire à été modifier ou non
    */
   valuesHasChanged: () => boolean;
@@ -317,7 +529,7 @@ export type TSubmit64FormApi = {
   /*
    * Renvoi un champ par son nom
    */
-  getFieldByName: (fieldName: string) => TSubmit64FieldApi | undefined;
+  getFieldByName: <T extends TFormFieldType = TFormFieldType>(fieldName: string) => TSubmit64FieldApi<T> | undefined;
 
   /*
    * Renvoi tout les champs
@@ -352,9 +564,44 @@ export type TSubmit64FormApi = {
   setReadonlyState: (state: boolean) => void;
 
   /*
-   * Accés au données du formulaire en mode lecture seule
+   * Focus le premier champ disponible
+   */
+  tryFocusFirst: () => boolean;
+
+  /*
+   * Unfocus d'un champ si possible
+   */
+  tryUnfocus: () => boolean;
+
+  /*
+   * Accés au données du formulaire (pas réactif)
    */
   form: TForm;
+
+  /*
+   * Contient les refs readonly du formulaire
+   */
+  refs: {
+    /*
+     * Réference des erreurs sans champs
+     */
+    orphanErrors: Readonly<Ref<Record<string, readonly string[]>>>;
+
+    /*
+     * Réference du chargement lors de la soummission
+     */
+    isLoadingSubmit: Readonly<Ref<boolean>>;
+
+    /*
+     * Réference du chargement d'initialisation du formulaire
+     */
+    setupIsDone: Readonly<Ref<boolean>>;
+
+    /*
+     * Réference du formulaire si valide ou non
+     */
+    isFormValid: Readonly<Ref<boolean>>;
+  };
 };
 ```
 
@@ -434,7 +681,17 @@ export type TSubmit64SectionApi = {
   setLabel: (label: string) => void;
 
   /*
-   * Accés au donnée de la section en lecture seule
+   * Focus le premier champ disponible
+   */
+  tryFocusFirst: () => boolean;
+
+  /*
+   * Unfocus d'un champ si possible
+   */
+  tryUnfocus: () => boolean;
+
+  /*
+   * Accés au donnée de la section (pas réactif)
    */
   section: TFormSection;
 };
@@ -443,7 +700,7 @@ export type TSubmit64SectionApi = {
 
 ## TSubmit64FieldApi
 ```typescript
-export type TSubmit64FieldApi = {
+export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
   /*
    * Réinitialise le champ
    */
@@ -511,24 +768,9 @@ export type TSubmit64FieldApi = {
   setReadonlyState: (state: boolean) => void;
 
   /*
-   * Met à jour l'indice du champ
-   */
-  setHint: (hint: string) => void;
-
-  /*
    * Met à jour la classe css du champ
    */
   setCssClass: (cssClass: string) => void;
-
-  /*
-   * Met à jour le suffix du champ
-   */
-  setSuffix: (suffix: string) => void;
-
-  /*
-   * Met à jour le prefix du champ
-   */
-  setPrefix: (prefix: string) => void;
 
   /*
    * Met à jour le libelle du champ
@@ -541,9 +783,52 @@ export type TSubmit64FieldApi = {
   setValue: (value: unknown) => void;
 
   /*
-   * Accès au données du champs en lecture seule
+   * Focus le champ
    */
-  field: TFormField;
+  tryFocus: () => void;
+
+  /*
+   * Unfocus du champ
+   */
+  tryUnfocus: () => void;
+
+  /*
+   * Renvoi si le champ est focus
+   */
+  isFocus: () => boolean;
+
+  /*
+   * Met à jour les props (dans la limite des props autorisé par Submit64) du champ
+   */
+  setBindings: (
+    bindings: TFieldBindings<T>,
+  ) => void;
+
+  /*
+   * Accès au données du champ
+   */
+  field: TFormField<T>;
+
+  /*
+   * Contient les refs readonly du champ de saisie
+   */
+  refs: {
+
+    /*
+    * Réference de la valeur du champs
+    */
+    modelValue: Readonly<Ref<unknown>>;
+
+    /*
+     * Réference du focus
+     */
+    isFocused: Readonly<Ref<boolean>>;
+
+    /*
+     * Réference des erreurs en provenance de l'interop
+     */
+    backendErrors: DeepReadonly<Ref<string[]>>;
+  }
 };
 ```
 
@@ -563,12 +848,8 @@ export type TSubmit64FormProps = {
   ) => Promise<TSubmit64AssociationData>;
   resourceId?: TRecord["id"] | undefined;
   formSettings?: TFormSettings | undefined;
-  formStyle?: TFormStyle | undefined;
-  actionComponent?: Component | undefined;
-  orphanErrorsComponent?: Component | undefined;
-  sectionComponent?: Component | undefined;
-  wrapperResetComponent?: Component | undefined;
-  associationDisplayComponent?: Component | undefined;
+  formBindings?: DeepPartial<TFormBindings> | undefined;
+  formSlots?: DeepPartial<TFormSlots> | undefined;
   associationDisplayRecord?: Record<string, Component> | undefined;
   eventManager?: (eventManager: DynamicLogicBuilder) => void;
   context?: TContext | undefined;
@@ -576,57 +857,28 @@ export type TSubmit64FormProps = {
 ```
 
 
-## TSubmit64SectionProps
+## TSubmit64FormSlotPropsSegment
 ```typescript
-export type TSubmit64SectionProps = {
+export type TSubmit64FormSlotPropsSegment = {
+  formApi: TSubmit64FormApi;
+};
+```
+
+
+## TSubmit64SectionSlotPropsSegment
+```typescript
+export type TSubmit64SectionSlotPropsSegment = {
   formApi: TSubmit64FormApi;
   sectionApi: TSubmit64SectionApi;
 };
 ```
 
 
-## TSubmit64AssociationDisplayProps
+## TSubmit64FieldSlotPropsSegment
 ```typescript
-export type TSubmit64AssociationDisplayProps = {
-  associationName: string;
-  entry: TSubmit64AssociationRowEntry;
-  itemProps: QItemProps;
-};
-```
-
-
-## TSubmit64OrphanErrorFormProps
-```typescript
-export type TSubmit64OrphanErrorFormProps = {
-  orphanErrors: Record<string, string[]>;
+export type TSubmit64FieldSlotPropsSegment<T extends TFormFieldType = TFormFieldType> = {
   formApi: TSubmit64FormApi;
-};
-```
-
-
-## TSubmit64ActionFormProps
-```typescript
-export type TSubmit64ActionFormProps = {
-  isLoadingSubmit: boolean;
-  formApi: TSubmit64FormApi;
-};
-```
-
-
-## TSubmit64BeforeAfterSectionProps
-```typescript
-export type TSubmit64BeforeAfterSectionProps = {
-  formApi: TSubmit64FormApi;
-  sectionApi: TSubmit64SectionApi;
-};
-```
-
-
-## TSubmit64BeforeAfterFieldProps
-```typescript
-export type TSubmit64BeforeAfterFieldProps = {
-  formApi: TSubmit64FormApi;
-  fieldApi: TSubmit64FieldApi;
+  fieldApi: TSubmit64FieldApi<T>;
 };
 ```
 
@@ -646,7 +898,8 @@ export type TSubmit64GetMetadataAndData = {
 export type TSubmit64GetAssociationData = {
   resourceName: string;
   resourceId?: TRecord["id"];
-  associationName: string;
+  associationName: string | null;
+  associationClassname: string;
   limit: number;
   offset: number;
   labelFilter?: string;
@@ -661,7 +914,6 @@ export type TSubmit64GetSubmitData = {
   resourceName: string;
   resourceData: Record<string, unknown>;
   resourceId?: TRecord["id"];
-  bulkCount?: number;
   context?: TContext;
 };
 ```

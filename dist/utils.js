@@ -1,7 +1,7 @@
 function callAllEvents(events) {
-    events?.forEach((event) => {
+    for (const event of events ?? []) {
         event();
-    });
+    }
 }
 function humanStorageSize(bytes) {
     const units = ["B", "KB", "MB", "GB", "TB", "PB"];
@@ -12,10 +12,17 @@ function humanStorageSize(bytes) {
     }
     return `${bytes.toFixed(1)}${units[u]}`;
 }
-function deepMergeObject(objToMergeTo, objPrio) {
-    const merged = { ...objToMergeTo };
-    for (const key of Object.keys(objPrio)) {
-        const prioValue = objPrio[key];
+function deepMergeObject(objToMergeTo, objPrio, options = {
+    deepClone: true
+}) {
+    let merged = objToMergeTo ?? {};
+    let prio = objPrio ?? {};
+    if (options.deepClone) {
+        merged = deepCloneObject(merged);
+        prio = deepCloneObject(prio);
+    }
+    for (const key of Object.keys(prio)) {
+        const prioValue = prio[key];
         const targetValue = merged[key];
         if (prioValue &&
             typeof prioValue === "object" &&
@@ -23,7 +30,7 @@ function deepMergeObject(objToMergeTo, objPrio) {
             targetValue &&
             typeof targetValue === "object" &&
             !Array.isArray(targetValue)) {
-            merged[key] = deepMergeObject(targetValue, prioValue);
+            merged[key] = deepMergeObject(targetValue, prioValue, options);
         }
         else if (prioValue !== undefined) {
             merged[key] = prioValue;
@@ -31,12 +38,25 @@ function deepMergeObject(objToMergeTo, objPrio) {
     }
     return merged;
 }
-function deepDupeObject(objectToDupe) {
-    return JSON.parse(JSON.stringify(objectToDupe));
+function deepCloneObject(value) {
+    if (typeof value === "function") {
+        return value;
+    }
+    if (value === null || typeof value !== "object") {
+        return value;
+    }
+    if (Array.isArray(value)) {
+        return value.map(item => deepCloneObject(item));
+    }
+    const clone = {};
+    for (const key of Object.keys(value)) {
+        clone[key] = deepCloneObject(value[key]);
+    }
+    return clone;
 }
 export const Utils = {
     callAllEvents,
     humanStorageSize,
     deepMergeObject,
-    deepDupeObject,
+    deepCloneObject,
 };

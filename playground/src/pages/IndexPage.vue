@@ -1,39 +1,25 @@
 <script setup lang="ts">
-import { type DynamicLogicBuilder, Submit64Form, type TSubmit64FormProps } from 'submit64-vue';
-import { Submit64Api } from '../api/submit64.api';
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-const formBindings: TSubmit64FormProps['formBindings'] = {
-  fields: {
-    string: {
-      color: 'amber',
-      prefix: 'user',
-    },
-    datetime: {
-      date: {
-        todayBtn: true
-      }
-    }
-  }
-};
+// consts
+const router = useRouter();
 
-function formEventManager(eventBuilder: DynamicLogicBuilder) {
-  eventBuilder.when('Form is ready').then((formApi) => {
-    setTimeout(() => {
-
-      formApi.getFieldByName('color')?.addBindings({
-        icon: {
-          name: 'rocket'
-        }
-      })
-    }, 1000 )
-  })
-}
+// computeds
+const allTestRoutes = computed(() => {
+  return router.getRoutes().filter((route) => {
+    return route.name !== undefined && route.name !== null && route.name !== 'home';
+  });
+});
 </script>
 
 <template>
-  <q-page class="row items-center justify-evenly">
-    <Submit64Form ref="formRef" :eventManager="formEventManager" resourceName="Article" :resourceId="1"
-      :getMetadataAndData="Submit64Api.getMetadataAndResource" :getAssociationData="Submit64Api.getAssociationData"
-      :getSubmitFormData="Submit64Api.getSubmitFormData" :formBindings="formBindings" />
-  </q-page>
+  <div class="flex q-gutter-sm">
+    <q-btn
+      v-for="(route, index) of allTestRoutes"
+      :key="index"
+      :label="String(route.name ?? index)"
+      :to="{ name: route.name }"
+    />
+  </div>
 </template>

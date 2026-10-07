@@ -1,5 +1,6 @@
 ---
 title: Réference
+icon: anchor
 ---
 
 # Réference
@@ -29,6 +30,7 @@ function example() {
 </template>
 ```
 
-::: warning Important 
+
+::: warning 
 Consulter la [Définition API](/api-definition/models.md#TSubmit64FormApi) pour savoir quelles méthodes sont disponibles. 
 :::
