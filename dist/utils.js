@@ -1,3 +1,4 @@
+import { date } from "quasar";
 function callAllEvents(events) {
     events?.forEach((event) => {
         event();
@@ -34,9 +35,21 @@ function deepMergeObject(objToMergeTo, objPrio) {
 function deepDupeObject(objectToDupe) {
     return JSON.parse(JSON.stringify(objectToDupe));
 }
+function superExtractDate(value, format) {
+    const result = date.extractDate(value, format);
+    if (!Number.isNaN(result.getTime())) {
+        return result;
+    }
+    const isoDate = new Date(value);
+    if (!Number.isNaN(isoDate.getTime())) {
+        return isoDate;
+    }
+    return result;
+}
 export const Utils = {
     callAllEvents,
     humanStorageSize,
     deepMergeObject,
     deepDupeObject,
+    superExtractDate,
 };
