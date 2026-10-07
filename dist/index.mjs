@@ -800,11 +800,14 @@ const mn = { class: "row items-center justify-end" }, pn = /* @__PURE__ */ M({
       append: b(() => [
         k(u(Ae), ue(ce(d.value.iconDate)), {
           default: b(() => [
-            k(u($e), I({ ref: "popupProxyRef" }, d.value.popupProxyDate), {
+            k(u($e), I({
+              ref_key: "datePopupProxyRef",
+              ref: t
+            }, d.value.popupProxyDate), {
               default: b(() => [
                 k(u(rt), I(d.value.date, {
                   "model-value": e.modelValue,
-                  mask: e.formApi.form.formSettings.dateFormat,
+                  mask: e.formApi.form.formSettings.datetimeFormat,
                   "onUpdate:modelValue": e.modelValueOnUpdate
                 }), {
                   default: b(() => [
@@ -825,7 +828,7 @@ const mn = { class: "row items-center justify-end" }, pn = /* @__PURE__ */ M({
             k(u($e), I({
               ref_key: "timePopupProxyRef",
               ref: a
-            }, d.value.popupProxyDate), {
+            }, d.value.popupProxyDatetime), {
               default: b(() => [
                 k(u(Rt), I(d.value.datetime, {
                   "model-value": e.modelValue,

@@ -76,9 +76,9 @@ onMounted(() => {
     @update:model-value="propsComponent.modelValueOnUpdate">
     <template v-slot:append>
       <q-icon v-bind="bindings.iconDate">
-        <q-popup-proxy ref="popupProxyRef" v-bind="bindings.popupProxyDate">
+        <q-popup-proxy ref="datePopupProxyRef" v-bind="bindings.popupProxyDate">
           <q-date v-bind="bindings.date" :model-value="(propsComponent.modelValue as string)"
-            :mask="propsComponent.formApi.form.formSettings.dateFormat"
+            :mask="propsComponent.formApi.form.formSettings.datetimeFormat"
             @update:model-value="propsComponent.modelValueOnUpdate">
             <div class="row items-center justify-end">
               <q-btn v-bind="bindings.btnDate" @click="closePopUpDate" />
@@ -87,7 +87,7 @@ onMounted(() => {
         </q-popup-proxy>
       </q-icon>
       <q-icon v-bind="bindings.iconDatetime">
-        <q-popup-proxy ref="timePopupProxyRef" v-bind="bindings.popupProxyDate">
+        <q-popup-proxy ref="timePopupProxyRef" v-bind="bindings.popupProxyDatetime">
           <q-time v-bind="bindings.datetime" :model-value="(propsComponent.modelValue as string)"
             :mask="propsComponent.formApi.form.formSettings.datetimeFormat"
             @update:model-value="propsComponent.modelValueOnUpdate">
