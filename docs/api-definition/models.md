@@ -21,7 +21,6 @@ export type TResourceFormMetadata = {
   resource_name: string;
   backend_date_format: string;
   backend_datetime_format: string;
-  css_class: string | null;
   readonly: boolean | null;
 };
 ```
@@ -34,7 +33,6 @@ export type TResourceFormSectionMetadata = {
   label: string | null;
   name: string | null;
   icon: string | null;
-  css_class: string | null;
   readonly: boolean | null;
 };
 ```
@@ -67,7 +65,6 @@ export type TResourceFieldMetadata = {
   readonly: boolean | null;
   rules: TSubmit64Rule[];
   static_select_options: TSubmit64StaticSelectOptions[];
-  css_class: string | null;
   unlinked: boolean;
   field_association_data?: {
     label: string;
@@ -266,6 +263,10 @@ export type TFormBindings = {
    * Props du formulaire
    */
   form: {
+    /*
+     * Props du formulaire
+     */
+    default: TFormDefaultBindings;
 
     /*
      * Props du composant d'action
@@ -390,8 +391,8 @@ export type TForm = {
   formSettings: TFormSettings;
   events: Readonly<TFormEvent>;
   readonly?: boolean;
-  cssClass?: string;
-  bindings: TFormBindings['form'];
+  sectionContainerClass?: string;
+  bindings: TFormBindings["form"];
   slots: Readonly<Record<string, Component | undefined>>;
   context?: TContext;
 };
@@ -407,7 +408,6 @@ export type TFormSection = {
   label?: string;
   icon?: string;
   hidden: boolean;
-  cssClass?: string;
   readonly?: boolean;
   bindings: TSectionBindings;
   mainComponent: Readonly<Component>;
@@ -427,7 +427,6 @@ export type TFormField<T extends TFormFieldType = TFormFieldType> = {
   readonly?: boolean;
   rules?: TSubmit64Rule[];
   computedRules: ValidationRule[];
-  cssClass?: string;
   hidden: boolean;
   associationData?: {
     label: string;
@@ -529,7 +528,9 @@ export type TSubmit64FormApi = {
   /*
    * Renvoi un champ par son nom
    */
-  getFieldByName: <T extends TFormFieldType = TFormFieldType>(fieldName: string) => TSubmit64FieldApi<T> | undefined;
+  getFieldByName: <T extends TFormFieldType = TFormFieldType>(
+    fieldName: string,
+  ) => TSubmit64FieldApi<T> | undefined;
 
   /*
    * Renvoi tout les champs
@@ -552,11 +553,6 @@ export type TSubmit64FormApi = {
    * Met à jour le context
    */
   setContext: (context: TContext) => void;
-
-  /*
-   * Met à jour la classe css du formulaire
-   */
-  setCssClass: (cssClass: string) => void;
 
   /*
    * Met à jour l'état de lecture seule
@@ -666,11 +662,6 @@ export type TSubmit64SectionApi = {
   setReadonlyState: (state: boolean) => void;
 
   /*
-   * Met à jour la classe css de la section
-   */
-  setCssClass: (cssClass: string) => void;
-
-  /*
    * Met à jour l'icon de la section
    */
   setIcon: (icon: string) => void;
@@ -679,6 +670,11 @@ export type TSubmit64SectionApi = {
    * Met à jour le libelle de la section
    */
   setLabel: (label: string) => void;
+
+  /*
+   * Met à jour les props (dans la limite des props autorisé par Submit64) de la section
+   */
+  setBindings: (bindings: TSectionBindings) => void;
 
   /*
    * Focus le premier champ disponible
@@ -768,11 +764,6 @@ export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
   setReadonlyState: (state: boolean) => void;
 
   /*
-   * Met à jour la classe css du champ
-   */
-  setCssClass: (cssClass: string) => void;
-
-  /*
    * Met à jour le libelle du champ
    */
   setLabel: (label: string) => void;
@@ -800,9 +791,7 @@ export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
   /*
    * Met à jour les props (dans la limite des props autorisé par Submit64) du champ
    */
-  setBindings: (
-    bindings: TFieldBindings<T>,
-  ) => void;
+  setBindings: (bindings: TFieldBindings<T>) => void;
 
   /*
    * Accès au données du champ
@@ -813,10 +802,9 @@ export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
    * Contient les refs readonly du champ de saisie
    */
   refs: {
-
     /*
-    * Réference de la valeur du champs
-    */
+     * Réference de la valeur du champs
+     */
     modelValue: Readonly<Ref<unknown>>;
 
     /*
@@ -828,7 +816,7 @@ export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
      * Réference des erreurs en provenance de l'interop
      */
     backendErrors: DeepReadonly<Ref<string[]>>;
-  }
+  };
 };
 ```
 
@@ -853,6 +841,8 @@ export type TSubmit64FormProps = {
   associationDisplayRecord?: Record<string, Component> | undefined;
   eventManager?: (eventManager: DynamicLogicBuilder) => void;
   context?: TContext | undefined;
+  class?: string;
+  sectionContainerClass?: string;
 };
 ```
 
@@ -876,7 +866,9 @@ export type TSubmit64SectionSlotPropsSegment = {
 
 ## TSubmit64FieldSlotPropsSegment
 ```typescript
-export type TSubmit64FieldSlotPropsSegment<T extends TFormFieldType = TFormFieldType> = {
+export type TSubmit64FieldSlotPropsSegment<
+  T extends TFormFieldType = TFormFieldType,
+> = {
   formApi: TSubmit64FormApi;
   fieldApi: TSubmit64FieldApi<T>;
 };

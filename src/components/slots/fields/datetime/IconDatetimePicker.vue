@@ -27,7 +27,7 @@ function closePopUpTime() {
 
 <template>
   <q-icon v-bind="propsComponent.fieldApi.field.bindings.iconDate">
-    <q-popup-proxy ref="popupProxyRef" v-bind="propsComponent.fieldApi.field.bindings.popupProxyDate">
+    <q-popup-proxy ref="datePopupProxyRef" v-bind="propsComponent.fieldApi.field.bindings.popupProxyDate">
       <q-date
         v-bind="propsComponent.fieldApi.field.bindings.date"
         :model-value="propsComponent.fieldApi.refs.modelValue.value"
@@ -41,7 +41,7 @@ function closePopUpTime() {
     </q-popup-proxy>
   </q-icon>
   <q-icon v-bind="propsComponent.fieldApi.field.bindings.iconDatetime">
-    <q-popup-proxy ref="timePopupProxyRef" v-bind="propsComponent.fieldApi.field.bindings.popupProxyDate">
+    <q-popup-proxy ref="timePopupProxyRef" v-bind="propsComponent.fieldApi.field.bindings.popupProxyDatetime">
       <q-time
         v-bind="propsComponent.fieldApi.field.bindings.datetime"
         :model-value="propsComponent.fieldApi.refs.modelValue.value"
