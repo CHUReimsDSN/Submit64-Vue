@@ -36,18 +36,14 @@ function deepDupeObject(objectToDupe) {
     return JSON.parse(JSON.stringify(objectToDupe));
 }
 function superExtractDate(value, format) {
-    // 1. On laisse Quasar essayer en premier
     const result = date.extractDate(value, format);
     if (!Number.isNaN(result.getTime())) {
         return result;
     }
-    // 2. Si la valeur est une ISO 8601 valide,
-    //    on laisse Date native la parser.
     const isoDate = new Date(value);
     if (!Number.isNaN(isoDate.getTime())) {
         return isoDate;
     }
-    // 3. Rien n'a fonctionné : on retourne l'Invalid Date de Quasar
     return result;
 }
 export const Utils = {
@@ -55,5 +51,5 @@ export const Utils = {
     humanStorageSize,
     deepMergeObject,
     deepDupeObject,
-    superExtractDate
+    superExtractDate,
 };
