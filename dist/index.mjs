@@ -52,7 +52,7 @@ const v = {
   deepMergeObject: ft,
   deepCloneObject: we,
   superExtractDate: Mt
-}, Q = {
+}, Y = {
   outlined: void 0,
   dense: void 0,
   filled: void 0,
@@ -63,15 +63,15 @@ const v = {
   color: "primary",
   hideBottomSpace: void 0
 }, ge = {
-  hideBottomSpace: Q.hideBottomSpace,
-  outlined: Q.outlined,
-  dense: Q.dense,
-  filled: Q.filled,
-  standout: Q.standout,
-  borderless: Q.borderless,
-  rounded: Q.rounded,
-  square: Q.square,
-  color: Q.color,
+  hideBottomSpace: Y.hideBottomSpace,
+  outlined: Y.outlined,
+  dense: Y.dense,
+  filled: Y.filled,
+  standout: Y.standout,
+  borderless: Y.borderless,
+  rounded: Y.rounded,
+  square: Y.square,
+  color: Y.color,
   lazyRules: !1
 }, Pe = {
   cover: !0
@@ -117,7 +117,7 @@ function Qt() {
 }
 function Yt() {
   return {
-    color: Q.color
+    color: Y.color
   };
 }
 function Gt() {
@@ -133,11 +133,11 @@ function Gt() {
       ...Pe
     },
     date: {
-      color: Q.color
+      color: Y.color
     },
     btn: {
       label: "Fermer",
-      color: Q.color
+      color: Y.color
     }
   };
 }
@@ -154,11 +154,11 @@ function Wt() {
       ...Pe
     },
     date: {
-      color: Q.color
+      color: Y.color
     },
     btnDate: {
       label: "Fermer",
-      color: Q.color
+      color: Y.color
     },
     iconDatetime: {
       name: "access_time",
@@ -172,7 +172,7 @@ function Wt() {
     },
     btnDatetime: {
       label: "Fermer",
-      color: Q.color
+      color: Y.color
     }
   };
 }
@@ -200,14 +200,14 @@ function Zt() {
 function Xt() {
   return {
     uploader: {
-      color: Q.color
+      color: Y.color
     }
   };
 }
 function en() {
   return {
     uploader: {
-      color: Q.color
+      color: Y.color
     }
   };
 }
@@ -2276,8 +2276,8 @@ const Mn = { style: { "font-weight": "500", padding: "4px 0" } }, ce = /* @__PUR
       return new Promise((h) => {
         const g = new Blob([c]), k = new FileReader();
         k.onload = (E) => {
-          var j;
-          const T = ((j = E.target) == null ? void 0 : j.result) ?? "", [V, K] = T.split(",");
+          var Q;
+          const T = ((Q = E.target) == null ? void 0 : Q.result) ?? "", [V, K] = T.split(",");
           h(K);
         }, k.readAsDataURL(g);
       });
@@ -2387,8 +2387,8 @@ const Mn = { style: { "font-weight": "500", padding: "4px 0" } }, ce = /* @__PUR
       return new Promise((h) => {
         const g = new Blob([c]), k = new FileReader();
         k.onload = (E) => {
-          var j;
-          const T = ((j = E.target) == null ? void 0 : j.result) ?? "", [V, K] = T.split(",");
+          var Q;
+          const T = ((Q = E.target) == null ? void 0 : Q.result) ?? "", [V, K] = T.split(",");
           h(K);
         }, k.readAsDataURL(g);
       });
@@ -3082,7 +3082,7 @@ class Ae {
         var T;
         const D = [];
         A.fields.forEach((V) => {
-          const K = Ae.getFieldTypeByFieldMetadata(V), j = Ae.getFieldComponentByFieldType(K), de = v.deepMergeObject(
+          const K = Ae.getFieldTypeByFieldMetadata(V), Q = Ae.getFieldComponentByFieldType(K), de = v.deepMergeObject(
             v.deepMergeObject(
               this.formSlots.fields[K],
               this.formSlots.fields.byName[V.field_name]
@@ -3107,7 +3107,7 @@ class Ae {
             // late init
             bindings: ie,
             hidden: !1,
-            mainComponent: Ee(j),
+            mainComponent: Ee(Q),
             events: m.fields[V.field_name] ?? {},
             slots: n(de)
           };
@@ -3256,7 +3256,7 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
       getFields: T,
       setReadonlyState: V,
       setIcon: K,
-      setLabel: j,
+      setLabel: Q,
       tryFocusFirst: re,
       tryUnfocus: ae,
       setBindings: ve,
@@ -3264,8 +3264,8 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
     }, f = B(/* @__PURE__ */ new Map());
     function y() {
       t.section.fields.forEach((b) => {
-        const w = b.metadata.field_name, Y = t.formApi.getFieldByName(w);
-        Y && f.value.set(w, Y);
+        const w = b.metadata.field_name, j = t.formApi.getFieldByName(w);
+        j && f.value.set(w, j);
       });
     }
     function u() {
@@ -3332,7 +3332,11 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
       const w = t.privateFormApi.getSectionRef(
         t.section.name
       );
-      w && (w.readonly = b);
+      if (w) {
+        w.readonly = b;
+        for (const j of T().values())
+          j.setReadonlyState(b);
+      }
     }
     function K(b) {
       const w = t.privateFormApi.getSectionRef(
@@ -3340,7 +3344,7 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
       );
       w && (w.icon = b);
     }
-    function j(b) {
+    function Q(b) {
       const w = t.privateFormApi.getSectionRef(
         t.section.name
       );
@@ -3348,8 +3352,8 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
     }
     function de() {
       const b = {};
-      for (const [w, Y] of f.value)
-        b[w] = Y.getValueSerialized();
+      for (const [w, j] of f.value)
+        b[w] = j.getValueSerialized();
       return b;
     }
     function ie() {
@@ -3362,10 +3366,10 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
       }
       const w = $({
         inheritAttrs: !1,
-        setup(Y, { attrs: De, slots: fe }) {
+        setup(j, { attrs: De, slots: fe }) {
           return () => b(
             {
-              ...Y,
+              ...j,
               ...De
             },
             fe
@@ -3418,8 +3422,8 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
       },
       (b) => {
         a == null || a(), a = null, b && (a = G(Ve, (w) => {
-          var Y;
-          w && v.callAllEvents((Y = t.section) == null ? void 0 : Y.events.onIsInvalid);
+          var j;
+          w && v.callAllEvents((j = t.section) == null ? void 0 : j.events.onIsInvalid);
         }));
       },
       { immediate: !0 }
@@ -3447,8 +3451,8 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
         t.section.name,
         b
       ), ke(() => {
-        var Y;
-        y(), v.callAllEvents((Y = t.section) == null ? void 0 : Y.events.onReady);
+        var j;
+        y(), v.callAllEvents((j = t.section) == null ? void 0 : j.events.onReady);
       });
     }), (b, w) => Ze((o(), N("div", ra, [
       t.section.slots["wrapper-before"] ? (o(), C(M(t.section.slots["wrapper-before"]), {
@@ -3612,25 +3616,25 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
     function K(_) {
       s.value = _;
     }
-    function j() {
+    function Q() {
       return t.privateFormApi.getFieldRef(
         t.field.metadata.field_name
       );
     }
     function de() {
-      const _ = j();
+      const _ = Q();
       _.hidden = !0, v.callAllEvents(t.field.events.onHide);
     }
     function ie() {
-      const _ = j();
+      const _ = Q();
       _.hidden = !1, v.callAllEvents(t.field.events.onUnhide);
     }
     function re(_) {
-      const U = j();
+      const U = Q();
       U.readonly = _;
     }
     function ae(_) {
-      const U = j();
+      const U = Q();
       U.label = _;
     }
     function le() {
@@ -3655,8 +3659,8 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
     function w() {
       return A.value;
     }
-    function Y(_) {
-      const U = j();
+    function j(_) {
+      const U = Q();
       U.bindings = v.deepMergeObject(U.bindings, _);
     }
     function De(_, U, me, Se, Ie, Oe, Re) {
@@ -3680,7 +3684,7 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
       tryFocus: xe,
       tryUnfocus: b,
       isFocus: w,
-      setBindings: Y,
+      setBindings: j,
       setValue: E,
       field: t.field,
       refs: {
@@ -3751,7 +3755,6 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
     formSettings: {},
     formBindings: {},
     formSlots: {},
-    associationDisplayRecord: {},
     eventManager: {},
     context: {},
     class: {},
@@ -3781,7 +3784,7 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
         t.sectionContainerClass
       ), l = s.value.sections.length, m = s.value.sections.reduce((d, F) => (d += F.fields.length, d), 0), t.resourceId && (k.value = "edit");
     }
-    async function j() {
+    async function Q() {
       var O, be, $e;
       if (!ae())
         return;
@@ -3904,7 +3907,7 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
         d.setupBackendErrors([]);
       });
     }
-    function Y(d) {
+    function j(d) {
       if (n)
         return n.resource_data[d];
     }
@@ -4019,9 +4022,9 @@ const ra = { class: "flex column" }, oa = /* @__PURE__ */ $({
       reset: Ve,
       clear: xe,
       resetValidation: b,
-      submit: j,
+      submit: Q,
       valuesHasChanged: Re,
-      getInitialValueByFieldName: Y,
+      getInitialValueByFieldName: j,
       getAssociationDataCallback: Se,
       setContext: vt,
       setReadonlyState: ht,
