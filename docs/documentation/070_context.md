@@ -11,7 +11,7 @@ Il s'agit d'un objet `{}` dont la structure et le contenu sont entièrement lais
 Il permet de transmettre des informations spécifiques à votre application à travers les différentes fonctions et mécanismes de Submit64.  
 
 Vous pouvez ainsi y placer les données dont votre application a besoin, qu'il s'agisse d'informations liées à l'utilisateur, à la ressource manipulée, à l'environnement de l'application ou à tout autre contexte métier.  
-Le même objet peut ensuite être récupéré et utilisé par les différentes fonctions concernées, ce qui permet de faire transiter facilement des informations entre votre application et Submit64.
+Le même objet peut ensuite être récupéré et utilisé par les différentes fonctions concernées, ce qui permet de faire transiter facilement des informations entre votre application et *Submit64*.
 
 ```vue [MyForm.vue]
 <script setup lang="ts">
@@ -36,21 +36,15 @@ import { Submit64Form } from 'submit64-vue';
 import type { TSubmit64FormApi } from 'submit64-vue';
 
 const submit64Api = ref<TSubmit64FormApi>()
-const context = {
-  test: true
-}
 
-submit64Api.value?.setContext(
-  {
-    test: false
-  }
-)
+function exemple() {
+  submit64Api.value?.setContext({ test: false })
+}
 </script>
 
 <template>
   <Submit64Form 
     ref="submit64Api"
-    :context="context" 
   />
 </template>
 ```

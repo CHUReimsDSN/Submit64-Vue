@@ -60,7 +60,7 @@ Cette utilisation via la classe `Submit64` est particulièrement utile pour déf
 import { Submit64Form } from "submit64-vue";
 import type { TFormSlots } from "submit64-vue";
 
-const formSlots: TFormSlots = {
+const formSlots: Partial<TFormSlots> = {
   fields: {
     string: {
       append: MyCustomComponent
@@ -82,6 +82,40 @@ Ainsi, tous les champs de type `string` utiliseront automatiquement `MyCustomCom
 
 Cette utilisation par props est particulièrement utile pour définir les slots sur **un formulaire ciblé**.
 
+<br />
+
+### Slots ciblés
+
+Les slots ciblés permettent de définir une configuration de slots pour une composante spécifique, en fonction de son nom.  
+Contrairement aux configurations par type, notament sur les types de champs, cette approche permet de personnaliser le rendu d'une composante précise.  
+
+Le ciblage s'effectue à l'aide de la clé `byName`, disponible dans `fields` pour les champs et dans `sections` pour les sections du type `TFormSlots`.
+
+```vue [MyForm.vue]
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+import type { TFormSlots } from "submit64-vue";
+
+const formSlots: Partial<TFormSlots> = {
+  fields: {
+    byName: {
+      birthday: {
+        append: MyCustomComponent
+      }
+    }
+  }
+};
+</script>
+
+<template>
+  <Submit64Form :formSlots="formSlots" />
+</template>
+```
+
+Dans cet exemple, la configuration `fields.byName.birthday` cible le champ nommé `birthday`.  
+Ainsi, le composant `MyCustomComponent` sera automatiquement injecter dans le slot `append` du champ `birthday`.  
+Il est ainsi possible de personnaliser les slots d'un champ ou d'une section sans affecter les autres composantes du même type.
+
 
 ## Slots de template
 
@@ -92,7 +126,7 @@ import { Submit64Form } from 'submit64-vue';
 
 <template>
   <Submit64Form>
-    <template #field-label-append>
+    <template #field-birthday-append>
       <q-icon name="star" color="orange" />
     </template>
   </Submit64Form />
@@ -100,7 +134,6 @@ import { Submit64Form } from 'submit64-vue';
 ```
 
 Les slots peuvent être définis directement dans le template de `Submit64Form` grâce à la syntaxe `#` ou anciennement `v-slot:`.  
-Contrairement aux configurations globales et locales, cette approche permet de définir le contenu d'un slot directement dans le template, en utilisant son nom.  
 
 Les slots sont identifiés dynamiquement selon la convention suivante :
 
@@ -108,7 +141,7 @@ Les slots sont identifiés dynamiquement selon la convention suivante :
 
 Cette convention permet de cibler précisément un slot en fonction de la composante concernée, de son nom et du slot à surcharger.
 
-Dans cet exemple, `field-label-append` permet de cibler le slot `append` du champ nommé `label`.  
+Dans cet exemple, `field-birthday-append` permet de cibler le slot `append` du champ nommé `birthday`.  
 Il est ainsi possible de personnaliser le rendu d'un champ directement depuis le template du formulaire.
 
 Des slots additionnels sont également disponibles pour agir sur l'encapsulation des composantes de type `section` ou `field` :
