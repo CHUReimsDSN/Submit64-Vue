@@ -202,6 +202,7 @@ function getDefaultFormBindings() {
             byName: {}
         },
         form: {
+            default: {},
             actions: getDefaultActions(),
         },
     };
@@ -228,6 +229,7 @@ function getEmptyDefaultBindings() {
             byName: {}
         },
         form: {
+            default: {},
             actions: {},
         },
     };

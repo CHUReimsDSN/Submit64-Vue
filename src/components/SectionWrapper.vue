@@ -145,6 +145,9 @@ function setReadonlyState(state: boolean) {
   );
   if (sectionRef) {
     sectionRef.readonly = state;
+    for (const field of getFields().values()) {
+      field.setReadonlyState(state);
+    }
   }
 }
 function setIcon(icon: string) {
@@ -217,11 +220,11 @@ function tryUnfocus() {
 }
 function getSectionRef(): TFormSection {
   return propsComponent.privateFormApi.getSectionRef(
-    propsComponent.section.name ?? propsComponent.section.index
+    propsComponent.section.name ?? propsComponent.section.index,
   )!;
 }
 function setBindings(bindings: TSectionBindings) {
-  const sectionRef= getSectionRef();
+  const sectionRef = getSectionRef();
   sectionRef.bindings = Utils.deepMergeObject(sectionRef.bindings, bindings);
 }
 

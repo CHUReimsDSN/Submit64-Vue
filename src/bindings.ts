@@ -228,6 +228,7 @@ function getDefaultFormBindings(): TFormBindings {
       byName: {}
     } ,
     form: {
+      default: {},
       actions: getDefaultActions(),
     },
   };
@@ -254,6 +255,7 @@ function getEmptyDefaultBindings(): TFormBindings {
       byName: {}
     },
     form: {
+      default: {},
       actions: {},
     },
   };

@@ -1,12 +1,22 @@
 <script setup lang="ts">
-import { Submit64Form } from 'submit64-vue';
+import { Submit64Form, type TFormSlots } from 'submit64-vue';
 import { Submit64Api } from '../api/submit64.api';
+import { type DeepPartial } from 'quasar';
+import StarIcon from '@/components/StarIcon.vue';
 
 // consts
-const startBind = {
-  name: 'star',
-  size: 'sm',
-};
+const slotsAsProps: DeepPartial<TFormSlots> = {
+  fields: {
+    color: {
+      prepend: StarIcon
+    },
+    byName: {
+      label: {
+        append: StarIcon
+      }
+    }
+  }
+}
 </script>
 
 <template>
@@ -16,35 +26,42 @@ const startBind = {
     :getMetadataAndData="Submit64Api.getMetadataAndResource"
     :getAssociationData="Submit64Api.getAssociationData"
     :getSubmitFormData="Submit64Api.getSubmitFormData"
+    :formSlots="slotsAsProps"
   >
-    <template v-slot:section-0-wrapper-before>
-      <q-icon v-bind="startBind" color="orange">
+    <template #section-0-wrapper-before>
+      <StarIcon color="orange">
         <q-tooltip> section-0-wrapper-before </q-tooltip>
-      </q-icon>
+      </StarIcon>
     </template>
 
-    <template v-slot:field-label-wrapper-before>
-      <q-icon v-bind="startBind" color="red">
+    <template #field-label-wrapper-before>
+      <StarIcon color="red">
         <q-tooltip> field-label-wrapper-before </q-tooltip>
-      </q-icon>
+      </StarIcon>
     </template>
 
-    <template v-slot:field-label-after>
-      <q-icon v-bind="startBind" color="green">
+    <template #field-label-after>
+      <StarIcon color="green">
         <q-tooltip> field-label-after </q-tooltip>
-      </q-icon>
+      </StarIcon>
     </template>
 
-    <template v-slot:field-label-wrapper-after>
-      <q-icon v-bind="startBind" color="blue">
+    <template #field-label-wrapper-after>
+      <StarIcon color="blue">
         <q-tooltip> field-label-wrapper-after </q-tooltip>
-      </q-icon>
+      </StarIcon>
     </template>
 
-    <template v-slot:field-next_date-append>
-      <q-icon v-bind="startBind" color="purple">
+    <template #field-next_date-append>
+      <StarIcon color="purple">
         <q-tooltip> field-next_date-append </q-tooltip>
-      </q-icon>
+      </StarIcon>
+    </template>
+
+    <template #form-actions>
+      <StarIcon color="yellow">
+        <q-tooltip> form-actions </q-tooltip>
+      </StarIcon>
     </template>
   </Submit64Form>
 </template>

@@ -1,4 +1,4 @@
-import type { DeepPartial } from "quasar";
+import { date, type DeepPartial } from "quasar";
 import type { TSubmit64Event } from "./models";
 
 function callAllEvents(events: TSubmit64Event | undefined) {
@@ -66,10 +66,22 @@ function deepCloneObject<T>(value: T): T {
   }
   return clone;
 }
+function superExtractDate(value: string, format: string): Date {
+  const result = date.extractDate(value, format);
+  if (!Number.isNaN(result.getTime())) {
+    return result;
+  }
+  const isoDate = new Date(value);
+  if (!Number.isNaN(isoDate.getTime())) {
+    return isoDate;
+  }
+  return result;
+}
 
 export const Utils = {
   callAllEvents,
   humanStorageSize,
   deepMergeObject,
   deepCloneObject,
+  superExtractDate
 };

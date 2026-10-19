@@ -303,7 +303,12 @@ class BuilderOperator {
     this.formEvent.action = customAction;
     return this;
   }
-}
+
+  do(customAction: TThenCustomCallback): BuilderOperator {
+    this.formEvent.action = customAction;
+    return this;
+  }}
+  
 type TThenCustomCallback = (formApi: TSubmit64FormApi) => void | Promise<void>;
 type TFormEventTarget =
   | {

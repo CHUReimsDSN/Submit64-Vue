@@ -259,4 +259,8 @@ class BuilderOperator {
         this.formEvent.action = customAction;
         return this;
     }
+    do(customAction) {
+        this.formEvent.action = customAction;
+        return this;
+    }
 }

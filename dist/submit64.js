@@ -8,8 +8,8 @@ export class Submit64 {
     _formSlots;
     constructor() {
         this._formSettings = {
-            backendDateFormat: "YYYY/MM/DD",
-            backendDatetimeFormat: "YYYY/MM/DD HH:mm",
+            backendDateFormat: "YYYY-MM-DD",
+            backendDatetimeFormat: "YYYY-MM-DDTHH:mm:ss.SSSZ",
             dateFormat: "DD/MM/YYYY",
             datetimeFormat: "DD/MM/YYYY HH:mm",
             associationEmptyMessage: "Vide", // TODO i18n like system with big object for all translation
@@ -19,6 +19,7 @@ export class Submit64 {
             showClearButton: true,
             autofocus: true,
             displayLabelInsideInput: true,
+            enableQuasarBigBangComponents: false,
         };
         this._formBindings = Bindings.getDefaultFormBindings();
         this._formSlots = Slots.getDefaultFormSlots();

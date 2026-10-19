@@ -27,7 +27,10 @@ import type {
   TSubmit64SubmitData,
   TFormSection,
   TFormFieldType,
+  TFormSettings,
+  TFormBindings,
 } from "./models";
+import { type DeepPartial } from "quasar";
 import { FormFactory } from "./form-factory";
 import SectionWrapper from "./components/SectionWrapper.vue";
 import FieldWrapper from "./components/FieldWrapper.vue";
@@ -302,7 +305,19 @@ function setContext(context: TContext) {
   }
 }
 function setReadonlyState(state: boolean) {
-  if (form.value) form.value.readonly = state;
+  if (form.value) {
+    form.value.readonly = state;
+  }
+}
+function setSettings(settings: DeepPartial<TFormSettings>) {
+  if (form.value) {
+    Utils.deepMergeObject(form.value.formSettings, settings);
+  }
+}
+function setBindings(bindings: DeepPartial<TFormBindings["form"]>) {
+  if (form.value) {
+    Utils.deepMergeObject(form.value.bindings, bindings);
+  }
 }
 function isReady() {
   return setupIsDone.value;
@@ -414,6 +429,8 @@ const formApi: TSubmit64FormApi = {
   getAssociationDataCallback,
   setContext,
   setReadonlyState,
+  setSettings,
+  setBindings,
   isReady,
   getSubmitData,
   tryFocusFirst,

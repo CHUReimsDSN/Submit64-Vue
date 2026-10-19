@@ -174,6 +174,12 @@ export type TFormSettings = {
    * Affiche le libelle des champs à l'intérieur de ces derniers
    */
   displayLabelInsideInput?: boolean | undefined;
+
+  /*
+  * Active la compabilité avec Quasar BigBang
+  * Activer cette options utilisera automatiquement les composants qbb-time pour les champs de type datetime
+  */
+  enableQuasarBigBangComponents?: boolean | undefined;
 };
 
 /**
@@ -576,6 +582,16 @@ export type TSubmit64FormApi = {
   setReadonlyState: (state: boolean) => void;
 
   /*
+  * Met à jour la configuration du formulaire
+  */
+  setSettings: (settings: DeepPartial<TFormSettings>) => void;
+
+  /*
+  * Met à jour les bindings du formulaire
+  */
+  setBindings: (bindings: DeepPartial<TFormBindings['form']>) => void;
+
+  /*
    * Focus le premier champ disponible
    */
   tryFocusFirst: () => boolean;
@@ -703,7 +719,7 @@ export type TSubmit64SectionApi = {
   setLabel: (label: string) => void;
 
   /*
-   * Met à jour les props (dans la limite des props autorisé par Submit64) de la section
+   * Met à jour les bindings (dans la limite des props autorisé par Submit64) de la section
    */
   setBindings: (bindings: TSectionBindings) => void;
 
@@ -819,7 +835,7 @@ export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
   isFocus: () => boolean;
 
   /*
-   * Met à jour les props (dans la limite des props autorisé par Submit64) du champ
+   * Met à jour les bindings (dans la limite des props autorisé par Submit64) du champ
    */
   setBindings: (bindings: TFieldBindings<T>) => void;
 
@@ -865,10 +881,9 @@ export type TSubmit64FormProps = {
     submit64Params: TSubmit64GetAssociationData,
   ) => Promise<TSubmit64AssociationData>;
   resourceId?: TRecord["id"] | undefined;
-  formSettings?: TFormSettings | undefined;
+  formSettings?: DeepPartial<TFormSettings> | undefined;
   formBindings?: DeepPartial<TFormBindings> | undefined;
   formSlots?: DeepPartial<TFormSlots> | undefined;
-  associationDisplayRecord?: Record<string, Component> | undefined;
   eventManager?: (eventManager: DynamicLogicBuilder) => void;
   context?: TContext | undefined;
   class?: string;
@@ -960,6 +975,9 @@ export type TSubmit64GetSubmitData = {
 };
 
 /* _________________UTILS_______________*/
+/**
+ * @exportToDoc
+ */
 export type TContext = Record<string, unknown>;
 export type TSelectOptionPagination = {
   limit: number;

@@ -7,15 +7,7 @@ import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 export default defineConfigWithVueTs(
   {
-    /**
-     * Ignore the following files.
-     * Please note that pluginQuasar.configs.recommended() already ignores
-     * the "node_modules" folder for you (and all other Quasar project
-     * relevant folders and files).
-     *
-     * ESLint requires "ignores" key to be the only one in this object
-     */
-    // ignores: []
+    ignores: ['src-tauri/**'],
   },
 
   pluginQuasar.configs.recommended(),
@@ -64,6 +56,8 @@ export default defineConfigWithVueTs(
     // add your custom rules here
     rules: {
       'prefer-promise-reject-errors': 'off',
+      // slots use the "#" shorthand everywhere, as in the Quasar docs
+      'vue/v-slot-style': ['warn', 'shorthand'],
 
       // allow debugger during development only
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -71,7 +65,7 @@ export default defineConfigWithVueTs(
   },
 
   {
-    files: ['src-pwa/custom-service-worker.ts'],
+    files: ['src-pwa/sw/**/*.ts'],
     languageOptions: {
       globals: {
         ...globals.serviceworker,

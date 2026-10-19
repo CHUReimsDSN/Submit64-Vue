@@ -11,10 +11,14 @@ title: Changelog
 ### 1.8.0
 
 - Ajout d'une nouvelle option `displayLabelInsideInput` dans le `TFormSettings`.
-- TODO compatibilité avec Quasar BigBang
-- TODO màj doc pour ordre de prio surcharge
-- TODO màj doc
-- Mise à disposition des slots pour les champs à travers la balise `template`, et les props du composant `Submit64Form`.
+- Mise à disposition des slots pour toutes les composantes de Submit64.
+- Ajout des méthodes `setBindings` et `setSettings` pour `TSubmit64FormApi`.
+- Ajout de la méthode `setBindings` pour `TSubmit64SectionApi`.
+- Les slots interactifs des champs en `readonly` ne sont désormais plus intéractif.
+- Ajout de l'alias `do()` pour la construction d'événements, en parallèle avec `then()`.
+- Amélioration de la documentation.
+- Compabilité avec `Quasar BigBang` à travers l'option `enableQuasarBigBangComponents` de `TFormSettings`.
+- Correction d'un problème de sérialisation de datetime au format `YYYY-MM-DDTHH:mm:ss.SSSZ`.
 
 <br />
 
@@ -33,7 +37,7 @@ title: Changelog
 
 ### 1.7.3
 
-- Correction d'un problème des bindings des champs Wysiwyg.
+- Correction d'un problème des bindings des champs de type Wysiwyg.
 
 <br />
 
@@ -85,7 +89,7 @@ title: Changelog
 
 ### 1.5.3
 
-- Correction du FormApi.setContext
+- Correction du `FormApi.setContext`
 
 <br />
 

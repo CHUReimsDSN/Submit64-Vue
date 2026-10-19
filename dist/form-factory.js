@@ -29,14 +29,21 @@ export class FormFactory {
     templateSlots;
     formApi;
     registerEventCallback;
-    constructor(resourceName, resourceId, formMetadataAndData, formSettings, formBind, formSlots, templateSlots, context, formApi, eventManager) {
+    constructor(resourceName, resourceId, formMetadataAndData, formSettings, formBind, formSlots, templateSlots, context, formApi, eventManager, cssClass, sectionContainerCssClass) {
         this.formMetadataAndData = formMetadataAndData;
         this.resourceId = resourceId;
         this.context = context;
         this.resourceName = resourceName;
         this.formApi = formApi;
         this.formSettings = Utils.deepMergeObject(Submit64.getGlobalFormSetting(), formSettings ?? {});
-        this.formBind = Utils.deepMergeObject(Submit64.getGlobalFormBind(), formBind ?? {});
+        this.formBind = Utils.deepMergeObject(Utils.deepMergeObject(Submit64.getGlobalFormBind(), formBind ?? {}), {
+            form: {
+                default: {
+                    class: cssClass,
+                    sectionContainerClass: sectionContainerCssClass,
+                },
+            },
+        });
         this.formSlots = Utils.deepMergeObject(Submit64.getBlobalFormSlot(), formSlots ?? {});
         this.templateSlots = templateSlots;
         this.registerEventCallback = eventManager ?? (() => { });
@@ -51,8 +58,8 @@ export class FormFactory {
             slots: Slots.getEmptyDefaultSlots(),
         };
     }
-    static getForm(resourceName, resourceId, formMetadataAndData, formSettings, formBindings, formSlots, templateSlots, context, formApi, eventManager) {
-        const instance = new FormFactory(resourceName, resourceId, formMetadataAndData, formSettings, formBindings, formSlots, templateSlots, context, formApi, eventManager);
+    static getForm(resourceName, resourceId, formMetadataAndData, formSettings, formBindings, formSlots, templateSlots, context, formApi, eventManager, cssClass, sectionContainerCssClass) {
+        const instance = new FormFactory(resourceName, resourceId, formMetadataAndData, formSettings, formBindings, formSlots, templateSlots, context, formApi, eventManager, cssClass, sectionContainerCssClass);
         return instance.generateFormDef();
     }
     generateFormDef() {
@@ -104,7 +111,6 @@ export class FormFactory {
                         sectionMetadata.readonly ??
                         columnMetadata.readonly ??
                         undefined,
-                    cssClass: columnMetadata.css_class ?? undefined,
                     staticSelectOptions: columnMetadata.static_select_options,
                     associationData: columnMetadata.field_association_data,
                     attachmentData: columnMetadata.field_attachment_data,
@@ -131,7 +137,6 @@ export class FormFactory {
             const section = {
                 label: sectionMetadata.label ?? undefined,
                 icon: sectionMetadata.icon ?? undefined,
-                cssClass: sectionMetadata.css_class ?? undefined,
                 hidden: false,
                 name: sectionName,
                 index: sectionIndex,
@@ -159,7 +164,6 @@ export class FormFactory {
             resourceId: this.resourceId,
             formSettings: this.formSettings,
             bindings: formBindings,
-            cssClass: this.formMetadataAndData.form.css_class ?? undefined,
             readonly: this.formMetadataAndData.form.readonly ?? undefined,
             events: events.form,
             slots: makeComponentsRaw(slotsForm),

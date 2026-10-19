@@ -5,32 +5,41 @@ icon: anchor
 
 # Réference
 
-Il est possible de définir une référence sur le composant Submit64Form afin d'accèder à des méthodes ou données utilitaires.
+Il est possible de définir une référence sur un composant `Submit64Form` afin d'accéder à son API depuis le script du composant Vue.
 
+Cette référence permet notamment d'utiliser les méthodes et les données utilitaires exposées par le formulaire.  
+Elle est particulièrement utile lorsque certaines actions doivent être déclenchées depuis le composant parent, par exemple pour réinitialiser le formulaire, modifier sa configuration ou interagir avec son état.
 
 Exemple d'accès au formulaire :  
 
-```vue
+```vue [MyForm.vue]
 <script setup lang="ts">
 import { Submit64Form } from 'submit64-vue';
 import type { TSubmit64FormApi } from 'submit64-vue';
 
-const submit64Form = ref<TSubmit64FormApi>()
+const submit64Api = ref<TSubmit64FormApi>()
 
 function example() {
-  if (!submit64Form.value) {
+  if (!submit64Api.value) {
     return
   }
-  submit64Form.value.clear()
+  submit64Api.value.clear()
 }
 </script>
 
 <template>
-  <Submit64Form ref="submit64Form" />
+  <Submit64Form ref="submit64Api" />
 </template>
 ```
 
+## `TSubmit64FormApi`
 
-::: warning 
-Consulter la [Définition API](/api-definition/models.md#TSubmit64FormApi) pour savoir quelles méthodes sont disponibles. 
-:::
+<!--@include: ./999_definition.md#tsubmit64formapi-->
+
+## `TSubmit64SectionApi`
+
+<!--@include: ./999_definition.md#tsubmit64sectionapi-->
+
+## `TSubmit64FieldApi`
+
+<!--@include: ./999_definition.md#tsubmit64fieldapi-->

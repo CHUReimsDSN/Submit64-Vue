@@ -4,11 +4,11 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vitepress'
+import { useRouter, withBase } from 'vitepress'
 import { sidebar } from "./.vitepress/generated/sidebar";
 
 onMounted(() => {
   const router = useRouter()
-  router.go('Submit64-vue' + sidebar[0].link.replace('.md', ''))
+  router.go(withBase(sidebar[0].link.replace('.md', '')))
 })
 </script>

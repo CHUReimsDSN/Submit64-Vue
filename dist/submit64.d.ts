@@ -6,7 +6,7 @@ export declare class Submit64 {
     private _formBindings;
     private _formSlots;
     private constructor();
-    static registerGlobalFormSetting(formSetting: Partial<TFormSettings>): void;
+    static registerGlobalFormSetting(formSetting: DeepPartial<TFormSettings>): void;
     static registerGlobalFormBindings(bindings: DeepPartial<TFormBindings>): void;
     static registerGlobalFormSlots(slots: DeepPartial<TFormSlots>): void;
     static getGlobalFormSetting(): TFormSettings;

@@ -1,3 +1,4 @@
+import { date } from "quasar";
 function callAllEvents(events) {
     for (const event of events ?? []) {
         event();
@@ -54,9 +55,21 @@ function deepCloneObject(value) {
     }
     return clone;
 }
+function superExtractDate(value, format) {
+    const result = date.extractDate(value, format);
+    if (!Number.isNaN(result.getTime())) {
+        return result;
+    }
+    const isoDate = new Date(value);
+    if (!Number.isNaN(isoDate.getTime())) {
+        return isoDate;
+    }
+    return result;
+}
 export const Utils = {
     callAllEvents,
     humanStorageSize,
     deepMergeObject,
     deepCloneObject,
+    superExtractDate
 };

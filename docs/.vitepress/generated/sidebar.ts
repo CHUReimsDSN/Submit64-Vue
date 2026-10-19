@@ -1,13 +1,5 @@
-export type TSidebarEntry = {
-  text: string;
-  icon?: string;
-  link?: string;
-  items?: TSidebarEntry[];
-  active: boolean;
-  collapsed: boolean;
-};
 
-export const sidebar: TSidebarEntry[] = [
+export const sidebar = [
   {
     "text": "Introduction",
     "icon": "menu_book",
@@ -30,16 +22,9 @@ export const sidebar: TSidebarEntry[] = [
     "collapsed": false
   },
   {
-    "text": "Configuration",
-    "icon": "settings",
-    "link": "/documentation/020_configuration.md",
-    "active": false,
-    "collapsed": false
-  },
-  {
-    "text": "Props",
+    "text": "Bindings",
     "icon": "input",
-    "link": "/documentation/030_props.md",
+    "link": "/documentation/025_bindings.md",
     "active": false,
     "collapsed": false
   },
@@ -51,8 +36,9 @@ export const sidebar: TSidebarEntry[] = [
     "collapsed": false
   },
   {
-    "text": "Surcharge",
-    "link": "/documentation/050_overwrite.md",
+    "text": "Configuration",
+    "icon": "settings",
+    "link": "/documentation/040_configuration.md",
     "active": false,
     "collapsed": false
   },
@@ -66,29 +52,22 @@ export const sidebar: TSidebarEntry[] = [
   {
     "text": "Événements",
     "icon": "sensors",
-    "link": "/documentation/065_logic_builder.md",
+    "link": "/documentation/065_events.md",
     "active": false,
     "collapsed": false
   },
   {
-    "text": "Interopérabilité",
-    "icon": "sync_alt",
-    "link": "/documentation/070_interop.md",
+    "text": "Contexte",
+    "icon": "data_object",
+    "link": "/documentation/070_context.md",
     "active": false,
     "collapsed": false
   },
   {
-    "text": "Exemples",
-    "items": [
-      {
-        "text": "Utilisation du context",
-        "link": "/documentation/exemples/context.md",
-        "active": false,
-        "collapsed": false
-      }
-    ],
+    "text": "Définition API",
+    "icon": "api",
+    "link": "/documentation/999_definition.md",
     "active": false,
-    "collapsed": false,
-    "icon": "description"
+    "collapsed": false
   }
 ];

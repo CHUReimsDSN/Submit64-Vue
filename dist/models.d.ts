@@ -21,7 +21,6 @@ export type TResourceFormMetadata = {
     resource_name: string;
     backend_date_format: string;
     backend_datetime_format: string;
-    css_class: string | null;
     readonly: boolean | null;
 };
 /**
@@ -32,7 +31,6 @@ export type TResourceFormSectionMetadata = {
     label: string | null;
     name: string | null;
     icon: string | null;
-    css_class: string | null;
     readonly: boolean | null;
 };
 /**
@@ -48,7 +46,6 @@ export type TResourceFieldMetadata = {
     readonly: boolean | null;
     rules: TSubmit64Rule[];
     static_select_options: TSubmit64StaticSelectOptions[];
-    css_class: string | null;
     unlinked: boolean;
     field_association_data?: {
         label: string;
@@ -100,6 +97,7 @@ export type TFormSettings = {
     showClearButton?: boolean | undefined;
     autofocus?: boolean | undefined;
     displayLabelInsideInput?: boolean | undefined;
+    enableQuasarBigBangComponents?: boolean | undefined;
 };
 /**
  * @exportToDoc
@@ -125,6 +123,7 @@ export type TFormBindings = {
         byName: Record<string, TSectionBindings>;
     };
     form: {
+        default: TFormDefaultBindings;
         actions: TActionBindings;
     };
 };
@@ -166,8 +165,8 @@ export type TForm = {
     formSettings: TFormSettings;
     events: Readonly<TFormEvent>;
     readonly?: boolean;
-    cssClass?: string;
-    bindings: TFormBindings['form'];
+    sectionContainerClass?: string;
+    bindings: TFormBindings["form"];
     slots: Readonly<Record<string, Component | undefined>>;
     context?: TContext;
 };
@@ -181,7 +180,6 @@ export type TFormSection = {
     label?: string;
     icon?: string;
     hidden: boolean;
-    cssClass?: string;
     readonly?: boolean;
     bindings: TSectionBindings;
     mainComponent: Readonly<Component>;
@@ -199,7 +197,6 @@ export type TFormField<T extends TFormFieldType = TFormFieldType> = {
     readonly?: boolean;
     rules?: TSubmit64Rule[];
     computedRules: ValidationRule[];
-    cssClass?: string;
     hidden: boolean;
     associationData?: {
         label: string;
@@ -241,8 +238,9 @@ export type TSubmit64FormApi = {
     getInitialValueByFieldName: (fieldName: string) => unknown;
     getAssociationDataCallback: () => (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
     setContext: (context: TContext) => void;
-    setCssClass: (cssClass: string) => void;
     setReadonlyState: (state: boolean) => void;
+    setSettings: (settings: DeepPartial<TFormSettings>) => void;
+    setBindings: (bindings: DeepPartial<TFormBindings['form']>) => void;
     tryFocusFirst: () => boolean;
     tryUnfocus: () => boolean;
     form: TForm;
@@ -276,9 +274,9 @@ export type TSubmit64SectionApi = {
     resetValidation: () => void;
     getFields: () => Map<string, TSubmit64FieldApi>;
     setReadonlyState: (state: boolean) => void;
-    setCssClass: (cssClass: string) => void;
     setIcon: (icon: string) => void;
     setLabel: (label: string) => void;
+    setBindings: (bindings: TSectionBindings) => void;
     tryFocusFirst: () => boolean;
     tryUnfocus: () => boolean;
     section: TFormSection;
@@ -300,7 +298,6 @@ export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
     getValueDeserialized: () => unknown;
     setupBackendErrors: (errors: string[]) => void;
     setReadonlyState: (state: boolean) => void;
-    setCssClass: (cssClass: string) => void;
     setLabel: (label: string) => void;
     setValue: (value: unknown) => void;
     tryFocus: () => void;
@@ -323,12 +320,13 @@ export type TSubmit64FormProps = {
     getSubmitFormData: (submit64Params: TSubmit64GetSubmitData) => Promise<TSubmit64SubmitData>;
     getAssociationData?: (submit64Params: TSubmit64GetAssociationData) => Promise<TSubmit64AssociationData>;
     resourceId?: TRecord["id"] | undefined;
-    formSettings?: TFormSettings | undefined;
+    formSettings?: DeepPartial<TFormSettings> | undefined;
     formBindings?: DeepPartial<TFormBindings> | undefined;
     formSlots?: DeepPartial<TFormSlots> | undefined;
-    associationDisplayRecord?: Record<string, Component> | undefined;
     eventManager?: (eventManager: DynamicLogicBuilder) => void;
     context?: TContext | undefined;
+    class?: string;
+    sectionContainerClass?: string;
 };
 export type TSubmit64SectionWrapperProps = {
     section: TFormSection;
@@ -401,6 +399,9 @@ export type TSubmit64GetSubmitData = {
     resourceId?: TRecord["id"];
     context?: TContext;
 };
+/**
+ * @exportToDoc
+ */
 export type TContext = Record<string, unknown>;
 export type TSelectOptionPagination = {
     limit: number;
@@ -551,58 +552,61 @@ export type TFieldBindingsMap = {
     attachmentHasOne: TAttachmentHasOneBindings;
     attachmentHasMany: TAttachmentHasManyBindings;
 };
-export type TStringBindings = Omit<QInputProps, TQFieldKeysToOmit>;
-export type TNumberBindings = Omit<QInputProps, TQFieldKeysToOmit>;
+export type TStringBindings = Omit<QInputProps, TQFieldKeysToOmit> & TPropsWithClass;
+export type TNumberBindings = Omit<QInputProps, TQFieldKeysToOmit> & TPropsWithClass;
 export type TColorBindings = {
-    input?: Omit<QInputProps, TQFieldKeysToOmit>;
+    input?: Omit<QInputProps, TQFieldKeysToOmit> & TPropsWithClass;
     icon?: (QIconProps & TPropsWithClass) | undefined;
     popupProxy?: (Omit<QMenuProps, "modelValue"> & TPropsWithClass) | undefined;
     color?: (Omit<QColorProps, "modelValue"> & TPropsWithClass) | undefined;
 };
-export type TWysiwygBindings = Omit<QEditorProps, "modelValue" | "readonly" | "placeholder">;
-export type TCheckboxBindings = Omit<QCheckboxProps, "modelValue">;
+export type TWysiwygBindings = Omit<QEditorProps, "modelValue" | "readonly" | "placeholder"> & TPropsWithClass;
+export type TCheckboxBindings = Omit<QCheckboxProps, "modelValue"> & TPropsWithClass;
 export type TDateBindings = {
-    input?: Omit<QInputProps, TQFieldKeysToOmit>;
+    input?: Omit<QInputProps, TQFieldKeysToOmit> & TPropsWithClass;
     icon?: (QIconProps & TPropsWithClass) | undefined;
     popupProxy?: (Omit<QMenuProps, "modelValue"> & TPropsWithClass) | undefined;
     date?: (Omit<QDateProps, "modelValue" | "mask"> & TPropsWithClass) | undefined;
-    btn?: QBtnProps | undefined;
+    btn?: (QBtnProps & TPropsWithClass) | undefined;
 };
 export type TDatetimeBindings = {
-    input?: Omit<QInputProps, TQFieldKeysToOmit>;
+    input?: Omit<QInputProps, TQFieldKeysToOmit> & TPropsWithClass;
     iconDate?: (QIconProps & TPropsWithClass) | undefined;
     popupProxyDate?: (Omit<QMenuProps, "modelValue"> & TPropsWithClass) | undefined;
     date?: (Omit<QDateProps, "modelValue" | "mask"> & TPropsWithClass) | undefined;
-    btnDate?: QBtnProps | undefined;
+    btnDate?: (QBtnProps & TPropsWithClass) | undefined;
     iconDatetime?: (QIconProps & TPropsWithClass) | undefined;
     popupProxyDatetime?: (Omit<QMenuProps, "modelValue"> & TPropsWithClass) | undefined;
     datetime?: (Omit<QTimeProps, "modelValue" | "mask"> & TPropsWithClass) | undefined;
-    btnDatetime?: QBtnProps | undefined;
+    btnDatetime?: (QBtnProps & TPropsWithClass) | undefined;
 };
 export type TBelongsToBindings = {
-    select?: Omit<QSelectProps, TQFieldKeysToOmit | TQSelectKeysToOmit> | undefined;
+    select?: (Omit<QSelectProps, TQFieldKeysToOmit | TQSelectKeysToOmit> & TPropsWithClass) | undefined;
     itemNoOption?: (QItemProps & TPropsWithClass) | undefined;
 };
 export type THasManyBindings = {
-    select?: Omit<QSelectProps, TQFieldKeysToOmit | TQSelectKeysToOmit | "multiple" | "useChips"> | undefined;
+    select?: (Omit<QSelectProps, TQFieldKeysToOmit | TQSelectKeysToOmit | "multiple" | "useChips"> & TPropsWithClass) | undefined;
     itemNoOption?: (QItemProps & TPropsWithClass) | undefined;
 };
 export type TSelectBindings = {
-    select?: Omit<QSelectProps, TQFieldKeysToOmit | TQSelectKeysToOmit> | undefined;
+    select?: (Omit<QSelectProps, TQFieldKeysToOmit | TQSelectKeysToOmit> & TPropsWithClass) | undefined;
     itemNoOption?: (QItemProps & TPropsWithClass) | undefined;
 };
 export type TAttachmentHasOneBindings = {
-    uploader?: Omit<QUploaderProps, "multiple" | "hideUploadBtn"> | undefined;
+    uploader?: (Omit<QUploaderProps, "multiple" | "hideUploadBtn"> & TPropsWithClass) | undefined;
 };
 export type TAttachmentHasManyBindings = {
-    uploader?: Omit<QUploaderProps, "multiple" | "hideUploadBtn"> | undefined;
+    uploader?: (Omit<QUploaderProps, "multiple" | "hideUploadBtn"> & TPropsWithClass) | undefined;
 };
 export type TSectionBindings = {
-    icon?: QIconProps | undefined;
-};
+    icon?: (QIconProps & TPropsWithClass) | undefined;
+} & TPropsWithClass;
 export type TActionBindings = {
-    submitBtn?: Omit<QBtnProps, "loading" | "disabled"> | undefined;
-    resetBtn?: Omit<QBtnProps, "loading" | "disabled"> | undefined;
-    clearBtn?: Omit<QBtnProps, "loading" | "disabled"> | undefined;
+    submitBtn?: (Omit<QBtnProps, "loading" | "disabled"> & TPropsWithClass) | undefined;
+    resetBtn?: (Omit<QBtnProps, "loading" | "disabled"> & TPropsWithClass) | undefined;
+    clearBtn?: (Omit<QBtnProps, "loading" | "disabled"> & TPropsWithClass) | undefined;
 };
+export type TFormDefaultBindings = {
+    sectionContainerClass?: string | undefined;
+} & TPropsWithClass;
 export {};

@@ -14,19 +14,16 @@ type TRecordData = {
   submit: TSubmit64SubmitData;
 };
 
-// Article
 const articleForm: TResourceFormMetadata = {
   resource_name: 'Article',
   backend_date_format: 'YYYY/MM/DD',
   backend_datetime_format: 'YYYY/MM/DD HH:mm',
-  css_class: null,
   readonly: false,
   sections: [
     {
       label: 'My first section',
       name: null,
       icon: null,
-      css_class: '',
       readonly: null,
       fields: [
         {
@@ -39,7 +36,6 @@ const articleForm: TResourceFormMetadata = {
           field_association_name: null,
           field_association_class: null,
           readonly: null,
-          css_class: '',
         },
         {
           field_name: 'color',
@@ -52,7 +48,6 @@ const articleForm: TResourceFormMetadata = {
           field_association_name: null,
           field_association_class: null,
           readonly: null,
-          css_class: '',
         },
         {
           field_name: 'next_date',
@@ -65,7 +60,6 @@ const articleForm: TResourceFormMetadata = {
           field_association_name: null,
           field_association_class: null,
           readonly: null,
-          css_class: '',
         },
         {
           field_name: 'test_unlink_association',
@@ -76,10 +70,9 @@ const articleForm: TResourceFormMetadata = {
           field_association_name: null,
           field_association_class: 'User',
           readonly: null,
-          css_class: '',
           unlinked: true,
         },
-                {
+        {
           field_name: 'test_wysiwyg',
           field_type: 'string',
           field_extra_type: 'wysiwyg',
@@ -90,7 +83,6 @@ const articleForm: TResourceFormMetadata = {
           field_association_name: null,
           field_association_class: null,
           readonly: null,
-          css_class: '',
         },
       ],
     },
@@ -101,7 +93,7 @@ const article1 = {
   label: 'My article',
   color: '#19bf82',
   next_date: '1995/01/03 15:00',
-  test_wysiwyg: ''
+  test_wysiwyg: '',
 };
 const articleData: TRecordData = {
   metadata: {

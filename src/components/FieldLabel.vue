@@ -10,3 +10,4 @@ const propsComponents = defineProps<{
     <slot>{{ propsComponents.name }}</slot>
   </div>
 </template>
+

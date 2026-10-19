@@ -3,11 +3,14 @@ import { QIcon, QPopupProxy, QColor } from "quasar";
 import type { TSubmit64FieldSlotPropsSegment } from "../../../../models";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldSlotPropsSegment<'color'>>()
+const propsComponent = defineProps<TSubmit64FieldSlotPropsSegment<"color">>();
 </script>
 
 <template>
-  <q-icon v-bind="propsComponent.fieldApi.field.bindings.icon">
+  <q-icon
+    v-if="!propsComponent.fieldApi.field.readonly"
+    v-bind="propsComponent.fieldApi.field.bindings.icon"
+  >
     <q-popup-proxy v-bind="propsComponent.fieldApi.field.bindings.popupProxy">
       <q-color
         v-bind="propsComponent.fieldApi.field.bindings.color"
@@ -16,4 +19,6 @@ const propsComponent = defineProps<TSubmit64FieldSlotPropsSegment<'color'>>()
       />
     </q-popup-proxy>
   </q-icon>
+
+  <q-icon v-else v-bind="propsComponent.fieldApi.field.bindings.icon" />
 </template>

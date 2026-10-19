@@ -16,36 +16,32 @@
     "postinstall": "quasar prepare"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.4",
-    "quasar": "^2.16.0",
+    "@quasar/extras": "^2.1.0",
+    "quasar": "^2.35.1",
     "submit64-vue": "file:..",
     "vue": "^3.5.22",
-    "vue-router": "^4.0.12"
+    "vue-router": "^5.0.6"
   },
   "devDependencies": {
-    "@eslint/js": "^9.14.0",
-    "@quasar/app-vite": "^2.1.0",
-    "@types/node": "^20.5.9",
-    "@vitest/ui": "^4.0.18",
+    "@eslint/js": "^10.0.1",
+    "@quasar/app-vite": "^3.10.2",
+    "@types/node": "^22.19.11",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/eslint-config-typescript": "^14.4.0",
-    "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.2",
-    "eslint": "^9.14.0",
+    "eslint": "^10.8.0",
     "eslint-plugin-vue": "^10.4.0",
     "flush-promises": "^1.0.2",
-    "globals": "^16.4.0",
-    "jsdom": "^27.4.0",
-    "prettier": "^3.3.3",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "quasar-app-extension-big-bang": "^0.0.13",
     "typescript": "^5.9.2",
-    "vite-plugin-checker": "^0.11.0",
+    "vite-plugin-checker": "^0.14.5",
     "vitest": "^4.0.18",
-    "vue-eslint-parser": "^10.2.0",
-    "vue-tsc": "^3.0.7"
+    "vue-eslint-parser": "^10.4.0",
+    "vue-tsc": "^3.3.3"
   },
   "engines": {
-    "node": "^28 || ^26 || ^24 || ^22 || ^20",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1"
+    "node": ">= 26 || ^24 || ^22.12"
   }
 }

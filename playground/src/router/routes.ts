@@ -3,18 +3,41 @@ import type { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('@/layouts/MainLayout.vue'),
     children: [
-      { path: '', name: 'home', component: () => import('pages/IndexPage.vue') },
+      { path: '', name: 'home', component: () => import('@/pages/IndexPage.vue') },
       {
         path: 'event-builder',
         name: 'event-builder',
-        component: () => import('pages/TestEventBuilder.vue'),
+        component: () => import('@/pages/TestEventBuilder.vue'),
       },
-      { path: 'slots', name: 'slots', component: () => import('pages/TestSlots.vue') },
-      { path: 'unlink', name: 'unlink', component: () => import('pages/TestUnlink.vue') },
-      { path: 'settings', name: 'settings', component: () => import('pages/TestFormSettings.vue') },
-      { path: 'bindings', name: 'bindings', component: () => import('pages/TestFormBindings.vue') },
+      { path: 'slots', name: 'slots', component: () => import('@/pages/TestSlots.vue') },
+      { path: 'unlink', name: 'unlink', component: () => import('@/pages/TestUnlink.vue') },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: () => import('@/pages/TestFormSettings.vue'),
+      },
+      {
+        path: 'bindings',
+        name: 'bindings',
+        component: () => import('@/pages/TestFormBindings.vue'),
+      },
+      {
+        path: 'bigbang',
+        name: 'bigbang',
+        component: () => import('@/pages/TestBigBang.vue'),
+      },
+      {
+        path: 'outer-label',
+        name: 'outer-label',
+        component: () => import('@/pages/TestOuterLabel.vue'),
+      },
+            {
+        path: 'readonly',
+        name: 'readonly',
+        component: () => import('@/pages/TestReadonly.vue'),
+      },
     ],
   },
 
@@ -22,7 +45,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: () => import('@/pages/ErrorNotFound.vue'),
   },
 ];
 

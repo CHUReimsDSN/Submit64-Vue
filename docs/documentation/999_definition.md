@@ -1,12 +1,13 @@
 ---
 title: Définition API
+icon: api
 ---
 
 # Définition API
 
 
 ## TResourceFormMetadataAndData
-```typescript
+```ts
 export type TResourceFormMetadataAndData = {
   form: TResourceFormMetadata;
   resource_data: TResourceData;
@@ -15,7 +16,7 @@ export type TResourceFormMetadataAndData = {
 
 
 ## TResourceFormMetadata
-```typescript
+```ts
 export type TResourceFormMetadata = {
   sections: TResourceFormSectionMetadata[];
   resource_name: string;
@@ -27,7 +28,7 @@ export type TResourceFormMetadata = {
 
 
 ## TResourceFormSectionMetadata
-```typescript
+```ts
 export type TResourceFormSectionMetadata = {
   fields: TResourceFieldMetadata[];
   label: string | null;
@@ -39,7 +40,7 @@ export type TResourceFormSectionMetadata = {
 
 
 ## TResourceFieldMetadata
-```typescript
+```ts
 export type TResourceFieldMetadata = {
   field_name: string;
   field_type: Readonly<
@@ -80,7 +81,7 @@ export type TResourceFieldMetadata = {
 
 
 ## TSubmit64AssociationData
-```typescript
+```ts
 export type TSubmit64AssociationData = {
   rows: TSubmit64AssociationRowEntry[];
   row_count: number;
@@ -89,7 +90,7 @@ export type TSubmit64AssociationData = {
 
 
 ## TSubmit64AssociationRowEntry
-```typescript
+```ts
 export type TSubmit64AssociationRowEntry = {
   label: string;
   value: TRecord["id"];
@@ -99,7 +100,7 @@ export type TSubmit64AssociationRowEntry = {
 
 
 ## TSubmit64SubmitData
-```typescript
+```ts
 export type TSubmit64SubmitData = {
   success: boolean;
   errors: Record<string, string[]>;
@@ -111,7 +112,7 @@ export type TSubmit64SubmitData = {
 
 
 ## TFormSettings
-```typescript
+```ts
 export type TFormSettings = {
   /*
    * Format des dates à envoyer au serveur
@@ -167,12 +168,18 @@ export type TFormSettings = {
    * Affiche le libelle des champs à l'intérieur de ces derniers
    */
   displayLabelInsideInput?: boolean | undefined;
+
+  /*
+  * Active la compabilité avec Quasar BigBang
+  * Activer cette options utilisera automatiquement les composants qbb-time pour les champs de type datetime
+  */
+  enableQuasarBigBangComponents?: boolean | undefined;
 };
 ```
 
 
 ## TFormBindings
-```typescript
+```ts
 export type TFormBindings = {
   /*
    * Props des champs de saisie
@@ -278,7 +285,7 @@ export type TFormBindings = {
 
 
 ## TFormSlots
-```typescript
+```ts
 export type TFormSlots = {
   /*
    * Slots des champs de saisie
@@ -383,7 +390,7 @@ export type TFormSlots = {
 
 
 ## TForm
-```typescript
+```ts
 export type TForm = {
   sections: TFormSection[];
   resourceName: string;
@@ -400,7 +407,7 @@ export type TForm = {
 
 
 ## TFormSection
-```typescript
+```ts
 export type TFormSection = {
   fields: TFormField[];
   name: Readonly<string>;
@@ -419,7 +426,7 @@ export type TFormSection = {
 
 
 ## TFormField
-```typescript
+```ts
 export type TFormField<T extends TFormFieldType = TFormFieldType> = {
   type: T;
   metadata: Readonly<TResourceFieldMetadata>;
@@ -447,7 +454,7 @@ export type TFormField<T extends TFormFieldType = TFormFieldType> = {
 
 
 ## TSubmit64FormApi
-```typescript
+```ts
 export type TSubmit64FormApi = {
   /*
    * Obtient le mode du formulaire, edition ou création
@@ -560,6 +567,16 @@ export type TSubmit64FormApi = {
   setReadonlyState: (state: boolean) => void;
 
   /*
+  * Met à jour la configuration du formulaire
+  */
+  setSettings: (settings: DeepPartial<TFormSettings>) => void;
+
+  /*
+  * Met à jour les bindings du formulaire
+  */
+  setBindings: (bindings: DeepPartial<TFormBindings['form']>) => void;
+
+  /*
    * Focus le premier champ disponible
    */
   tryFocusFirst: () => boolean;
@@ -603,7 +620,7 @@ export type TSubmit64FormApi = {
 
 
 ## TSubmit64SectionApi
-```typescript
+```ts
 export type TSubmit64SectionApi = {
   /*
    * Réinitialise les champs de la section
@@ -672,7 +689,7 @@ export type TSubmit64SectionApi = {
   setLabel: (label: string) => void;
 
   /*
-   * Met à jour les props (dans la limite des props autorisé par Submit64) de la section
+   * Met à jour les bindings (dans la limite des props autorisé par Submit64) de la section
    */
   setBindings: (bindings: TSectionBindings) => void;
 
@@ -695,7 +712,7 @@ export type TSubmit64SectionApi = {
 
 
 ## TSubmit64FieldApi
-```typescript
+```ts
 export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
   /*
    * Réinitialise le champ
@@ -789,7 +806,7 @@ export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
   isFocus: () => boolean;
 
   /*
-   * Met à jour les props (dans la limite des props autorisé par Submit64) du champ
+   * Met à jour les bindings (dans la limite des props autorisé par Submit64) du champ
    */
   setBindings: (bindings: TFieldBindings<T>) => void;
 
@@ -822,7 +839,7 @@ export type TSubmit64FieldApi<T extends TFormFieldType = TFormFieldType> = {
 
 
 ## TSubmit64FormProps
-```typescript
+```ts
 export type TSubmit64FormProps = {
   resourceName: string;
   getMetadataAndData: (
@@ -835,10 +852,9 @@ export type TSubmit64FormProps = {
     submit64Params: TSubmit64GetAssociationData,
   ) => Promise<TSubmit64AssociationData>;
   resourceId?: TRecord["id"] | undefined;
-  formSettings?: TFormSettings | undefined;
+  formSettings?: DeepPartial<TFormSettings> | undefined;
   formBindings?: DeepPartial<TFormBindings> | undefined;
   formSlots?: DeepPartial<TFormSlots> | undefined;
-  associationDisplayRecord?: Record<string, Component> | undefined;
   eventManager?: (eventManager: DynamicLogicBuilder) => void;
   context?: TContext | undefined;
   class?: string;
@@ -848,7 +864,7 @@ export type TSubmit64FormProps = {
 
 
 ## TSubmit64FormSlotPropsSegment
-```typescript
+```ts
 export type TSubmit64FormSlotPropsSegment = {
   formApi: TSubmit64FormApi;
 };
@@ -856,7 +872,7 @@ export type TSubmit64FormSlotPropsSegment = {
 
 
 ## TSubmit64SectionSlotPropsSegment
-```typescript
+```ts
 export type TSubmit64SectionSlotPropsSegment = {
   formApi: TSubmit64FormApi;
   sectionApi: TSubmit64SectionApi;
@@ -865,7 +881,7 @@ export type TSubmit64SectionSlotPropsSegment = {
 
 
 ## TSubmit64FieldSlotPropsSegment
-```typescript
+```ts
 export type TSubmit64FieldSlotPropsSegment<
   T extends TFormFieldType = TFormFieldType,
 > = {
@@ -876,7 +892,7 @@ export type TSubmit64FieldSlotPropsSegment<
 
 
 ## TSubmit64GetMetadataAndData
-```typescript
+```ts
 export type TSubmit64GetMetadataAndData = {
   resourceName: string;
   resourceId?: TRecord["id"];
@@ -886,7 +902,7 @@ export type TSubmit64GetMetadataAndData = {
 
 
 ## TSubmit64GetAssociationData
-```typescript
+```ts
 export type TSubmit64GetAssociationData = {
   resourceName: string;
   resourceId?: TRecord["id"];
@@ -901,7 +917,7 @@ export type TSubmit64GetAssociationData = {
 
 
 ## TSubmit64GetSubmitData
-```typescript
+```ts
 export type TSubmit64GetSubmitData = {
   resourceName: string;
   resourceData: Record<string, unknown>;
@@ -911,8 +927,14 @@ export type TSubmit64GetSubmitData = {
 ```
 
 
+## TContext
+```ts
+export type TContext = Record<string, unknown>;
+```
+
+
 ## TSubmit64EventWhen
-```typescript
+```ts
 export type TSubmit64EventWhen = {
   "Field is updated": { fieldName: string };
   "Field is valid": { fieldName: string };

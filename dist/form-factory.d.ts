@@ -15,7 +15,7 @@ export declare class FormFactory {
     registerEventCallback: (builder: DynamicLogicBuilder) => void;
     private constructor();
     static getEmptyFormBeforeInit(): TForm;
-    static getForm(resourceName: string, resourceId: TForm["resourceId"], formMetadataAndData: TResourceFormMetadataAndData, formSettings: Partial<TFormSettings> | undefined, formBindings: DeepPartial<TFormBindings> | undefined, formSlots: DeepPartial<TFormSlots> | undefined, templateSlots: Record<string, Component | undefined>, context: TContext | undefined, formApi: TSubmit64FormApi, eventManager: ((builder: DynamicLogicBuilder) => void) | undefined): TForm;
+    static getForm(resourceName: string, resourceId: TForm["resourceId"], formMetadataAndData: TResourceFormMetadataAndData, formSettings: Partial<TFormSettings> | undefined, formBindings: DeepPartial<TFormBindings> | undefined, formSlots: DeepPartial<TFormSlots> | undefined, templateSlots: Record<string, Component | undefined>, context: TContext | undefined, formApi: TSubmit64FormApi, eventManager: ((builder: DynamicLogicBuilder) => void) | undefined, cssClass: string | undefined, sectionContainerCssClass: string | undefined): TForm;
     private generateFormDef;
     private getBindingsByFormFieldType;
     private static getFieldTypeByFieldMetadata;

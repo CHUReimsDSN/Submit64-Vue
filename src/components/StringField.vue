@@ -5,7 +5,7 @@ import type { TSubmit64FieldProps } from "../models";
 import FieldLabel from "./FieldLabel.vue";
 
 // props
-const propsComponent = defineProps<TSubmit64FieldProps<'string'>>();
+const propsComponent = defineProps<TSubmit64FieldProps<"string">>();
 
 // refs
 const fieldRef = ref<InstanceType<typeof QInput>>();
