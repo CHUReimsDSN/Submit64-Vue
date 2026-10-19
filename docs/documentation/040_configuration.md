@@ -46,8 +46,6 @@ import { Submit64Form } from "submit64-vue";
 import type { TFormSettings } from "submit64-vue";
 
 const formSettings: Partial<TFormSettings> = {
-  showResetButton: true,
-  showClearButton: true,
   autofocus: true,
 };
 </script>
@@ -70,7 +68,9 @@ import { ref } from 'vue'
 
 const formApi = ref<TSubmit64FormApi>()
 
-formApi?.setSettings({ autofocus: false })
+function removeAutoFocus() {
+  formApi.value?.setSettings({ autofocus: false })
+}
 </script>
 
 <template>

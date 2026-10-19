@@ -60,7 +60,7 @@ Cette utilisation via la classe `Submit64` est particulièrement utile pour déf
 import { Submit64Form } from "submit64-vue";
 import type { TFormBindings } from "submit64-vue";
 
-const formBindings: TFormBindings = {
+const formBindings: Partial<TFormBindings> = {
   fields: {
     string: {
       color: 'amber'
@@ -82,6 +82,39 @@ Ainsi, tous les champs de type `string` auront automatiquement la props `color` 
 
 Cette utilisation par props est particulièrement utile pour définir les slots sur **un formulaire ciblé**.
 
+<br />
+
+### Bindings ciblés
+
+Les bindings ciblés permettent de définir une configuration de bindings pour une composante spécifique, en fonction de son nom.  
+Contrairement aux configurations par type, notament sur les types de champs, cette approche permet de personnaliser les props d'une composante précise.  
+
+Le ciblage s'effectue à l'aide de la clé `byName`, disponible dans `fields` pour les champs et dans `sections` pour les sections du type `TFormBindings`.
+
+```vue [MyForm.vue]
+<script setup lang="ts">
+import { Submit64Form } from "submit64-vue";
+import type { TFormBindings } from "submit64-vue";
+
+const formBindings: Partial<TFormBindings> = {
+  fields: {
+    byName: {
+      label: {
+        dense: true
+      }
+    }
+  }
+};
+</script>
+
+<template>
+  <Submit64Form :formBindings="formBindings" />
+</template>
+```
+
+Dans cet exemple, la configuration `fields.byName.label` cible le champ nommé `label`.  
+Ainsi, la props `dense` avec la valeur `true` sera automatiquement injecter dans le champ `birthday`.  
+Il est ainsi possible de personnaliser les props d'un champ ou d'une section sans affecter les autres composantes du même type.
 
 
 ## API du formulaire

@@ -24,7 +24,7 @@ Cette séparation permet de garder une distinction claire entre :
 Ces métadonnées permettent notamment de définir les sections, les champs, leurs types et les différentes propriétés nécessaires à leur affichage et à leur comportement.  
 Le formulaire peut ainsi être construit dynamiquement sans avoir à définir manuellement chaque champ dans le template *Vue*.
 
-## Configurations
+## Configuration multiple
 
 *Submit64* propose plusieurs niveaux de configuration afin de s'adapter aux besoins de votre application.
 

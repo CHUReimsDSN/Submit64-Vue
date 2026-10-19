@@ -43,7 +43,7 @@ function formEventManager(eventBuilder: DynamicLogicBuilder) {
 
 La méthode `when()` permet de définir l'événement à écouter et, si nécessaire, de lui associer des paramètres permettant de cibler un élément précis.
 
-La méthode `do()` définit l'action à exécuter lorsque l'événement correspondant est déclenché.  
+La méthode `do()` (ou `then()`) définit l'action à exécuter lorsque l'événement correspondant est déclenché.  
 Elle reçoit l'API du formulaire, ce qui permet d'accéder directement au formulaire, à ses sections et à ses champs.
 
 Dans le premier cas, l'événement `Form is ready` est déclenché lorsque le formulaire est prêt.  

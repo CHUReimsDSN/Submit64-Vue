@@ -147,6 +147,7 @@ export type TFormSettings = {
 
   /*
    * Message affiché lors d'une recherche vide sur les champs d'associations
+   * @Déprécier
    */
   associationEmptyMessage?: string | undefined;
 
