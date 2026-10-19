@@ -11,7 +11,7 @@ import {
 export default defineConfig(
   mergeConfig(vitepressBigBangConfig as UserConfig, {
     title: "Submit64",
-    base: "/Submit64-vue/",
+    base: "/Submit64-Vue/",
     themeConfig: {
       logo: "/logo.svg",
       nav: [
