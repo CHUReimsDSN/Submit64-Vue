@@ -366,6 +366,7 @@ export type TSubmit64SectionSlotPropsSegment = {
  * @exportToDoc
  */
 export type TSubmit64FieldSlotPropsSegment<T extends TFormFieldType = TFormFieldType> = {
+    defaultProps: unknown;
     formApi: TSubmit64FormApi;
     fieldApi: TSubmit64FieldApi<T>;
 };
