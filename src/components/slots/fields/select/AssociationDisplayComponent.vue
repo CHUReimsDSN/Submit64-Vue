@@ -11,8 +11,6 @@ const propsComponent = defineProps<
     scope: SlotScope<QSelectSlots["option"]>;
   }
 >();
-console.log(propsComponent.formApi.form.resourceName ?? "NOOO");
-console.log(propsComponent.scope.selected);
 </script>
 
 <template>
