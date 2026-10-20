@@ -781,7 +781,7 @@ const Sn = { class: "row items-center justify-end" }, Cn = { class: "row items-c
   },
   setup(i) {
     const e = i;
-    return console.log(e.formApi.form.resourceName ?? "NOOO"), console.log(e.scope.selected), (t, n) => {
+    return (t, n) => {
       const a = Qe("q-item-label"), l = Qe("q-item-section"), m = Qe("q-item");
       return o(), C(m, z(H(e.scope.itemProps)), {
         default: S(() => [
