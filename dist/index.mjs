@@ -776,20 +776,19 @@ const Sn = { class: "row items-center justify-end" }, Cn = { class: "row items-c
   __name: "AssociationDisplayComponent",
   props: {
     formApi: {},
-    fieldApi: {},
-    scope: {}
+    fieldApi: {}
   },
   setup(i) {
     const e = i;
     return (t, n) => {
       const a = Qe("q-item-label"), l = Qe("q-item-section"), m = Qe("q-item");
-      return o(), C(m, z(H(e.scope.itemProps)), {
+      return o(), C(m, z(H(e.itemProps)), {
         default: S(() => [
           x(l, null, {
             default: S(() => [
               x(a, null, {
                 default: S(() => [
-                  te(L(e.scope.opt.label), 1)
+                  te(L(e.opt.label), 1)
                 ]),
                 _: 1
               })
