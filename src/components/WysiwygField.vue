@@ -192,7 +192,7 @@ onMounted(() => {
         <component
           :is="component"
           v-bind="{
-            ...(slotProps ?? {}),
+            defaultProps: slotProps ?? {},
             formApi: propsComponent.formApi,
             fieldApi: propsComponent.fieldApi,
           }"
