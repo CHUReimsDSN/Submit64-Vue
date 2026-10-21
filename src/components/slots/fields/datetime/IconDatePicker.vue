@@ -7,14 +7,14 @@ import { QIcon, QPopupProxy, QDate, QBtn } from "quasar";
 const propsComponent = defineProps<TSubmit64FieldSlotPropsSegment<"date">>();
 
 // refs
-const datePopupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
+const popupProxyRef = ref<InstanceType<typeof QPopupProxy>>();
 
 // functions
 function closePopUpDate() {
-  if (!datePopupProxyRef.value) {
+  if (!popupProxyRef.value) {
     return;
   }
-  datePopupProxyRef.value.hide();
+  popupProxyRef.value.hide();
 }
 </script>
 

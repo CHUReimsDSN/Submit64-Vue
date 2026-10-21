@@ -22,7 +22,7 @@ type TUploadedAttachment = Required<TFormField>["attachmentData"][number];
 // props
 const propsComponent = defineProps<
   TSubmit64FieldSlotPropsSegment<"attachmentHasOne"> & {
-    scope: QUploader;
+    defaultProps: QUploader;
   }
 >();
 
@@ -121,14 +121,14 @@ const modelValueDeleteIds = computed(() => {
     </q-list>
   </div>
 
-  <q-separator v-if="!attachmentDataIsEmpty && scope.files.length > 0" />
+  <q-separator v-if="!attachmentDataIsEmpty && defaultProps.files.length > 0" />
 
-  <div v-if="scope.files.length > 0" class="flex column">
+  <div v-if="defaultProps.files.length > 0" class="flex column">
     <div class="text-weight-medium text-body2">
-      Fichier{{ scope.files.length > 0 ? "s" : "" }} à ajouter
+      Fichier{{ defaultProps.files.length > 0 ? "s" : "" }} à ajouter
     </div>
     <q-list separator>
-      <q-item v-for="file in scope.files" :key="file.__key">
+      <q-item v-for="file in defaultProps.files" :key="file.__key">
         <q-item-section>
           <q-item-label class="full-width ellipsis">
             {{ file.name }}
@@ -148,7 +148,7 @@ const modelValueDeleteIds = computed(() => {
             dense
             round
             icon="delete"
-            @click="scope.removeFile(file)"
+            @click="defaultProps.removeFile(file)"
           />
         </q-item-section>
       </q-item>
