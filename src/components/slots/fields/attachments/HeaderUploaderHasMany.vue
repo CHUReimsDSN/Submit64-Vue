@@ -7,7 +7,7 @@ import { QBtn, QUploader, QUploaderAddTrigger } from "quasar";
 // props
 const propsComponent = defineProps<
   TSubmit64FieldSlotPropsSegment<"attachmentHasOne"> & {
-    scope: QUploader
+    defaultProps: QUploader
   }
 >();
 </script>
@@ -20,10 +20,10 @@ const propsComponent = defineProps<
       </div>
     </div>
     <q-btn
-      v-if="scope.canAddFiles"
+      v-if="defaultProps.canAddFiles"
       type="a"
       icon="add_box"
-      @click="scope.pickFiles"
+      @click="defaultProps.pickFiles"
       round
       dense
       flat

@@ -9,7 +9,7 @@ import { computed } from "vue";
 // props
 const propsComponent = defineProps<
   TSubmit64FieldSlotPropsSegment<"attachmentHasOne"> & {
-    scope: QUploader;
+    defaultProps: QUploader;
   }
 >();
 
@@ -35,10 +35,10 @@ const alreadyUploadedFileEmpty = computed(() => {
       </div>
     </div>
     <q-btn
-      v-if="scope.canAddFiles && alreadyUploadedFileEmpty"
+      v-if="defaultProps.canAddFiles && alreadyUploadedFileEmpty"
       type="a"
       icon="add_box"
-      @click="scope.pickFiles"
+      @click="defaultProps.pickFiles"
       round
       dense
       flat
