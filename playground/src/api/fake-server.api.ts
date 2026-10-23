@@ -99,6 +99,7 @@ const articleData: TRecordData = {
   metadata: {
     form: articleForm,
     resource_data: article1,
+    context: {},
   },
   association: {
     rows: [
@@ -111,6 +112,7 @@ const articleData: TRecordData = {
       },
     ],
     row_count: 1,
+    context: {},
   },
   submit: {
     success: true,
@@ -118,6 +120,7 @@ const articleData: TRecordData = {
     resource_id: 1,
     form: articleForm,
     resource_data: article1,
+    context: {},
   },
 };
 

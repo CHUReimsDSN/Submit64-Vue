@@ -57,6 +57,7 @@ function onFilter(val: string, update: (callbackGetData: () => void) => void) {
   })
     .then((response) => {
       update(() => {
+        propsComponent.formApi.setContext(response.context)
         selectOptionsFiltered.value = response.rows;
         selectOptionsScrollPagination.value.nextPage = 2;
         selectOptionsScrollPagination.value.lastPage = Math.ceil(
@@ -137,6 +138,7 @@ function onVirtualScroll(scrollArgs: {
       labelFilter: lastLabelFilter.value,
       context: form.context,
     }).then((response) => {
+      propsComponent.formApi.setContext(response.context)
       selectOptionsFiltered.value = selectOptionsFiltered.value.concat(
         response.rows,
       );
