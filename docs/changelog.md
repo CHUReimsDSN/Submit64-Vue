@@ -4,6 +4,9 @@ title: Changelog
 
 # Changelog
 
+### 1.8.1
+
+- Ajout de la synchronisation automatique du contexte provenant des méthodes d'interopérabilité.
 
 <br />
 
