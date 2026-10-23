@@ -93,6 +93,7 @@ async function setupMetadatasAndForm() {
   if (propsComponent.resourceId) {
     mode.value = "edit";
   }
+  setContext(formMetadataAndData.context)
 }
 async function submit(): Promise<void> {
   if (!validate()) {
@@ -109,6 +110,7 @@ async function submit(): Promise<void> {
     context: form.value.context,
   });
   submitData = newData.resource_data;
+  setContext(newData.context)
   if (!newData.success) {
     orphanErrors.value = {};
     const parentedKeys: string[] = [];
@@ -140,6 +142,7 @@ async function submit(): Promise<void> {
       {
         form: newData.form!,
         resource_data: newData.resource_data!,
+        context: formApi.form.context ?? {}
       },
       propsComponent.formSettings,
       propsComponent.formBindings,
@@ -275,6 +278,7 @@ function getAssociationDataCallback() {
       return {
         rows: [],
         row_count: 0,
+        context: {}
       };
     })
   );

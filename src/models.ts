@@ -30,6 +30,7 @@ export type TResourceData = TRecord & Record<string, unknown>;
 export type TResourceFormMetadataAndData = {
   form: TResourceFormMetadata;
   resource_data: TResourceData;
+  context: TContext;
 };
 /**
  * @exportToDoc
@@ -96,6 +97,7 @@ export type TResourceFieldMetadata = {
 export type TSubmit64AssociationData = {
   rows: TSubmit64AssociationRowEntry[];
   row_count: number;
+  context: TContext;
 };
 /**
  * @exportToDoc
@@ -114,6 +116,7 @@ export type TSubmit64SubmitData = {
   resource_id: TRecord["id"] | null;
   resource_data: TResourceData | null;
   form: TResourceFormMetadata | null;
+  context: TContext;
 };
 
 /**
