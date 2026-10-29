@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+### 1.8.2
+
+- Correction d'un problème d'affichage pour les champs de type `select`.
+
+<br />
+
 ### 1.8.1
 
 - Ajout de la synchronisation automatique du contexte provenant des méthodes d'interopérabilité.

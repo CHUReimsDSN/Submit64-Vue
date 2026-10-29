@@ -30,7 +30,6 @@ function getDefaultFormSlots(): TFormSlots {
       },
       select: {
         "no-option": NoOptionComponent,
-        option: AssociationDisplayComponent,
       },
       hasMany: {
         "no-option": NoOptionComponent,

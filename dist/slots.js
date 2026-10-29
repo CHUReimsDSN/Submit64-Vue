@@ -28,7 +28,6 @@ function getDefaultFormSlots() {
             },
             select: {
                 "no-option": NoOptionComponent,
-                option: AssociationDisplayComponent,
             },
             hasMany: {
                 "no-option": NoOptionComponent,
