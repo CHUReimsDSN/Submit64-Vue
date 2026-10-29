@@ -1,8 +1,8 @@
 var Tt = Object.defineProperty;
 var Bt = (a, e, t) => e in a ? Tt(a, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : a[e] = t;
 var U = (a, e, t) => Bt(a, typeof e != "symbol" ? e + "" : e, t);
-import { date as ye, QBtn as Z, QUploaderAddTrigger as ot, QList as qe, QItem as Ce, QItemSection as re, QItemLabel as oe, QSeparator as st, QIcon as ue, QPopupProxy as Le, QColor as It, QDate as ut, QTime as Ot, QInput as Be, QCheckbox as Rt, QSelect as Je, QEditor as $t, IconSet as Ue, Lang as ze, QUploader as dt } from "quasar";
-import { defineComponent as $, openBlock as o, createElementBlock as N, createElementVNode as W, toDisplayString as q, createBlock as x, unref as f, withCtx as S, createVNode as C, createCommentVNode as I, computed as ne, Fragment as X, renderList as M, createTextVNode as te, normalizeProps as z, mergeProps as R, guardReactiveProps as H, ref as B, resolveDynamicComponent as L, getCurrentInstance as Ke, renderSlot as Pt, onMounted as J, nextTick as ke, createSlots as ee, watch as G, markRaw as Ne, useSlots as ct, withDirectives as Ze, vShow as Xe, readonly as _e, normalizeClass as it } from "vue";
+import { date as ye, QBtn as Z, QUploaderAddTrigger as ot, QList as qe, QItem as Ce, QItemSection as re, QItemLabel as oe, QSeparator as st, QIcon as ue, QPopupProxy as Le, QColor as It, QDate as ut, QTime as Ot, QInput as Be, QCheckbox as Rt, QSelect as We, QEditor as $t, IconSet as Ue, Lang as ze, QUploader as dt } from "quasar";
+import { defineComponent as $, openBlock as o, createElementBlock as N, createElementVNode as W, toDisplayString as q, createBlock as x, unref as f, withCtx as S, createVNode as C, createCommentVNode as I, computed as ne, Fragment as X, renderList as M, createTextVNode as te, normalizeProps as z, mergeProps as R, guardReactiveProps as H, ref as B, resolveDynamicComponent as L, getCurrentInstance as Je, renderSlot as Pt, onMounted as J, nextTick as ke, createSlots as ee, watch as G, markRaw as Ne, useSlots as ct, withDirectives as Ke, vShow as Ze, readonly as _e, normalizeClass as at } from "vue";
 function Ut(a) {
   for (const e of a ?? [])
     e();
@@ -715,7 +715,7 @@ const Vn = { class: "row items-center justify-end" }, Sn = { class: "row items-c
     }
     function p() {
       if (e.formApi.form.formSettings.enableQuasarBigBangComponents) {
-        const r = Ke(), m = r == null ? void 0 : r.appContext.components["qbb-time"];
+        const r = Je(), m = r == null ? void 0 : r.appContext.components["qbb-time"];
         if (m)
           return m;
         Te.log("Component QBBTime from Quasar BigBang not found");
@@ -778,7 +778,7 @@ const Vn = { class: "row items-center justify-end" }, Sn = { class: "row items-c
       }, 16)
     ], 64));
   }
-}), Ye = /* @__PURE__ */ $({
+}), it = /* @__PURE__ */ $({
   __name: "AssociationDisplayComponent",
   props: {
     defaultProps: {},
@@ -804,7 +804,7 @@ const Vn = { class: "row items-center justify-end" }, Sn = { class: "row items-c
       _: 1
     }, 16));
   }
-}), Ge = /* @__PURE__ */ $({
+}), Ye = /* @__PURE__ */ $({
   __name: "NoOptionComponent",
   props: {
     defaultProps: {},
@@ -908,16 +908,15 @@ function $n() {
         append: xn
       },
       select: {
-        "no-option": Ge,
-        option: Ye
+        "no-option": Ye
       },
       hasMany: {
-        "no-option": Ge,
-        option: Ye
+        "no-option": Ye,
+        option: it
       },
       belongsTo: {
-        "no-option": Ge,
-        option: Ye
+        "no-option": Ye,
+        option: it
       },
       attachmentHasOne: {
         header: fn,
@@ -1531,7 +1530,7 @@ const qn = { style: { "font-weight": "500", padding: "4px 0" } }, de = /* @__PUR
         key: 0,
         name: e.fieldApi.field.label
       }, null, 8, ["name"])),
-      C(f(Je), R({
+      C(f(We), R({
         ref_key: "fieldRef",
         ref: i
       }, e.fieldApi.field.bindings.select, {
@@ -1681,7 +1680,7 @@ const qn = { style: { "font-weight": "500", padding: "4px 0" } }, de = /* @__PUR
         key: 0,
         name: e.fieldApi.field.label
       }, null, 8, ["name"])),
-      C(f(Je), R({
+      C(f(We), R({
         ref_key: "fieldRef",
         ref: i
       }, e.fieldApi.field.bindings.select, {
@@ -1829,7 +1828,7 @@ const qn = { style: { "font-weight": "500", padding: "4px 0" } }, de = /* @__PUR
         key: 0,
         name: e.fieldApi.field.label
       }, null, 8, ["name"])),
-      C(f(Je), R({
+      C(f(We), R({
         ref_key: "fieldRef",
         ref: i
       }, e.fieldApi.field.bindings.select, {
@@ -2479,10 +2478,10 @@ function ga(a, e) {
   ), r = [], m = [];
   switch (n) {
     case "date":
-      r.push(We(i.formSettings.dateFormat));
+      r.push(Ge(i.formSettings.dateFormat));
       break;
     case "datetime":
-      r.push(We(i.formSettings.datetimeFormat));
+      r.push(Ge(i.formSettings.datetimeFormat));
       break;
   }
   return t.forEach((y) => {
@@ -2622,7 +2621,7 @@ function ga(a, e) {
         );
         break;
       case "validDate":
-        r.push(We(i.formSettings.dateFormat));
+        r.push(Ge(i.formSettings.dateFormat));
         break;
       case "lessThanOrEqualDate":
         r.push(
@@ -2915,7 +2914,7 @@ function Qa(a, e) {
     return v.superExtractDate(String(t), e) !== v.superExtractDate(n, e) || `Doit être différent de ${n}`;
   };
 }
-function We(a) {
+function Ge(a) {
   return (e) => e == null || e === "" ? !0 : Ya(e, a) || `Date invalide. Format : ${a}`;
 }
 function Ya(a, e) {
@@ -3450,7 +3449,7 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
     ), J(() => {
       var w;
       ae();
-      const b = (w = Ke()) == null ? void 0 : w.exposed;
+      const b = (w = Je()) == null ? void 0 : w.exposed;
       b && t.privateFormApi.registerSectionWrapperRef(
         t.section.name,
         b
@@ -3458,7 +3457,7 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
         var j;
         y(), v.callAllEvents((j = t.section) == null ? void 0 : j.events.onReady);
       });
-    }), (b, w) => Ze((o(), N("div", li, [
+    }), (b, w) => Ke((o(), N("div", li, [
       t.section.slots["wrapper-before"] ? (o(), x(L(t.section.slots["wrapper-before"]), {
         key: 0,
         formApi: t.formApi,
@@ -3474,7 +3473,7 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
         sectionApi: r
       }, null, 8, ["formApi"])) : I("", !0)
     ], 512)), [
-      [Xe, t.section.hidden !== !0]
+      [Ze, t.section.hidden !== !0]
     ]);
   }
 }), oi = {
@@ -3710,12 +3709,12 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
     ), J(() => {
       var P, me;
       D();
-      const _ = (P = Ke()) == null ? void 0 : P.exposed;
+      const _ = (P = Je()) == null ? void 0 : P.exposed;
       _ && t.formApi && t.privateFormApi.registerFieldWrapperRef(
         t.field.metadata.field_name,
         _
       ), v.callAllEvents((me = t.field) == null ? void 0 : me.events.onReady);
-    }), (_, P) => Ze((o(), N("div", null, [
+    }), (_, P) => Ke((o(), N("div", null, [
       t.field.slots["wrapper-before"] ? (o(), x(L(t.field.slots["wrapper-before"]), {
         key: 0,
         formApi: t.formApi,
@@ -3745,7 +3744,7 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
         }, q(me), 9, si))), 256))
       ])) : I("", !0)
     ], 512)), [
-      [Xe, t.field.hidden !== !0]
+      [Ze, t.field.hidden !== !0]
     ]);
   }
 }), mi = /* @__PURE__ */ $({
@@ -3822,8 +3821,8 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
         E.value = {};
         const Pe = [];
         for (const [ge, wt] of A.value) {
-          const at = V.errors[ge];
-          at && (wt.setupBackendErrors(at), Pe.push(ge));
+          const nt = V.errors[ge];
+          nt && (wt.setupBackendErrors(nt), Pe.push(ge));
         }
         Object.entries(V.errors).forEach((ge) => {
           Pe.includes(ge[0]) || (E.value[ge[0]] = ge[1]);
@@ -3970,7 +3969,7 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
     function _t() {
       return u;
     }
-    function et() {
+    function Xe() {
       for (const c of _().values())
         if (c.tryFocusFirst())
           return !0;
@@ -4002,7 +4001,7 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
     function Ct(c, V) {
       c.fieldsComponent = V;
     }
-    const tt = ne(() => le()), Dt = ne(() => he()), Et = ne(() => se()), nt = {
+    const et = ne(() => le()), Dt = ne(() => he()), Et = ne(() => se()), tt = {
       getFormRef: kt,
       getSectionRef: Ft,
       getFieldRef: Vt,
@@ -4038,14 +4037,14 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
       setBindings: bt,
       isReady: yt,
       getSubmitData: _t,
-      tryFocusFirst: et,
+      tryFocusFirst: Xe,
       tryUnfocus: At,
       form: Nt,
       refs: {
         orphanErrors: _e(E),
         isLoadingSubmit: _e(g),
         setupIsDone: _e(h),
-        isFormValid: _e(tt)
+        isFormValid: _e(et)
       }
     };
     return e(pe), G(
@@ -4060,7 +4059,7 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
         return (c = s.value) == null ? void 0 : c.events.onIsValid;
       },
       (c) => {
-        r == null || r(), r = null, c && (r = G(tt, (V) => {
+        r == null || r(), r = null, c && (r = G(et, (V) => {
           var O;
           V && v.callAllEvents((O = s.value) == null ? void 0 : O.events.onIsValid);
         }));
@@ -4096,13 +4095,13 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
       { immediate: !0 }
     ), J(async () => {
       Ie(), await K(), ke(() => {
-        i = JSON.stringify(ae()), s.value.formSettings.autofocus && et();
+        i = JSON.stringify(ae()), s.value.formSettings.autofocus && Xe();
       });
-    }), (c, V) => Ze((o(), N("div", {
-      class: it(s.value.bindings.default.class ?? "flex column")
+    }), (c, V) => Ke((o(), N("div", {
+      class: at(s.value.bindings.default.class ?? "flex column")
     }, [
       W("div", {
-        class: it(
+        class: at(
           s.value.bindings.default.sectionContainerClass ?? "flex column q-pa-sm q-gutter-sm"
         )
       }, [
@@ -4110,14 +4109,14 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
           key: O.name,
           section: O,
           formApi: pe,
-          privateFormApi: nt
+          privateFormApi: tt
         }, {
           default: S(() => [
             (o(!0), N(X, null, M(O.fields, (be) => (o(), x(ui, {
               key: be.metadata.field_name,
               field: be,
               formApi: pe,
-              privateFormApi: nt
+              privateFormApi: tt
             }, null, 8, ["field"]))), 128))
           ]),
           _: 2
@@ -4132,7 +4131,7 @@ const li = { class: "flex column" }, ri = /* @__PURE__ */ $({
         formApi: pe
       })) : I("", !0)
     ], 2)), [
-      [Xe, h.value]
+      [Ze, h.value]
     ]);
   }
 });
