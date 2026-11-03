@@ -1,37 +1,47 @@
-// fields
+import { QField, QMenu, QInput, QEditor, QCheckbox, QDate, QIcon, QColor, QBtn, QTime, QSelect, QUploader, } from "quasar";
+function formatQuasarProps(props) {
+    return Object.fromEntries(Object.entries(props).reduce((acc, entry) => {
+        if (!entry[1] || !entry[1].default) {
+            return acc;
+        }
+        acc.push([entry[0], entry[1].default]);
+        return acc;
+    }, []));
+}
 const defaultStyle = {
     color: "primary",
 };
 const fieldDefaultBind = {
+    ...formatQuasarProps(QField.props),
     color: defaultStyle.color,
     lazyRules: false,
 };
-const popupProxyDefaultBind = {
-    cover: true,
-};
 function getDefaultString() {
     return {
-        ...fieldDefaultBind,
+        ...formatQuasarProps(QInput.props),
     };
 }
 function getDefaultNumber() {
     return {
-        ...fieldDefaultBind,
+        ...formatQuasarProps(QInput.props),
     };
 }
 function getDefautColor() {
     return {
         input: {
-            ...fieldDefaultBind,
+            ...formatQuasarProps(QInput.props),
         },
         icon: {
+            ...formatQuasarProps(QIcon.props),
             name: "colorize",
             class: "cursor-pointer",
         },
         popupProxy: {
-            ...popupProxyDefaultBind,
+            ...formatQuasarProps(QMenu.props),
         },
-        color: {},
+        color: {
+            ...formatQuasarProps(QColor.props)
+        },
     };
 }
 function getDefaultWysiwig() {
@@ -46,30 +56,34 @@ function getDefaultWysiwig() {
         verdana: "Verdana",
     };
     return {
+        ...formatQuasarProps(QEditor.props),
         fonts,
     };
 }
 function getDefaultCheckbox() {
     return {
-        color: defaultStyle.color,
+        ...formatQuasarProps(QCheckbox.props),
     };
 }
 function getDefaultDate() {
     return {
         input: {
-            ...fieldDefaultBind,
+            ...formatQuasarProps(QInput.props),
         },
         icon: {
+            ...formatQuasarProps(QIcon.props),
             name: "event",
             class: "cursor-pointer",
         },
         popupProxy: {
-            ...popupProxyDefaultBind,
+            ...formatQuasarProps(QMenu.props),
         },
         date: {
+            ...formatQuasarProps(QDate.props),
             color: defaultStyle.color,
         },
         btn: {
+            ...formatQuasarProps(QBtn.props),
             label: "Fermer",
             color: defaultStyle.color,
         },
@@ -78,33 +92,39 @@ function getDefaultDate() {
 function getDefaultDatetime() {
     return {
         input: {
-            ...fieldDefaultBind,
+            ...formatQuasarProps(QInput.props),
         },
         iconDate: {
+            ...formatQuasarProps(QIcon.props),
             name: "event",
             class: "cursor-pointer",
         },
         popupProxyDate: {
-            ...popupProxyDefaultBind,
+            ...formatQuasarProps(QMenu.props),
         },
         date: {
+            ...formatQuasarProps(QDate.props),
             color: defaultStyle.color,
         },
         btnDate: {
+            ...formatQuasarProps(QBtn.props),
             label: "Fermer",
             color: defaultStyle.color,
         },
         iconDatetime: {
+            ...formatQuasarProps(QIcon.props),
             name: "access_time",
             class: "cursor-pointer",
         },
         popupProxyDatetime: {
-            ...popupProxyDefaultBind,
+            ...formatQuasarProps(QMenu.props),
         },
         datetime: {
+            ...formatQuasarProps(QTime.props),
             format24h: true,
         },
         btnDatetime: {
+            ...formatQuasarProps(QBtn.props),
             label: "Fermer",
             color: defaultStyle.color,
         },
@@ -113,27 +133,28 @@ function getDefaultDatetime() {
 function getDefaultBelongsTo() {
     return {
         select: {
-            ...fieldDefaultBind,
+            ...formatQuasarProps(QSelect.props),
         },
     };
 }
 function getDefaultHasMany() {
     return {
         select: {
-            ...fieldDefaultBind,
+            ...formatQuasarProps(QSelect.props),
         },
     };
 }
 function getDefaultSelect() {
     return {
         select: {
-            ...fieldDefaultBind,
+            ...formatQuasarProps(QSelect.props),
         },
     };
 }
 function getDefaultAttachmentBelongsTo() {
     return {
         uploader: {
+            ...formatQuasarProps(QUploader.props),
             color: defaultStyle.color,
         },
     };
@@ -141,6 +162,7 @@ function getDefaultAttachmentBelongsTo() {
 function getDefaultAttachmentHasMany() {
     return {
         uploader: {
+            ...formatQuasarProps(QUploader.props),
             color: defaultStyle.color,
         },
     };
@@ -153,12 +175,15 @@ function getDefaultSection() {
 function getDefaultActions() {
     return {
         submitBtn: {
+            ...formatQuasarProps(QBtn.props),
             label: "Enregistrer",
         },
         resetBtn: {
+            ...formatQuasarProps(QBtn.props),
             label: "Réinitialiser",
         },
         clearBtn: {
+            ...formatQuasarProps(QBtn.props),
             label: "Effacer",
         },
     };
@@ -178,11 +203,11 @@ function getDefaultFormBindings() {
             belongsTo: getDefaultBelongsTo(),
             attachmentHasOne: getDefaultAttachmentBelongsTo(),
             attachmentHasMany: getDefaultAttachmentHasMany(),
-            byName: {}
+            byName: {},
         },
         sections: {
             default: getDefaultSection(),
-            byName: {}
+            byName: {},
         },
         form: {
             default: {},
@@ -205,11 +230,11 @@ function getEmptyDefaultBindings() {
             attachmentHasMany: {},
             select: {},
             checkbox: {},
-            byName: {}
+            byName: {},
         },
         sections: {
             default: {},
-            byName: {}
+            byName: {},
         },
         form: {
             default: {},

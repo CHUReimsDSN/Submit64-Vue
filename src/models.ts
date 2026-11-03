@@ -180,7 +180,7 @@ export type TFormSettings = {
   displayLabelInsideInput?: boolean | undefined;
 
   /*
-  * Active la compabilité avec Quasar BigBang
+  * Active la compabilité des composants avec Quasar BigBang
   * Activer cette options utilisera automatiquement les composants qbb-time pour les champs de type datetime
   */
   enableQuasarBigBangComponents?: boolean | undefined;
