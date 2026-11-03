@@ -1,25 +1,8 @@
 // fields
 const defaultStyle = {
-    outlined: undefined,
-    dense: undefined,
-    filled: undefined,
-    standout: undefined,
-    borderless: undefined,
-    rounded: undefined,
-    square: undefined,
     color: "primary",
-    hideBottomSpace: undefined,
-    noCaps: undefined,
 };
 const fieldDefaultBind = {
-    hideBottomSpace: defaultStyle.hideBottomSpace,
-    outlined: defaultStyle.outlined,
-    dense: defaultStyle.dense,
-    filled: defaultStyle.filled,
-    standout: defaultStyle.standout,
-    borderless: defaultStyle.borderless,
-    rounded: defaultStyle.rounded,
-    square: defaultStyle.square,
     color: defaultStyle.color,
     lazyRules: false,
 };
