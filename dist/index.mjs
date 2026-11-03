@@ -56,7 +56,12 @@ const v = {
 function O(a) {
   return Object.fromEntries(
     Object.entries(a).reduce(
-      (e, t) => (!t[1] || !t[1].default || e.push([t[0], t[1].default]), e),
+      (e, t) => {
+        if (!t[1] || !t[1].default)
+          return e;
+        let n = t[1].default;
+        return typeof n == "function" && (n = n()), e.push([t[0], n]), e;
+      },
       []
     )
   );

@@ -42,7 +42,11 @@ function formatQuasarProps(
         if (!entry[1] || !entry[1].default) {
           return acc;
         }
-        acc.push([entry[0], entry[1].default]);
+        let value = entry[1].default
+        if (typeof value === 'function') {
+          value = value()
+        }
+        acc.push([entry[0], value]);
         return acc;
       },
       <[string, unknown][]>[],
