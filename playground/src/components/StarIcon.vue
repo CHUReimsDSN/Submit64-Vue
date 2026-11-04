@@ -2,7 +2,7 @@
 // props
 const propsComponent = withDefaults(
   defineProps<{
-    color: string;
+    color?: string;
   }>(),
   {
     color: 'grey',

@@ -1,8 +1,4 @@
-import {
-  type QMenuProps,
-  type QEditorProps,
-  type QFieldProps,
-} from "quasar";
+import { type QEditorProps } from "quasar";
 import type {
   TWysiwygBindings,
   THasManyBindings,
@@ -19,62 +15,37 @@ import type {
   TFormBindings,
   TSectionBindings,
   TActionBindings,
+  TComponentBindingCb,
 } from "./models";
 
-// fields
 const defaultStyle = {
-  outlined: undefined,
-  dense: undefined,
-  filled: undefined,
-  standout: undefined,
-  borderless: undefined,
-  rounded: undefined,
-  square: undefined,
   color: "primary",
-  hideBottomSpace: undefined,
-  noCaps: undefined,
 };
-const fieldDefaultBind: QFieldProps = {
-  hideBottomSpace: defaultStyle.hideBottomSpace,
-  outlined: defaultStyle.outlined,
-  dense: defaultStyle.dense,
-  filled: defaultStyle.filled,
-  standout: defaultStyle.standout,
-  borderless: defaultStyle.borderless,
-  rounded: defaultStyle.rounded,
-  square: defaultStyle.square,
-  color: defaultStyle.color,
-  lazyRules: false,
-};
-const popupProxyDefaultBind: Omit<QMenuProps, "modelValue"> = {
-  cover: true,
-};
-function getDefaultString(): TStringBindings {
-  return {
-    ...fieldDefaultBind,
-  };
+function getDefaultString(cb: TComponentBindingCb): TStringBindings {
+  return cb("input");
 }
-function getDefaultNumber(): TNumberBindings {
-  return {
-    ...fieldDefaultBind,
-  };
+function getDefaultNumber(cb: TComponentBindingCb): TNumberBindings {
+  return cb("input");
 }
-function getDefautColor(): TColorBindings {
+function getDefautColor(cb: TComponentBindingCb): TColorBindings {
   return {
     input: {
-      ...fieldDefaultBind,
+      ...cb("input"),
     },
     icon: {
+      ...cb("icon"),
       name: "colorize",
       class: "cursor-pointer",
     },
     popupProxy: {
-      ...popupProxyDefaultBind,
+      ...cb("menu"),
     },
-    color: {},
+    color: {
+      ...cb("color"),
+    },
   };
 }
-function getDefaultWysiwig(): TWysiwygBindings {
+function getDefaultWysiwig(cb: TComponentBindingCb): TWysiwygBindings {
   const fonts: QEditorProps["fonts"] = {
     arial: "Arial",
     arial_black: "Arial Black",
@@ -85,151 +56,170 @@ function getDefaultWysiwig(): TWysiwygBindings {
     times_new_roman: "Times New Roman",
     verdana: "Verdana",
   };
+  const bindings = cb("editor");
   return {
+    contentStyle: bindings.contentStyle as string,
     fonts,
   };
 }
-function getDefaultCheckbox(): TCheckboxBindings {
+function getDefaultCheckbox(cb: TComponentBindingCb): TCheckboxBindings {
   return {
-    color: defaultStyle.color,
+    ...cb("checkbox"),
   };
 }
-function getDefaultDate(): TDateBindings {
+function getDefaultDate(cb: TComponentBindingCb): TDateBindings {
   return {
     input: {
-      ...fieldDefaultBind,
+      ...cb("input"),
     },
     icon: {
+      ...cb("icon"),
       name: "event",
       class: "cursor-pointer",
     },
     popupProxy: {
-      ...popupProxyDefaultBind,
+      ...cb("menu"),
     },
     date: {
+      ...cb("date"),
       color: defaultStyle.color,
     },
     btn: {
+      ...cb("btn"),
       label: "Fermer",
       color: defaultStyle.color,
     },
   };
 }
-function getDefaultDatetime(): TDatetimeBindings {
+function getDefaultDatetime(cb: TComponentBindingCb): TDatetimeBindings {
   return {
     input: {
-      ...fieldDefaultBind,
+      ...cb("input"),
     },
     iconDate: {
+      ...cb("icon"),
       name: "event",
       class: "cursor-pointer",
     },
     popupProxyDate: {
-      ...popupProxyDefaultBind,
+      ...cb("menu"),
     },
     date: {
+      ...cb("date"),
       color: defaultStyle.color,
     },
     btnDate: {
+      ...cb("btn"),
       label: "Fermer",
       color: defaultStyle.color,
     },
     iconDatetime: {
+      ...cb("icon"),
       name: "access_time",
       class: "cursor-pointer",
     },
     popupProxyDatetime: {
-      ...popupProxyDefaultBind,
+      ...cb("menu"),
     },
     datetime: {
+      ...cb("time"),
       format24h: true,
     },
     btnDatetime: {
+      ...cb("btn"),
       label: "Fermer",
       color: defaultStyle.color,
     },
   };
 }
-function getDefaultBelongsTo(): TBelongsToBindings {
+function getDefaultBelongsTo(cb: TComponentBindingCb): TBelongsToBindings {
   return {
     select: {
-      ...fieldDefaultBind,
+      ...cb("select"),
     },
   };
 }
-function getDefaultHasMany(): THasManyBindings {
+function getDefaultHasMany(cb: TComponentBindingCb): THasManyBindings {
   return {
     select: {
-      ...fieldDefaultBind,
+      ...cb("select"),
     },
   };
 }
-function getDefaultSelect(): TSelectBindings {
+function getDefaultSelect(cb: TComponentBindingCb): TSelectBindings {
   return {
     select: {
-      ...fieldDefaultBind,
+      ...cb("select"),
     },
   };
 }
-function getDefaultAttachmentBelongsTo(): TAttachmentHasOneBindings {
+function getDefaultAttachmentBelongsTo(
+  cb: TComponentBindingCb,
+): TAttachmentHasOneBindings {
   return {
     uploader: {
+      ...cb("uploader"),
       color: defaultStyle.color,
     },
   };
 }
-function getDefaultAttachmentHasMany(): TAttachmentHasManyBindings {
+function getDefaultAttachmentHasMany(
+  cb: TComponentBindingCb,
+): TAttachmentHasManyBindings {
   return {
     uploader: {
+      ...cb("uploader"),
       color: defaultStyle.color,
     },
   };
 }
 
-// sections
 function getDefaultSection(): TSectionBindings {
   return {};
 }
 
-// form
-function getDefaultActions(): TActionBindings {
+function getDefaultActions(cb: TComponentBindingCb): TActionBindings {
   return {
     submitBtn: {
+      ...cb("btn"),
       label: "Enregistrer",
     },
     resetBtn: {
+      ...cb("btn"),
       label: "Réinitialiser",
     },
     clearBtn: {
+      ...cb("btn"),
       label: "Effacer",
     },
   };
 }
 
-function getDefaultFormBindings(): TFormBindings {
+function getDefaultFormBindings(cb: TComponentBindingCb): TFormBindings {
+  const finalCb = wrapperBindingCallback(cb);
   return {
     fields: {
-      string: getDefaultString(),
-      number: getDefaultNumber(),
-      wysiwyg: getDefaultWysiwig(),
-      color: getDefautColor(),
-      checkbox: getDefaultCheckbox(),
-      date: getDefaultDate(),
-      datetime: getDefaultDatetime(),
-      select: getDefaultSelect(),
-      hasMany: getDefaultHasMany(),
-      belongsTo: getDefaultBelongsTo(),
-      attachmentHasOne: getDefaultAttachmentBelongsTo(),
-      attachmentHasMany: getDefaultAttachmentHasMany(),
-      byName: {}
+      string: getDefaultString(finalCb),
+      number: getDefaultNumber(finalCb),
+      wysiwyg: getDefaultWysiwig(finalCb),
+      color: getDefautColor(finalCb),
+      checkbox: getDefaultCheckbox(finalCb),
+      date: getDefaultDate(finalCb),
+      datetime: getDefaultDatetime(finalCb),
+      select: getDefaultSelect(finalCb),
+      hasMany: getDefaultHasMany(finalCb),
+      belongsTo: getDefaultBelongsTo(finalCb),
+      attachmentHasOne: getDefaultAttachmentBelongsTo(finalCb),
+      attachmentHasMany: getDefaultAttachmentHasMany(finalCb),
+      byName: {},
     },
     sections: {
       default: getDefaultSection(),
-      byName: {}
-    } ,
+      byName: {},
+    },
     form: {
       default: {},
-      actions: getDefaultActions(),
+      actions: getDefaultActions(finalCb),
     },
   };
 }
@@ -248,11 +238,11 @@ function getEmptyDefaultBindings(): TFormBindings {
       attachmentHasMany: {},
       select: {},
       checkbox: {},
-      byName: {}
+      byName: {},
     },
     sections: {
       default: {},
-      byName: {}
+      byName: {},
     },
     form: {
       default: {},
@@ -260,8 +250,33 @@ function getEmptyDefaultBindings(): TFormBindings {
     },
   };
 }
+function getDefaultBindingCallback(): TComponentBindingCb {
+  return () => {
+    return {};
+  };
+}
+function wrapperBindingCallback(cb: TComponentBindingCb): TComponentBindingCb {
+  return (name: string) =>
+    Object.fromEntries(
+      Object.entries(cb(name)).reduce(
+        (acc, entry) => {
+          if (!entry[1]) {
+            return acc;
+          }
+          let value = entry[1].default;
+          if (typeof value === "function") {
+            value = value();
+          }
+          acc.push([entry[0], value]);
+          return acc;
+        },
+        <[string, unknown][]>[],
+      ),
+    );
+}
 
 export const Bindings = {
   getDefaultFormBindings,
   getEmptyDefaultBindings,
+  getDefaultBindingCallback,
 };

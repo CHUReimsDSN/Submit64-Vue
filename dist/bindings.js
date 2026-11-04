@@ -1,57 +1,31 @@
-// fields
 const defaultStyle = {
-    outlined: undefined,
-    dense: undefined,
-    filled: undefined,
-    standout: undefined,
-    borderless: undefined,
-    rounded: undefined,
-    square: undefined,
     color: "primary",
-    hideBottomSpace: undefined,
-    noCaps: undefined,
 };
-const fieldDefaultBind = {
-    hideBottomSpace: defaultStyle.hideBottomSpace,
-    outlined: defaultStyle.outlined,
-    dense: defaultStyle.dense,
-    filled: defaultStyle.filled,
-    standout: defaultStyle.standout,
-    borderless: defaultStyle.borderless,
-    rounded: defaultStyle.rounded,
-    square: defaultStyle.square,
-    color: defaultStyle.color,
-    lazyRules: false,
-};
-const popupProxyDefaultBind = {
-    cover: true,
-};
-function getDefaultString() {
-    return {
-        ...fieldDefaultBind,
-    };
+function getDefaultString(cb) {
+    return cb("input");
 }
-function getDefaultNumber() {
-    return {
-        ...fieldDefaultBind,
-    };
+function getDefaultNumber(cb) {
+    return cb("input");
 }
-function getDefautColor() {
+function getDefautColor(cb) {
     return {
         input: {
-            ...fieldDefaultBind,
+            ...cb("input"),
         },
         icon: {
+            ...cb("icon"),
             name: "colorize",
             class: "cursor-pointer",
         },
         popupProxy: {
-            ...popupProxyDefaultBind,
+            ...cb("menu"),
         },
-        color: {},
+        color: {
+            ...cb("color"),
+        },
     };
 }
-function getDefaultWysiwig() {
+function getDefaultWysiwig(cb) {
     const fonts = {
         arial: "Arial",
         arial_black: "Arial Black",
@@ -62,148 +36,163 @@ function getDefaultWysiwig() {
         times_new_roman: "Times New Roman",
         verdana: "Verdana",
     };
+    const bindings = cb("editor");
     return {
+        contentStyle: bindings.contentStyle,
         fonts,
     };
 }
-function getDefaultCheckbox() {
+function getDefaultCheckbox(cb) {
     return {
-        color: defaultStyle.color,
+        ...cb("checkbox"),
     };
 }
-function getDefaultDate() {
+function getDefaultDate(cb) {
     return {
         input: {
-            ...fieldDefaultBind,
+            ...cb("input"),
         },
         icon: {
+            ...cb("icon"),
             name: "event",
             class: "cursor-pointer",
         },
         popupProxy: {
-            ...popupProxyDefaultBind,
+            ...cb("menu"),
         },
         date: {
+            ...cb("date"),
             color: defaultStyle.color,
         },
         btn: {
+            ...cb("btn"),
             label: "Fermer",
             color: defaultStyle.color,
         },
     };
 }
-function getDefaultDatetime() {
+function getDefaultDatetime(cb) {
     return {
         input: {
-            ...fieldDefaultBind,
+            ...cb("input"),
         },
         iconDate: {
+            ...cb("icon"),
             name: "event",
             class: "cursor-pointer",
         },
         popupProxyDate: {
-            ...popupProxyDefaultBind,
+            ...cb("menu"),
         },
         date: {
+            ...cb("date"),
             color: defaultStyle.color,
         },
         btnDate: {
+            ...cb("btn"),
             label: "Fermer",
             color: defaultStyle.color,
         },
         iconDatetime: {
+            ...cb("icon"),
             name: "access_time",
             class: "cursor-pointer",
         },
         popupProxyDatetime: {
-            ...popupProxyDefaultBind,
+            ...cb("menu"),
         },
         datetime: {
+            ...cb("time"),
             format24h: true,
         },
         btnDatetime: {
+            ...cb("btn"),
             label: "Fermer",
             color: defaultStyle.color,
         },
     };
 }
-function getDefaultBelongsTo() {
+function getDefaultBelongsTo(cb) {
     return {
         select: {
-            ...fieldDefaultBind,
+            ...cb("select"),
         },
     };
 }
-function getDefaultHasMany() {
+function getDefaultHasMany(cb) {
     return {
         select: {
-            ...fieldDefaultBind,
+            ...cb("select"),
         },
     };
 }
-function getDefaultSelect() {
+function getDefaultSelect(cb) {
     return {
         select: {
-            ...fieldDefaultBind,
+            ...cb("select"),
         },
     };
 }
-function getDefaultAttachmentBelongsTo() {
+function getDefaultAttachmentBelongsTo(cb) {
     return {
         uploader: {
+            ...cb("uploader"),
             color: defaultStyle.color,
         },
     };
 }
-function getDefaultAttachmentHasMany() {
+function getDefaultAttachmentHasMany(cb) {
     return {
         uploader: {
+            ...cb("uploader"),
             color: defaultStyle.color,
         },
     };
 }
-// sections
 function getDefaultSection() {
     return {};
 }
-// form
-function getDefaultActions() {
+function getDefaultActions(cb) {
     return {
         submitBtn: {
+            ...cb("btn"),
             label: "Enregistrer",
         },
         resetBtn: {
+            ...cb("btn"),
             label: "Réinitialiser",
         },
         clearBtn: {
+            ...cb("btn"),
             label: "Effacer",
         },
     };
 }
-function getDefaultFormBindings() {
+function getDefaultFormBindings(cb) {
+    const finalCb = wrapperBindingCallback(cb);
     return {
         fields: {
-            string: getDefaultString(),
-            number: getDefaultNumber(),
-            wysiwyg: getDefaultWysiwig(),
-            color: getDefautColor(),
-            checkbox: getDefaultCheckbox(),
-            date: getDefaultDate(),
-            datetime: getDefaultDatetime(),
-            select: getDefaultSelect(),
-            hasMany: getDefaultHasMany(),
-            belongsTo: getDefaultBelongsTo(),
-            attachmentHasOne: getDefaultAttachmentBelongsTo(),
-            attachmentHasMany: getDefaultAttachmentHasMany(),
-            byName: {}
+            string: getDefaultString(finalCb),
+            number: getDefaultNumber(finalCb),
+            wysiwyg: getDefaultWysiwig(finalCb),
+            color: getDefautColor(finalCb),
+            checkbox: getDefaultCheckbox(finalCb),
+            date: getDefaultDate(finalCb),
+            datetime: getDefaultDatetime(finalCb),
+            select: getDefaultSelect(finalCb),
+            hasMany: getDefaultHasMany(finalCb),
+            belongsTo: getDefaultBelongsTo(finalCb),
+            attachmentHasOne: getDefaultAttachmentBelongsTo(finalCb),
+            attachmentHasMany: getDefaultAttachmentHasMany(finalCb),
+            byName: {},
         },
         sections: {
             default: getDefaultSection(),
-            byName: {}
+            byName: {},
         },
         form: {
             default: {},
-            actions: getDefaultActions(),
+            actions: getDefaultActions(finalCb),
         },
     };
 }
@@ -222,11 +211,11 @@ function getEmptyDefaultBindings() {
             attachmentHasMany: {},
             select: {},
             checkbox: {},
-            byName: {}
+            byName: {},
         },
         sections: {
             default: {},
-            byName: {}
+            byName: {},
         },
         form: {
             default: {},
@@ -234,7 +223,26 @@ function getEmptyDefaultBindings() {
         },
     };
 }
+function getDefaultBindingCallback() {
+    return () => {
+        return {};
+    };
+}
+function wrapperBindingCallback(cb) {
+    return (name) => Object.fromEntries(Object.entries(cb(name)).reduce((acc, entry) => {
+        if (!entry[1]) {
+            return acc;
+        }
+        let value = entry[1].default;
+        if (typeof value === "function") {
+            value = value();
+        }
+        acc.push([entry[0], value]);
+        return acc;
+    }, []));
+}
 export const Bindings = {
     getDefaultFormBindings,
     getEmptyDefaultBindings,
+    getDefaultBindingCallback,
 };
