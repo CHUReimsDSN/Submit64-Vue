@@ -184,6 +184,12 @@ export type TFormSettings = {
   * Activer cette options utilisera automatiquement les composants qbb-time pour les champs de type datetime
   */
   enableQuasarBigBangComponents?: boolean | undefined;
+
+  /*
+  * Enregistre un callback pour résoudre les bindings par défaut des formulaires
+  * A utiliser par exemple pour activer les bindings de BigBang
+  */
+  getBindingsCb?: TComponentBindingCb;
 };
 
 /**
@@ -1216,3 +1222,5 @@ export type TActionBindings = {
 export type TFormDefaultBindings = {
   sectionContainerClass?: string | undefined;
 } & TPropsWithClass;
+export type TComponentBinding = Record<string, unknown>;
+export type TComponentBindingCb = (name: string) => TComponentBinding

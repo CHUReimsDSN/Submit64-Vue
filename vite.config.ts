@@ -13,7 +13,7 @@ export default defineConfig({
       formats: ['es', 'umd']
     },
     rollupOptions: {
-      external: ['vue', 'quasar'],
+      external: ['vue', 'quasar', 'quasar-app-extension-big-bang'],
       output: {
         globals: {
           vue: 'Vue',

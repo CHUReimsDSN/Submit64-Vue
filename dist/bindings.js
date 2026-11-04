@@ -1,54 +1,33 @@
-import { QField, QMenu, QInput, QEditor, QCheckbox, QDate, QIcon, QColor, QBtn, QTime, QSelect, QUploader, } from "quasar";
-function formatQuasarProps(props) {
-    return Object.fromEntries(Object.entries(props).reduce((acc, entry) => {
-        if (!entry[1] || !entry[1].default) {
-            return acc;
-        }
-        let value = entry[1].default;
-        if (typeof value === 'function') {
-            value = value();
-        }
-        acc.push([entry[0], value]);
-        return acc;
-    }, []));
-}
 const defaultStyle = {
     color: "primary",
 };
-const fieldDefaultBind = {
-    ...formatQuasarProps(QField.props),
-    color: defaultStyle.color,
-    lazyRules: false,
-};
-function getDefaultString() {
-    return {
-        ...formatQuasarProps(QInput.props),
-    };
+function getDefaultString(cb) {
+    console.log('input');
+    console.log(cb("input"));
+    return cb("input");
 }
-function getDefaultNumber() {
-    return {
-        ...formatQuasarProps(QInput.props),
-    };
+function getDefaultNumber(cb) {
+    return cb("input");
 }
-function getDefautColor() {
+function getDefautColor(cb) {
     return {
         input: {
-            ...formatQuasarProps(QInput.props),
+            ...cb("input"),
         },
         icon: {
-            ...formatQuasarProps(QIcon.props),
+            ...cb("icon"),
             name: "colorize",
             class: "cursor-pointer",
         },
         popupProxy: {
-            ...formatQuasarProps(QMenu.props),
+            ...cb("menu"),
         },
         color: {
-            ...formatQuasarProps(QColor.props)
+            ...cb("color"),
         },
     };
 }
-function getDefaultWysiwig() {
+function getDefaultWysiwig(cb) {
     const fonts = {
         arial: "Arial",
         arial_black: "Arial Black",
@@ -59,154 +38,154 @@ function getDefaultWysiwig() {
         times_new_roman: "Times New Roman",
         verdana: "Verdana",
     };
+    const bindings = cb("editor");
     return {
-        ...formatQuasarProps(QEditor.props),
+        contentStyle: bindings.contentStyle,
         fonts,
     };
 }
-function getDefaultCheckbox() {
+function getDefaultCheckbox(cb) {
     return {
-        ...formatQuasarProps(QCheckbox.props),
+        ...cb("checkbox"),
     };
 }
-function getDefaultDate() {
+function getDefaultDate(cb) {
     return {
         input: {
-            ...formatQuasarProps(QInput.props),
+            ...cb("input"),
         },
         icon: {
-            ...formatQuasarProps(QIcon.props),
+            ...cb("icon"),
             name: "event",
             class: "cursor-pointer",
         },
         popupProxy: {
-            ...formatQuasarProps(QMenu.props),
+            ...cb("menu"),
         },
         date: {
-            ...formatQuasarProps(QDate.props),
+            ...cb("date"),
             color: defaultStyle.color,
         },
         btn: {
-            ...formatQuasarProps(QBtn.props),
+            ...cb("btn"),
             label: "Fermer",
             color: defaultStyle.color,
         },
     };
 }
-function getDefaultDatetime() {
+function getDefaultDatetime(cb) {
     return {
         input: {
-            ...formatQuasarProps(QInput.props),
+            ...cb("input"),
         },
         iconDate: {
-            ...formatQuasarProps(QIcon.props),
+            ...cb("icon"),
             name: "event",
             class: "cursor-pointer",
         },
         popupProxyDate: {
-            ...formatQuasarProps(QMenu.props),
+            ...cb("menu"),
         },
         date: {
-            ...formatQuasarProps(QDate.props),
+            ...cb("date"),
             color: defaultStyle.color,
         },
         btnDate: {
-            ...formatQuasarProps(QBtn.props),
+            ...cb("btn"),
             label: "Fermer",
             color: defaultStyle.color,
         },
         iconDatetime: {
-            ...formatQuasarProps(QIcon.props),
+            ...cb("icon"),
             name: "access_time",
             class: "cursor-pointer",
         },
         popupProxyDatetime: {
-            ...formatQuasarProps(QMenu.props),
+            ...cb("menu"),
         },
         datetime: {
-            ...formatQuasarProps(QTime.props),
+            ...cb("time"),
             format24h: true,
         },
         btnDatetime: {
-            ...formatQuasarProps(QBtn.props),
+            ...cb("btn"),
             label: "Fermer",
             color: defaultStyle.color,
         },
     };
 }
-function getDefaultBelongsTo() {
+function getDefaultBelongsTo(cb) {
     return {
         select: {
-            ...formatQuasarProps(QSelect.props),
+            ...cb("select"),
         },
     };
 }
-function getDefaultHasMany() {
+function getDefaultHasMany(cb) {
     return {
         select: {
-            ...formatQuasarProps(QSelect.props),
+            ...cb("select"),
         },
     };
 }
-function getDefaultSelect() {
+function getDefaultSelect(cb) {
     return {
         select: {
-            ...formatQuasarProps(QSelect.props),
+            ...cb("select"),
         },
     };
 }
-function getDefaultAttachmentBelongsTo() {
+function getDefaultAttachmentBelongsTo(cb) {
     return {
         uploader: {
-            ...formatQuasarProps(QUploader.props),
+            ...cb("uploader"),
             color: defaultStyle.color,
         },
     };
 }
-function getDefaultAttachmentHasMany() {
+function getDefaultAttachmentHasMany(cb) {
     return {
         uploader: {
-            ...formatQuasarProps(QUploader.props),
+            ...cb("uploader"),
             color: defaultStyle.color,
         },
     };
 }
-// sections
 function getDefaultSection() {
     return {};
 }
-// form
-function getDefaultActions() {
+function getDefaultActions(cb) {
     return {
         submitBtn: {
-            ...formatQuasarProps(QBtn.props),
+            ...cb("btn"),
             label: "Enregistrer",
         },
         resetBtn: {
-            ...formatQuasarProps(QBtn.props),
+            ...cb("btn"),
             label: "Réinitialiser",
         },
         clearBtn: {
-            ...formatQuasarProps(QBtn.props),
+            ...cb("btn"),
             label: "Effacer",
         },
     };
 }
-function getDefaultFormBindings() {
+function getDefaultFormBindings(cb) {
+    const finalCb = wrapperBindingCallback(cb);
     return {
         fields: {
-            string: getDefaultString(),
-            number: getDefaultNumber(),
-            wysiwyg: getDefaultWysiwig(),
-            color: getDefautColor(),
-            checkbox: getDefaultCheckbox(),
-            date: getDefaultDate(),
-            datetime: getDefaultDatetime(),
-            select: getDefaultSelect(),
-            hasMany: getDefaultHasMany(),
-            belongsTo: getDefaultBelongsTo(),
-            attachmentHasOne: getDefaultAttachmentBelongsTo(),
-            attachmentHasMany: getDefaultAttachmentHasMany(),
+            string: getDefaultString(finalCb),
+            number: getDefaultNumber(finalCb),
+            wysiwyg: getDefaultWysiwig(finalCb),
+            color: getDefautColor(finalCb),
+            checkbox: getDefaultCheckbox(finalCb),
+            date: getDefaultDate(finalCb),
+            datetime: getDefaultDatetime(finalCb),
+            select: getDefaultSelect(finalCb),
+            hasMany: getDefaultHasMany(finalCb),
+            belongsTo: getDefaultBelongsTo(finalCb),
+            attachmentHasOne: getDefaultAttachmentBelongsTo(finalCb),
+            attachmentHasMany: getDefaultAttachmentHasMany(finalCb),
             byName: {},
         },
         sections: {
@@ -215,7 +194,7 @@ function getDefaultFormBindings() {
         },
         form: {
             default: {},
-            actions: getDefaultActions(),
+            actions: getDefaultActions(finalCb),
         },
     };
 }
@@ -246,7 +225,26 @@ function getEmptyDefaultBindings() {
         },
     };
 }
+function getDefaultBindingCallback() {
+    return () => {
+        return {};
+    };
+}
+function wrapperBindingCallback(cb) {
+    return (name) => Object.fromEntries(Object.entries(cb(name)).reduce((acc, entry) => {
+        if (!entry[1]) {
+            return acc;
+        }
+        let value = entry[1].default;
+        if (typeof value === "function") {
+            value = value();
+        }
+        acc.push([entry[0], value]);
+        return acc;
+    }, []));
+}
 export const Bindings = {
     getDefaultFormBindings,
     getEmptyDefaultBindings,
+    getDefaultBindingCallback,
 };

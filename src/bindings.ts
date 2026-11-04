@@ -1,20 +1,4 @@
-import {
-  type QMenuProps,
-  type QEditorProps,
-  type QFieldProps,
-  QField,
-  QMenu,
-  QInput,
-  QEditor,
-  QCheckbox,
-  QDate,
-  QIcon,
-  QColor,
-  QBtn,
-  QTime,
-  QSelect,
-  QUploader,
-} from "quasar";
+import { type QEditorProps } from "quasar";
 import type {
   TWysiwygBindings,
   THasManyBindings,
@@ -31,66 +15,37 @@ import type {
   TFormBindings,
   TSectionBindings,
   TActionBindings,
+  TComponentBindingCb,
 } from "./models";
-
-function formatQuasarProps(
-  props: Record<string, { default: unknown } | undefined>,
-) {
-  return Object.fromEntries(
-    Object.entries(props).reduce(
-      (acc, entry) => {
-        if (!entry[1] || !entry[1].default) {
-          return acc;
-        }
-        let value = entry[1].default
-        if (typeof value === 'function') {
-          value = value()
-        }
-        acc.push([entry[0], value]);
-        return acc;
-      },
-      <[string, unknown][]>[],
-    ),
-  );
-}
 
 const defaultStyle = {
   color: "primary",
 };
-const fieldDefaultBind: QFieldProps = {
-  ...formatQuasarProps(QField.props),
-  color: defaultStyle.color,
-  lazyRules: false,
-};
-function getDefaultString(): TStringBindings {
-  return {
-    ...formatQuasarProps(QInput.props),
-  };
+function getDefaultString(cb: TComponentBindingCb): TStringBindings {
+  return cb("input");
 }
-function getDefaultNumber(): TNumberBindings {
-  return {
-    ...formatQuasarProps(QInput.props),
-  };
+function getDefaultNumber(cb: TComponentBindingCb): TNumberBindings {
+  return cb("input");
 }
-function getDefautColor(): TColorBindings {
+function getDefautColor(cb: TComponentBindingCb): TColorBindings {
   return {
     input: {
-      ...formatQuasarProps(QInput.props),
+      ...cb("input"),
     },
     icon: {
-      ...formatQuasarProps(QIcon.props),
+      ...cb("icon"),
       name: "colorize",
       class: "cursor-pointer",
     },
     popupProxy: {
-      ...formatQuasarProps(QMenu.props),
+      ...cb("menu"),
     },
     color: {
-      ...formatQuasarProps(QColor.props)
+      ...cb("color"),
     },
   };
 }
-function getDefaultWysiwig(): TWysiwygBindings {
+function getDefaultWysiwig(cb: TComponentBindingCb): TWysiwygBindings {
   const fonts: QEditorProps["fonts"] = {
     arial: "Arial",
     arial_black: "Arial Black",
@@ -101,157 +56,161 @@ function getDefaultWysiwig(): TWysiwygBindings {
     times_new_roman: "Times New Roman",
     verdana: "Verdana",
   };
+  const bindings = cb("editor");
   return {
-    ...formatQuasarProps(QEditor.props),
+    contentStyle: bindings.contentStyle as string,
     fonts,
   };
 }
-function getDefaultCheckbox(): TCheckboxBindings {
+function getDefaultCheckbox(cb: TComponentBindingCb): TCheckboxBindings {
   return {
-    ...formatQuasarProps(QCheckbox.props),
+    ...cb("checkbox"),
   };
 }
-function getDefaultDate(): TDateBindings {
+function getDefaultDate(cb: TComponentBindingCb): TDateBindings {
   return {
     input: {
-      ...formatQuasarProps(QInput.props),
+      ...cb("input"),
     },
     icon: {
-      ...formatQuasarProps(QIcon.props),
+      ...cb("icon"),
       name: "event",
       class: "cursor-pointer",
     },
     popupProxy: {
-      ...formatQuasarProps(QMenu.props),
+      ...cb("menu"),
     },
     date: {
-      ...formatQuasarProps(QDate.props),
+      ...cb("date"),
       color: defaultStyle.color,
     },
     btn: {
-      ...formatQuasarProps(QBtn.props),
+      ...cb("btn"),
       label: "Fermer",
       color: defaultStyle.color,
     },
   };
 }
-function getDefaultDatetime(): TDatetimeBindings {
+function getDefaultDatetime(cb: TComponentBindingCb): TDatetimeBindings {
   return {
     input: {
-      ...formatQuasarProps(QInput.props),
+      ...cb("input"),
     },
     iconDate: {
-      ...formatQuasarProps(QIcon.props),
+      ...cb("icon"),
       name: "event",
       class: "cursor-pointer",
     },
     popupProxyDate: {
-      ...formatQuasarProps(QMenu.props),
+      ...cb("menu"),
     },
     date: {
-      ...formatQuasarProps(QDate.props),
+      ...cb("date"),
       color: defaultStyle.color,
     },
     btnDate: {
-      ...formatQuasarProps(QBtn.props),
+      ...cb("btn"),
       label: "Fermer",
       color: defaultStyle.color,
     },
     iconDatetime: {
-      ...formatQuasarProps(QIcon.props),
+      ...cb("icon"),
       name: "access_time",
       class: "cursor-pointer",
     },
     popupProxyDatetime: {
-      ...formatQuasarProps(QMenu.props),
+      ...cb("menu"),
     },
     datetime: {
-      ...formatQuasarProps(QTime.props),
+      ...cb("time"),
       format24h: true,
     },
     btnDatetime: {
-      ...formatQuasarProps(QBtn.props),
+      ...cb("btn"),
       label: "Fermer",
       color: defaultStyle.color,
     },
   };
 }
-function getDefaultBelongsTo(): TBelongsToBindings {
+function getDefaultBelongsTo(cb: TComponentBindingCb): TBelongsToBindings {
   return {
     select: {
-      ...formatQuasarProps(QSelect.props),
+      ...cb("select"),
     },
   };
 }
-function getDefaultHasMany(): THasManyBindings {
+function getDefaultHasMany(cb: TComponentBindingCb): THasManyBindings {
   return {
     select: {
-      ...formatQuasarProps(QSelect.props),
+      ...cb("select"),
     },
   };
 }
-function getDefaultSelect(): TSelectBindings {
+function getDefaultSelect(cb: TComponentBindingCb): TSelectBindings {
   return {
     select: {
-      ...formatQuasarProps(QSelect.props),
+      ...cb("select"),
     },
   };
 }
-function getDefaultAttachmentBelongsTo(): TAttachmentHasOneBindings {
+function getDefaultAttachmentBelongsTo(
+  cb: TComponentBindingCb,
+): TAttachmentHasOneBindings {
   return {
     uploader: {
-      ...formatQuasarProps(QUploader.props),
+      ...cb("uploader"),
       color: defaultStyle.color,
     },
   };
 }
-function getDefaultAttachmentHasMany(): TAttachmentHasManyBindings {
+function getDefaultAttachmentHasMany(
+  cb: TComponentBindingCb,
+): TAttachmentHasManyBindings {
   return {
     uploader: {
-      ...formatQuasarProps(QUploader.props),
+      ...cb("uploader"),
       color: defaultStyle.color,
     },
   };
 }
 
-// sections
 function getDefaultSection(): TSectionBindings {
   return {};
 }
 
-// form
-function getDefaultActions(): TActionBindings {
+function getDefaultActions(cb: TComponentBindingCb): TActionBindings {
   return {
     submitBtn: {
-      ...formatQuasarProps(QBtn.props),
+      ...cb("btn"),
       label: "Enregistrer",
     },
     resetBtn: {
-      ...formatQuasarProps(QBtn.props),
+      ...cb("btn"),
       label: "Réinitialiser",
     },
     clearBtn: {
-      ...formatQuasarProps(QBtn.props),
+      ...cb("btn"),
       label: "Effacer",
     },
   };
 }
 
-function getDefaultFormBindings(): TFormBindings {
+function getDefaultFormBindings(cb: TComponentBindingCb): TFormBindings {
+  const finalCb = wrapperBindingCallback(cb);
   return {
     fields: {
-      string: getDefaultString(),
-      number: getDefaultNumber(),
-      wysiwyg: getDefaultWysiwig(),
-      color: getDefautColor(),
-      checkbox: getDefaultCheckbox(),
-      date: getDefaultDate(),
-      datetime: getDefaultDatetime(),
-      select: getDefaultSelect(),
-      hasMany: getDefaultHasMany(),
-      belongsTo: getDefaultBelongsTo(),
-      attachmentHasOne: getDefaultAttachmentBelongsTo(),
-      attachmentHasMany: getDefaultAttachmentHasMany(),
+      string: getDefaultString(finalCb),
+      number: getDefaultNumber(finalCb),
+      wysiwyg: getDefaultWysiwig(finalCb),
+      color: getDefautColor(finalCb),
+      checkbox: getDefaultCheckbox(finalCb),
+      date: getDefaultDate(finalCb),
+      datetime: getDefaultDatetime(finalCb),
+      select: getDefaultSelect(finalCb),
+      hasMany: getDefaultHasMany(finalCb),
+      belongsTo: getDefaultBelongsTo(finalCb),
+      attachmentHasOne: getDefaultAttachmentBelongsTo(finalCb),
+      attachmentHasMany: getDefaultAttachmentHasMany(finalCb),
       byName: {},
     },
     sections: {
@@ -260,7 +219,7 @@ function getDefaultFormBindings(): TFormBindings {
     },
     form: {
       default: {},
-      actions: getDefaultActions(),
+      actions: getDefaultActions(finalCb),
     },
   };
 }
@@ -291,8 +250,33 @@ function getEmptyDefaultBindings(): TFormBindings {
     },
   };
 }
+function getDefaultBindingCallback(): TComponentBindingCb {
+  return () => {
+    return {};
+  };
+}
+function wrapperBindingCallback(cb: TComponentBindingCb): TComponentBindingCb {
+  return (name: string) =>
+    Object.fromEntries(
+      Object.entries(cb(name)).reduce(
+        (acc, entry) => {
+          if (!entry[1]) {
+            return acc;
+          }
+          let value = entry[1].default;
+          if (typeof value === "function") {
+            value = value();
+          }
+          acc.push([entry[0], value]);
+          return acc;
+        },
+        <[string, unknown][]>[],
+      ),
+    );
+}
 
 export const Bindings = {
   getDefaultFormBindings,
   getEmptyDefaultBindings,
+  getDefaultBindingCallback,
 };

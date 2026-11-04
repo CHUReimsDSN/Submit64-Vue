@@ -1,4 +1,9 @@
-import type { TFormBindings, TFormSettings, TFormSlots } from "./models";
+import type {
+  TComponentBinding,
+  TFormBindings,
+  TFormSettings,
+  TFormSlots,
+} from "./models";
 import type { DeepPartial } from "quasar";
 import { Utils } from "./utils";
 import { Bindings } from "./bindings";
@@ -24,16 +29,22 @@ export class Submit64 {
       autofocus: true,
       displayLabelInsideInput: true,
       enableQuasarBigBangComponents: false,
+      getBindingsCb: Bindings.getDefaultBindingCallback(),
     };
-    this._formBindings = Bindings.getDefaultFormBindings();
+    this._formBindings = Bindings.getDefaultFormBindings(this._formSettings.getBindingsCb!);
     this._formSlots = Slots.getDefaultFormSlots();
   }
 
   static registerGlobalFormSetting(formSetting: DeepPartial<TFormSettings>) {
+    const bindingCb = this._instance._formSettings.getBindingsCb
     this._instance._formSettings = Utils.deepMergeObject(
       this._instance._formSettings,
       formSetting,
     );
+    const newCb = this._instance._formSettings.getBindingsCb
+    if (newCb && bindingCb !== newCb) {
+      Submit64.registerGlobalFormBindings(Bindings.getDefaultFormBindings(newCb))
+    }
   }
 
   static registerGlobalFormBindings(bindings: DeepPartial<TFormBindings>) {

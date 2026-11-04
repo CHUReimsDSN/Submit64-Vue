@@ -94,8 +94,9 @@ function unfocus() {
   (fieldRef.value.getContentEl() as HTMLElement).blur();
 }
 function getDefaultToolbar(): QEditor["toolbar"] {
+  const missingPlugins = !Lang.props || !IconSet.props
   return [
-    [
+    missingPlugins ? [] : [
       {
         label: Lang.props.editor.align,
         icon: IconSet.props.editor.align,
@@ -107,7 +108,7 @@ function getDefaultToolbar(): QEditor["toolbar"] {
     ["bold", "italic", "strike", "underline", "subscript", "superscript"],
     ["token", "hr", "link", "custom_btn"],
     ["print", "fullscreen"],
-    [
+    missingPlugins ? [] : [
       {
         label: Lang.props.editor.formatting,
         icon: IconSet.props.editor.formatting,

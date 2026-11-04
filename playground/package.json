@@ -34,7 +34,7 @@
     "flush-promises": "^1.0.2",
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
-    "quasar-app-extension-big-bang": "^0.0.13",
+    "quasar-app-extension-big-bang": "0.0.24",
     "typescript": "^5.9.2",
     "vite-plugin-checker": "^0.14.5",
     "vitest": "^4.0.18",

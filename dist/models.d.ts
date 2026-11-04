@@ -101,6 +101,7 @@ export type TFormSettings = {
     autofocus?: boolean | undefined;
     displayLabelInsideInput?: boolean | undefined;
     enableQuasarBigBangComponents?: boolean | undefined;
+    getBindingsCb?: TComponentBindingCb;
 };
 /**
  * @exportToDoc
@@ -613,4 +614,6 @@ export type TActionBindings = {
 export type TFormDefaultBindings = {
     sectionContainerClass?: string | undefined;
 } & TPropsWithClass;
+export type TComponentBinding = Record<string, unknown>;
+export type TComponentBindingCb = (name: string) => TComponentBinding;
 export {};
