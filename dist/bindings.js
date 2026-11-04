@@ -2,8 +2,6 @@ const defaultStyle = {
     color: "primary",
 };
 function getDefaultString(cb) {
-    console.log('input');
-    console.log(cb("input"));
     return cb("input");
 }
 function getDefaultNumber(cb) {

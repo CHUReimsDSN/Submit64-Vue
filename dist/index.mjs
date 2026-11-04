@@ -56,7 +56,7 @@ const v = {
   color: "primary"
 };
 function zt(n) {
-  return console.log("input"), console.log(n("input")), n("input");
+  return n("input");
 }
 function qt(n) {
   return n("input");
