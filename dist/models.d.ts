@@ -157,6 +157,7 @@ export type TFormSlots = {
     form: {
         actions?: Component | undefined;
         orphanErrors?: Component | undefined;
+        sectionsContainer?: Component | undefined;
     };
 };
 /**

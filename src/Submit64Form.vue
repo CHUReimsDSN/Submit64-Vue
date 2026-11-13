@@ -93,7 +93,7 @@ async function setupMetadatasAndForm() {
   if (propsComponent.resourceId) {
     mode.value = "edit";
   }
-  setContext(formMetadataAndData.context)
+  setContext(formMetadataAndData.context);
 }
 async function submit(): Promise<void> {
   if (!validate()) {
@@ -110,7 +110,7 @@ async function submit(): Promise<void> {
     context: form.value.context,
   });
   submitData = newData.resource_data;
-  setContext(newData.context)
+  setContext(newData.context);
   if (!newData.success) {
     orphanErrors.value = {};
     const parentedKeys: string[] = [];
@@ -142,7 +142,7 @@ async function submit(): Promise<void> {
       {
         form: newData.form!,
         resource_data: newData.resource_data!,
-        context: formApi.form.context ?? {}
+        context: formApi.form.context ?? {},
       },
       propsComponent.formSettings,
       propsComponent.formBindings,
@@ -278,7 +278,7 @@ function getAssociationDataCallback() {
       return {
         rows: [],
         row_count: 0,
-        context: {}
+        context: {},
       };
     })
   );
@@ -525,11 +525,10 @@ onMounted(async () => {
     v-show="setupIsDone"
     :class="form.bindings.default.class ?? 'flex column'"
   >
-    <div
-      :class="
-        form.bindings.default.sectionContainerClass ??
-        'flex column q-pa-sm q-gutter-sm'
-      "
+    <component
+      v-if="form.slots.sectionsContainer"
+      :is="form.slots.sectionsContainer"
+      :formApi="formApi"
     >
       <SectionWrapper
         v-for="section in form.sections"
@@ -546,14 +545,14 @@ onMounted(async () => {
           :privateFormApi="privateFormApi"
         />
       </SectionWrapper>
-    </div>
+    </component>
     <component
-      v-if="form.slots['orphan-errors']"
+      v-if="form.slots.orphanErrors"
       :is="form.slots.orphanErrors"
       :formApi="formApi"
     />
     <component
-      v-if="form.slots['actions']"
+      v-if="form.slots.actions"
       :is="form.slots.actions"
       :formApi="formApi"
     />

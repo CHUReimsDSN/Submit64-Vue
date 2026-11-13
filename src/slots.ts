@@ -9,6 +9,7 @@ import AssociationDisplayComponent from "./components/slots/fields/select/Associ
 import NoOptionComponent from "./components/slots/fields/select/NoOptionComponent.vue";
 import ActionComponent from "./components/slots/form/ActionComponent.vue";
 import OrphanErrorsComponent from "./components/slots/form/OrphanErrorsComponent.vue";
+import SectionContainer from "./components/slots/form/SectionContainer.vue";
 import SectionComponent from "./components/slots/sections/SectionComponent.vue";
 import type { TFormSlots } from "./models";
 
@@ -19,14 +20,14 @@ function getDefaultFormSlots(): TFormSlots {
       number: {},
       wysiwyg: {},
       color: {
-        append: ColorPicker
+        append: ColorPicker,
       },
       checkbox: {},
       date: {
-        append: IconDatePicker
+        append: IconDatePicker,
       },
       datetime: {
-        append: IconDatetimePicker
+        append: IconDatetimePicker,
       },
       select: {
         "no-option": NoOptionComponent,
@@ -45,7 +46,7 @@ function getDefaultFormSlots(): TFormSlots {
       },
       attachmentHasMany: {
         header: HeaderUploaderHasMany,
-        list: ListUploaderHasMany
+        list: ListUploaderHasMany,
       },
       byName: {},
     },
@@ -56,6 +57,7 @@ function getDefaultFormSlots(): TFormSlots {
     form: {
       actions: ActionComponent,
       orphanErrors: OrphanErrorsComponent,
+      sectionsContainer: SectionContainer,
     },
   };
 }
@@ -78,12 +80,10 @@ function getEmptyDefaultSlots(): TFormSlots {
       byName: {},
     },
     sections: {
-      default: {},
+      default: undefined,
       byName: {},
     },
-    form: {
-      actions: {},
-    },
+    form: {},
   };
 }
 
