@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+### 1.8.3
+
+- Ajout d'un slot pour le conteneur des sections
+
+<br />
+
 ### 1.8.2
 
 - Correction d'un problème d'affichage pour les champs de type `select`.

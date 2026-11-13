@@ -42,6 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
+  {{ formRef?.form.slots }}
   <Submit64Form
     ref="formRef"
     resourceName="Article"

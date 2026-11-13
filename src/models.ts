@@ -398,6 +398,11 @@ export type TFormSlots = {
      * Slots du composant des erreurs orphelines
      */
     orphanErrors?: Component | undefined;
+
+    /*
+    * Slots du composant conteneur des sections
+    */
+    sectionsContainer?: Component | undefined
   };
 };
 

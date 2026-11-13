@@ -9,6 +9,7 @@ import AssociationDisplayComponent from "./components/slots/fields/select/Associ
 import NoOptionComponent from "./components/slots/fields/select/NoOptionComponent.vue";
 import ActionComponent from "./components/slots/form/ActionComponent.vue";
 import OrphanErrorsComponent from "./components/slots/form/OrphanErrorsComponent.vue";
+import SectionContainer from "./components/slots/form/SectionContainer.vue";
 import SectionComponent from "./components/slots/sections/SectionComponent.vue";
 function getDefaultFormSlots() {
     return {
@@ -17,14 +18,14 @@ function getDefaultFormSlots() {
             number: {},
             wysiwyg: {},
             color: {
-                append: ColorPicker
+                append: ColorPicker,
             },
             checkbox: {},
             date: {
-                append: IconDatePicker
+                append: IconDatePicker,
             },
             datetime: {
-                append: IconDatetimePicker
+                append: IconDatetimePicker,
             },
             select: {
                 "no-option": NoOptionComponent,
@@ -43,7 +44,7 @@ function getDefaultFormSlots() {
             },
             attachmentHasMany: {
                 header: HeaderUploaderHasMany,
-                list: ListUploaderHasMany
+                list: ListUploaderHasMany,
             },
             byName: {},
         },
@@ -54,6 +55,7 @@ function getDefaultFormSlots() {
         form: {
             actions: ActionComponent,
             orphanErrors: OrphanErrorsComponent,
+            sectionsContainer: SectionContainer,
         },
     };
 }
@@ -75,12 +77,10 @@ function getEmptyDefaultSlots() {
             byName: {},
         },
         sections: {
-            default: {},
+            default: undefined,
             byName: {},
         },
-        form: {
-            actions: {},
-        },
+        form: {},
     };
 }
 export const Slots = {
